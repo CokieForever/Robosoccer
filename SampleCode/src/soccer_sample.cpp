@@ -12,166 +12,221 @@
 #include <pthread.h>
 #include "kogmo_rtdb.hxx"
 #include "robo_control.h"
-
-typedef struct
-{
-    RoboControl robo;
-    RawBall ball;
-} RoboBall;
-
+#include "referee.h"
 
 using namespace std;
 
-void* RedMove(void *data);
 
-int main(void) {
-	//--------------------------------- Init --------------------------------------------------
+typedef struct
+{
+  RoboControl *robo;
+  RawBall *ball;
+  Referee *ref;
+} RoboBall;
 
-	/** Use client number according to your account number!
-	 *
-	 *	This is necessary in order to assure that there are unique
-	 *	connections to the RTDB.
-	 *
-	 */
-        const int client_nr = 11;
-
-	/** Type in the rfcomm number of the robot you want to connect to.
-	 *  The numbers of the robots you are connected to can be found on the
-	 *  screen when you connected to them.
-	 *
-	 *  The red robots' number will be in the range of 3 to 5
-	 *  The blue robots' number will be in the range from 0 to 2
-	 *
-	 *  The robots are always connected to the lowest free rfcomm device.
-	 *  Therefore if you have two blue robots connected the will be
-         *  connectedvoid RedMove(RawBall ball, RoboControl redRobo) to rfcomm number 0 and number 1...
-	 *
-	 */
-        int rfcomm_nr = 0;
-        int rfcomm_nr_2 = 1;
+typedef void (*PlayFunc)(RoboControl[], RawBall, Referee);
 
 
-/*
-        //Activate the project option "Run in terminal" in Ctrl+5 (Ctrl+2 to come back here)
-        //to use "cin" function.
+static void BeforeKickOff(RoboControl robots[], RawBall ball, Referee ref);
+static void KickOff(RoboControl robots[], RawBall ball, Referee ref);
+static void BeforePenalty(RoboControl robots[], RawBall ball, Referee ref);
+static void Penalty(RoboControl robots[], RawBall ball, Referee ref);
+static void PlayOn(RoboControl robots[], RawBall ball, Referee ref);
+static void Pause(RoboControl robots[], RawBall ball, Referee ref);
+static void TimeOver(RoboControl robots[], RawBall ball, Referee ref);
 
-        char cInput;
+static void* GoalKeeper(void* data);
+//static void* RedMove(void* data);
 
-        cout << "Specify rfcomm number of the robot you want to move. Blue 0-2, Red 3-5: ";
-	while (1) {                
-                cin >> cInput;
-                if (!((cInput >= '0') && (cInput <= '7'))) {
-			cout << "Please specify valid rfcomm number between 0 and 7"
-					<< endl;
-		} else {
-                        rfcomm_nr = cInput-48; //simple "char to int" function
-			break;
-		}
+
+const eTeam team = BLUE_TEAM;
+
+
+int main(void)
+{
+    //--------------------------------- Init --------------------------------------------------
+
+    const int client_nr = 11;
+    int rfcomm_nr[] = {0, 1, 2};
+    const PlayFunc playFunctions[] = {NULL, BeforeKickOff, KickOff, BeforePenalty, Penalty, PlayOn, Pause, TimeOver};
+
+    try
+    {
+        cout << endl << "Connecting to RTDB..." << endl;
+        string client_name = "pololu_client_";
+        client_name.push_back((char)(client_nr + '0'));
+        RTDBConn DBC(client_name.data(), 0.1, "");
+
+        RoboControl robots[3] = {RoboControl(DBC, rfcomm_nr[0]),
+                                 RoboControl(DBC, rfcomm_nr[1]),
+                                 RoboControl(DBC, rfcomm_nr[2])};
+        RoboControl redRobo(DBC, 3);
+
+        RawBall ball(DBC);
+        Referee ref(DBC);
+        ref.Init();
+
+        //-------------------------------------- Ende Init ---------------------------------
+
+        //pthread_t thread1;
+        //RoboBall roboBall = {redRobo, ball, ref};
+        //pthread_create(&thread1, NULL, RedMove, &roboBall);
+
+        while (1)
+        {
+            ePlayMode mode = ref.GetPlayMode();
+            cout << "Mode = " << mode << endl;
+
+            PlayFunc fn = playFunctions[mode];
+
+            if (fn)
+                fn(robots, ball, ref);
+
+            while (ref.GetPlayMode() == mode)
+                usleep(10000);
         }
-*/
-	try {
 
-		/** Establish connection to the RTDB.
-		 *
-                 *  The connection to the RTDB is #include <thread>necessary in order to get access
-		 *  to the control and the status of the robots which are both stored
-		 *  in the RTDB.
-		 *
-		 *  In the RTDB there are also informations about the ball and the
-		 *  other robot positions.
-		 *
-		 */
-		cout << endl << "Connecting to RTDB..." << endl;
-		/** Create the client name with the unique client number*/
-		string client_name = "pololu_client_";
-		client_name.push_back((char) (client_nr + '0'));
-		RTDBConn DBC(client_name.data(), 0.1, "");
+    }
+    catch (DBError err)
+    {
+        cout << "Client died on Error: " << err.what() << endl;
+    }
 
-		/** Create a new RoboControl object.
-		 *
-		 *  This is the basis for any communication with the robot.
-		 *
-		 *  We need to hand over the RTDB connection (DBC) and the rfcomm
-		 *  number of the robot we want to control.
-		 */
-                RoboControl blueRobo(DBC, rfcomm_nr);
-                RoboControl redRobo(DBC, rfcomm_nr_2);
-
-		/** Now let's print out some information about the robot... */
-                //uint8_t mac[6];
-                //robo.GetMac(mac);
-                cout << "Robo @ rfcomm" << rfcomm_nr << endl; /*<<" with Mac: ";
-
-
-		for (int j = 0; j < 5; j++)
-			cout << hex << (int) mac[j] << ":";
-		cout << hex << (int) mac[5] << endl;
-*/
-                cout << "\t Battery Voltage: " << dec << (int) blueRobo.GetAccuVoltage()
-                                << "mV" << endl;
-                cout << "\t initial position: " << blueRobo.GetPos() << endl;
-                cout << "\t initial rotation: " << blueRobo.GetPhi() << endl;
-
-		/** Create a ball object
-		 *
-		 *  This ball abject gives you access to all information about the ball
-		 *  which is extracted from the cam.
-		 *
-		 */
-		RawBall ball(DBC);
-		/** lets print this information: */
-		cout << "Ball informations:" << endl;
-		cout << "\t initial position: " << ball.GetPos() << endl;
-		/** Notice that the rotation here refers to the moving direction of the ball.
-                 *  Therefore if the balltargetPos does not move the rotation is not defined.
-		 */
-		cout << "\t initial direction: " << ball.GetPhi() << endl;
-		cout << "\t initial velocity: " << ball.GetVelocity() << endl;
-
-		//-------------------------------------- Ende Init ---------------------------------
-
-                pthread_t thread1;
-                RoboBall roboBall = {redRobo, ball};
-                pthread_create( &thread1, NULL, RedMove, &roboBall);
-
-		while (1) {
-
-                        Position bluePos = blueRobo.GetPos();
-                        Position ballPos = ball.GetPos();
-
-                        double deltaX = fabs(bluePos.GetX() - ballPos.GetX());
-                        double deltaY = fabs(bluePos.GetY() - ballPos.GetY());
-                        double phi = atan2(deltaY, deltaX) * 180 / M_PI;
-                        cout << "Phi = " << phi << endl;
-
-                        if (phi >= 5)
-                        {
-                            double y = ballPos.GetY();
-
-                            if (y > 0.15)
-                                y = 0.15;
-                            else if (y < -0.15)
-                                y = -0.15;
-
-                            deltaY = fabs(bluePos.GetY() - y);
-
-                            cout << "Blue moving to y = " << y << endl;
-                            blueRobo.GotoXY(-1.300, y, 160 * deltaY / 0.3, false);
-                        }
-
-                        usleep(30000);
-		}
-
-	} catch (DBError err) {
-		cout << "Client died on Error: " << err.what() << endl;
-	}
-        cout << "End" << endl;
-	return 0;
+    cout << "End" << endl;
+    return 0;
 }
 
-void* RedMove(void *data)
+
+static void BeforeKickOff(RoboControl robots[], RawBall ball, Referee ref)
 {
-    RoboBall *roboBall = (RoboBall*)data;
+    eSide side = (team == BLUE_TEAM) ^(ref.GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
+
+    if (side == RIGHT_SIDE)
+    {
+        robots[0].GotoXY(0.3, 0.5, 120, true);
+        robots[1].GotoXY(0.3, 0, 120, true);
+        robots[2].GotoXY(0.3, -0.5, 120, true);
+    }
+    else
+    {
+        robots[0].GotoXY(-0.3, 0.5, 120, true);
+        robots[1].GotoXY(-0.3, 0, 120, true);
+        robots[2].GotoXY(-0.3, -0.5, 120, true);
+    }
+
+    usleep(5000000);
+    ref.SetReady(team);
+}
+
+static void KickOff(RoboControl robots[], RawBall ball, Referee ref)
+{
+    eSide side = (team == BLUE_TEAM) ^(ref.GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
+
+    if (ref.GetSide() == side)
+        robots[1].GotoPos(ball.GetPos());
+}
+
+static void BeforePenalty(RoboControl robots[], RawBall ball, Referee ref)
+{
+    eSide side = (team == BLUE_TEAM) ^(ref.GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
+    robots[2].GotoXY(0.3, -0.5);
+
+    cout << "Before penalty side = " << ref.GetSide() << endl;
+
+    if (ref.GetSide() == side)
+    {
+        robots[0].GotoXY(0.3, 0.5);
+        robots[1].GotoXY(0, 0, 120, true);
+    }
+    else
+    {
+        robots[0].GotoXY(-1.3, 0);
+        robots[1].GotoXY(0.3, 0);
+    }
+}
+
+static void Penalty(RoboControl robots[], RawBall ball, Referee ref)
+{
+    eSide side = (team == BLUE_TEAM) ^(ref.GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
+
+    //This should not be here, but the side is not given during the "before penalty" part, so we have to do it here.
+    BeforePenalty(robots, ball, ref);
+
+    cout << "Penalty side = " << ref.GetSide() << endl;
+
+    if (ref.GetSide() == side)
+    {
+        robots[1].GotoPos(ball.GetPos());
+    }
+    else
+    {
+        RoboBall roboBall = {&(robots[0]), &ball, &ref};
+        GoalKeeper(&roboBall);
+    }
+}
+
+static void PlayOn(RoboControl robots[], RawBall ball, Referee ref)
+{
+    pthread_t thread1;
+    RoboBall roboBall = {&(robots[0]), &ball, &ref};
+    pthread_create(&thread1, NULL, GoalKeeper, &roboBall);
+
+    while (ref.GetPlayMode() == PLAY_ON)
+    {
+        //TODO
+
+        usleep(30000);
+    }
+
+    pthread_join(thread1, NULL);
+}
+
+static void Pause(RoboControl robots[], RawBall ball, Referee ref)
+{
+    //Well, nothing to do, just wait...
+}
+
+static void TimeOver(RoboControl robots[], RawBall ball, Referee ref)
+{
+    //Well, nothing to do, just stop.
+}
+
+
+static void* GoalKeeper(void* data)
+{
+    RoboBall* roboBall = (RoboBall*)data;
+    ePlayMode mode;
+
+    while ((mode = roboBall->ref->GetPlayMode()) == PLAY_ON || mode == PENALTY)
+    {
+
+        Position bluePos = roboBall->robo->GetPos();
+        Position ballPos = roboBall->ball->GetPos();
+
+        double y = ballPos.GetY();
+
+        if (y > 0.15)
+            y = 0.15;
+        else if (y < -0.15)
+            y = -0.15;
+
+        double deltaY = fabs(bluePos.GetY() - y);
+
+        if (deltaY >= 0.05)
+        {
+            cout << "Goal keeper moving to y = " << y << endl;
+            roboBall->robo->GotoXY(-1.300, y, 160 * deltaY / 0.3, false);
+        }
+
+        usleep(30000);
+    }
+
+    return NULL;
+}
+
+/*static void* RedMove(void* data)
+{
+    RoboBall* roboBall = (RoboBall*)data;
 
     while (1)
     {
@@ -182,6 +237,4 @@ void* RedMove(void *data)
     }
 
     return NULL;
-}
-
-
+}*/
