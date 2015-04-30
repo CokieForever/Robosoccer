@@ -16,6 +16,8 @@
 
 using namespace std;
 
+//#define MAKE_RED_MOVE
+
 
 typedef struct
 {
@@ -36,8 +38,10 @@ static void Pause(RoboControl robots[], RawBall ball, Referee ref);
 static void TimeOver(RoboControl robots[], RawBall ball, Referee ref);
 
 static void* GoalKeeper(void* data);
-//static void* RedMove(void* data);
 
+#ifdef MAKE_RED_MOVE
+static void* RedMove(void* data);
+#endif
 
 const eTeam team = BLUE_TEAM;
 
@@ -47,8 +51,12 @@ int main(void)
     //--------------------------------- Init --------------------------------------------------
 
     const int client_nr = 11;
-    int rfcomm_nr[] = {0, 1, 2};
+    int rfcomm_nr_blue[] = {0, 1, 2};
+    int rfcomm_nr_red[] = {3, 4, 5};
     const PlayFunc playFunctions[] = {NULL, BeforeKickOff, KickOff, BeforePenalty, Penalty, PlayOn, Pause, TimeOver};
+
+    int *rfcomm_nr = team == BLUE_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
+    int *rfcomm_nr_2 = team == RED_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
 
     try
     {
@@ -57,10 +65,12 @@ int main(void)
         client_name.push_back((char)(client_nr + '0'));
         RTDBConn DBC(client_name.data(), 0.1, "");
 
-        RoboControl robots[3] = {RoboControl(DBC, rfcomm_nr[0]),
+        RoboControl robots[] = {RoboControl(DBC, rfcomm_nr[0]),
                                  RoboControl(DBC, rfcomm_nr[1]),
-                                 RoboControl(DBC, rfcomm_nr[2])};
-        RoboControl redRobo(DBC, 3);
+                                 RoboControl(DBC, rfcomm_nr[2]),
+                                 RoboControl(DBC, rfcomm_nr_2[0]),
+                                 RoboControl(DBC, rfcomm_nr_2[1]),
+                                 RoboControl(DBC, rfcomm_nr_2[2])};
 
         RawBall ball(DBC);
         Referee ref(DBC);
@@ -68,9 +78,11 @@ int main(void)
 
         //-------------------------------------- Ende Init ---------------------------------
 
-        //pthread_t thread1;
-        //RoboBall roboBall = {redRobo, ball, ref};
-        //pthread_create(&thread1, NULL, RedMove, &roboBall);
+        #ifdef MAKE_RED_MOVE
+        pthread_t thread1;
+        RoboBall roboBall = {robots[3], ball, ref};
+        pthread_create(&thread1, NULL, RedMove, &roboBall);
+        #endif
 
         while (1)
         {
@@ -103,15 +115,15 @@ static void BeforeKickOff(RoboControl robots[], RawBall ball, Referee ref)
 
     if (side == RIGHT_SIDE)
     {
-        robots[0].GotoXY(0.3, 0.5, 120, true);
-        robots[1].GotoXY(0.3, 0, 120, true);
-        robots[2].GotoXY(0.3, -0.5, 120, true);
+        robots[0].GotoXY(0.3, 0.5);
+        robots[1].GotoXY(0.3, 0);
+        robots[2].GotoXY(0.3, -0.5);
     }
     else
     {
-        robots[0].GotoXY(-0.3, 0.5, 120, true);
-        robots[1].GotoXY(-0.3, 0, 120, true);
-        robots[2].GotoXY(-0.3, -0.5, 120, true);
+        robots[0].GotoXY(-0.3, 0.5);
+        robots[1].GotoXY(-0.3, 0);
+        robots[2].GotoXY(-0.3, -0.5);
     }
 
     usleep(5000000);
@@ -136,7 +148,7 @@ static void BeforePenalty(RoboControl robots[], RawBall ball, Referee ref)
     if (ref.GetSide() == side)
     {
         robots[0].GotoXY(0.3, 0.5);
-        robots[1].GotoXY(0, 0, 120, true);
+        robots[1].GotoXY(0, 0);
     }
     else
     {
@@ -151,12 +163,29 @@ static void Penalty(RoboControl robots[], RawBall ball, Referee ref)
 
     //This should not be here, but the side is not given during the "before penalty" part, so we have to do it here.
     BeforePenalty(robots, ball, ref);
+    usleep(5000000);
 
     cout << "Penalty side = " << ref.GetSide() << endl;
 
     if (ref.GetSide() == side)
     {
-        robots[1].GotoPos(ball.GetPos());
+        Position goalKeeperPos = robots[3].GetPos();
+        for (int i=4 ; goalKeeperPos.GetX() >= -0.1 && i < 6 ; i++)
+            goalKeeperPos = robots[i].GetPos();
+
+        Position targetPos(1.367, 0 /*goalKeeperPos.GetY() >= 0 ? -0.10 : 0.10*/);
+        Position ballPos = ball.GetPos();
+
+        double deltaD = ballPos.DistanceTo(targetPos);
+        double deltaY = targetPos.GetY() - ballPos.GetY();
+
+        double roboY = targetPos.GetY() - (deltaD + 0.15) * deltaY / deltaD;
+
+        cout << "Target Y = " << targetPos.GetY() << endl;
+
+        robots[1].GotoXY(0, roboY);
+        usleep(3000000);
+        robots[1].GotoXY(ballPos.GetX(), roboY, 160, false);
     }
     else
     {
@@ -224,7 +253,8 @@ static void* GoalKeeper(void* data)
     return NULL;
 }
 
-/*static void* RedMove(void* data)
+#ifdef MAKE_RED_MOVE
+static void* RedMove(void* data)
 {
     RoboBall* roboBall = (RoboBall*)data;
 
@@ -237,4 +267,5 @@ static void* GoalKeeper(void* data)
     }
 
     return NULL;
-}*/
+}
+#endif
