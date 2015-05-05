@@ -23,7 +23,10 @@ int main(void) {
 	 *	connections to the RTDB.
 	 *
 	 */
-	const int client_nr = 19; 
+	const int client_nr = 12;
+	const int team		= 0;   
+	//team blue : 0 team red : 1
+	
 
 	/** Type in the rfcomm number of the robot you want to connect to.
 	 *  The numbers of the robots you are connected to can be found on the
@@ -37,7 +40,7 @@ int main(void) {
 	 *  connected to rfcomm number 0 and number 1...
 	 *
 	 */
-        int rfcomm_nr = 2;
+        int rfcomm_nr = 3;
       			
 	/*
 
@@ -112,6 +115,11 @@ int main(void) {
 		cout << "\t initial direction: " << ball.GetPhi() << endl;
 		cout << "\t initial velocity: " << ball.GetVelocity() << endl;
 
+
+		
+		
+		
+		
 		//-------------------------------------- Ende Init ---------------------------------
 
 		/** Define four positions which form a rectangle...
@@ -121,8 +129,62 @@ int main(void) {
 		Position pos2(0.6, -0.6);
 		Position pos3(0.6, 0.6);
 		Position pos4(-0.6, 0.6);
+		
+		
+		ePlayMode mode;
+		eSide	side;
 
+		mode = ref.GetPlayMode();
+		
+		
+		
+		
+						
+		//Create referee object
+		ref = Referee();		
+		
+		
 		while (1) {
+			
+			
+			//poll playmode
+			mode = ref.GetPlayMode();
+			switch (mode)
+			{
+				case BEFORE_KICK_OFF:
+				//routine that determines playing side and who has to take the kickoff
+				//-> GetBlueSide() team<-> side information GetSide()-> which side performs kickoff	
+				// after calling setReady method the state will change to KICK_OFF
+				break;
+				
+				case KICK_OFF:
+				break;
+				case PENALTY:
+				break;
+				case BEFORE_PENALTY:
+				break;
+				
+				case PLAY_ON:
+				break;
+				
+				default:
+				//before kickoff mode
+				
+				break;
+				
+				
+			}
+			
+			
+			// if mode is in before kickoff mode run before kickoff routine
+			
+			//
+			
+		
+			
+			
+			
+			
 			/** Sequentially move to the four different positions.
                          *  The while is excworkspace/soccerexampleited if the position is reached.
 			 */
