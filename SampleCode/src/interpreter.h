@@ -1,25 +1,11 @@
-/*
- * interpreter.h
- *
- *  Created on: Apr 26, 2015
- *      Author: dean
- */
 
 #ifndef INTERPRETER_H_
 #define INTERPRETER_H_
 
 
 #include "referee.h"
+#include "goalkeeper.h"
 #include "share.h"
-
-
-
-struct DefPos{
-	double posX  =	0.0;
-	double posY  =	0.0;
-	double angle = 	0.0;
-
-};
 
 
 class interpreter {
@@ -28,28 +14,28 @@ enum kick_turn{OUR_TURN,NOT_OUR_TURN};
 
 private:
 
-	Referee& ref;
-	//Player_main& p1;
-	//Player_second &p2;
-	//Goalkeeper& gk_main;
+	Referee* ref;
+	//PlayerMain *p1;
+	//PlayerSecondary *p2;
+	Goalkeeper* gk;
 
 
 	void setPlayMode();
 	void setSide();
 	void setTurn();
-	//bool verifyPos();
+	bool verifyPos();
 	void setDefaultPos();
 
 public:
 	int team;
 	ePlayMode playmode;
-	eSide our_side =LEFT_SIDE;
-	kick_turn turn = NOT_OUR_TURN;
+	eSide our_side;
+	kick_turn turn;
 
 
 	void updateSituation();
-	interpreter(int,Referee&);
-	virtual ~interpreter();
+	interpreter(int,Referee*,Goalkeeper*);
+	~interpreter();
 };
 
 #endif /* INTERPRETER_H_ */

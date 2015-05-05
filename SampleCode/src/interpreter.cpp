@@ -13,12 +13,13 @@
 
 
 
-interpreter::interpreter(int x,Referee &y) {
+interpreter::interpreter(int x,Referee *y,Goalkeeper *z) {
 	// TODO Auto-generated constructor stub
 	team = x;
 	ref  = y;
-	playmode = ref.GetPlayMode();
-	//gk = goalkeeper;
+	gk = z;
+
+	playmode = ref->GetPlayMode();
 	//p_main = main;
 	//p2		= second;
 
@@ -36,28 +37,79 @@ interpreter::~interpreter() {
 }
 
 
-//bool interpreter::verifyPos(){
+bool interpreter::verifyPos(){
 	//check if all robots are on their default position and orientation
+	(gk->getPos().DistanceTo(gk->defaultPos)< 0.1)? return 1:return 0;
 
-//}
+}
 
 
-//void setDefaultPos(){
+void interpreter::setDefaultPos(){
 	//sets default position struct depending on game mode of all robots to predefined values
-	//e.g. gk.defPos = {0.0,0.0,0.0}
-//}
+	switch(ref.playMode)
+	{
+		case BEFORE_PENALTY:
+				if((ref.our_side == LEFT_SIDE) && (ref.turn == interpreter::OUR_TURN)) 
+				{	
+					gk->defaultPos = {-0.3, 0.0};
+				}
+	
+				else if((ref.our_side == RIGHT_SIDE) && (ref.turn == interpreter::OUR_TURN)) 
+				{	
+					gk->defaultPos = {0.3,0.0};
+				}
+				else if((ref.our_side == LEFT_SIDE) && (ref.turn == interpreter::NOT_OUR_TURN)) 
+				{	
+					gk->defaultPos = {-0.3,0.0};
+				}
+				else
+				{	
+					gk->defaultPos = {0.3,0.0};
+				}
+			break;
+
+		case BEFORE_KICK_OFF:
+				if((ref->our_side == LEFT_SIDE) && (ref->turn == interpreter::OUR_TURN)) 
+				{	
+					gk->defaultPos = {-0.3,0.0};
+				}
+	
+				else if((ref.our_side == RIGHT_SIDE) && (ref.turn == interpreter::OUR_TURN)) 
+				{	
+					gk->defaultPos = {0.3,0.0};
+				}
+				else if((ref.our_side == LEFT_SIDE) && (ref.turn == interpreter::NOT_OUR_TURN)) 
+				{	
+					gk->defaultPos = {-0.3,0.0};
+				}
+				else
+				{	
+					gk->defaultPos = {0.3,0.0};
+				}
+			break;
+		
+		case PLAY_ON:
+			//distinguish between ATK and DEF mode 
+			//tbd
+			break;
+		default:
+			//states such as referee init, kick_off/penalty -> defpos doesnt change
+			break;
+	}
+}
+
 
 
 void interpreter::setPlayMode() {
 
-	playmode = ref.GetPlayMode();
+	playmode = ref->GetPlayMode();
 
 	if (playmode==BEFORE_KICK_OFF)	//if its not working try ref::BEFORE_KICK_OFF
 	{
 		setSide();
 		setTurn();
-//		if (verifyPos())
-//			ref.SetReady(team);
+		if (verifyPos())
+			ref->SetReady(team);
 
 	}
 
@@ -75,21 +127,10 @@ void interpreter::setPlayMode() {
 }
 
 
-void interpreter::setDefaultPos(){
-
-	//set default position of all objects depending on side and playmode
-	// if BEFORE_KICK_OFF -> check position and orientation -> if everything is ok -> send ready signal
-
-
-
-}
-
-
-
 
 void interpreter::setSide(){
 
-	eSide tmp_side = ref.GetBlueSide();
+	eSide tmp_side = ref->GetBlueSide();
 	// 0<-> blue 1<->red
 	if(((team == 0) && (tmp_side==LEFT_SIDE)) || ((team == 1) && (tmp_side  == RIGHT_SIDE)))
 		our_side = LEFT_SIDE;
@@ -113,7 +154,6 @@ void interpreter::setTurn(){
 
 void interpreter::updateSituation(){
 	setPlayMode();
-
+	setDefaultPos();
 
 }
-
