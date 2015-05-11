@@ -6,7 +6,7 @@
 
 class PlayerMain
 {
-    enum ActionPlayerMain{GO_TO_DEF_POS,KICK_PENALTY,KICK_OFF}; // ADD PLAY ?
+    enum ActionPlayerMain{GO_TO_DEF_POS,KICK_PENALTY,KICK_OFF,GO_TO_PENALTY_POS,PLAY,STOP};
     struct KickParam
     {
        double  turnAngle;
