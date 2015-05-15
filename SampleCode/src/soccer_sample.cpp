@@ -13,6 +13,7 @@
 #include "kogmo_rtdb.hxx"
 #include "robo_control.h"
 #include "referee.h"
+#include "coordinates.h"
 
 using namespace std;
 
@@ -77,6 +78,13 @@ int main(void)
         RawBall ball(DBC);
         Referee ref(DBC);
         ref.Init();
+
+        StartCoordCalibration(&robo1, &robo2);
+        WaitForCoordCalibrationEnd();
+
+        double xMax, xMin, yMax, yMin;
+        GetCoordCalibrationResults(&xMax, &yMax, &xMin, &yMin);
+        cout << xMax << " ; " << xMin << " ; " << yMax << " ; " << yMin;
 
         //-------------------------------------- Ende Init ---------------------------------
 
