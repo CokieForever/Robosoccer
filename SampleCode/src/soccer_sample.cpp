@@ -50,7 +50,7 @@ int main(void)
 {
     //--------------------------------- Init -------------------- Can't connect RF------------------------------
 
-    const int client_nr = 11;
+    const int client_nr = 12;
     int rfcomm_nr_blue[] = {0, 1, 2};
     int rfcomm_nr_red[] = {3, 4, 5};
     const PlayFunc playFunctions[] = {NULL, BeforeKickOff, KickOff, BeforePenalty, Penalty, PlayOn, Pause, TimeOver};
