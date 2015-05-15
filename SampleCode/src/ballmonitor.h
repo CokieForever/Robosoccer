@@ -6,6 +6,7 @@
 #include "kogmo_rtdb.hxx"
 #include "robo_control.h"
 #include "referee.h"
+#include "coordinates.h"
 
 typedef struct
 {
@@ -22,5 +23,6 @@ bool StartBallMonitoring(RawBall *ball);
 bool StopBallMonitoring();
 bool GetBallPosition(Position *pos);
 bool GetBallDirection(Direction *dir);
+bool PredictBallPosition(Position *pos);
 
 #endif // BALLMONITOR_H

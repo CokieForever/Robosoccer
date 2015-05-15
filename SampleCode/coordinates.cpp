@@ -1,6 +1,6 @@
 #include "coordinates.h"
 
-static int xMax_c, yMax_c, xMin_c, yMin_c;
+static double xMax_c, yMax_c, xMin_c, yMin_c;
 static bool isCalibrating = false;
 static bool calibrationSuccessful = false;
 static bool stopCalibrating = false;
@@ -15,6 +15,7 @@ bool StartCoordCalibration(RoboControl *robot1, RoboControl *robot2)
     array[1] = robot2;
     pthread_create(&calibrationThread, NULL, CalibrationFn, array);
 
+    usleep(0.1e6);
     return true;
 }
 
@@ -60,19 +61,19 @@ static void* CalibrationFn(void *data)
     isCalibrating = true;
     stopCalibrating = false;
 
-    robots[0]->GotoXY(0, 0.1);
-    robots[1]->GotoXY(0, -0.1);
-    usleep_cal(5e6);
+    robots[0]->GotoXY(0, 0.2, 80, true);
+    robots[1]->GotoXY(0, -0.2, 80, true);
+    usleep_cal(7e6);
 
     robots[0]->GotoXY(0, 10, 80, false);
     robots[1]->GotoXY(0, -10, 80, false);
-    usleep_cal(0.5e6);
+    usleep_cal(2e6);
 
     bool watch0 = true, watch1 = true;
-    double prevY_0 = 0.1, prevY_1 = -0.1;
+    double prevY_0 = 0.2, prevY_1 = -0.2;
     while (watch1 || watch0)
     {
-        usleep(0.5e6);
+        usleep(1e6);
 
         if (watch0)
         {
@@ -81,7 +82,10 @@ static void* CalibrationFn(void *data)
             {
                 yMax_c = prevY_0;
                 watch0 = false;
+                robots[0]->GotoXY(0.3, 0.5, 80, true);
             }
+            else
+                prevY_0 = y;
         }
 
         if (watch1)
@@ -91,23 +95,26 @@ static void* CalibrationFn(void *data)
             {
                 yMin_c = prevY_1;
                 watch1 = false;
+                robots[1]->GotoXY(-0.3, -0.5, 80, true);
             }
+            else
+                prevY_1 = y;
         }
     }
 
-    robots[0]->GotoXY(0, yMax_c / 2);
-    robots[1]->GotoXY(0, yMin_c / 2);
-    usleep_cal(5e6);
+    robots[0]->GotoXY(0.3, 0.5, 80, true);
+    robots[1]->GotoXY(-0.3, -0.5, 80, true);
+    usleep_cal(7e6);
 
-    robots[0]->GotoXY(10, yMax_c / 2, 80, false);
-    robots[1]->GotoXY(10, yMin_c / 2, 80, false);
-    usleep_cal(0.5e6);
+    robots[0]->GotoXY(10, (3*yMax_c + yMin_c) / 4, 80, false);
+    robots[1]->GotoXY(-10, (3*yMin_c + yMax_c) / 4, 80, false);
+    usleep_cal(2e6);
 
     watch0 = true; watch1 = true;
-    double prevX_0 = 0, prevX_1 = 0;
+    double prevX_0 = 0.3, prevX_1 = -0.3;
     while (watch1 || watch0)
     {
-        usleep_cal(0.5e6);
+        usleep_cal(1e6);
 
         if (watch0)
         {
@@ -116,7 +123,10 @@ static void* CalibrationFn(void *data)
             {
                 xMax_c = prevX_0;
                 watch0 = false;
+                robots[0]->GotoXY(0, 0.2);
             }
+            else
+                prevX_0 = x;
         }
 
         if (watch1)
@@ -126,7 +136,10 @@ static void* CalibrationFn(void *data)
             {
                 xMin_c = prevX_1;
                 watch1 = false;
+                robots[1]->GotoXY(0, -0.2);
             }
+            else
+                prevX_1 = x;
         }
     }
 

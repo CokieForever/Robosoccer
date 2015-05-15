@@ -14,10 +14,11 @@
 #include "robo_control.h"
 #include "referee.h"
 #include "coordinates.h"
+#include "ballmonitor.h"
 
 using namespace std;
 
-//#define MAKE_RED_MOVE
+#define MAKE_RED_MOVE
 
 
 typedef struct
@@ -44,7 +45,7 @@ static void* GoalKeeper(void* data);
 static void* RedMove(void* data);
 #endif
 
-const eTeam team = RED_TEAM;
+const eTeam team = BLUE_TEAM;
 
 
 int main(void)
@@ -57,7 +58,7 @@ int main(void)
     const PlayFunc playFunctions[] = {NULL, BeforeKickOff, KickOff, BeforePenalty, Penalty, PlayOn, Pause, TimeOver};
 
     int *rfcomm_nr = team == BLUE_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
-    //int *rfcomm_nr_2 = team == RED_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
+    int *rfcomm_nr_2 = team == RED_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
 
     try
     {
@@ -69,28 +70,26 @@ int main(void)
         RoboControl robo1 = RoboControl(DBC, rfcomm_nr[0]);
         RoboControl robo2 = RoboControl(DBC, rfcomm_nr[1]);
         RoboControl robo3 = RoboControl(DBC, rfcomm_nr[2]);
-        /*RoboControl robo4 = RoboControl(DBC, rfcomm_nr_2[0]);
+        RoboControl robo4 = RoboControl(DBC, rfcomm_nr_2[0]);
         RoboControl robo5 = RoboControl(DBC, rfcomm_nr_2[1]);
-        RoboControl robo6 = RoboControl(DBC, rfcomm_nr_2[2]);*/
+        RoboControl robo6 = RoboControl(DBC, rfcomm_nr_2[2]);
 
-        RoboControl *robots[] = {&robo1, &robo2, &robo3/*, &robo4, &robo5, &robo6*/};
+        RoboControl *robots[] = {&robo1, &robo2, &robo3, &robo4, &robo5, &robo6};
 
         RawBall ball(DBC);
         Referee ref(DBC);
         ref.Init();
 
-        StartCoordCalibration(&robo1, &robo2);
+        StartCoordCalibration(&robo1, &robo3);
         WaitForCoordCalibrationEnd();
 
-        double xMax, xMin, yMax, yMin;
-        GetCoordCalibrationResults(&xMax, &yMax, &xMin, &yMin);
-        cout << xMax << " ; " << xMin << " ; " << yMax << " ; " << yMin;
+        StartBallMonitoring(&ball);
 
         //-------------------------------------- Ende Init ---------------------------------
 
         #ifdef MAKE_RED_MOVE
         pthread_t thread1;
-        RoboBall roboBall = {robots[3], ball, ref};
+        RoboBall roboBall = {robots[3], &ball, &ref};
         pthread_create(&thread1, NULL, RedMove, &roboBall);
         #endif
 
@@ -286,8 +285,9 @@ static void* RedMove(void* data)
 
     while (1)
     {
-        Position ballPos = roboBall->ball.GetPos();
-        roboBall->robo.GotoXY(ballPos.GetX(), ballPos.GetY(), 120, false);
+        Position ballPos;
+        PredictBallPosition(&ballPos);
+        roboBall->robo->GotoXY(ballPos.GetX(), ballPos.GetY(), 120, false);
         cout << "Red moving to " << ballPos << endl << endl;
         usleep(2000000);
     }

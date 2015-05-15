@@ -18,7 +18,7 @@ bool StartBallMonitoring(RawBall *ball)
     {
         pthread_mutex_init(&ballMonitoringMtx, NULL);
         pthread_create(&ballMonitoringThread, NULL, BallMonitoringFn, ball);
-        ballMonitoring = true;
+        usleep(0.1e6);
         return true;
     }
 }
@@ -31,7 +31,6 @@ bool StopBallMonitoring()
     {
         stopBallMonitoring = true;
         pthread_join(ballMonitoringThread, NULL);
-        ballMonitoring = false;
         pthread_mutex_destroy(&ballMonitoringMtx);
         return true;
     }
@@ -76,7 +75,10 @@ bool PredictBallPosition(Position *pos)
         double a = (ballPosTime2.pos.GetY() - ballPosTime1.pos.GetY()) / (ballPosTime2.pos.GetX() - ballPosTime1.pos.GetX());
         double b = ballPosTime2.pos.GetY() - a * ballPosTime2.pos.GetX();
 
-        double xMax = 1, xMin = -1, yMax = 1, yMin = -1;
+        double xMax, yMax, xMin, yMin;
+        GetCoordCalibrationResults(&xMax, &yMax, &xMin, &yMin);
+        xMax -= 0.1; xMin += 0.1;
+        yMax -= 0.1; yMin += 0.1;
 
         if (ballPosTime2.pos.GetY() >= ballPosTime1.pos.GetY())
         {
@@ -137,6 +139,7 @@ static void* BallMonitoringFn(void *data)
     RawBall *ball = (RawBall*)data;
     Position pos;
 
+    ballMonitoring = true;
     stopBallMonitoring = false;
 
     pthread_mutex_lock(&ballMonitoringMtx);
@@ -156,6 +159,7 @@ static void* BallMonitoringFn(void *data)
         pthread_mutex_unlock(&ballMonitoringMtx);
     }
 
+    ballMonitoring = false;
     return NULL;
 }
 
