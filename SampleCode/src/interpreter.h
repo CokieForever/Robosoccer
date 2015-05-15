@@ -2,23 +2,26 @@
 #ifndef INTERPRETER_H_
 #define INTERPRETER_H_
 
-
+#include <time.h>
+#include <iostream>
+#include <pthread.h>
+#include "kogmo_rtdb.hxx"
+#include "robo_control.h"
 #include "referee.h"
 #include "goalkeeper.h"
-#include "share.h"
+
 
 
 class interpreter {
 
-enum kick_turn{OUR_TURN,NOT_OUR_TURN};
+
 
 private:
 
-	Referee* ref;
-	//PlayerMain *p1;
-	//PlayerSecondary *p2;
-	Goalkeeper* gk;
-
+        Referee *ref;
+        Goalkeeper *gk;
+        //PlayerMain *p1;
+        //PlayerSecondary *p2;
 
 	void setPlayMode();
 	void setSide();
@@ -27,6 +30,7 @@ private:
 	void setDefaultPos();
 
 public:
+        enum kick_turn{OUR_TURN,NOT_OUR_TURN};
 	int team;
 	ePlayMode playmode;
 	eSide our_side;

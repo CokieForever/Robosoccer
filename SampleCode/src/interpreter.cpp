@@ -9,6 +9,7 @@
 #include "referee.h"
 #include <iostream>
 #include "share.h"
+#include "goalkeeper.h"
 //include the libs from sample code
 
 
@@ -39,54 +40,66 @@ interpreter::~interpreter() {
 
 bool interpreter::verifyPos(){
 	//check if all robots are on their default position and orientation
-	(gk->getPos().DistanceTo(gk->defaultPos)< 0.1)? return 1:return 0;
+        if (gk->robot->GetPos().DistanceTo(gk->defaultPos)< 0.1)
+                    return 1;
+
+        else
+                    return 0;
 
 }
 
 
 void interpreter::setDefaultPos(){
 	//sets default position struct depending on game mode of all robots to predefined values
-	switch(ref.playMode)
+        switch(ref->GetPlayMode())
 	{
 		case BEFORE_PENALTY:
-				if((ref.our_side == LEFT_SIDE) && (ref.turn == interpreter::OUR_TURN)) 
+                                if((our_side == LEFT_SIDE) && (turn == interpreter::OUR_TURN))
 				{	
-					gk->defaultPos = {-0.3, 0.0};
+                                        gk->defaultPos.SetX(-0.3);
+                                        gk->defaultPos.SetY(0.0);
 				}
 	
-				else if((ref.our_side == RIGHT_SIDE) && (ref.turn == interpreter::OUR_TURN)) 
+                                else if((our_side == RIGHT_SIDE) && (turn == interpreter::OUR_TURN))
 				{	
-					gk->defaultPos = {0.3,0.0};
+                                    gk->defaultPos.SetX(0.3);
+                                    gk->defaultPos.SetY(0.0);
 				}
-				else if((ref.our_side == LEFT_SIDE) && (ref.turn == interpreter::NOT_OUR_TURN)) 
+                                else if((our_side == LEFT_SIDE) && (turn == interpreter::NOT_OUR_TURN))
 				{	
-					gk->defaultPos = {-0.3,0.0};
+                                    gk->defaultPos.SetX(-0.3);
+                                    gk->defaultPos.SetY(0.0);
 				}
 				else
 				{	
-					gk->defaultPos = {0.3,0.0};
+                                    gk->defaultPos.SetX(0.3);
+                                    gk->defaultPos.SetY(0.0);
 				}
-			break;
+                                break;
 
 		case BEFORE_KICK_OFF:
-				if((ref->our_side == LEFT_SIDE) && (ref->turn == interpreter::OUR_TURN)) 
+                                if((our_side == LEFT_SIDE) && (turn == interpreter::OUR_TURN))
 				{	
-					gk->defaultPos = {-0.3,0.0};
+                                    gk->defaultPos.SetX(-0.3);
+                                    gk->defaultPos.SetY(0.0);
 				}
 	
-				else if((ref.our_side == RIGHT_SIDE) && (ref.turn == interpreter::OUR_TURN)) 
+                                else if((our_side == RIGHT_SIDE) && (turn == interpreter::OUR_TURN))
 				{	
-					gk->defaultPos = {0.3,0.0};
+                                    gk->defaultPos.SetX(0.3);
+                                    gk->defaultPos.SetY(0.0);
 				}
-				else if((ref.our_side == LEFT_SIDE) && (ref.turn == interpreter::NOT_OUR_TURN)) 
+                                else if((our_side == LEFT_SIDE) && (turn == interpreter::NOT_OUR_TURN))
 				{	
-					gk->defaultPos = {-0.3,0.0};
+                                    gk->defaultPos.SetX(-0.3);
+                                    gk->defaultPos.SetY(0.0);
 				}
 				else
 				{	
-					gk->defaultPos = {0.3,0.0};
+                                    gk->defaultPos.SetX(0.3);
+                                    gk->defaultPos.SetY(0.0);
 				}
-			break;
+                                break;
 		
 		case PLAY_ON:
 			//distinguish between ATK and DEF mode 
@@ -141,7 +154,7 @@ void interpreter::setSide(){
 
 
 void interpreter::setTurn(){
-	if (our_side==ref.GetSide())
+        if (our_side==ref->GetSide())
 	{
 		turn = OUR_TURN;
 	}

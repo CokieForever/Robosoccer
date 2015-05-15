@@ -3,8 +3,13 @@
 #define GOALKEEPER_H_
 
 
-#include "interpreter.h"
-#include "share.h"
+#include <time.h>
+#include <iostream>
+#include <pthread.h>
+#include "kogmo_rtdb.hxx"
+#include "robo_control.h"
+#include "referee.h"
+
 
 
 class Goalkeeper {
@@ -13,18 +18,19 @@ class Goalkeeper {
 
 private:
 
-	Rawball* ball;
-	Robocontrol* robot;
+        RawBall* ball;
+
 	ActionGk nextCmd;
-	Postition preventGoalParam;
+        Position preventGoalParam;
 
 public:
 	Position defaultPos;
+        RoboControl* robot;
 
-	void setNextCmd(Interpreter*);
+        void setNextCmd(void*);
 	void setCmdParam();
 	void performCmd();
-	Goalkeeper(Robocontrol*);
+        Goalkeeper(RoboControl*,RawBall*);
 	~Goalkeeper();
 };
 
