@@ -71,18 +71,17 @@ bool PredictBallPosition(Position *pos)
     else
     {
         pthread_mutex_lock(&ballMonitoringMtx);
+        Position ballPos1 = NormalizePosition(ballPosTime1.pos);
+        Position ballPos2 = NormalizePosition(ballPosTime2.pos);
+        pthread_mutex_unlock(&ballMonitoringMtx);
 
-        double a = (ballPosTime2.pos.GetY() - ballPosTime1.pos.GetY()) / (ballPosTime2.pos.GetX() - ballPosTime1.pos.GetX());
-        double b = ballPosTime2.pos.GetY() - a * ballPosTime2.pos.GetX();
+        double a = (ballPos2.GetY() - ballPos1.GetY()) / (ballPos2.GetX() - ballPos1.GetX());
+        double b = ballPos2.GetY() - a * ballPos2.GetX();
+        double xMax=0.9, xMin=-0.9, yMax=0.9, yMin=-0.9;
 
-        double xMax, yMax, xMin, yMin;
-        GetCoordCalibrationResults(&xMax, &yMax, &xMin, &yMin);
-        xMax -= 0.1; xMin += 0.1;
-        yMax -= 0.1; yMin += 0.1;
-
-        if (ballPosTime2.pos.GetY() >= ballPosTime1.pos.GetY())
+        if (ballPos2.GetY() >= ballPos1.GetY())
         {
-            if (ballPosTime2.pos.GetX() >= ballPosTime1.pos.GetX())
+            if (ballPos2.GetX() >= ballPos1.GetX())
             {
                 pos->SetX((yMax - b) / a);
                 pos->SetY(yMax);
@@ -105,7 +104,7 @@ bool PredictBallPosition(Position *pos)
         }
         else
         {
-            if (ballPosTime2.pos.GetX() >= ballPosTime1.pos.GetX())
+            if (ballPos2.GetX() >= ballPos1.GetX())
             {
                 pos->SetX((yMin - b) / a);
                 pos->SetY(yMin);
@@ -127,7 +126,7 @@ bool PredictBallPosition(Position *pos)
             }
         }
 
-        pthread_mutex_unlock(&ballMonitoringMtx);
+        *pos = UnnormalizePosition(*pos);
         return true;
     }
 }
@@ -149,7 +148,7 @@ static void* BallMonitoringFn(void *data)
 
     while (!stopBallMonitoring)
     {
-        while ((pos = ball->GetPos()) == ballPosTime2.pos)
+        while ((pos = ball->GetPos()).DistanceTo(ballPosTime2.pos) < 0.05)
             usleep(1000);
 
         pthread_mutex_lock(&ballMonitoringMtx);
@@ -157,6 +156,8 @@ static void* BallMonitoringFn(void *data)
         ballPosTime2.pos = pos;
         ballPosTime2.time = clock();
         pthread_mutex_unlock(&ballMonitoringMtx);
+
+        cout << "Ball at " << pos << " (" << NormalizePosition(pos) << ")" << endl;
     }
 
     ballMonitoring = false;

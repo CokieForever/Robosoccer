@@ -19,12 +19,12 @@ bool SetManualCoordCalibration(Position a, Position b, Position c, Position d)
 	*/
 	
 	tx_c = -(a.GetX() + c.GetX()) / 2;
-	ty_c = -(a.GetY() + c.GetY()) / 2;
-	double d = d.GetDistanceTo(b);
-	cosTheta_c = (d.GetX() - b.getX()) / d;
-	sinTheta_c = (d.GetY() - b.getY()) / d;
-	ky = 2 / d;
-	kx = 2 / a.GetDistanceTo(c);
+        ty_c = -(a.GetY() + c.GetY()) / 2;
+        double dist = d.DistanceTo(b);
+        cosTheta_c = (b.GetX() - d.GetX()) / dist;
+        sinTheta_c = (d.GetY() - b.GetY()) / dist;
+        kx_c = 2 / dist;
+        ky_c = 2 / a.DistanceTo(c);
 	
 	calibrationSuccessful = true;
 	return true;
@@ -79,12 +79,12 @@ bool StartCoordCalibration(RoboControl *robot1, RoboControl *robot2)
     return true;
 }
 
-bool WaitForCoordCalibrationEnd(bool stopNow = false)
+bool WaitForCoordCalibrationEnd(bool stopNow)
 {
     if (!isCalibrating)
         return false;
-	if (stopNow)
-		stopCalibrating = true;
+    if (stopNow)
+        stopCalibrating = true;
     pthread_join(calibrationThread, NULL);
     return true;
 }
@@ -108,12 +108,33 @@ bool GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *k
     return true;
 }
 
+bool GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin)
+{
+    if (!calibrationSuccessful)
+        return false;
+
+    Position lowerRight(1,1), upperLeft(-1,-1);
+    upperLeft = NormalizePosition(upperLeft);
+    lowerRight = NormalizePosition(lowerRight);
+
+    if (xMax)
+        *xMax = lowerRight.GetX();
+    if (xMin)
+        *xMin = upperLeft.GetX();
+    if (yMax)
+        *yMax = lowerRight.GetY();
+    if (yMin)
+        *yMin = upperLeft.GetY();
+
+    return true;
+}
+
 #define exit_cal() do {calibrationSuccessful = !stopCalibrating; isCalibrating = false; delete robots; return NULL;} while (0)
 #define usleep_cal(t) do { if (stopCalibrating) exit_cal(); usleep(t); if (stopCalibrating) exit_cal(); } while (0)
 static void* CalibrationFn(void *data)
 {
     RoboControl **robots = (RoboControl**)data;
-	double xMax, xMin, yMax, yMin;
+    double xMax=0, xMin=0, yMax=0, yMin=0;
     isCalibrating = true;
     stopCalibrating = false;
 
@@ -162,8 +183,8 @@ static void* CalibrationFn(void *data)
     robots[1]->GotoXY(-0.3, -0.5, 80, true);
     usleep_cal(7e6);
 
-    robots[0]->GotoXY(10, (3*yMax_c + yMin_c) / 4, 80, false);
-    robots[1]->GotoXY(-10, (3*yMin_c + yMax_c) / 4, 80, false);
+    robots[0]->GotoXY(10, (3*yMax + yMin) / 4, 80, false);
+    robots[1]->GotoXY(-10, (3*yMin + yMax) / 4, 80, false);
     usleep_cal(2e6);
 
     watch0 = true; watch1 = true;
@@ -199,14 +220,14 @@ static void* CalibrationFn(void *data)
         }
     }
 	
-	if (!stopCalibrating)
-	{
-		ty_c = -(yMax + yMin) / 2;
-		tx_c = -(xMax + xMin) / 2;
-		cosTheta = 1; sinTheta = 0;
-		ky_c = 2 / (yMax - yMin);
-		kx_c = 2 / (xMax - xMin);
-	}
+    if (!stopCalibrating)
+    {
+        ty_c = -(yMax + yMin) / 2;
+        tx_c = -(xMax + xMin) / 2;
+        cosTheta_c = 1; sinTheta_c = 0;
+        ky_c = 2 / (yMax - yMin);
+        kx_c = 2 / (xMax - xMin);
+    }
 	
     exit_cal();
 }

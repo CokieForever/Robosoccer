@@ -80,9 +80,7 @@ int main(void)
         Referee ref(DBC);
         ref.Init();
 
-        StartCoordCalibration(&robo1, &robo3);
-        WaitForCoordCalibrationEnd();
-
+        SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));
         StartBallMonitoring(&ball);
 
         //-------------------------------------- Ende Init ---------------------------------
@@ -286,10 +284,14 @@ static void* RedMove(void* data)
     while (1)
     {
         Position ballPos;
-        PredictBallPosition(&ballPos);
-        roboBall->robo->GotoXY(ballPos.GetX(), ballPos.GetY(), 120, false);
-        cout << "Red moving to " << ballPos << endl << endl;
-        usleep(2000000);
+        if (PredictBallPosition(&ballPos))
+        {
+            roboBall->robo->GotoXY(ballPos.GetX(), ballPos.GetY(), 120, false);
+            cout << "Red moving to " << ballPos << endl << endl;
+            usleep(2e6);
+        }
+        else
+            usleep(0.1e6);
     }
 
     return NULL;
