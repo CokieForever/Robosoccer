@@ -1,12 +1,13 @@
 TEMPLATE = app
 TARGET = soccer_sample
 
-#include(/DIST/lehre/lab_roso/tech/usr/include/settings.pri)
-include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
+include(/DIST/lehre/lab_roso/tech/usr/include/settings.pri)
+#include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
 
 
 DEPENDPATH += src
-INCLUDEPATH += src
+INCLUDEPATH += src SDL/headers
+LIBS += -LSDL/static -L/lib64 -lSDLmain -lSDL -ldl
 
 DESTDIR = bin
 MOC_DIR = .moc
@@ -20,10 +21,12 @@ CONFIG +=  debug
 # Input
 HEADERS += \ 
     src/ballmonitor.h \
-    coordinates.h
+    coordinates.h \
+    src/refereedisplay.h
 SOURCES += soccer_sample.cpp \
     src/ballmonitor.cpp \
-    coordinates.cpp
+    coordinates.cpp \
+    src/refereedisplay.cpp
 		
 		
 ##############
@@ -36,6 +39,8 @@ dox.depends = FORCE
 
 # somewhere else in the *.pro file
 QMAKE_EXTRA_UNIX_TARGETS += dox
+
+
 
 
 

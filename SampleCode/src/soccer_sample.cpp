@@ -15,6 +15,7 @@
 #include "referee.h"
 #include "coordinates.h"
 #include "ballmonitor.h"
+#include "refereedisplay.h"
 
 using namespace std;
 
@@ -81,7 +82,10 @@ int main(void)
         ref.Init();
 
         SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));
+        //SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));
         StartBallMonitoring(&ball);
+
+        StartRefereeDisplay(robots, &ball);
 
         //-------------------------------------- Ende Init ---------------------------------
 
@@ -115,6 +119,9 @@ int main(void)
     {
         cout << "Client died on Error: " << err.what() << endl;
     }
+
+    StopRefereeDisplay();
+    StopBallMonitoring();
 
     cout << "End" << endl;
     return 0;
