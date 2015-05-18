@@ -2,6 +2,8 @@
 #include "referee.h"
 #include "robo_control.h"
 #include "coordinates.h"
+#include "ballmonitor.h"
+#include "sdlutilities.h"
 
 typedef struct
 {

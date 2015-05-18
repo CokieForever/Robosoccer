@@ -8,7 +8,7 @@ static bool isDisplaying = false;
 static pthread_t displayThread;
 
 static void* RefDisplayFn(void *data);
-static SDL_Rect PosToRect(Position pos, int w, int h);
+static SDL_Rect PosToRect(Position pos, int w = 0, int h = 0);
 
 bool StartRefereeDisplay(RoboControl **robots, RawBall *ball)
 {
@@ -76,6 +76,14 @@ static void* RefDisplayFn(void *data)
             SDL_BlitSurface(ball, NULL, screen, &rect);
         }
 
+        Position pos(0,0);
+        if (PredictBallPosition(&pos))
+        {
+            rect = PosToRect(NormalizePosition(allData->ball->GetPos()));
+            SDL_Rect rect2 = PosToRect(NormalizePosition(pos));
+            DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
+        }
+
         if (blueRobot)
         {
             for (int i=0 ; i < 3 ; i++)
@@ -117,3 +125,4 @@ static SDL_Rect PosToRect(Position pos, int w, int h)
     SDL_Rect rect = {(pos.GetX()+1)/2 * SCREENW - w/2, (pos.GetY()+1)/2 * SCREENH - h/2, 0, 0};
     return rect;
 }
+

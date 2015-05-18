@@ -1,8 +1,8 @@
 TEMPLATE = app
 TARGET = soccer_sample
 
-include(/DIST/lehre/lab_roso/tech/usr/include/settings.pri)
-#include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
+#include(/DIST/lehre/lab_roso/tech/usr/include/settings.pri)
+include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
 
 
 DEPENDPATH += src
@@ -22,11 +22,13 @@ CONFIG +=  debug
 HEADERS += \ 
     src/ballmonitor.h \
     coordinates.h \
-    src/refereedisplay.h
+    src/refereedisplay.h \
+    src/sdlutilities.h
 SOURCES += soccer_sample.cpp \
     src/ballmonitor.cpp \
     coordinates.cpp \
-    src/refereedisplay.cpp
+    src/refereedisplay.cpp \
+    src/sdlutilities.cpp
 		
 		
 ##############
@@ -39,6 +41,8 @@ dox.depends = FORCE
 
 # somewhere else in the *.pro file
 QMAKE_EXTRA_UNIX_TARGETS += dox
+
+
 
 
 
