@@ -43,26 +43,27 @@ static void* RefDisplayFn(void *data)
     isDisplaying = true;
 
     SDL_Init(SDL_INIT_EVERYTHING);
+    IMG_Init(IMG_INIT_PNG);
     SDL_Surface *screen = SDL_SetVideoMode(SCREENW, SCREENH, 32, SDL_SWSURFACE);
     SDL_Flip(screen);
 
-    SDL_Surface *ball = SDL_LoadBMP("../ball.bmp");
-    if (!ball)
+    SDL_Surface *ballSurf = IMG_Load("../ball.png");
+    if (!ballSurf)
         cout << "Unable to load ball bmp: " << SDL_GetError() << endl;
     else
-        SDL_SetColorKey(ball, SDL_SRCCOLORKEY, SDL_MapRGB(ball->format, 255, 255, 255));
+        SDL_SetColorKey(ballSurf, SDL_SRCCOLORKEY, SDL_MapRGB(ballSurf->format, 255, 255, 255));
 
-    SDL_Surface *redRobot = SDL_LoadBMP("../red_robot.bmp");
-    if (!redRobot)
+    SDL_Surface *redRobotSurf = IMG_Load("../red_robot.png");
+    if (!redRobotSurf)
         cout << "Unable to load red robot bmp: " << SDL_GetError() << endl;
     else
-        SDL_SetColorKey(redRobot, SDL_SRCCOLORKEY, SDL_MapRGB(redRobot->format, 255, 255, 255));
+        SDL_SetColorKey(redRobotSurf, SDL_SRCCOLORKEY, SDL_MapRGB(redRobotSurf->format, 255, 255, 255));
 
-    SDL_Surface *blueRobot = SDL_LoadBMP("../blue_robot.bmp");
-    if (!blueRobot)
+    SDL_Surface *blueRobotSurf = IMG_Load("../blue_robot.png");
+    if (!blueRobotSurf)
         cout << "Unable to load blue robot bmp: " << SDL_GetError() << endl;
     else
-        SDL_SetColorKey(blueRobot, SDL_SRCCOLORKEY, SDL_MapRGB(blueRobot->format, 255, 255, 255));
+        SDL_SetColorKey(blueRobotSurf, SDL_SRCCOLORKEY, SDL_MapRGB(blueRobotSurf->format, 255, 255, 255));
 
     keepGoing = true;
     while (keepGoing)
@@ -70,10 +71,10 @@ static void* RefDisplayFn(void *data)
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 200, 0));
 
         SDL_Rect rect;
-        if (ball)
+        if (ballSurf)
         {
-            rect = PosToRect(NormalizePosition(allData->ball->GetPos()), ball->w, ball->h);
-            SDL_BlitSurface(ball, NULL, screen, &rect);
+            rect = PosToRect(NormalizePosition(allData->ball->GetPos()), ballSurf->w, ballSurf->h);
+            SDL_BlitSurface(ballSurf, NULL, screen, &rect);
         }
 
         Position pos(0,0);
@@ -84,21 +85,21 @@ static void* RefDisplayFn(void *data)
             DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
         }
 
-        if (blueRobot)
+        if (blueRobotSurf)
         {
             for (int i=0 ; i < 3 ; i++)
             {
-                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), blueRobot->w, blueRobot->h);
-                SDL_BlitSurface(blueRobot, NULL, screen, &rect);
+                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), blueRobotSurf->w, blueRobotSurf->h);
+                SDL_BlitSurface(blueRobotSurf, NULL, screen, &rect);
             }
         }
 
-        if (redRobot)
+        if (redRobotSurf)
         {
             for (int i=3 ; i < 6 ; i++)
             {
-                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), redRobot->w, redRobot->h);
-                SDL_BlitSurface(redRobot, NULL, screen, &rect);
+                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), redRobotSurf->w, redRobotSurf->h);
+                SDL_BlitSurface(redRobotSurf, NULL, screen, &rect);
             }
         }
 
@@ -106,13 +107,14 @@ static void* RefDisplayFn(void *data)
         usleep(20000);
     }
 
-    if (ball)
-        SDL_FreeSurface(ball);
-    if (redRobot)
-        SDL_FreeSurface(redRobot);
-    if (blueRobot)
-        SDL_FreeSurface(blueRobot);
+    if (ballSurf)
+        SDL_FreeSurface(ballSurf);
+    if (redRobotSurf)
+        SDL_FreeSurface(redRobotSurf);
+    if (blueRobotSurf)
+        SDL_FreeSurface(blueRobotSurf);
 
+    IMG_Quit();
     SDL_Quit();
 
     isDisplaying = false;

@@ -7,7 +7,7 @@ include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
 
 DEPENDPATH += src
 INCLUDEPATH += src SDL/headers
-LIBS += -LSDL/static -L/lib64 -lSDLmain -lSDL -ldl
+LIBS += -LSDL/static -L/lib64 -lSDLmain -lSDL -ldl -lSDL_image
 
 DESTDIR = bin
 MOC_DIR = .moc

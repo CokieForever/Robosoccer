@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include "referee.h"
 #include "robo_control.h"
 #include "coordinates.h"
