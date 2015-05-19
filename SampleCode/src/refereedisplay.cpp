@@ -1,7 +1,7 @@
 #include "refereedisplay.h"
 
-#define SCREENW 1080
-#define SCREENH 810
+#define SCREENW 800
+#define SCREENH 600
 
 static bool keepGoing = true;
 static bool isDisplaying = false;
@@ -43,27 +43,56 @@ static void* RefDisplayFn(void *data)
     isDisplaying = true;
 
     SDL_Init(SDL_INIT_EVERYTHING);
-    IMG_Init(IMG_INIT_PNG);
     SDL_Surface *screen = SDL_SetVideoMode(SCREENW, SCREENH, 32, SDL_SWSURFACE);
     SDL_Flip(screen);
 
-    SDL_Surface *ballSurf = IMG_Load("../ball.png");
+    SDL_Surface *ballSurf = SDL_LoadBMP("../ball.bmp"), *ballSurfTr = NULL;
     if (!ballSurf)
         cout << "Unable to load ball bmp: " << SDL_GetError() << endl;
     else
-        SDL_SetColorKey(ballSurf, SDL_SRCCOLORKEY, SDL_MapRGB(ballSurf->format, 255, 255, 255));
+    {
+        double zoom = SCREENW/50 / (double)ballSurf->w;
+        SDL_Surface *s = zoomSurface(ballSurf, zoom, zoom, 1);
+        if (s)
+        {
+            SDL_FreeSurface(ballSurf);
+            ballSurf = s;
+        }
 
-    SDL_Surface *redRobotSurf = IMG_Load("../red_robot.png");
+        ballSurfTr = SDL_CreateRGBSurfaceFrom(ballSurf->pixels, ballSurf->w, ballSurf->h, 32, ballSurf->pitch, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+    }
+
+    SDL_Surface *redRobotSurf = SDL_LoadBMP("../red_robot.bmp"), *redRobotSurfTr = NULL;
     if (!redRobotSurf)
         cout << "Unable to load red robot bmp: " << SDL_GetError() << endl;
     else
-        SDL_SetColorKey(redRobotSurf, SDL_SRCCOLORKEY, SDL_MapRGB(redRobotSurf->format, 255, 255, 255));
+    {
+        double zoom = SCREENW/25 / (double)redRobotSurf->w;
+        SDL_Surface *s = zoomSurface(redRobotSurf, zoom, zoom, 1);
+        if (s)
+        {
+            SDL_FreeSurface(redRobotSurf);
+            redRobotSurf = s;
+        }
 
-    SDL_Surface *blueRobotSurf = IMG_Load("../blue_robot.png");
+        redRobotSurfTr = SDL_CreateRGBSurfaceFrom(redRobotSurf->pixels, redRobotSurf->w, redRobotSurf->h, 32, redRobotSurf->pitch, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+    }
+
+    SDL_Surface *blueRobotSurf = SDL_LoadBMP("../blue_robot.bmp"), *blueRobotSurfTr = NULL;
     if (!blueRobotSurf)
         cout << "Unable to load blue robot bmp: " << SDL_GetError() << endl;
     else
-        SDL_SetColorKey(blueRobotSurf, SDL_SRCCOLORKEY, SDL_MapRGB(blueRobotSurf->format, 255, 255, 255));
+    {
+        double zoom = SCREENW/25 / (double)blueRobotSurf->w;
+        SDL_Surface *s = zoomSurface(blueRobotSurf, zoom, zoom, 1);
+        if (s)
+        {
+            SDL_FreeSurface(blueRobotSurf);
+            blueRobotSurf = s;
+        }
+
+        blueRobotSurfTr = SDL_CreateRGBSurfaceFrom(blueRobotSurf->pixels, blueRobotSurf->w, blueRobotSurf->h, 32, blueRobotSurf->pitch, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
+    }
 
     keepGoing = true;
     while (keepGoing)
@@ -71,10 +100,10 @@ static void* RefDisplayFn(void *data)
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 200, 0));
 
         SDL_Rect rect;
-        if (ballSurf)
+        if (ballSurfTr)
         {
-            rect = PosToRect(NormalizePosition(allData->ball->GetPos()), ballSurf->w, ballSurf->h);
-            SDL_BlitSurface(ballSurf, NULL, screen, &rect);
+            rect = PosToRect(NormalizePosition(allData->ball->GetPos()), ballSurfTr->w, ballSurfTr->h);
+            SDL_BlitSurface(ballSurfTr, NULL, screen, &rect);
         }
 
         Position pos(0,0);
@@ -85,21 +114,21 @@ static void* RefDisplayFn(void *data)
             DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
         }
 
-        if (blueRobotSurf)
+        if (blueRobotSurfTr)
         {
             for (int i=0 ; i < 3 ; i++)
             {
-                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), blueRobotSurf->w, blueRobotSurf->h);
-                SDL_BlitSurface(blueRobotSurf, NULL, screen, &rect);
+                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), blueRobotSurfTr->w, blueRobotSurfTr->h);
+                SDL_BlitSurface(blueRobotSurfTr, NULL, screen, &rect);
             }
         }
 
-        if (redRobotSurf)
+        if (redRobotSurfTr)
         {
             for (int i=3 ; i < 6 ; i++)
             {
-                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), redRobotSurf->w, redRobotSurf->h);
-                SDL_BlitSurface(redRobotSurf, NULL, screen, &rect);
+                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), redRobotSurfTr->w, redRobotSurfTr->h);
+                SDL_BlitSurface(redRobotSurfTr, NULL, screen, &rect);
             }
         }
 
@@ -109,12 +138,17 @@ static void* RefDisplayFn(void *data)
 
     if (ballSurf)
         SDL_FreeSurface(ballSurf);
+    if (ballSurfTr)
+        SDL_FreeSurface(ballSurfTr);
     if (redRobotSurf)
         SDL_FreeSurface(redRobotSurf);
+    if (redRobotSurfTr)
+        SDL_FreeSurface(redRobotSurfTr);
     if (blueRobotSurf)
         SDL_FreeSurface(blueRobotSurf);
+    if (blueRobotSurfTr)
+        SDL_FreeSurface(blueRobotSurfTr);
 
-    IMG_Quit();
     SDL_Quit();
 
     isDisplaying = false;

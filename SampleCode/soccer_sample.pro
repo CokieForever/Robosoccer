@@ -7,7 +7,7 @@ include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
 
 DEPENDPATH += src
 INCLUDEPATH += src SDL/headers
-LIBS += -LSDL/static -L/lib64 -lSDLmain -lSDL -ldl -lSDL_image
+LIBS += -LSDL/static -L/lib64 -lSDLmain -lSDL -ldl
 
 DESTDIR = bin
 MOC_DIR = .moc
@@ -20,15 +20,11 @@ CONFIG +=  debug
 
 # Input
 HEADERS += \ 
-    src/ballmonitor.h \
-    coordinates.h \
-    src/refereedisplay.h \
-    src/sdlutilities.h
-SOURCES += soccer_sample.cpp \
-    src/ballmonitor.cpp \
-    coordinates.cpp \
-    src/refereedisplay.cpp \
-    src/sdlutilities.cpp
+    src/*.h \
+    src/sdl_gfx/*.h
+SOURCES +=  \
+    src/*.cpp \
+    src/sdl_gfx/SDL_rotozoom.c
 		
 		
 ##############
