@@ -3,7 +3,7 @@
 
 static bool stopBallMonitoring = false;
 static bool ballMonitoring = false;
-static PosTime ballPosTime1, ballPosTime2;
+static PosTime ballPosTime1 = {Position(0,0), 0}, ballPosTime2 = {Position(0,0), 0};
 static pthread_mutex_t ballMonitoringMtx;
 static pthread_t ballMonitoringThread = NULL;
 
@@ -56,7 +56,7 @@ bool GetBallDirection(Direction *dir)
     else
     {
         pthread_mutex_lock(&ballMonitoringMtx);
-        double t = (ballPosTime2.time - ballPosTime1.time) / CLOCKS_PER_SEC;
+        double t = (ballPosTime2.time - ballPosTime1.time) / (double)CLOCKS_PER_SEC;
         dir->x = (ballPosTime2.pos.GetX() - ballPosTime1.pos.GetX()) / t;
         dir->y = (ballPosTime2.pos.GetY() - ballPosTime1.pos.GetY()) / t;
         pthread_mutex_unlock(&ballMonitoringMtx);
@@ -66,7 +66,7 @@ bool GetBallDirection(Direction *dir)
 
 bool PredictBallPosition(Position *pos)
 {
-    if (!ballMonitoring)
+    if (!ballMonitoring || !IsBallMoving())
         return false;
     else
     {
@@ -131,6 +131,11 @@ bool PredictBallPosition(Position *pos)
     }
 }
 
+bool IsBallMoving()
+{
+    return ballPosTime1.pos != ballPosTime2.pos && clock() - ballPosTime1.time <= CLOCKS_PER_SEC * 0.100;
+}
+
 
 
 static void* BallMonitoringFn(void *data)
@@ -148,7 +153,7 @@ static void* BallMonitoringFn(void *data)
 
     while (!stopBallMonitoring)
     {
-        while ((pos = ball->GetPos()).DistanceTo(ballPosTime2.pos) < 0.05)
+        while ((pos = ball->GetPos()).DistanceTo(ballPosTime2.pos) < 0.025)
             usleep(1000);
 
         pthread_mutex_lock(&ballMonitoringMtx);

@@ -24,5 +24,6 @@ bool StopBallMonitoring();
 bool GetBallPosition(Position *pos);
 bool GetBallDirection(Direction *dir);
 bool PredictBallPosition(Position *pos);
+bool IsBallMoving();
 
 #endif // BALLMONITOR_H
