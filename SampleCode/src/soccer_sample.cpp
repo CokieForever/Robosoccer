@@ -85,7 +85,7 @@ int main(void)
         //SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));
         StartBallMonitoring(&ball);
 
-        StartRefereeDisplay(robots, &ball);
+        StartRefereeDisplay(robots, &ball, team);
 
         //-------------------------------------- Ende Init ---------------------------------
 

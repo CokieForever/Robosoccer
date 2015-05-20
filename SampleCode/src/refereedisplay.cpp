@@ -9,8 +9,9 @@ static pthread_t displayThread;
 
 static void* RefDisplayFn(void *data);
 static SDL_Rect PosToRect(Position pos, int w = 0, int h = 0);
+static Position RectToPos(SDL_Rect rect);
 
-bool StartRefereeDisplay(RoboControl **robots, RawBall *ball)
+bool StartRefereeDisplay(RoboControl **robots, RawBall *ball, eTeam team)
 {
     if (isDisplaying)
         return false;
@@ -19,6 +20,7 @@ bool StartRefereeDisplay(RoboControl **robots, RawBall *ball)
     for (int i=0 ; i < 6 ; i++)
         data->robots[i] = robots[i];
     data->ball = ball;
+    data->team = team;
 
     pthread_create(&displayThread, NULL, RefDisplayFn, data);
     usleep(0.1e6);
@@ -94,12 +96,25 @@ static void* RefDisplayFn(void *data)
         blueRobotSurfTr = SDL_CreateRGBSurfaceFrom(blueRobotSurf->pixels, blueRobotSurf->w, blueRobotSurf->h, 32, blueRobotSurf->pitch, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
     }
 
+    SDL_Rect rect = {0,0,0,0};
+    DragDrop robotsDD[6] = {CreateDragDrop(rect, allData->team == BLUE_TEAM ? blueRobotSurfTr : redRobotSurfTr),
+                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? blueRobotSurfTr : redRobotSurfTr),
+                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? blueRobotSurfTr : redRobotSurfTr),
+                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? redRobotSurfTr : blueRobotSurfTr),
+                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? redRobotSurfTr : blueRobotSurfTr),
+                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? redRobotSurfTr : blueRobotSurfTr)};
+
+    Position gotoOrders[6] = {Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10)};
+
+    SDL_Event event;
     keepGoing = true;
     while (keepGoing)
     {
+        event.type = SDL_NOEVENT;
+        SDL_PollEvent(&event);
+
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 200, 0));
 
-        SDL_Rect rect;
         if (ballSurfTr)
         {
             rect = PosToRect(NormalizePosition(allData->ball->GetPos()), ballSurfTr->w, ballSurfTr->h);
@@ -114,21 +129,40 @@ static void* RefDisplayFn(void *data)
             DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
         }
 
-        if (blueRobotSurfTr)
+        for (int i=0 ; i < 6 ; i++)
         {
-            for (int i=0 ; i < 3 ; i++)
+            SDL_Surface *robotSurf = ((allData->team == BLUE_TEAM) ^ (i < 3)) ? redRobotSurfTr : blueRobotSurfTr;
+            if (robotSurf)
             {
-                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), blueRobotSurfTr->w, blueRobotSurfTr->h);
-                SDL_BlitSurface(blueRobotSurfTr, NULL, screen, &rect);
-            }
-        }
+                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), robotSurf->w, robotSurf->h);
+                SDL_BlitSurface(robotSurf, NULL, screen, &rect);
 
-        if (redRobotSurfTr)
-        {
-            for (int i=3 ; i < 6 ; i++)
-            {
-                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), redRobotSurfTr->w, redRobotSurfTr->h);
-                SDL_BlitSurface(redRobotSurfTr, NULL, screen, &rect);
+                robotsDD[i].area = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), robotSurf->w, robotSurf->h);
+                DragDropStatus status = ManageDragDrop(&(robotsDD[i]), event);
+
+                if (status == DDS_DROPPED)
+                {
+                    gotoOrders[i] = UnnormalizePosition(RectToPos(GetMousePos()));
+                    allData->robots[i]->GotoPos(gotoOrders[i]);
+                }
+                else if (status == DDS_DRAGGED)
+                {
+                    rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()));
+                    SDL_Rect mousePos = GetMousePos();
+                    DrawLine(screen, rect.x, rect.y, mousePos.x, mousePos.y, CreateColor(255,255,0));
+                }
+
+                if (gotoOrders[i].GetX() > -10)
+                {
+                    if (allData->robots[i]->GetPos().DistanceTo(gotoOrders[i]) <= 0.1)
+                        gotoOrders[i].SetX(-10);
+                    else
+                    {
+                        rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()));
+                        SDL_Rect rect2 = PosToRect(NormalizePosition(gotoOrders[i]));
+                        DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,128,0));
+                    }
+                }
             }
         }
 
@@ -158,7 +192,11 @@ static void* RefDisplayFn(void *data)
 
 static SDL_Rect PosToRect(Position pos, int w, int h)
 {
-    SDL_Rect rect = {(pos.GetX()+1)/2 * SCREENW - w/2, (pos.GetY()+1)/2 * SCREENH - h/2, 0, 0};
+    SDL_Rect rect = {(pos.GetX()+1)/2 * SCREENW - w/2, (pos.GetY()+1)/2 * SCREENH - h/2, w, h};
     return rect;
 }
 
+static Position RectToPos(SDL_Rect rect)
+{
+    return Position(2 * rect.x / (double)SCREENW - 1, 2 * rect.y / (double)SCREENH - 1);
+}

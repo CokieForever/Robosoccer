@@ -11,7 +11,8 @@ typedef struct
 {
     RoboControl *robots[6];
     RawBall *ball;
+    eTeam team;
 } AllData;
 
-bool StartRefereeDisplay(RoboControl **robots, RawBall *ball);
+bool StartRefereeDisplay(RoboControl **robots, RawBall *ball, eTeam team);
 bool StopRefereeDisplay();
