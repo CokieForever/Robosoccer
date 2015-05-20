@@ -81,8 +81,8 @@ int main(void)
         Referee ref(DBC);
         ref.Init();
 
-        SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));
-        //SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));
+        //SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));
+        SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));
         StartBallMonitoring(&ball);
 
         StartRefereeDisplay(robots, &ball, team);
@@ -293,9 +293,35 @@ static void* RedMove(void* data)
         Position ballPos;
         if (PredictBallPosition(&ballPos))
         {
-            roboBall->robo->GotoXY(ballPos.GetX(), ballPos.GetY(), 120, false);
-            cout << "Red moving to " << ballPos << endl << endl;
-            usleep(2e6);
+            double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(roboBall->robo->GetPos()));
+            double v = 300, t = 2e6;
+
+            if (d <= 1)
+            {
+                t = 1e6;
+                v = 160;
+            }
+            if (d <= 0.5)
+            {
+                t = 0.5e6;
+                v = 80;
+            }
+            if (d <= 0.25)
+            {
+                t = 0.25e6;
+                v = 40;
+            }
+
+            if (d <= 0.1)
+            {
+                cout << "Kick!" << endl;
+                roboBall->robo->GotoXY(roboBall->ball->GetX(), roboBall->ball->GetY(), 120, false);
+                usleep(7e6);
+                cout << "Ready" << endl;
+            }
+
+            roboBall->robo->GotoXY(ballPos.GetX(), ballPos.GetY(), v, false);
+            usleep(t);
         }
         else
             usleep(0.1e6);

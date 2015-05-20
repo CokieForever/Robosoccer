@@ -161,8 +161,6 @@ static void* BallMonitoringFn(void *data)
         ballPosTime2.pos = pos;
         ballPosTime2.time = clock();
         pthread_mutex_unlock(&ballMonitoringMtx);
-
-        cout << "Ball at " << pos << " (" << NormalizePosition(pos) << ")" << endl;
     }
 
     ballMonitoring = false;
