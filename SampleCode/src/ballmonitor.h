@@ -7,6 +7,7 @@
 #include "robo_control.h"
 #include "referee.h"
 #include "coordinates.h"
+#include "robotmonitor.h"
 
 typedef struct
 {
@@ -25,5 +26,8 @@ bool GetBallPosition(Position *pos);
 bool GetBallDirection(Direction *dir);
 bool PredictBallPosition(Position *pos);
 bool IsBallMoving();
+bool StartBallFollowing(RoboControl *robo);
+bool StopBallFollowing();
+bool IsBallFollowingStarted();
 
 #endif // BALLMONITOR_H

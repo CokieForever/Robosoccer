@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 #include <sdl_gfx/SDL_rotozoom.h>
 #include "referee.h"
 #include "robo_control.h"

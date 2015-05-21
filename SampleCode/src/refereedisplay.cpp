@@ -45,8 +45,17 @@ static void* RefDisplayFn(void *data)
     isDisplaying = true;
 
     SDL_Init(SDL_INIT_EVERYTHING);
+    TTF_Init();
+
     SDL_Surface *screen = SDL_SetVideoMode(SCREENW, SCREENH, 32, SDL_SWSURFACE);
     SDL_Flip(screen);
+
+    SDL_Surface *fSurf = NULL;
+    TTF_Font *font = TTF_OpenFont("../font.ttf", 25);
+    if (!font)
+        cout << "Unable to open font: " << TTF_GetError() << endl;
+    else
+        fSurf = TTF_RenderText_Blended(font, "F", CreateColor(255,255,255));
 
     SDL_Surface *ballSurf = SDL_LoadBMP("../ball.bmp"), *ballSurfTr = NULL;
     if (!ballSurf)
@@ -113,6 +122,14 @@ static void* RefDisplayFn(void *data)
         event.type = SDL_NOEVENT;
         SDL_PollEvent(&event);
 
+        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_f)
+        {
+            if (IsBallFollowingStarted())
+                StopBallFollowing();
+            else
+                StartBallFollowing(allData->robots[3]);
+        }
+
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 200, 0));
 
         if (ballSurfTr)
@@ -134,10 +151,17 @@ static void* RefDisplayFn(void *data)
             SDL_Surface *robotSurf = ((allData->team == BLUE_TEAM) ^ (i < 3)) ? redRobotSurfTr : blueRobotSurfTr;
             if (robotSurf)
             {
-                rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), robotSurf->w, robotSurf->h);
+                robotsDD[i].area = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), robotSurf->w, robotSurf->h);
+                rect = robotsDD[i].area;
                 SDL_BlitSurface(robotSurf, NULL, screen, &rect);
 
-                robotsDD[i].area = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), robotSurf->w, robotSurf->h);
+                if (fSurf && i == 3 && IsBallFollowingStarted())
+                {
+                    rect.x += robotSurf->w/2 - fSurf->w/2;
+                    rect.y += robotSurf->h/2 - fSurf->h/2;
+                    SDL_BlitSurface(fSurf, NULL, screen, &rect);
+                }
+
                 DragDropStatus status = ManageDragDrop(&(robotsDD[i]), event);
 
                 if (status == DDS_DROPPED)
@@ -147,9 +171,8 @@ static void* RefDisplayFn(void *data)
                 }
                 else if (status == DDS_DRAGGED)
                 {
-                    rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()));
                     SDL_Rect mousePos = GetMousePos();
-                    DrawLine(screen, rect.x, rect.y, mousePos.x, mousePos.y, CreateColor(255,255,0));
+                    DrawLine(screen, robotsDD[i].area.x + robotSurf->w/2, robotsDD[i].area.y + robotSurf->h/2, mousePos.x, mousePos.y, CreateColor(255,255,0));
                 }
 
                 if (gotoOrders[i].GetX() > -10)
@@ -158,9 +181,8 @@ static void* RefDisplayFn(void *data)
                         gotoOrders[i].SetX(-10);
                     else
                     {
-                        rect = PosToRect(NormalizePosition(allData->robots[i]->GetPos()));
-                        SDL_Rect rect2 = PosToRect(NormalizePosition(gotoOrders[i]));
-                        DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,128,0));
+                        rect = PosToRect(NormalizePosition(gotoOrders[i]));
+                        DrawLine(screen, robotsDD[i].area.x + robotSurf->w/2, robotsDD[i].area.y + robotSurf->h/2, rect.x, rect.y, CreateColor(255,128,0));
                     }
                 }
             }
@@ -183,6 +205,12 @@ static void* RefDisplayFn(void *data)
     if (blueRobotSurfTr)
         SDL_FreeSurface(blueRobotSurfTr);
 
+    if (font)
+        TTF_CloseFont(font);
+    if (fSurf)
+        SDL_FreeSurface(fSurf);
+
+    TTF_Quit();
     SDL_Quit();
 
     isDisplaying = false;
