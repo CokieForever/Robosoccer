@@ -167,7 +167,7 @@ static void* RefDisplayFn(void *data)
                 if (status == DDS_DROPPED)
                 {
                     gotoOrders[i] = UnnormalizePosition(RectToPos(GetMousePos()));
-                    allData->robots[i]->GotoPos(gotoOrders[i]);
+                    allData->robots[i]->GotoXY(gotoOrders[i].GetX(), gotoOrders[i].GetY(), 130);
                 }
                 else if (status == DDS_DRAGGED)
                 {

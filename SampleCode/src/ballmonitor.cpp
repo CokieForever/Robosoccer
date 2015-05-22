@@ -213,46 +213,61 @@ static void* BallFollowingFn(void *data)
 {
     RoboControl *robot = (RoboControl*)data;
     int i = 0, n = 0;
-    const int nbMeans = 5;
+    const int nbMeans = 10;
     Position ballPosTab[nbMeans];
 
     int robotNum = GetRobotNum(robot);
+    bool kickMode = false;
 
     ballFollowing = true;
     stopBallFollowing = false;
     while (!stopBallFollowing)
     {
-        Position ballPos;
-        if (PredictBallPosition(&ballPos))
+        if (!kickMode)
         {
-            ballPosTab[i] = ballPos;
-            i = (i+1) % nbMeans;
-            n = n < nbMeans ? n+1 : n;
-
-            if (n >= nbMeans)
+            Position ballPos;
+            if (PredictBallPosition(&ballPos))
             {
-                Position meanPos = ballPosTab[0];
-                for (int j=1 ; j < n ; j++)
-                    meanPos += ballPosTab[j];
-                meanPos.SetX(meanPos.GetX() / n);
-                meanPos.SetY(meanPos.GetY() / n);
+                ballPosTab[i] = ballPos;
+                i = (i+1) % nbMeans;
+                n = n < nbMeans ? n+1 : n;
 
-                ProgressiveGoto(robotNum, meanPos);
-
-                /*double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(roboBall->robo->GetPos()));
-                if (d <= 0.1)
+                if (n >= nbMeans)
                 {
-                    cout << "Kick!" << endl;
-                    roboBall->robo->GotoXY(roboBall->ball->GetX(), roboBall->ball->GetY(), 120, false);
-                    usleep(7e6);
-                    cout << "Ready" << endl;
-                }*/
+                    Position meanPos = ballPosTab[0];
+                    for (int j=1 ; j < n ; j++)
+                        meanPos += ballPosTab[j];
+                    meanPos.SetX(meanPos.GetX() / n);
+                    meanPos.SetY(meanPos.GetY() / n);
+
+                    ProgressiveGoto(robotNum, meanPos);
+
+                    double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()));
+                    if (d <= 0.03)
+                    {
+                        cout << "Kick!" << endl;
+                        kickMode = true;
+                        GetBallPosition(&ballPos);
+                        robot->GotoXY(ballPos.GetX(), ballPos.GetY(), GetSuitedSpeed(NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()))), false);
+                    }
+                }
+            }
+            else
+            {
+                i = 0;
+                n = 0;
             }
         }
         else
         {
-            i = 0;
-            n = 0;
+            Position ballPos;
+            GetBallPosition(&ballPos);
+            double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()));
+            if (d <= 0.075)
+            {
+                cout << "Kicked!" << endl;
+                break;
+            }
         }
 
         usleep(10000);

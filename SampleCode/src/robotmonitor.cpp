@@ -58,13 +58,13 @@ void ProgressiveGoto(int robot, Position pos0)
 }
 
 int GetSuitedSpeed(double distToTgt)
-{
+{   
     if (distToTgt <= 0.25)
-        return 40;
+        return 50;
     else if (distToTgt <= 0.5)
         return 80;
     else if (distToTgt <= 1)
-        return 160;
+        return 130;
     else
         return 250;
 }
