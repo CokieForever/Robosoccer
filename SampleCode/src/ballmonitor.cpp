@@ -1,16 +1,22 @@
 #include "ballmonitor.h"
 
+#define NB_POSTIME 10
 
 static RawBall *mainBall = NULL;
 static bool stopBallMonitoring = false;
 static bool ballMonitoring = false;
-static PosTime ballPosTime1 = {Position(0,0), 0}, ballPosTime2 = {Position(0,0), 0};
 static pthread_mutex_t ballMonitoringMtx;
 static pthread_t ballMonitoringThread = NULL;
 static bool ballFollowing = false;
 static pthread_t ballFollowingThread;
 static bool stopBallFollowing = false;
+static PosTime ballPosTime[NB_POSTIME];
+static int ballPosTimeInd = 0;
+static int nbBallPosTime = 0;
 
+
+static void ResetPosTimeList();
+static bool ComputeLinearRegression(double *a, double *b);
 static void* BallMonitoringFn(void *data);
 static void* BallFollowingFn(void *data);
 
@@ -49,7 +55,12 @@ bool GetBallPosition(Position *pos)
     else
     {
         pthread_mutex_lock(&ballMonitoringMtx);
-        *pos = ballPosTime2.pos;
+        if (nbBallPosTime < 1)
+        {
+            pthread_mutex_unlock(&ballMonitoringMtx);
+            return false;
+        }
+        *pos = ballPosTime[ballPosTimeInd].pos;
         pthread_mutex_unlock(&ballMonitoringMtx);
         return true;
     }
@@ -62,80 +73,110 @@ bool GetBallDirection(Direction *dir)
     else
     {
         pthread_mutex_lock(&ballMonitoringMtx);
-        double t = (ballPosTime2.time - ballPosTime1.time) / (double)CLOCKS_PER_SEC;
-        dir->x = (ballPosTime2.pos.GetX() - ballPosTime1.pos.GetX()) / t;
-        dir->y = (ballPosTime2.pos.GetY() - ballPosTime1.pos.GetY()) / t;
+        if (nbBallPosTime < 2)
+        {
+            pthread_mutex_unlock(&ballMonitoringMtx);
+            return false;
+        }
+
+        int i2 = ballPosTimeInd;
+        int i1 = (ballPosTimeInd-1 + NB_POSTIME) % NB_POSTIME;
+        double t = (ballPosTime[i2].time - ballPosTime[i1].time) / (double)CLOCKS_PER_SEC;
+        dir->x = (ballPosTime[i2].pos.GetX() - ballPosTime[i1].pos.GetX()) / t;
+        dir->y = (ballPosTime[i2].pos.GetY() - ballPosTime[i1].pos.GetY()) / t;
         pthread_mutex_unlock(&ballMonitoringMtx);
+
         return true;
     }
 }
 
-bool PredictBallPosition(Position *pos)
+bool PredictBallPosition(Position *pos, bool precise, int minPrecision)
 {
-    if (!ballMonitoring || !IsBallMoving())
+    if (!ballMonitoring)
+        return false;
+    else if (!IsBallMoving())
+    {
+        ResetPosTimeList();
+        return false;
+    }
+    else if (precise && nbBallPosTime < minPrecision)
         return false;
     else
     {
+        Position ballPos1, ballPos2;
+
         pthread_mutex_lock(&ballMonitoringMtx);
-        Position ballPos1 = NormalizePosition(ballPosTime1.pos);
-        Position ballPos2 = NormalizePosition(ballPosTime2.pos);
+        ballPos1 = NormalizePosition(ballPosTime[(ballPosTimeInd-1 + NB_POSTIME) % NB_POSTIME].pos);
+        ballPos2 = NormalizePosition(ballPosTime[ballPosTimeInd].pos);
         pthread_mutex_unlock(&ballMonitoringMtx);
 
         double xMax=0.85, xMin=-0.85, yMax=0.85, yMin=-0.85;
+        double a, b;
 
-        if (fabs(ballPos2.GetX() - ballPos1.GetX()) <= 1e-4)
+        if ((precise && !ComputeLinearRegression(&a, &b))|| (!precise && fabs(ballPos2.GetX() - ballPos1.GetX()) <= 1e-4))
         {
             pos->SetX(ballPos2.GetX());
             pos->SetY(ballPos2.GetY() >= ballPos1.GetY() ? yMax : yMin);
         }
         else
         {
-            double a = (ballPos2.GetY() - ballPos1.GetY()) / (ballPos2.GetX() - ballPos1.GetX());
-            double b = ballPos2.GetY() - a * ballPos2.GetX();
-
-            if (ballPos2.GetY() >= ballPos1.GetY())
+            if (!precise)
             {
-                if (ballPos2.GetX() >= ballPos1.GetX())
-                {
-                    pos->SetX((yMax - b) / a);
-                    pos->SetY(yMax);
-                    if (pos->GetX() > xMax)
-                    {
-                        pos->SetX(xMax);
-                        pos->SetY(a * xMax + b);
-                    }
-                }
-                else
-                {
-                    pos->SetX((yMax - b) / a);
-                    pos->SetY(yMax);
-                    if (pos->GetX() < xMin)
-                    {
-                        pos->SetX(xMin);
-                        pos->SetY(a * xMin + b);
-                    }
-                }
+                a = (ballPos2.GetY() - ballPos1.GetY()) / (ballPos2.GetX() - ballPos1.GetX());
+                b = ballPos2.GetY() - a * ballPos2.GetX();
+            }
+
+            if (fabs(a) <= 1e-4)
+            {
+                pos->SetX(ballPos2.GetX() >= ballPos1.GetX() ? xMax : xMin);
+                pos->SetY(ballPos2.GetY());
             }
             else
             {
-                if (ballPos2.GetX() >= ballPos1.GetX())
+                if (ballPos2.GetY() >= ballPos1.GetY())
                 {
-                    pos->SetX((yMin - b) / a);
-                    pos->SetY(yMin);
-                    if (pos->GetX() > xMax)
+                    if (ballPos2.GetX() >= ballPos1.GetX())
                     {
-                        pos->SetX(xMax);
-                        pos->SetY(a * xMax + b);
+                        pos->SetX((yMax - b) / a);
+                        pos->SetY(yMax);
+                        if (pos->GetX() > xMax)
+                        {
+                            pos->SetX(xMax);
+                            pos->SetY(a * xMax + b);
+                        }
+                    }
+                    else
+                    {
+                        pos->SetX((yMax - b) / a);
+                        pos->SetY(yMax);
+                        if (pos->GetX() < xMin)
+                        {
+                            pos->SetX(xMin);
+                            pos->SetY(a * xMin + b);
+                        }
                     }
                 }
                 else
                 {
-                    pos->SetX((yMin - b) / a);
-                    pos->SetY(yMin);
-                    if (pos->GetX() < xMin)
+                    if (ballPos2.GetX() >= ballPos1.GetX())
                     {
-                        pos->SetX(xMin);
-                        pos->SetY(a * xMin + b);
+                        pos->SetX((yMin - b) / a);
+                        pos->SetY(yMin);
+                        if (pos->GetX() > xMax)
+                        {
+                            pos->SetX(xMax);
+                            pos->SetY(a * xMax + b);
+                        }
+                    }
+                    else
+                    {
+                        pos->SetX((yMin - b) / a);
+                        pos->SetY(yMin);
+                        if (pos->GetX() < xMin)
+                        {
+                            pos->SetX(xMin);
+                            pos->SetY(a * xMin + b);
+                        }
                     }
                 }
             }
@@ -148,7 +189,17 @@ bool PredictBallPosition(Position *pos)
 
 bool IsBallMoving()
 {
-    return ballPosTime1.pos != ballPosTime2.pos && clock() - ballPosTime1.time <= CLOCKS_PER_SEC * 0.100;
+    pthread_mutex_lock(&ballMonitoringMtx);
+    if (nbBallPosTime < 2)
+    {
+        pthread_mutex_unlock(&ballMonitoringMtx);
+        return false;
+    }
+    int i2 = ballPosTimeInd;
+    int i1 = (ballPosTimeInd-1 + NB_POSTIME) % NB_POSTIME;
+    bool moving = ballPosTime[i1].pos != ballPosTime[i2].pos && clock() - ballPosTime[i1].time <= CLOCKS_PER_SEC * 0.100;
+    pthread_mutex_unlock(&ballMonitoringMtx);
+    return moving;
 }
 
 bool StartBallFollowing(RoboControl *robo)
@@ -181,6 +232,48 @@ bool IsBallFollowingStarted()
 }
 
 
+static bool ComputeLinearRegression(double *a, double *b)
+{
+    PosTime tab[NB_POSTIME];
+    int n, s;
+
+    pthread_mutex_lock(&ballMonitoringMtx);
+    memcpy(tab, ballPosTime, sizeof(PosTime)*NB_POSTIME);
+    n = nbBallPosTime; s = ballPosTimeInd;
+    pthread_mutex_unlock(&ballMonitoringMtx);
+
+    double sumXi=0, sumXi2=0, sumYi=0, sumXiYi=0;
+    for (int i=0 ; i < n ; i++)
+    {
+        int j = (s-i + NB_POSTIME) % NB_POSTIME;
+        Position pos = NormalizePosition(tab[j].pos);
+        double x = pos.GetX();
+        double y = pos.GetY();
+        sumXi += x;
+        sumXi2 += x * x;
+        sumYi += y;
+        sumXiYi += y * x;
+    }
+
+    double k = n * sumXi2 - sumXi * sumXi;
+    if (fabs(k) <= 1e-4)
+        return false;
+
+    if (b)
+        *b = (sumXi2 * sumYi - sumXi * sumXiYi) / k;
+    if (a)
+        *a = (n * sumXiYi - sumXi * sumYi) / k;
+
+    return true;
+}
+
+static void ResetPosTimeList()
+{
+    pthread_mutex_lock(&ballMonitoringMtx);
+    nbBallPosTime = 1;
+    pthread_mutex_unlock(&ballMonitoringMtx);
+}
+
 static void* BallMonitoringFn(void *data)
 {
     Position pos;
@@ -189,19 +282,25 @@ static void* BallMonitoringFn(void *data)
     stopBallMonitoring = false;
 
     pthread_mutex_lock(&ballMonitoringMtx);
-    ballPosTime2.pos = mainBall->GetPos();
-    ballPosTime2.time = clock();
+    ballPosTime[0].pos = mainBall->GetPos();
+    ballPosTime[0].time = clock();
+    nbBallPosTime = 1;
+    ballPosTimeInd = 0;
     pthread_mutex_unlock(&ballMonitoringMtx);
 
     while (!stopBallMonitoring)
     {
-        while ((pos = mainBall->GetPos()).DistanceTo(ballPosTime2.pos) < 0.025)
+        while (!stopBallMonitoring && (pos = mainBall->GetPos()).DistanceTo(ballPosTime[ballPosTimeInd].pos) < 0.025)
             usleep(1000);
 
+        if (stopBallMonitoring)
+            break;
+
         pthread_mutex_lock(&ballMonitoringMtx);
-        ballPosTime1 = ballPosTime2;
-        ballPosTime2.pos = pos;
-        ballPosTime2.time = clock();
+        ballPosTimeInd = (ballPosTimeInd + 1) % NB_POSTIME;
+        nbBallPosTime = nbBallPosTime < NB_POSTIME ? nbBallPosTime+1 : nbBallPosTime;
+        ballPosTime[ballPosTimeInd].pos = pos;
+        ballPosTime[ballPosTimeInd].time = clock();
         pthread_mutex_unlock(&ballMonitoringMtx);
     }
 
@@ -212,9 +311,6 @@ static void* BallMonitoringFn(void *data)
 static void* BallFollowingFn(void *data)
 {
     RoboControl *robot = (RoboControl*)data;
-    int i = 0, n = 0;
-    const int nbMeans = 10;
-    Position ballPosTab[nbMeans];
 
     int robotNum = GetRobotNum(robot);
     bool kickMode = false;
@@ -226,39 +322,20 @@ static void* BallFollowingFn(void *data)
         if (!kickMode)
         {
             Position ballPos;
-            if (PredictBallPosition(&ballPos))
+            if (PredictBallPosition(&ballPos, true))
             {
-                ballPosTab[i] = ballPos;
-                i = (i+1) % nbMeans;
-                n = n < nbMeans ? n+1 : n;
+                ProgressiveGoto(robotNum, ballPos);
 
-                if (n >= nbMeans)
+                double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()));
+                if (d <= 0.03)
                 {
-                    Position meanPos = ballPosTab[0];
-                    for (int j=1 ; j < n ; j++)
-                        meanPos += ballPosTab[j];
-                    meanPos.SetX(meanPos.GetX() / n);
-                    meanPos.SetY(meanPos.GetY() / n);
-
-                    ProgressiveGoto(robotNum, meanPos);
-
-                    double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()));
-                    if (d <= 0.03)
-                    {
-                        cout << "Kick!" << endl;
-                        kickMode = true;
-                        GetBallPosition(&ballPos);
-                        robot->GotoXY(ballPos.GetX(), ballPos.GetY(), GetSuitedSpeed(NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()))), false);
-                    }
+                    cout << "Kick!" << endl;
+                    kickMode = true;
                 }
             }
-            else
-            {
-                i = 0;
-                n = 0;
-            }
         }
-        else
+
+        if (kickMode)
         {
             Position ballPos;
             GetBallPosition(&ballPos);
@@ -268,9 +345,11 @@ static void* BallFollowingFn(void *data)
                 cout << "Kicked!" << endl;
                 break;
             }
+            else
+                ProgressiveKick(robotNum, ballPos);
         }
 
-        usleep(10000);
+        usleep(5000);
     }
 
     ballFollowing = false;

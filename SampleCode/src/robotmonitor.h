@@ -19,6 +19,7 @@ void SetAllRobots(RoboControl **robots);
 int GetRobotNum(RoboControl *robot);
 
 void ProgressiveGoto(int robot, Position pos0);
+void ProgressiveKick(int robot, Position pos0);
 int GetSuitedSpeed(double distToTgt);
 
 

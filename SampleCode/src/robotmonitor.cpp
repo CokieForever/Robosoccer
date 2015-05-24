@@ -57,6 +57,33 @@ void ProgressiveGoto(int robot, Position pos0)
     }
 }
 
+void ProgressiveKick(int robot, Position pos0)
+{
+    GotoOrder *order = &(currentOrders[robot]);
+    Position pos = NormalizePosition(pos0);
+    Position robotPos = NormalizePosition(order->robot->GetPos());
+
+    if (order->isValid)
+    {
+        double d1 = pos.DistanceTo(order->target);
+        double d2 = pos.DistanceTo(robotPos);
+        double d3 = robotPos.DistanceTo(order->target);
+        double cosAlpha = (d2*d2 + d3*d3 - d1*d1) / (2*d2*d3);
+
+        if (cosAlpha <= 0.94)
+            order->robot->GotoXY(pos0.GetX(), pos0.GetY(), GetSuitedSpeed(d2), false);
+
+        order->target = pos;
+    }
+    else
+    {
+        order->target = pos;
+        order->isValid = true;
+        order->robot->GotoXY(pos0.GetX(), pos0.GetY(), GetSuitedSpeed(pos.DistanceTo(NormalizePosition(order->robot->GetPos()))), false);
+        pthread_create(&(order->thread), NULL, RobotWatchingFn, order);
+    }
+}
+
 int GetSuitedSpeed(double distToTgt)
 {   
     if (distToTgt <= 0.25)
