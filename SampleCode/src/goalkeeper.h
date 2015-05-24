@@ -3,9 +3,7 @@
 #define GOALKEEPER_H_
 
 
-#include <time.h>
-#include <iostream>
-#include <pthread.h>
+
 #include "kogmo_rtdb.hxx"
 #include "robo_control.h"
 #include "referee.h"
@@ -29,8 +27,10 @@ public:
 
         void setNextCmd(void*);
 	void setCmdParam();
-	void performCmd();
+        void *performCmd(void);
         Goalkeeper(RoboControl*,RawBall*);
+        static void *performCmd_helper(void *);
+
 	~Goalkeeper();
 };
 

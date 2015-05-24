@@ -18,8 +18,16 @@ CONFIG +=  debug
 #QMAKE_CXXFLAGS += -std=c++0x
 
 # Input
-HEADERS += 
-SOURCES += soccer_sample.cpp
+HEADERS += \ 
+    src/interpreter.h \
+    src/goalkeeper.h \
+    src/playermain.h \
+    src/playertwo.h
+SOURCES += soccer_sample.cpp \
+    src/interpreter.cpp \
+    src/goalkeeper.cpp \
+    src/playermain.cpp \
+    src/playertwo.cpp
 		
 		
 ##############
@@ -32,4 +40,10 @@ dox.depends = FORCE
 
 # somewhere else in the *.pro file
 QMAKE_EXTRA_UNIX_TARGETS += dox
+
+
+
+
+
+
 

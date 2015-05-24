@@ -9,6 +9,8 @@
 #include "robo_control.h"
 #include "referee.h"
 #include "goalkeeper.h"
+#include "playermain.h"
+#include "playertwo.h"
 
 
 
@@ -20,8 +22,8 @@ private:
 
         Referee *ref;
         Goalkeeper *gk;
-        //PlayerMain *p1;
-        //PlayerSecondary *p2;
+        PlayerMain *p1;
+        PlayerTwo *p2;
 
 	void setPlayMode();
 	void setSide();
@@ -38,7 +40,7 @@ public:
 
 
 	void updateSituation();
-	interpreter(int,Referee*,Goalkeeper*);
+        interpreter(int,Referee*,Goalkeeper*,PlayerMain *, PlayerTwo *);
 	~interpreter();
 };
 

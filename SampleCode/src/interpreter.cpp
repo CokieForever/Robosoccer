@@ -10,19 +10,24 @@
 #include <iostream>
 #include "share.h"
 #include "goalkeeper.h"
+#include "playermain.h"
+#include "playertwo.h"
+
 //include the libs from sample code
 
 
 
-interpreter::interpreter(int x,Referee *y,Goalkeeper *z) {
+interpreter::interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t) {
 	// TODO Auto-generated constructor stub
 	team = x;
 	ref  = y;
 	gk = z;
+        p1 = p;
+        p2 = t;
+
 
 	playmode = ref->GetPlayMode();
-	//p_main = main;
-	//p2		= second;
+
 
 	if (x== 0)
 		std::cout<<"We are team blue!"<<std::endl;
@@ -40,7 +45,7 @@ interpreter::~interpreter() {
 
 bool interpreter::verifyPos(){
 	//check if all robots are on their default position and orientation
-        if (gk->robot->GetPos().DistanceTo(gk->defaultPos)< 0.1)
+        if ((gk->robot->GetPos().DistanceTo(gk->defaultPos)< 0.01) && (p1->robot->GetPos().DistanceTo(p1->defaultPos)< 0.01)&& (p2->robot->GetPos().DistanceTo(p2->defaultPos)< 0.01))
                     return 1;
 
         else
@@ -53,60 +58,140 @@ void interpreter::setDefaultPos(){
 	//sets default position struct depending on game mode of all robots to predefined values
         switch(ref->GetPlayMode())
 	{
-		case BEFORE_PENALTY:
-                                if((our_side == LEFT_SIDE) && (turn == interpreter::OUR_TURN))
+
+                case BEFORE_PENALTY:
+                                if((turn == interpreter::OUR_TURN))
 				{	
                                         gk->defaultPos.SetX(-0.3);
-                                        gk->defaultPos.SetY(0.0);
+                                        gk->defaultPos.SetY(0.4);
+
+                                        p1->defaultPos.SetX(0.0);
+                                        p1->defaultPos.SetY(0.0);
+
+                                        p2->defaultPos.SetX(-1.0);
+                                        p2->defaultPos.SetY(-0.5);
 				}
 	
-                                else if((our_side == RIGHT_SIDE) && (turn == interpreter::OUR_TURN))
+
+                                else if ((turn == interpreter::NOT_OUR_TURN))
 				{	
-                                    gk->defaultPos.SetX(0.3);
+                                    gk->defaultPos.SetX(1.2);
                                     gk->defaultPos.SetY(0.0);
+
+                                    p1->defaultPos.SetX(-0.5);
+                                    p1->defaultPos.SetY(-0.5);
+
+                                    p2->defaultPos.SetX(-1.0);
+                                    p2->defaultPos.SetY(-0.5);
+
 				}
-                                else if((our_side == LEFT_SIDE) && (turn == interpreter::NOT_OUR_TURN))
-				{	
+                                else
+                                {
                                     gk->defaultPos.SetX(-0.3);
-                                    gk->defaultPos.SetY(0.0);
-				}
-				else
-				{	
-                                    gk->defaultPos.SetX(0.3);
-                                    gk->defaultPos.SetY(0.0);
-				}
+                                    gk->defaultPos.SetY(0.4);
+
+                                    p1->defaultPos.SetX(0.0);
+                                    p1->defaultPos.SetY(0.4);
+
+
+                                    p2->defaultPos.SetX(-1.0);
+                                    p2->defaultPos.SetY(-0.5);
+
+                                }
                                 break;
 
 		case BEFORE_KICK_OFF:
-                                if((our_side == LEFT_SIDE) && (turn == interpreter::OUR_TURN))
-				{	
-                                    gk->defaultPos.SetX(-0.3);
+
+                                if(our_side == LEFT_SIDE)
+                                {
+                                    gk->defaultPos.SetX(-1.1);
                                     gk->defaultPos.SetY(0.0);
+
+                                    p1->defaultPos.SetX(-0.3);
+                                    p1->defaultPos.SetY(-0.2);
+
+                                    p2->defaultPos.SetX(-0.3);
+                                    p2->defaultPos.SetY(0.2);
+
+
+
 				}
 	
-                                else if((our_side == RIGHT_SIDE) && (turn == interpreter::OUR_TURN))
+                                else if(our_side == RIGHT_SIDE)
 				{	
-                                    gk->defaultPos.SetX(0.3);
+                                    gk->defaultPos.SetX(1.1);
                                     gk->defaultPos.SetY(0.0);
+
+                                    p1->defaultPos.SetX(0.3);
+                                    p1->defaultPos.SetY(0.2);
+
+                                    p2->defaultPos.SetX(0.3);
+                                    p2->defaultPos.SetY(-0.2);
+
 				}
-                                else if((our_side == LEFT_SIDE) && (turn == interpreter::NOT_OUR_TURN))
-				{	
-                                    gk->defaultPos.SetX(-0.3);
-                                    gk->defaultPos.SetY(0.0);
-				}
-				else
-				{	
-                                    gk->defaultPos.SetX(0.3);
-                                    gk->defaultPos.SetY(0.0);
-				}
+                                else
+                                {
+                                    gk->defaultPos.SetX(-1.0);
+                                    gk->defaultPos.SetY(0.4);
+
+                                    p1->defaultPos.SetX(0.2);
+                                    p1->defaultPos.SetY(0.4);
+
+
+                                    p2->defaultPos.SetX(0.2);
+                                    p2->defaultPos.SetY(-0.4);
+                                }
+
                                 break;
 		
 		case PLAY_ON:
+                        if(our_side == LEFT_SIDE)
+                        {
+                            gk->defaultPos.SetX(-1.1);
+                            gk->defaultPos.SetY(0.0);
+
+                            p1->defaultPos.SetX(-0.3);
+                            p1->defaultPos.SetY(-0.2);
+
+                            p2->defaultPos.SetX(-0.3);
+                            p2->defaultPos.SetY(0.2);
+
+
+
+                        }
+
+                        else if(our_side == RIGHT_SIDE)
+                        {
+                            gk->defaultPos.SetX(1.1);
+                            gk->defaultPos.SetY(0.0);
+
+                            p1->defaultPos.SetX(0.3);
+                            p1->defaultPos.SetY(0.2);
+
+                            p2->defaultPos.SetX(0.3);
+                            p2->defaultPos.SetY(-0.2);
+
+                        }
 			//distinguish between ATK and DEF mode 
 			//tbd
 			break;
+                case PENALTY:
+                        if (turn == NOT_OUR_TURN)
+                                gk->defaultPos.SetX(1.1);
+                        break;
+                case KICK_OFF:
+                        break;
+
 		default:
-			//states such as referee init, kick_off/penalty -> defpos doesnt change
+                        gk->defaultPos.SetX(1.1);
+                        gk->defaultPos.SetY(0.0);
+
+                        p1->defaultPos.SetX(0.3);
+                        p1->defaultPos.SetY(0.2);
+
+                        p2->defaultPos.SetX(0.3);
+                         p2->defaultPos.SetY(-0.2);
+                        //states such "as referee init, kick_off/penalty -> defpos doesnt change
 			break;
 	}
 }
@@ -117,21 +202,25 @@ void interpreter::setPlayMode() {
 
 	playmode = ref->GetPlayMode();
 
-	if (playmode==BEFORE_KICK_OFF)	//if its not working try ref::BEFORE_KICK_OFF
+        if (playmode==BEFORE_KICK_OFF || playmode==BEFORE_PENALTY )
 	{
-		setSide();
+                setSide();
 		setTurn();
 		if (verifyPos())
 			ref->SetReady(team);
 
 	}
 
-	else if (playmode==BEFORE_PENALTY)
+        /*else if (playmode==BEFORE_PENALTY)
 	{
-		setTurn();
+                setSide();
+                setTurn();
 
 	}
-	/*
+
+
+
+
 	 *
 	 * 	other playmodes and their actions need to be defined
 	 *
