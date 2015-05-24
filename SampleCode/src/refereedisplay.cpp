@@ -139,7 +139,7 @@ static void* RefDisplayFn(void *data)
         }
 
         Position pos(0,0);
-        if (PredictBallPosition(&pos, true))
+        if (PredictBallPosition(&pos, 5))
         {
             rect = PosToRect(NormalizePosition(allData->ball->GetPos()));
             SDL_Rect rect2 = PosToRect(NormalizePosition(pos));

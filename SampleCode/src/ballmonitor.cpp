@@ -16,7 +16,7 @@ static int nbBallPosTime = 0;
 
 
 static void ResetPosTimeList();
-static bool ComputeLinearRegression(double *a, double *b);
+static bool ComputeLinearRegression(double *a, double *b, int precision = 2);
 static void* BallMonitoringFn(void *data);
 static void* BallFollowingFn(void *data);
 
@@ -90,7 +90,7 @@ bool GetBallDirection(Direction *dir)
     }
 }
 
-bool PredictBallPosition(Position *pos, bool precise, int minPrecision)
+bool PredictBallPosition(Position *pos, int precision)
 {
     if (!ballMonitoring)
         return false;
@@ -99,7 +99,7 @@ bool PredictBallPosition(Position *pos, bool precise, int minPrecision)
         ResetPosTimeList();
         return false;
     }
-    else if (precise && nbBallPosTime < minPrecision)
+    else if (precision > 1 && nbBallPosTime < std::min(NB_POSTIME, precision))
         return false;
     else
     {
@@ -113,14 +113,14 @@ bool PredictBallPosition(Position *pos, bool precise, int minPrecision)
         double xMax=0.85, xMin=-0.85, yMax=0.85, yMin=-0.85;
         double a, b;
 
-        if ((precise && !ComputeLinearRegression(&a, &b))|| (!precise && fabs(ballPos2.GetX() - ballPos1.GetX()) <= 1e-4))
+        if ((precision > 1 && !ComputeLinearRegression(&a, &b, precision))|| (precision <= 1 && fabs(ballPos2.GetX() - ballPos1.GetX()) <= 1e-4))
         {
             pos->SetX(ballPos2.GetX());
             pos->SetY(ballPos2.GetY() >= ballPos1.GetY() ? yMax : yMin);
         }
         else
         {
-            if (!precise)
+            if (precision <= 1)
             {
                 a = (ballPos2.GetY() - ballPos1.GetY()) / (ballPos2.GetX() - ballPos1.GetX());
                 b = ballPos2.GetY() - a * ballPos2.GetX();
@@ -232,14 +232,15 @@ bool IsBallFollowingStarted()
 }
 
 
-static bool ComputeLinearRegression(double *a, double *b)
+static bool ComputeLinearRegression(double *a, double *b, int precision)
 {
     PosTime tab[NB_POSTIME];
     int n, s;
 
     pthread_mutex_lock(&ballMonitoringMtx);
     memcpy(tab, ballPosTime, sizeof(PosTime)*NB_POSTIME);
-    n = nbBallPosTime; s = ballPosTimeInd;
+    n = std::min(std::max(precision, 2), nbBallPosTime);
+    s = ballPosTimeInd;
     pthread_mutex_unlock(&ballMonitoringMtx);
 
     double sumXi=0, sumXi2=0, sumYi=0, sumXiYi=0;
@@ -314,6 +315,7 @@ static void* BallFollowingFn(void *data)
 
     int robotNum = GetRobotNum(robot);
     bool kickMode = false;
+    bool waitMode = true;
 
     ballFollowing = true;
     stopBallFollowing = false;
@@ -322,17 +324,17 @@ static void* BallFollowingFn(void *data)
         if (!kickMode)
         {
             Position ballPos;
-            if (PredictBallPosition(&ballPos, true))
+            if (PredictBallPosition(&ballPos, 5))
             {
+                waitMode = false;
                 ProgressiveGoto(robotNum, ballPos);
 
                 double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()));
-                if (d <= 0.03)
-                {
-                    cout << "Kick!" << endl;
+                if (d <= 0.045)
                     kickMode = true;
-                }
             }
+            else if (!waitMode && !IsBallMoving())
+                kickMode = true;
         }
 
         if (kickMode)
@@ -340,11 +342,8 @@ static void* BallFollowingFn(void *data)
             Position ballPos;
             GetBallPosition(&ballPos);
             double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()));
-            if (d <= 0.075)
-            {
-                cout << "Kicked!" << endl;
+            if (d <= 0.08)
                 break;
-            }
             else
                 ProgressiveKick(robotNum, ballPos);
         }

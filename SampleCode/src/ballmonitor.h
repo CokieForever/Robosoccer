@@ -24,7 +24,7 @@ bool StartBallMonitoring(RawBall *ball);
 bool StopBallMonitoring();
 bool GetBallPosition(Position *pos);
 bool GetBallDirection(Direction *dir);
-bool PredictBallPosition(Position *pos, bool precise=false, int minPrecision = 2);
+bool PredictBallPosition(Position *pos, int precision = 0);
 bool IsBallMoving();
 bool StartBallFollowing(RoboControl *robo);
 bool StopBallFollowing();

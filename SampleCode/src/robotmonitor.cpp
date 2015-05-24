@@ -43,7 +43,7 @@ void ProgressiveGoto(int robot, Position pos0)
         double d1 = pos.DistanceTo(order->target);
         double d2 = pos.DistanceTo(NormalizePosition(order->robot->GetPos()));
 
-        if (d1 >= 0.5 * d2)
+        if (d1 >= 0.25 * d2)
             order->robot->GotoXY(pos0.GetX(), pos0.GetY(), GetSuitedSpeed(d2), false);
 
         order->target = pos;
@@ -70,8 +70,8 @@ void ProgressiveKick(int robot, Position pos0)
         double d3 = robotPos.DistanceTo(order->target);
         double cosAlpha = (d2*d2 + d3*d3 - d1*d1) / (2*d2*d3);
 
-        if (cosAlpha <= 0.94)
-            order->robot->GotoXY(pos0.GetX(), pos0.GetY(), GetSuitedSpeed(d2), false);
+        if (cosAlpha <= 0.985)  // = 10°
+            order->robot->GotoXY(pos0.GetX(), pos0.GetY(), std::max(GetSuitedSpeed(d2), 120), false);
 
         order->target = pos;
     }
@@ -79,18 +79,18 @@ void ProgressiveKick(int robot, Position pos0)
     {
         order->target = pos;
         order->isValid = true;
-        order->robot->GotoXY(pos0.GetX(), pos0.GetY(), GetSuitedSpeed(pos.DistanceTo(NormalizePosition(order->robot->GetPos()))), false);
+        order->robot->GotoXY(pos0.GetX(), pos0.GetY(), std::max(GetSuitedSpeed(pos.DistanceTo(NormalizePosition(order->robot->GetPos()))), 120), false);
         pthread_create(&(order->thread), NULL, RobotWatchingFn, order);
     }
 }
 
 int GetSuitedSpeed(double distToTgt)
 {   
-    if (distToTgt <= 0.25)
-        return 50;
+    if (distToTgt <= 0.15)
+        return 60;
     else if (distToTgt <= 0.5)
-        return 80;
-    else if (distToTgt <= 1)
+        return 90;
+    else if (distToTgt <= 1.25)
         return 130;
     else
         return 250;
