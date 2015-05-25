@@ -28,21 +28,26 @@ static RoboControl *robo_global2 = NULL;
 static RoboControl *robo_global3 = NULL;
 static RoboControl *robo_global4 = NULL;
 
-int checkdirec;
-int speed=100;
-int speed2=40;
-double threshold=0.15;
-double collision_distance=1.0;
+int checkdirec;//check if the robot will turn right or left 1/-1; very important for avoiding random walking zombie..
+int speed=100;//the speed of robots cruising diagonally
+int speed2=40;//the speed of random walking robot
+double threshold=0.30;//if the perpendicular distance between obstacle and the track of robot smaller than threshold, the obstacle is considered as dangerous
+double collision_distance=1.0;//the robot only considers obstacle within this distance from itself.
+int turn_direction=1;//the direction of turning of the robot, 1 clockwise, -1 anti-clockwise.
+bool random_walking_warning;//check if the obstacle is random walking zombie..
 
 Position same(Position target);
 //this same function is not important, just used to test if we can change the position through functions;
+
 double pi=3.14;
-double angle=60;
+double angle=50;//in case of obstacle present, the robot will rotate this angle
+//the following are the coefficience of rotation matrix
 double a11 = cos(angle*pi/180.0);
 double a12 = -sin(angle*pi/180.0);
 double a21 = sin(angle*pi/180.0);
 double a22 = cos(angle*pi/180.0);
-bool keepGoing;
+bool keepGoing;//not important, just for test.
+//the following is not important, just for test
 void* ThreadFunction(void *data)
 {
     RoboControl *robo1 = (RoboControl*)data;
@@ -56,18 +61,29 @@ void* ThreadFunction(void *data)
 
     return NULL;
 }
-
+//the following is the collision avoidance function.
+//robo is the robot that you want to control.
+//obstacle1~3 are obstacle robots that are taken into consideration
+//destination
+//priority is used so that robots with higher priority can move first, while the robot of lower priority waits.
 void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2, RoboControl *obstacle3, Position destination, int priority)
 {
-    double x_rbt,y_rbt,x_ob1,y_ob1,x0,y0, x_ob2,y_ob2, x_ob3,y_ob3;
+    double x_rbt,y_rbt,x_ob1,y_ob1, x_ob2,y_ob2, x_ob3,y_ob3, x0,y0;//coordination of the robot and obstacle and destination
     double direx, direy, distance,ob_distance1, ob_distance2, ob_distance3, xtempo, ytempo;
-    double avoidx, avoidy;//, avoidx2, avoidy2;
-    double a,b,c,d1, d2, d3;
+    //direx, direy are the vector that shows the current moving direction of the robot.
+    //ob_distance1~3 are the distance between the robot and the obstacles
+    //xtempo, ytempo show the temporary destination of the robot(in the case of robot turning and avoding collision)
+    double avoidx, avoidy;
+    //avoidx, avoidy, the vector from current position of the robot to the place where the robot will go after turning, in order to avoid collision;
+    double a,b,c,d1, d2, d3;//a, b and c are parameters of the line between the robot and the destination
+    //d1, d2, d3 are the perpendicular distance between obstacles and the track of the robot
     int seen1, seen2, seen3, total;
     //if obstacle is in the area of forward direction of the robot, 1 for yes, 0 for no and the totol obstacle on the track
     int waiting;
+    //waiting time of the robot with lower priority
     bool collision; //if yes 1, no 0;
-    robo->GotoXY(destination.GetX(), destination.GetY(), speed, true);
+    //robo->GotoXY(destination.GetX(), destination.GetY(), speed, true);
+    //the following are used to initiallize the beginning condition
     x0=destination.GetX();
     y0=destination.GetY();
     xtempo=x0;
@@ -78,9 +94,9 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
         {
             //while(collision)
             //{
+                //following is to change the destination to temporary destination, in order to avoid collision
                 x0=xtempo;
                 y0=ytempo;
-                //cout<<"current destination is x="<<xtempo<<", y="<<ytempo<<endl<<endl;
                 //coordinate of robot
                 x_rbt=robo->GetX();
                 y_rbt=robo->GetY();
@@ -91,9 +107,9 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                 y_ob2=obstacle2->GetY();
                 x_ob3=obstacle3->GetX();
                 y_ob3=obstacle3->GetY();
-                //distance between robot and destination
-                //distance=robo->GetPos().DistanceTo(destination);
+                //distance between robot and (temporary) destination
                 distance=sqrt((x0-x_rbt)*(x0-x_rbt)+(y0-y_rbt)*(y0-y_rbt));
+                //distance between the robot and obstacles
                 ob_distance1=(robo->GetPos().DistanceTo(obstacle1->GetPos()));
                 ob_distance2=(robo->GetPos().DistanceTo(obstacle2->GetPos()));
                 ob_distance3=(robo->GetPos().DistanceTo(obstacle3->GetPos()));
@@ -104,11 +120,11 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                     //area1y=-direx;
                     //area2x=-area1x;
                     //area2y=-area1y;
-                //calculate the parameter of the line between destination and robot with the form ax+by+c=0
+                //calculate the parameter of the line between (temporary) destination and robot with the form ax+by+c=0
                 a=y_rbt-y0;
                 b=x0-x_rbt;
                 c=(y0-y_rbt)*x_rbt-(x0-x_rbt)*y_rbt;
-                //calculate the distance between obstacle to the line between destination and the robot.
+                //calculate the perpendicular distance between obstacles to the line between (temporary) destination and the robot.
                 d1=abs(a*x_ob1+b*y_ob1+c)/sqrt(a*a+b*b);
                 d2=abs(a*x_ob2+b*y_ob2+c)/sqrt(a*a+b*b);
                 d3=abs(a*x_ob3+b*y_ob3+c)/sqrt(a*a+b*b);
@@ -116,14 +132,14 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                 //check if obstacle1 is on the way of the track
                 if(((x_ob1>x_rbt)&(x_ob1>x0))|((x_ob1<x_rbt)&(x_ob1<x0)))
                 {
-                    if(~(((y_rbt<y_ob1)&(y_ob1<y0))|((y_rbt>y_ob1)&(y_ob1>y0))))
+                    if(~((((y_rbt<y_ob1)&(y_ob1<y0))|((y_rbt>y_ob1)&(y_ob1>y0)))&(d1<threshold)))
                     {
                         seen1=0;
                     }
                 }
                 if(((y_ob1>y_rbt)&(y_ob1>y0))|((y_ob1<y_rbt)&(y_ob1<y0)))
                 {
-                    if(~(((x_rbt<x_ob1)&(x_ob1<x0))|((x_rbt>x_ob1)&(x_ob1>x0))))
+                    if(~((((x_rbt<x_ob1)&(x_ob1<x0))|((x_rbt>x_ob1)&(x_ob1>x0)))&(d1<threshold)))
                     {
                         seen1=0;
                     }
@@ -132,14 +148,14 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                 //check if obstacle2 is on the way of the track
                 if(((x_ob2>x_rbt)&(x_ob2>x0))|((x_ob2<x_rbt)&(x_ob2<x0)))
                 {
-                    if(~(((y_rbt<y_ob2)&(y_ob2<y0))|((y_rbt>y_ob1)&(y_ob2>y0))))
+                    if(~((((y_rbt<y_ob2)&(y_ob2<y0))|((y_rbt>y_ob1)&(y_ob2>y0)))&(d2<threshold)))
                     {
                         seen2=0;
                     }
                 }
                 if(((y_ob2>y_rbt)&(y_ob2>y0))|((y_ob2<y_rbt)&(y_ob2<y0)))
                 {
-                    if(~(((x_rbt<x_ob2)&(x_ob2<x0))|((x_rbt>x_ob2)&(x_ob2>x0))))
+                    if(~((((x_rbt<x_ob2)&(x_ob2<x0))|((x_rbt>x_ob2)&(x_ob2>x0)))&(d2<threshold)))
                     {
                         seen2=0;
                     }
@@ -148,14 +164,14 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                 //check if obstacle3 is on the way of the track
                 if(((x_ob3>x_rbt)&(x_ob3>x0))|((x_ob3<x_rbt)&(x_ob3<x0)))
                 {
-                    if(~(((y_rbt<y_ob3)&(y_ob3<y0))|((y_rbt>y_ob3)&(y_ob3>y0))))
+                    if(~((((y_rbt<y_ob3)&(y_ob3<y0))|((y_rbt>y_ob3)&(y_ob3>y0)))&(d3<threshold)))
                     {
                         seen3=0;
                     }
                 }
                 if(((y_ob3>y_rbt)&(y_ob3>y0))|((y_ob3<y_rbt)&(y_ob3<y0)))
                 {
-                    if(~(((x_rbt<x_ob3)&(x_ob3<x0))|((x_rbt>x_ob3)&(x_ob3>x0))))
+                    if(~((((x_rbt<x_ob3)&(x_ob3<x0))|((x_rbt>x_ob3)&(x_ob3>x0)))&(d3<threshold)))
                     {
                         seen3=0;
                     }
@@ -231,7 +247,9 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                     collision=collision;
                 }
                 */
-                if((((((ob_distance1<ob_distance2)&(ob_distance1<ob_distance3))&seen1)|(seen1&(~seen2)&(ob_distance1>ob_distance2)&(ob_distance1<ob_distance3))|(seen1&(~seen3)&(ob_distance1>ob_distance3)&(ob_distance1<ob_distance2)))&(robo->GetPos().DistanceTo(obstacle1->GetPos())<collision_distance))&(d1<threshold))
+                random_walking_warning=0;
+                //the following is to check which obstacle is the nearest and therefore try to avoid it.
+                if((((((ob_distance1<ob_distance2)&(ob_distance1<ob_distance3))&seen1)|(seen1&(~seen2)&(ob_distance1>ob_distance2)&(ob_distance1<ob_distance3))|(seen1&(~seen3)&(ob_distance1>ob_distance3)&(ob_distance1<ob_distance2)))&(robo->GetPos().DistanceTo(obstacle1->GetPos())<collision_distance)))
                 //if((((((d1<d2)&(d1<d3))&seen1)|(seen1&(~seen2)&(d1>d2)&(d1<d3))|(seen1&(~seen3)&(d1>d3)&(d1<d2)))&(robo->GetPos().DistanceTo(obstacle1->GetPos())<collision_distance)))
                 {
                     collision=1;
@@ -243,18 +261,22 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                         collision=0;
                     }
                     */
+                    //if there is a potential collision, turn the angle defined before;
+                    //in case of avoiding our own robots, all our our own robots will turn right so that they will not run into each other
+                    //therefore if-else structure doesn't play a role here
+                    //but for random walking zombie, the robot will also turn in the direction which will bring us benefit..
                     if(((y_rbt-ytempo)*(x_ob1-x_rbt)+(xtempo-x_rbt)*(y_ob1-y_rbt))<0)//choose the direction to avoid collision
                     {
                         avoidx=(a11*direx+a12*direy)*ob_distance1;
-                        avoidy=(a21*direx+a22*direx)*ob_distance1;
+                        avoidy=(a21*direx+a22*direy)*ob_distance1;
                         checkdirec=1;
                         //collision=0;
                     }
                     else
                     {
                         avoidx=(a11*direx+a12*direy)*ob_distance1;
-                        avoidy=(a21*direx+a22*direx)*ob_distance1;
-                        checkdirec=0;
+                        avoidy=(a21*direx+a22*direy)*ob_distance1;
+                        checkdirec=-1;
                         //collision=0;
                     }
 
@@ -263,7 +285,7 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                     xtempo=robo->GetX()+avoidx;
                     ytempo=robo->GetX()+avoidy;
                 }
-                else if ((((((ob_distance2<ob_distance1)&(ob_distance2<ob_distance3))&seen2)|(seen2&(~seen1)&(ob_distance2>ob_distance1)&(ob_distance2<ob_distance3))|(seen2&(~seen3)&(ob_distance2>ob_distance3)&(ob_distance2<ob_distance1)))&(robo->GetPos().DistanceTo(obstacle2->GetPos())<collision_distance))&(d2<threshold))
+                if ((((((ob_distance2<ob_distance1)&(ob_distance2<ob_distance3))&seen2)|(seen2&(~seen1)&(ob_distance2>ob_distance1)&(ob_distance2<ob_distance3))|(seen2&(~seen3)&(ob_distance2>ob_distance3)&(ob_distance2<ob_distance1)))&(robo->GetPos().DistanceTo(obstacle2->GetPos())<collision_distance)))
                 //else if (((((d2<d1)&(d2<d3))&seen2)|(seen2&(~seen1)&(d2>d1)&(d2<d3))|(seen2&(~seen3)&(d2>d3)&(d2<d1)))&(robo->GetPos().DistanceTo(obstacle2->GetPos())<collision_distance))
                 {
                     collision=1;
@@ -275,18 +297,22 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                         collision=0;
                     }
                     */
+                    //if there is a potential collision, turn the angle defined before;
+                    //in case of avoiding our own robots, all our our own robots will turn right so that they will not run into each other
+                    //therefore if-else structure doesn't play a role here
+                    //but for random walking zombie, the robot will also turn in the direction which will bring us benefit..
                     if(((y_rbt-ytempo)*(x_ob2-x_rbt)+(xtempo-x_rbt)*(y_ob2-y_rbt))<0)//choose the direction to avoid collision
                     {
                         avoidx=(a11*direx+a12*direy)*ob_distance2;
-                        avoidy=(a21*direx+a22*direx)*ob_distance2;
+                        avoidy=(a21*direx+a22*direy)*ob_distance2;
                         checkdirec=1;
                         //collision=0;
                     }
                     else
                     {
                         avoidx=(a11*direx+a12*direy)*ob_distance2;
-                        avoidy=(a21*direx+a22*direx)*ob_distance2;
-                        checkdirec=0;
+                        avoidy=(a21*direx+a22*direy)*ob_distance2;
+                        checkdirec=-1;
                         //collision=0;
                     }
                     cout<<"vector from robot to des is x="<<(xtempo-x_rbt)<<", y="<<(ytempo-y_rbt)<<endl<<endl;
@@ -294,11 +320,12 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                     xtempo=robo->GetX()+avoidx;
                     ytempo=robo->GetX()+avoidy;
                 }
-                else if((((((ob_distance3<ob_distance2)&(ob_distance3<ob_distance1))&seen3)|(seen3&(~seen2)&(ob_distance3>ob_distance2)&(ob_distance3<ob_distance1))|(seen3&(~seen1)&(ob_distance3>ob_distance1)&(ob_distance3<ob_distance2)))&(robo->GetPos().DistanceTo(obstacle3->GetPos())<collision_distance))&(d3<threshold))
+                if((((((ob_distance3<ob_distance2)&(ob_distance3<ob_distance1))&seen3)|(seen3&(~seen2)&(ob_distance3>ob_distance2)&(ob_distance3<ob_distance1))|(seen3&(~seen1)&(ob_distance3>ob_distance1)&(ob_distance3<ob_distance2)))&(robo->GetPos().DistanceTo(obstacle3->GetPos())<collision_distance)))
                 //else if((((((d3<d2)&(d3<d1))&seen3)|(seen3&(~seen2)&(d3>d2)&(d3<d1))|(seen3&(~seen1)&(d3>d1)&(d3<d2)))&(robo->GetPos().DistanceTo(obstacle3->GetPos())<collision_distance))|(robo->GetPos().DistanceTo(obstacle3->GetPos())<0.3))
                 //else if (robo->GetPos().DistanceTo(obstacle3->GetPos())<0.3)
                 {
                     collision=1;
+                    random_walking_warning=1;
                     /*
                     if(robo->GetPos().DistanceTo(obstacle3->GetPos())<0.3)
                     {
@@ -307,22 +334,26 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                         collision=0;
                     }
                     */
+                    //if there is a potential collision, turn the angle defined before;
+                    //in case of avoiding our own robots, all our our own robots will turn right so that they will not run into each other
+                    //therefore if-else structure doesn't play a role here
+                    //but for random walking zombie, the robot will also turn in the direction which will bring us benefit..
                     if(((y_rbt-ytempo)*(x_ob3-x_rbt)+(xtempo-x_rbt)*(y_ob3-y_rbt))<0)//choose the direction to avoid collision
                     {
                         avoidx=(a11*direx+a12*direy)*0.3;//ob_distance3;
-                        avoidy=(a21*direx+a22*direx)*0.3;//ob_distance3;
-                        //avoidx=(y_ob3-y_rbt);
-                        //avoidy=-(x_ob3-x_rbt);
+                        avoidy=(a21*direx+a22*direy)*0.3;//ob_distance3;
+                        //avoidx=(y_ob3-y_rbt)*0.3;
+                        //avoidy=-(x_ob3-x_rbt)*0.3;
                         checkdirec=1;
                         //collision=0;
                     }
                     else
                     {
-                        //avoidx=-(y_ob3-y_rbt);
-                        //avoidy=(x_ob3-x_rbt);
-                        avoidx=(a11*direx+a12*direy)*0.3;//ob_distance3;
-                        avoidy=(a21*direx+a22*direx)*0.3;//ob_distance3;
-                        checkdirec=0;
+                        //avoidx=-(y_ob3-y_rbt)*0.3;
+                        //avoidy=(x_ob3-x_rbt)*0.3;
+                        avoidx=(a11*direx-a12*direy)*0.3;//ob_distance3;
+                        avoidy=(-a21*direx+a22*direy)*0.3;//ob_distance3;
+                        checkdirec=-1;
                         //collision=0;
                     }
                     cout<<"vector from robot to des is x="<<(xtempo-x_rbt)<<", y="<<(ytempo-y_rbt)<<endl<<endl;
@@ -330,59 +361,69 @@ void avoidance(RoboControl *robo, RoboControl *obstacle1, RoboControl *obstacle2
                     xtempo=robo->GetX()+avoidx;
                     ytempo=robo->GetX()+avoidy;
                 }
-                total=seen1+seen2+seen3;
-                //calculate total obstacle that can be seen.
-                /*
-                switch (priority)
-                {
-                    case 'a':
-                    {
-                         waiting=0;
-                         break;
-                    }
-                    case 'b':
-                    {
-                         waiting=2000000;
-                         break;
-                    }
-                    case 'c':
-                    {
-                         waiting=2000000*2;
-                         break;
-                    }
-                    default: waiting=0000000;
-                }
-                if(total>0)
-                {
-                    usleep(waiting*1000000);
-                }
-                */
+                total=seen1+seen2+seen3;//calculate total obstacle that can be seen.
+                //following is a priority function, so that robots with lower priority will wait and let robots with higher priority go first.
                 if(priority==1)
-                    waiting=0000000;
+                    waiting=0;
                 else if (priority==2)
-                    waiting=2000000;
+                    waiting=600000;
                 else if (priority==3)
                     waiting=2000000;
                 else
                     waiting=0;
-                if(total>10)
+                if(total>1)
                 {
                     robo->StopAction();
-                    usleep(waiting*2);
+                    usleep(waiting);
                 }
+                //above is a priority function
                 x0=xtempo;
                 y0=ytempo;
-                //so that the robot will rotate based on previous angle, not based on the angble to the final destination.
+                //so that the robot will rotate based on previous angle(temporary destination), not based on the angble to the final destination.
+                //aovid collision version1
+                /*
                 if(collision==0)
                 {
                        cout<<"current destination is x="<<xtempo<<", y="<<ytempo<<" ,check is "<<checkdirec<<endl<<endl;
-                       robo->GotoXY(xtempo, ytempo, speed, true);
+                       robo->GotoXY(xtempo, ytempo, speed, true);robo->
                        usleep(200000);
                        xtempo=destination.GetX();
                        ytempo=destination.GetY();
                        cout<<"current destination is x="<<xtempo<<", y="<<ytempo<<" ,check is "<<checkdirec<<endl<<endl;
                        robo->GotoXY(xtempo, ytempo, speed, true);
-                       usleep(200000);
+                       usleep(100000);
+                }
+                */
+                //avoid collision version2
+                if (collision==1)
+                {
+                    //version1 of turning to avoid collision, by telling the robot to a certain place
+                    /*
+                    cout<<"current destination is x="<<xtempo<<", y="<<ytempo<<" ,check is "<<checkdirec<<endl<<endl;
+                    robo->GotoXY(xtempo, ytempo, speed, true);
+                    usleep(30000);
+                    */
+                    //version2 of turning to avoid collision, by telling the robot to turn at a certain angle
+                    if(random_walking_warning)
+                    {
+                        robo->Turn(angle*turn_direction*checkdirec*(-1));
+                    }
+                    else
+                    {
+                        robo->Turn(angle*turn_direction);
+                    }
+                    //2 versions remain to be tested in real field
+                }
+                if(collision==0)
+                {
+                    cout<<"current destination is x="<<xtempo<<", y="<<ytempo<<" ,check is "<<checkdirec<<endl<<endl;
+                    robo->GotoXY(xtempo, ytempo, speed, true);
+                    usleep(500000);
+                    xtempo=destination.GetX();
+                    ytempo=destination.GetY();
+                    cout<<"current destination is x="<<xtempo<<", y="<<ytempo<<" ,check is "<<checkdirec<<endl<<endl;
+                    robo->GotoXY(xtempo, ytempo, speed, true);
+                    usleep(100000);
                 }
 
             //}
