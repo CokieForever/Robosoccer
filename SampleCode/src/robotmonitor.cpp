@@ -70,7 +70,7 @@ void ProgressiveKick(int robot, Position pos0)
         double d3 = robotPos.DistanceTo(order->target);
         double cosAlpha = (d2*d2 + d3*d3 - d1*d1) / (2*d2*d3);
 
-        if (cosAlpha <= 0.985)  // = 10°
+        if (cosAlpha <= 0.995)
             order->robot->GotoXY(pos0.GetX(), pos0.GetY(), std::max(GetSuitedSpeed(d2), 120), false);
 
         order->target = pos;

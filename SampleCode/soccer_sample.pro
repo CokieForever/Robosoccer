@@ -9,6 +9,7 @@ DEPENDPATH += src
 INCLUDEPATH += src SDL/headers
 LIBS += -LSDL/static -lSDLmain -lSDL -ldl -lSDL_ttf
 OBJECTS += /usr/lib/libfreetype.so.6
+OBJECTS += /usr/lib/libfreetype.so.6
 
 DESTDIR = bin
 MOC_DIR = .moc

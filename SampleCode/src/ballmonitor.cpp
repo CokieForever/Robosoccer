@@ -329,8 +329,13 @@ static void* BallFollowingFn(void *data)
                 waitMode = false;
                 ProgressiveGoto(robotNum, ballPos);
 
-                double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()));
-                if (d <= 0.045)
+                Position robotPos = NormalizePosition(robot->GetPos());
+                Position realBallPos;
+                GetBallPosition(&realBallPos);
+
+                double d1 = NormalizePosition(ballPos).DistanceTo(robotPos);
+                double d2 = NormalizePosition(realBallPos).DistanceTo(robotPos);
+                if (d1 <= 0.045 && d2 <= 1.25)
                     kickMode = true;
             }
             else if (!waitMode && !IsBallMoving())
@@ -342,7 +347,7 @@ static void* BallFollowingFn(void *data)
             Position ballPos;
             GetBallPosition(&ballPos);
             double d = NormalizePosition(ballPos).DistanceTo(NormalizePosition(robot->GetPos()));
-            if (d <= 0.08)
+            if (d <= 0.07)
                 break;
             else
                 ProgressiveKick(robotNum, ballPos);
