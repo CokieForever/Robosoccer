@@ -13,10 +13,12 @@
 #include "kogmo_rtdb.hxx"
 #include "robo_control.h"
 #include "referee.h"
+#include "coordinates.h"
+#include "ballmonitor.h"
+#include "refereedisplay.h"
+#include "robotmonitor.h"
 
 using namespace std;
-
-//#define MAKE_RED_MOVE
 
 
 typedef struct
@@ -39,24 +41,20 @@ static void TimeOver(RoboControl *robots[], RawBall *ball, Referee *ref);
 
 static void* GoalKeeper(void* data);
 
-#ifdef MAKE_RED_MOVE
-static void* RedMove(void* data);
-#endif
-
-const eTeam team = RED_TEAM;
+const eTeam team = BLUE_TEAM;
 
 
 int main(void)
 {
     //--------------------------------- Init -------------------- Can't connect RF------------------------------
 
-    const int client_nr = 11;
+    const int client_nr = 13;
     int rfcomm_nr_blue[] = {0, 1, 2};
     int rfcomm_nr_red[] = {3, 4, 5};
     const PlayFunc playFunctions[] = {NULL, BeforeKickOff, KickOff, BeforePenalty, Penalty, PlayOn, Pause, TimeOver};
 
     int *rfcomm_nr = team == BLUE_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
-    //int *rfcomm_nr_2 = team == RED_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
+    int *rfcomm_nr_2 = team == RED_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
 
     try
     {
@@ -68,23 +66,25 @@ int main(void)
         RoboControl robo1 = RoboControl(DBC, rfcomm_nr[0]);
         RoboControl robo2 = RoboControl(DBC, rfcomm_nr[1]);
         RoboControl robo3 = RoboControl(DBC, rfcomm_nr[2]);
-        /*RoboControl robo4 = RoboControl(DBC, rfcomm_nr_2[0]);
+        RoboControl robo4 = RoboControl(DBC, rfcomm_nr_2[0]);
         RoboControl robo5 = RoboControl(DBC, rfcomm_nr_2[1]);
-        RoboControl robo6 = RoboControl(DBC, rfcomm_nr_2[2]);*/
+        RoboControl robo6 = RoboControl(DBC, rfcomm_nr_2[2]);
 
-        RoboControl *robots[] = {&robo1, &robo2, &robo3/*, &robo4, &robo5, &robo6*/};
+        RoboControl *robots[] = {&robo1, &robo2, &robo3, &robo4, &robo5, &robo6};
 
         RawBall ball(DBC);
         Referee ref(DBC);
         ref.Init();
 
-        //-------------------------------------- Ende Init ---------------------------------
+        //SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));
+        SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));
+        StartBallMonitoring(&ball);
 
-        #ifdef MAKE_RED_MOVE
-        pthread_t thread1;
-        RoboBall roboBall = {robots[3], ball, ref};
-        pthread_create(&thread1, NULL, RedMove, &roboBall);
-        #endif
+        StartRefereeDisplay(robots, &ball, team);
+
+        SetAllRobots(robots);
+
+        //-------------------------------------- Ende Init ---------------------------------
 
         while (1)
         {
@@ -110,6 +110,9 @@ int main(void)
     {
         cout << "Client died on Error: " << err.what() << endl;
     }
+
+    StopRefereeDisplay();
+    StopBallMonitoring();
 
     cout << "End" << endl;
     return 0;
@@ -270,20 +273,3 @@ static void* GoalKeeper(void* data)
 
     return NULL;
 }
-
-#ifdef MAKE_RED_MOVE
-static void* RedMove(void* data)
-{
-    RoboBall* roboBall = (RoboBall*)data;
-
-    while (1)
-    {
-        Position ballPos = roboBall->ball.GetPos();
-        roboBall->robo.GotoXY(ballPos.GetX(), ballPos.GetY(), 120, false);
-        cout << "Red moving to " << ballPos << endl << endl;
-        usleep(2000000);
-    }
-
-    return NULL;
-}
-#endif
