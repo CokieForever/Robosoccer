@@ -41,14 +41,12 @@ static void TimeOver(RoboControl *robots[], RawBall *ball, Referee *ref);
 
 static void* GoalKeeper(void* data);
 
-const eTeam team = BLUE_TEAM;
 
 
 int main(void)
 {
     //--------------------------------- Init -------------------- Can't connect RF------------------------------
 
-    const int client_nr = 13;
     int rfcomm_nr_blue[] = {0, 1, 2};
     int rfcomm_nr_red[] = {3, 4, 5};
     const PlayFunc playFunctions[] = {NULL, BeforeKickOff, KickOff, BeforePenalty, Penalty, PlayOn, Pause, TimeOver};
@@ -85,6 +83,7 @@ int main(void)
         SetAllRobots(robots);
 
         //-------------------------------------- Ende Init ---------------------------------
+
 
         while (1)
         {
@@ -273,6 +272,7 @@ static void* GoalKeeper(void* data)
 
     return NULL;
 }
+
 
 int Milestone2Part2(void)
 {
