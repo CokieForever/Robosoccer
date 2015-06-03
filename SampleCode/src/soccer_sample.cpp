@@ -17,6 +17,7 @@
 #include "ballmonitor.h"
 #include "refereedisplay.h"
 #include "robotmonitor.h"
+#include "interpreter.h"
 
 using namespace std;
 
@@ -30,6 +31,7 @@ typedef struct
 
 typedef void (*PlayFunc)(RoboControl**, RawBall*, Referee*);
 
+static void StandardFSM(RoboControl *robots[], RawBall *ball, Referee *ref);
 
 static void BeforeKickOff(RoboControl *robots[], RawBall *ball, Referee *ref);
 static void KickOff(RoboControl *robots[], RawBall *ball, Referee *ref);
@@ -41,6 +43,7 @@ static void TimeOver(RoboControl *robots[], RawBall *ball, Referee *ref);
 
 static void* GoalKeeper(void* data);
 
+const eTeam team = BLUE_TEAM;
 
 
 int main(void)
@@ -53,6 +56,10 @@ int main(void)
 
     int *rfcomm_nr = team == BLUE_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
     int *rfcomm_nr_2 = team == RED_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
+	
+	pthread_t threads[3];
+    //struct thread_data td[3];
+    int gk_th,p1_th,p2_th;
 
     try
     {
@@ -73,35 +80,51 @@ int main(void)
         RawBall ball(DBC);
         Referee ref(DBC);
         ref.Init();
-
-        //SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));
+		cout << ref.GetSide() <<endl;
+		
+		//SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));
         SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));
-        StartBallMonitoring(&ball);
-
+        
+		StartBallMonitoring(&ball);
         StartRefereeDisplay(robots, &ball, team);
-
         SetAllRobots(robots);
+		
+		Goalkeeper gk(&robo1,&ball);
+        PlayerMain p1(&robo2,&ball);
+        PlayerTwo p2(&robo3,&ball);
+		
+		interpreter info(team,&ref,&gk,&p1,&p2);
 
         //-------------------------------------- Ende Init ---------------------------------
 
 
         while (1)
         {
-            ePlayMode mode = ref.GetPlayMode();
-            cout << "Mode = " << mode << endl;
-
-            PlayFunc fn = playFunctions[mode];
-
-            if (fn)
+            info.updateSituation();
+            if(info.turn == interpreter::OUR_TURN)
             {
-                cout << "Entering Play function" << endl;
-                fn(robots, &ball, &ref);
+                cout<<"OUR TURN"<<endl;
+                usleep(1000000);
             }
+            else
+            {    cout << "NOT OUR TURN"<<endl;
+                 usleep(1000000);
 
-            cout << "Left mode function" << endl;
+            }
+            gk.setNextCmd(&info);
+            gk.setCmdParam();
 
-            while (ref.GetPlayMode() == mode)
-                usleep(10000);
+            p1.setNextCmd(&info);
+            p1.setCmdParam();
+
+            p2.setNextCmd(&info);
+            p2.setCmdParam();
+
+            gk_th = pthread_create(&threads[0],NULL,&Goalkeeper::performCmd_helper,(void*)&gk);
+            p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
+            p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
+
+            usleep(33000);
         }
 
     }
@@ -114,9 +137,32 @@ int main(void)
     StopBallMonitoring();
 
     cout << "End" << endl;
+	pthread_exit(NULL);
     return 0;
 }
 
+
+static void StandardFSM(RoboControl *robots[], RawBall *ball, Referee *ref)
+{
+	while (1)
+	{
+		ePlayMode mode = ref->GetPlayMode();
+		cout << "Mode = " << mode << endl;
+
+		PlayFunc fn = playFunctions[mode];
+
+		if (fn)
+		{
+			cout << "Entering Play function" << endl;
+			fn(robots, ball, ref);
+		}
+
+		cout << "Left mode function" << endl;
+
+		while (ref->GetPlayMode() == mode)
+			usleep(10000);
+	}
+}
 
 static void BeforeKickOff(RoboControl *robots[], RawBall *ball, Referee *ref)
 {
