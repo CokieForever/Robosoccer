@@ -5,7 +5,7 @@
  *  Created on: Mai 07, 2015
  *      Author: chiraz
  */
-#include "playermain.h"
+#include "playermain_chiraz.h"
 #include "interpreter.h"
 #include <iostream>
 #include "share.h"
