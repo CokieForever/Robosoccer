@@ -1,35 +1,15 @@
-//============================================================================
-// Name        : soccer_client.cpp
-// Author      :
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Client for RTDB which controls team 1, Ansi-style
-//============================================================================
+/*
+ * Old-fashioned FSM.
+ * Deprecated, kept for record only!
+ *
+ */
 
-
-#include <time.h>
-#include <iostream>
-#include <pthread.h>
-#include "kogmo_rtdb.hxx"
-#include "robo_control.h"
-#include "referee.h"
-#include "coordinates.h"
-#include "ballmonitor.h"
-#include "refereedisplay.h"
-#include "robotmonitor.h"
+#include "standardfsm.h"
 
 using namespace std;
 
 
-typedef struct
-{
-  RoboControl *robo;
-  RawBall *ball;
-  Referee *ref;
-} RoboBall;
-
-typedef void (*PlayFunc)(RoboControl**, RawBall*, Referee*);
-
+static eTeam team = BLUE_TEAM;
 
 static void BeforeKickOff(RoboControl *robots[], RawBall *ball, Referee *ref);
 static void KickOff(RoboControl *robots[], RawBall *ball, Referee *ref);
@@ -41,81 +21,30 @@ static void TimeOver(RoboControl *robots[], RawBall *ball, Referee *ref);
 
 static void* GoalKeeper(void* data);
 
-const eTeam team = BLUE_TEAM;
 
-
-int main(void)
+void StandardFSM(RoboControl *robots[], RawBall *ball, Referee *ref, eTeam t)
 {
-    //--------------------------------- Init -------------------- Can't connect RF------------------------------
-
-    const int client_nr = 13;
-    int rfcomm_nr_blue[] = {0, 1, 2};
-    int rfcomm_nr_red[] = {3, 4, 5};
     const PlayFunc playFunctions[] = {NULL, BeforeKickOff, KickOff, BeforePenalty, Penalty, PlayOn, Pause, TimeOver};
+    team = t;
 
-    int *rfcomm_nr = team == BLUE_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
-    int *rfcomm_nr_2 = team == RED_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
-
-    try
+    while (1)
     {
-        cout << endl << "Connecting to RTDB..." << endl;
-        string client_name = "pololu_client_";
-        client_name.push_back((char)(client_nr + '0'));
-        RTDBConn DBC(client_name.data(), 0.1, "");
+        ePlayMode mode = ref->GetPlayMode();
+        cout << "Mode = " << mode << endl;
 
-        RoboControl robo1 = RoboControl(DBC, rfcomm_nr[0]);
-        RoboControl robo2 = RoboControl(DBC, rfcomm_nr[1]);
-        RoboControl robo3 = RoboControl(DBC, rfcomm_nr[2]);
-        RoboControl robo4 = RoboControl(DBC, rfcomm_nr_2[0]);
-        RoboControl robo5 = RoboControl(DBC, rfcomm_nr_2[1]);
-        RoboControl robo6 = RoboControl(DBC, rfcomm_nr_2[2]);
+        PlayFunc fn = playFunctions[mode];
 
-        RoboControl *robots[] = {&robo1, &robo2, &robo3, &robo4, &robo5, &robo6};
-
-        RawBall ball(DBC);
-        Referee ref(DBC);
-        ref.Init();
-
-        //SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));
-        SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));
-        StartBallMonitoring(&ball);
-
-        StartRefereeDisplay(robots, &ball, team);
-
-        SetAllRobots(robots);
-
-        //-------------------------------------- Ende Init ---------------------------------
-
-        while (1)
+        if (fn)
         {
-            ePlayMode mode = ref.GetPlayMode();
-            cout << "Mode = " << mode << endl;
-
-            PlayFunc fn = playFunctions[mode];
-
-            if (fn)
-            {
-                cout << "Entering Play function" << endl;
-                fn(robots, &ball, &ref);
-            }
-
-            cout << "Left mode function" << endl;
-
-            while (ref.GetPlayMode() == mode)
-                usleep(10000);
+            cout << "Entering Play function" << endl;
+            fn(robots, ball, ref);
         }
 
-    }
-    catch (DBError err)
-    {
-        cout << "Client died on Error: " << err.what() << endl;
-    }
+        cout << "Left mode function" << endl;
 
-    StopRefereeDisplay();
-    StopBallMonitoring();
-
-    cout << "End" << endl;
-    return 0;
+        while (ref->GetPlayMode() == mode)
+        usleep(10000);
+    }
 }
 
 
