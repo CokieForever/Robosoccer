@@ -51,13 +51,13 @@ static void* RefDisplayFn(void *data)
     SDL_Flip(screen);
 
     SDL_Surface *fSurf = NULL;
-    TTF_Font *font = TTF_OpenFont("../font.ttf", 25);
+    TTF_Font *font = TTF_OpenFont("../data/font.ttf", 25);
     if (!font)
         cout << "Unable to open font: " << TTF_GetError() << endl;
     else
         fSurf = TTF_RenderText_Blended(font, "F", CreateColor(255,255,255));
 
-    SDL_Surface *ballSurf = SDL_LoadBMP("../ball.bmp"), *ballSurfTr = NULL;
+    SDL_Surface *ballSurf = SDL_LoadBMP("../data/ball.bmp"), *ballSurfTr = NULL;
     if (!ballSurf)
         cout << "Unable to load ball bmp: " << SDL_GetError() << endl;
     else
@@ -73,7 +73,7 @@ static void* RefDisplayFn(void *data)
         ballSurfTr = SDL_CreateRGBSurfaceFrom(ballSurf->pixels, ballSurf->w, ballSurf->h, 32, ballSurf->pitch, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
     }
 
-    SDL_Surface *redRobotSurf = SDL_LoadBMP("../red_robot.bmp"), *redRobotSurfTr = NULL;
+    SDL_Surface *redRobotSurf = SDL_LoadBMP("../data/red_robot.bmp"), *redRobotSurfTr = NULL;
     if (!redRobotSurf)
         cout << "Unable to load red robot bmp: " << SDL_GetError() << endl;
     else
@@ -89,7 +89,7 @@ static void* RefDisplayFn(void *data)
         redRobotSurfTr = SDL_CreateRGBSurfaceFrom(redRobotSurf->pixels, redRobotSurf->w, redRobotSurf->h, 32, redRobotSurf->pitch, 0xff000000, 0x00ff0000, 0x0000ff00, 0x000000ff);
     }
 
-    SDL_Surface *blueRobotSurf = SDL_LoadBMP("../blue_robot.bmp"), *blueRobotSurfTr = NULL;
+    SDL_Surface *blueRobotSurf = SDL_LoadBMP("../data/blue_robot.bmp"), *blueRobotSurfTr = NULL;
     if (!blueRobotSurf)
         cout << "Unable to load blue robot bmp: " << SDL_GetError() << endl;
     else

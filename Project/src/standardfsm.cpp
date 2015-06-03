@@ -1,3 +1,9 @@
+/*
+ * Old-fashioned FSM.
+ * Deprecated, kept for record only!
+ *
+ */
+
 #include "standardfsm.h"
 
 using namespace std;

@@ -1,26 +1,14 @@
-//----------------------------------------Declerations------------------------------------------------------
-//----------------------------------------------------------------------------------------------------------
-
-eDirection getDirection(double nominal, double actual);
-void setSpeed(double translation, double rotation, eDirection dir);
-double getDiffAngle(double nominal, double actual);
-double getSpeedP(double nominal, double actual); // Drehgeschwindigkeit ruhig
-double getSpeedPt(double nominal, double actual, int geschw); // Drehgeschwindigkeit bei der Fahrt
-double getSpeedT(double diff);
-double degToRad(double deg); // regelt Vorwärtsgeschwindigkeit
-inline void StopMovement(void);
-
-enum eDirection
-{
-  FORWARD,
-  BACKWARD
-};
-
+#include "cruiseToBias.h"
 
 //----------------------------------------Function bodys----------------------------------------------------
 //----------------------------------------------------------------------------------------------------------
 
-bool Robot::CruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
+RobotCruisetoBias::RobotCruisetoBias(RTDBConn& DBC, const int deviceNr): RoboControl(DBC, deviceNr)
+{
+
+}
+
+bool RobotCruisetoBias::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
 {
 
   /*   returniert true, wenn Roboter am Ziel angekommen ist. returniert false, wenn Roboter noch unterwegs ist
@@ -35,9 +23,9 @@ bool Robot::CruisetoBias(double tarX, double tarY, int speed, double tarP, doubl
   */
 
   //Position roboterpos = m_robot->GetPos(); //Hier müsst ihr die Roboterposition abrufen
-  double posX = this->roboControl->GetX();
-  double posY = this->roboControl->GetY();
-  double posP = this->roboControl->GetPhi().Rad();  //Hier Roboterwinkel abrufen
+  double posX = this->GetX();
+  double posY = this->GetY();
+  double posP = this->GetPhi().Rad();  //Hier Roboterwinkel abrufen
 
   const double variationTrans = 0.05;                              // maximale Abweichung zum Ziel (in Meter)
   const double variationAngle = degToRad(5);                       // maximale Drehabweichung am Ende (in Rad)  degToRad wandelt Grad in Rad um
@@ -109,7 +97,7 @@ bool Robot::CruisetoBias(double tarX, double tarY, int speed, double tarP, doubl
  * @param actual
  * @return Controller::eDirection
  */
-eDirection Robot::getDirection(double nominal, double actual)
+RobotCruisetoBias::eDirection RobotCruisetoBias::getDirection(double nominal, double actual)
 {
   double diffNormal = nominal - actual;
   if ((diffNormal) < (-M_PI)) diffNormal = diffNormal + 2 * M_PI;
@@ -133,7 +121,7 @@ eDirection Robot::getDirection(double nominal, double actual)
  * @param rotation
  * @param dir
  */
-void Robot::setSpeed(double translation, double rotation, eDirection dir)
+void RobotCruisetoBias::setSpeed(double translation, double rotation, eDirection dir)
 {
   double wheelL = 0, wheelR = 0;
 
@@ -149,7 +137,7 @@ void Robot::setSpeed(double translation, double rotation, eDirection dir)
   wheelL = wheelL - rotation * 800.0 / 3.14159265358965;
   wheelR = wheelR + rotation * 800.0 / 3.14159265358965;
 
-  this->roboControl->MoveMs(wheelL, wheelR, 50, 0);
+  this->MoveMs(wheelL, wheelR, 50, 0);
 }
 
 
@@ -160,7 +148,7 @@ void Robot::setSpeed(double translation, double rotation, eDirection dir)
  * @param actual
  * @return double
  */
-double Robot::getDiffAngle(double nominal, double actual)
+double RobotCruisetoBias::getDiffAngle(double nominal, double actual)
 {
   double diffA = (nominal - actual);
   if (getDirection(nominal, actual) == BACKWARD) diffA += M_PI;
@@ -179,7 +167,7 @@ double Robot::getDiffAngle(double nominal, double actual)
  * @param actual
  * @return double
  */
-double Robot::getSpeedP(double nominal, double actual) // Drehgeschwindigkeit ruhig
+double RobotCruisetoBias::getSpeedP(double nominal, double actual) // Drehgeschwindigkeit ruhig
 {
 
   double diff = getDiffAngle(nominal, actual);
@@ -210,7 +198,7 @@ double Robot::getSpeedP(double nominal, double actual) // Drehgeschwindigkeit ru
  * @param actual
  * @return double
  */
-double Robot::getSpeedPt(double nominal, double actual, int geschw) // Drehgeschwindigkeit bei der Fahrt
+double RobotCruisetoBias::getSpeedPt(double nominal, double actual, int geschw) // Drehgeschwindigkeit bei der Fahrt
 {
   double diff = getDiffAngle(nominal, actual);
   double korr = (geschw / 400) * (geschw / 400) * 1.2;
@@ -273,7 +261,7 @@ double Robot::getSpeedPt(double nominal, double actual, int geschw) // Drehgesch
  * @param diff
  * @return double
  */
-double Robot::getSpeedT(double diff)                       // regelt Vorwärtsgeschwindigkeit
+double RobotCruisetoBias::getSpeedT(double diff)                       // regelt Vorwärtsgeschwindigkeit
 {
   if (diff > 0.2)
 
@@ -293,7 +281,7 @@ double Robot::getSpeedT(double diff)                       // regelt Vorwärtsge
  */
 
 
-double Robot::degToRad(double deg)
+double RobotCruisetoBias::degToRad(double deg)
 {
   return deg * M_PI / 180.0;
 }

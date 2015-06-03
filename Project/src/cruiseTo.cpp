@@ -1,12 +1,19 @@
 //------------------------------------------------------------------------------------------------------------
 // P-Regler vom Christian Spies 2013
 
+#include "cruiseTo.h"
+
 /** geregelte gotoPos Alternative**/
 
 /**
  ** tarX und tarY = target position
  ** tarP = target angle
  **/
+
+RobotCruiseTo::RobotCruiseTo(RTDBConn & DBC, const int deviceNr): RoboControl(DBC, deviceNr)
+{
+
+}
 
 
 /**
@@ -18,7 +25,7 @@
  * @return bool
  */
 
-bool Controller::cruiseTo(double tarX, double tarY, double tarP)
+bool RobotCruiseTo::cruiseTo(double tarX, double tarY, double tarP)
 {
 
   /*   returniert true, wenn Roboter am Ziel angekommen ist. returniert false, wenn Roboter noch unterwegs ist
@@ -32,10 +39,10 @@ bool Controller::cruiseTo(double tarX, double tarY, double tarP)
      **
   */
 
-  //Position roboterpos = m_robot->GetPos(); //Hier müsst ihr die Roboterposition abrufen
-  double posX = m_robot->GetX();
-  double posY = m_robot->GetY();
-  double posP = m_robot->GetPhi().Rad();  //Hier Roboterwinkel abrufen
+  //Position roboterpos = this->GetPos(); //Hier müsst ihr die Roboterposition abrufen
+  double posX = this->GetX();
+  double posY = this->GetY();
+  double posP = this->GetPhi().Rad();  //Hier Roboterwinkel abrufen
 
   const double variationTrans = 0.025;                              // maximale Abweichung zum Ziel (in Meter)
   const double variationAngle = degToRad(10);                       // maximale Drehabweichung am Ende (in Rad)  degToRad wandelt Grad in Rad um
@@ -100,7 +107,7 @@ bool Controller::cruiseTo(double tarX, double tarY, double tarP)
  * @param actual
  * @return Controller::eDirection
  */
-Controller::eDirection Controller::getDirection(double nominal, double actual)
+RobotCruiseTo::eDirection RobotCruiseTo::getDirection(double nominal, double actual)
 {
   double diffNormal = nominal - actual;
   if ((diffNormal) < (-M_PI)) diffNormal = diffNormal + 2 * M_PI;
@@ -124,7 +131,7 @@ Controller::eDirection Controller::getDirection(double nominal, double actual)
  * @param rotation
  * @param dir
  */
-void Controller::setSpeed(double translation, double rotation, eDirection dir)
+void RobotCruiseTo::setSpeed(double translation, double rotation, eDirection dir)
 {
   double wheelL = 0, wheelR = 0;
 
@@ -139,7 +146,7 @@ void Controller::setSpeed(double translation, double rotation, eDirection dir)
   wheelL -= rotation * 800.0 / 3.14159265358965;
   wheelR += rotation * 800.0 / 3.14159265358965;
 
-  m_robot->MoveMs(wheelL, wheelR, 300, 0);
+  this->MoveMs(wheelL, wheelR, 300, 0);
 }
 
 
@@ -150,7 +157,7 @@ void Controller::setSpeed(double translation, double rotation, eDirection dir)
  * @param actual
  * @return double
  */
-double Controller::getDiffAngle(double nominal, double actual)
+double RobotCruiseTo::getDiffAngle(double nominal, double actual)
 {
   double diffA = (nominal - actual);
   if (getDirection(nominal, actual) == BACKWARD) diffA += M_PI;
@@ -169,7 +176,7 @@ double Controller::getDiffAngle(double nominal, double actual)
  * @param actual
  * @return double
  */
-double Controller::getSpeedP(double nominal, double actual) // Drehgeschwindigkeit ruhig
+double RobotCruiseTo::getSpeedP(double nominal, double actual) // Drehgeschwindigkeit ruhig
 {
 
   double diff = getDiffAngle(nominal, actual);
@@ -200,7 +207,7 @@ double Controller::getSpeedP(double nominal, double actual) // Drehgeschwindigke
  * @param actual
  * @return double
  */
-double Controller::getSpeedPt(double nominal, double actual) // Drehgeschwindigkeit bei der Fahrt
+double RobotCruiseTo::getSpeedPt(double nominal, double actual) // Drehgeschwindigkeit bei der Fahrt
 {
   double diff = getDiffAngle(nominal, actual);
 
@@ -230,7 +237,7 @@ double Controller::getSpeedPt(double nominal, double actual) // Drehgeschwindigk
  * @param diff
  * @return double
  */
-double Controller::getSpeedT(double diff)                       // regelt Vorwärtsgeschwindigkeit
+double RobotCruiseTo::getSpeedT(double diff)                       // regelt Vorwärtsgeschwindigkeit
 {
   if (diff > 0.2)
 
@@ -250,7 +257,7 @@ double Controller::getSpeedT(double diff)                       // regelt Vorwä
  */
 
 
-double Controller::degToRad(double deg)
+double RobotCruiseTo::degToRad(double deg)
 {
   return deg * M_PI / 180.0;
 }
