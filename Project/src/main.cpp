@@ -29,7 +29,7 @@ const eTeam team = BLUE_TEAM;
 int main(void)
 {
     //--------------------------------- Init ---------------------------------
-    const int client_nr = 11;
+    const int client_nr = 13;
 
     int rfcomm_nr_blue[] = {0, 1, 2};
     int rfcomm_nr_red[] = {3, 4, 5};
@@ -39,8 +39,8 @@ int main(void)
 	
     pthread_t threads[3];
     //struct thread_data td[3];
-    int gk_th,p1_th,p2_th;
-
+    //int gk_th,p1_th,p2_th;
+    int gk_th;
     try
     {
         cout << endl << "Connecting to RTDB..." << endl;
@@ -80,8 +80,9 @@ int main(void)
 
         while (1)
         {
+
             info.updateSituation();
-            if(info.turn == interpreter::OUR_TURN)
+            /*if(info.turn == interpreter::OUR_TURN)
             {
                 cout<<"OUR TURN"<<endl;
                 usleep(1000000);
@@ -89,20 +90,19 @@ int main(void)
             else
             {    cout << "NOT OUR TURN"<<endl;
                  usleep(1000000);
-
-            }
+            }*/
             gk.setNextCmd(&info);
             gk.setCmdParam();
 
-            p1.setNextCmd(&info);
-            p1.setCmdParam();
+            //p1.setNextCmd(&info);
+            //p1.setCmdParam();
 
-            p2.setNextCmd(&info);
-            p2.setCmdParam();
+            //p2.setNextCmd(&info);
+            //p2.setCmdParam();
 
             gk_th = pthread_create(&threads[0],NULL,&Goalkeeper::performCmd_helper,(void*)&gk);
-            p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
-            p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
+            //p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
+            //p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
 
             usleep(33000);
         }

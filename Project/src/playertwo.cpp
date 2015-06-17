@@ -79,6 +79,10 @@ void *PlayerTwo::performCmd(){
                 case PlayerTwo::GO_TO_DEF_POS:
                         std::cout << "Player1 Perform Go To Default Pos:" <<std::endl;
                         robot->GotoXY(defaultPos.GetX(),defaultPos.GetY());
+                        while(robot->GetPos().DistanceTo(defaultPos)> 0.05)
+                        {
+                            usleep(10000000);
+                        }
                         break;
                 default:
                         std::cout << "Player1 Perform Default Command: " <<std::endl;

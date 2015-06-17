@@ -103,12 +103,10 @@ void *PlayerMain::performCmd(){
                                     std::cout << "Player1 Perform Kick Penalty: " <<  std::endl;
                                     robot->GotoXY(kickPenaltyParam.pos.GetX(),kickPenaltyParam.pos.GetY());
 
-                                    while(robot->GetPos().DistanceTo(kickPenaltyParam.pos)>0.05)
+                                  /*  while(robot->GetPos().DistanceTo(kickPenaltyParam.pos)>0.05)
                                     {
-
-                                        usleep(100000);
-
-                                    }
+                                       usleep(100000);
+                                    }*/
                                     kickPenaltyParam.action1Performed=1;
 
                                 }
@@ -120,9 +118,12 @@ void *PlayerMain::performCmd(){
                                 break;
                     case PlayerMain::GO_TO_DEF_POS:
 
-                            std::cout << "Player1 Perform Go To Default Pos:" <<std::endl;
+                std::cout << "Player1 Perform Go To Default Pos:" << robot->GetPos() << endl;
                             robot->GotoXY(defaultPos.GetX(),defaultPos.GetY());
-
+                  /*          while(robot->GetPos().DistanceTo(defaultPos) > 0.05)
+                            {
+                                usleep(10000000);
+                            }*/
                             break;
 
                     case PlayerMain::KICK_OFF:

@@ -45,8 +45,8 @@ interpreter::~interpreter() {
 
 bool interpreter::verifyPos(){
 	//check if all robots are on their default position and orientation
-        if ((gk->robot->GetPos().DistanceTo(gk->defaultPos)< 0.01) && (p1->robot->GetPos().DistanceTo(p1->defaultPos)< 0.01)&& (p2->robot->GetPos().DistanceTo(p2->defaultPos)< 0.01))
-                    return 1;
+       if ((gk->robot->GetPos().DistanceTo(gk->defaultPos)< 0.06) && (p1->robot->GetPos().DistanceTo(p1->defaultPos)< 0.06)&& (p2->robot->GetPos().DistanceTo(p2->defaultPos)< 0.06))
+            return 1;
 
         else
                     return 0;
@@ -177,7 +177,7 @@ void interpreter::setDefaultPos(){
 			break;
                 case PENALTY:
                         if (turn == NOT_OUR_TURN)
-                                gk->defaultPos.SetX(1.1);
+                                gk->defaultPos.SetX(-1.43);
                         break;
                 case KICK_OFF:
                         break;
@@ -206,8 +206,9 @@ void interpreter::setPlayMode() {
 	{
                 setSide();
 		setTurn();
-		if (verifyPos())
-			ref->SetReady(team);
+
+		if (verifyPos())               
+                ref->SetReady(team);
 
 	}
 

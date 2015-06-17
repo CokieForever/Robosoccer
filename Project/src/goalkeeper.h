@@ -7,6 +7,7 @@
 #include "kogmo_rtdb.hxx"
 #include "robo_control.h"
 #include "referee.h"
+#include "cruise2_2.h"
 
 
 
@@ -30,6 +31,7 @@ public:
         void *performCmd(void);
         Goalkeeper(RoboControl*,RawBall*);
         static void *performCmd_helper(void *);
+
 
 	~Goalkeeper();
 };
