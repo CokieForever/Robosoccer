@@ -1,7 +1,7 @@
 
 //----------------------------------------Function bodys----------------------------------------------------
 //----------------------------------------------------------------------------------------------------------
-#include "cruise2_2.h"
+#include "cruiseToBias2.h"
 
 bool CruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir, RoboControl * robo)
 {
