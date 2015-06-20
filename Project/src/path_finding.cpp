@@ -7,7 +7,7 @@
 //============================================================================
 
 #include <vector>
-#include <string
+#include <string>
 #include <time.h>
 #include <iostream>
 #include "kogmo_rtdb.hxx"
