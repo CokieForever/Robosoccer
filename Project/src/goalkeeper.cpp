@@ -15,10 +15,11 @@
 
 
 
-Goalkeeper::Goalkeeper(RoboControl *x,RawBall *b) {
+Goalkeeper::Goalkeeper(RoboControl *x,RawBall *b, CoordCalibrer *coordCalibrer, RobotMonitor *robotMonitor, RawBall *ball) : ballMonitor(coordCalibrer, robotMonitor) {
 	robot = x;
 	ball  = b;
-
+	
+	ballMonitor.StartMonitoring(ball)
 }
 
 Goalkeeper::~Goalkeeper(){
@@ -58,7 +59,7 @@ void Goalkeeper::setCmdParam(){
 //counter 10 predictballpos(..., 5) worked good
                     if(counter >= 9)
                    {
-                        PredictBallPosition(& predballPos_old, 5);
+                        ballMonitor.PredictBallPosition(& predballPos_old, 5);
                         cout << "predictball" << predballPos_old << endl;
 
                         y = predballPos_old.GetY();

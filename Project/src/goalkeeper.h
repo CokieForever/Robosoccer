@@ -17,21 +17,22 @@ class Goalkeeper {
 
 private:
 
-        RawBall* ball;
+	RawBall* ball;
 
 	ActionGk nextCmd;
-        Position preventGoalParam;
+    Position preventGoalParam;
+	BallMonitor ballMonitor;
 
 public:
+	Goalkeeper(RoboControl *x,RawBall *b, CoordCalibrer *coordCalibrer, RobotMonitor *robotMonitor, RawBall *ball)
+        
 	Position defaultPos;
-        RoboControl* robot;
+    RoboControl* robot;
 
-        void setNextCmd(void*);
+    void setNextCmd(void*);
 	void setCmdParam();
-        void *performCmd(void);
-        Goalkeeper(RoboControl*,RawBall*);
-        static void *performCmd_helper(void *);
-
+    void *performCmd(void);
+    static void *performCmd_helper(void *);
 
 	~Goalkeeper();
 };
