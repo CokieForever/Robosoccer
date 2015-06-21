@@ -3,6 +3,7 @@
 #define INTERPRETER_H_
 #define WIDTH 100
 #define HEIGHT 80
+#define BORDERSIZE 5
 
 
 #include <time.h>

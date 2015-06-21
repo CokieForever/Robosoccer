@@ -301,8 +301,6 @@ void interpreter::updateSituation(){
         RoboControl *robots[5] = {gk->robot, p2->robot, e1, e2, e3};
 
 
-        setObstacles(p1->map);
-
         matrixupdate(p1->map,p1->robot,robots,ball,cal,mode.our_side);
 
 	setPlayMode();
@@ -313,29 +311,7 @@ void interpreter::updateSituation(){
 void interpreter::setObstacles(int map[][HEIGHT])
 {
 
-    int width = WIDTH;
-    int height = HEIGHT;
 
-    //clear map
-    for(int i=0 ; i<WIDTH;i++){
-
-        for(int j=0;j<HEIGHT;j++){
-            map[i][j] = 0;
-        }
-    }
-
-    //restrict borders and penalty area
-    for (int i = 0 ; i<width;i++)
-    {
-        for(int j =0; j<height;j++){
-
-            if((j==0) || (j==height-1) || (i==0)|| (i==width-1) || ((j > HEIGHT/2 - WIDTH/10) && (j < HEIGHT/2 + WIDTH/10) && ((i < WIDTH/10) || (i > WIDTH-WIDTH/10))))
-
-                map[i][j] = 1;
-                //set penalty areas as obstacles
-
-        }
-    }
 }
 
 
@@ -343,8 +319,9 @@ int coord2mapX(double x){
     //coordinate from -1 to +1
     //map width from 0 to 99
     int mapX;
+    int width = WIDTH - 2* BORDERSIZE;
 
-    mapX = floor(WIDTH/2 + x * (WIDTH-1)/2.0);
+    mapX = floor(width/2 + x * (width-1)/2.0);
 
     return mapX;
 }
@@ -353,8 +330,9 @@ int coord2mapY(double y){
     //coordinate from -1 to +1
     //map width from 0 to 99
     int mapY;
+    int height = HEIGHT - 2*BORDERSIZE;
 
-    mapY = floor(HEIGHT/2 + y * (HEIGHT-1)/2.0);
+    mapY = floor(height/2 + y * (height-1)/2.0);
 
     return mapY;
 
@@ -363,8 +341,8 @@ int coord2mapY(double y){
 double map2coordX(int mapX){
 
     double coordX;
-
-    coordX = (mapX-WIDTH/2.0)/(WIDTH/2);
+    int width = WIDTH - 2* BORDERSIZE;
+    coordX = (mapX-width/2.0)/(width/2);
 
     return coordX;
 }
@@ -373,8 +351,8 @@ double map2coordX(int mapX){
 double map2coordY(int mapY){
 
     double coordY;
-
-    coordY = (mapY-HEIGHT/2.0)/(HEIGHT/2);
+    int height = HEIGHT - 2*BORDERSIZE;
+    coordY = (mapY-height/2.0)/(height/2);
 
     return coordY;
 
@@ -583,18 +561,70 @@ void matrixupdate(int newMatrix[][HEIGHT],RoboControl *ref, RoboControl *obstacl
  CoordinatesCalibrer *m_coordCalibrer = coordCalibrer;
  //Normalize coordinates of our robot
  Position pos1 = m_coordCalibrer->NormalizePosition((ref->GetPos()));//ref is our robot
+ Position posptr[5];
  //indices of the robot's position in the matrix
  int i1=coord2mapX(pos1.GetX());
  int j1=coord2mapY(pos1.GetY());
+ int width = WIDTH;
+ int height = HEIGHT;
+ int border = BORDERSIZE;
+ int obstacle_r = BORDERSIZE*1.5;
+
+ //clear map
+ for(int i=0 ; i<WIDTH;i++){
+
+     for(int j=0;j<HEIGHT;j++){
+         newMatrix[i][j] = 0;
+     }
+ }
+
+
+
+ //get all positions of the robots
+ for (int k=0 ; k < 5 ; k++)
+     {
+        //Normalize coordinates of the obstacles
+     posptr[k] = m_coordCalibrer->NormalizePosition((obstacles[k])->GetPos());//obstacles[i] are the robots
+    }
+
+  pos1=m_coordCalibrer->NormalizePosition(ref->GetPos());
+ //restrict borders and penalty area
+ for (int i = 0 ; i<width;i++)
+ {
+     for(int j =0; j<height;j++){
+
+         if((i>=0 && i< border) || (i >=(width - border) && i<= (width-1)) || (j>=0 && j< border) || (j >=(height - border) && j<= (height-1)) || ((j > HEIGHT/2 - WIDTH/10) && (j < HEIGHT/2 + WIDTH/10) && ((i < WIDTH/10) || (i > WIDTH-WIDTH/10))))
+             newMatrix[i][j] = 1;
+             //set penalty areas as obstacles
+
+         if(ceil(pow(i-coord2mapX(posptr[0].GetX()),2)+pow(j-coord2mapY(posptr[0].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+             newMatrix[i][j] = 1;
+         if(ceil(pow(i-coord2mapX(posptr[1].GetX()),2)+pow(j-coord2mapY(posptr[1].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+             newMatrix[i][j] = 1;
+         if(ceil(pow(i-coord2mapX(posptr[2].GetX()),2)+pow(j-coord2mapY(posptr[2].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+             newMatrix[i][j] = 1;
+         if(ceil(pow(i-coord2mapX(posptr[3].GetX()),2)+pow(j-coord2mapY(posptr[3].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+             newMatrix[i][j] = 1;
+         if(ceil(pow(i-coord2mapX(posptr[4].GetX()),2)+pow(j-coord2mapY(posptr[4].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+             newMatrix[i][j] = 1;
+
+         //clear the area around reference
+
+         if(ceil(pow(i-coord2mapX(pos1.GetX()),2)+pow(j-coord2mapY(pos1.GetY()),2)) <= ceil(pow(obstacle_r,2)))
+             newMatrix[i][j] = 0;
+     }
+ }
+
+
 
  newMatrix[i1][j1]=2; // affect 2 to the position of our robot in the matrix
 //Normalize coordinates of the ball
 
- Position pos = m_coordCalibrer->NormalizePosition(ball->GetPos());
+pos1 = m_coordCalibrer->NormalizePosition(ball->GetPos());
 
  //indices of the robot's position in the matrix
- int i=coord2mapX(pos.GetX());
- int j=coord2mapY(pos.GetY());
+ int i=coord2mapX(pos1.GetX());
+ int j=coord2mapY(pos1.GetY());
  newMatrix[i][j]=3; // affect 3 to the position of the ball in the matrix
 
  //generate the obstacles around the ball depending on the side in which our team plays
@@ -611,23 +641,20 @@ void matrixupdate(int newMatrix[][HEIGHT],RoboControl *ref, RoboControl *obstacl
  else
     newMatrix[i][j-1]=1;
 
- for (int k=0 ; k < 5 ; k++)
-     {
-        //Normalize coordinates of the obstacles
-        pos = m_coordCalibrer->NormalizePosition((*obstacles)[k].GetPos());//obstacles[i] are the robots
-        //indices of the robot's position in the matrix
-        i=coord2mapX(pos.GetX());
-        j=coord2mapY(pos.GetY());
+/*
+ //indices of the robot's position in the matrix
+ i=coord2mapX(pos1.GetX());
+ j=coord2mapY(pos1.GetY());
 
-        cout<< "i: "<<i<<" j: "<<j<<endl;
+ cout<< "i: "<<i<<" j: "<<j<<endl;
 
-        newMatrix[i][j]=1; // affect 1 to the position of the obstacle and its surroundings in the matrix
-        newMatrix[i-1][j]=1;
-        newMatrix[i+1][j]=1;
-        newMatrix[i][j-1]=1;
-        newMatrix[i][j+1]=1;
-
-
-    }
-
+ newMatrix[i][j]=1; // affect 1 to the position of the obstacle and its surroundings in the matrix
+ newMatrix[i-1][j]=1;
+ newMatrix[i+1][j]=1;
+ newMatrix[i][j-1]=1;
+ newMatrix[i][j+1]=1;
+*/
 }
+
+
+
