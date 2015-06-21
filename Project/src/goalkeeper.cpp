@@ -15,11 +15,11 @@
 
 
 
-Goalkeeper::Goalkeeper(RoboControl *x,RawBall *b, CoordCalibrer *coordCalibrer, RobotMonitor *robotMonitor, RawBall *ball) : ballMonitor(coordCalibrer, robotMonitor) {
+Goalkeeper::Goalkeeper(RoboControl *x,RawBall *b, CoordinatesCalibrer *coordCalibrer, RobotMonitor *robotMonitor) : ballMonitor(coordCalibrer, robotMonitor) {
 	robot = x;
 	ball  = b;
 	
-	ballMonitor.StartMonitoring(ball)
+        ballMonitor.StartMonitoring(ball);
 }
 
 Goalkeeper::~Goalkeeper(){

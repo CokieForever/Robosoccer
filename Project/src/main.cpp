@@ -74,7 +74,7 @@ int main(void)
         ballMonitor.StartMonitoring(&ball);
         refereeDisplay.StartDisplay(robots, &ball);
 
-        Goalkeeper gk(&robo1,&ball);
+        Goalkeeper gk(&robo1,&ball, &coordCalibrer, &robotMonitor);
         PlayerMain p1(&robo2,&ball);
         PlayerTwo p2(&robo3,&ball);
 		
@@ -110,6 +110,8 @@ int main(void)
             //p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
 
             usleep(33000);
+
+            cout <<"entered area" << endl;
         }
 
     }

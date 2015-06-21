@@ -7,7 +7,8 @@
 #include "kogmo_rtdb.hxx"
 #include "robo_control.h"
 #include "referee.h"
-#include "cruise2_2.h"
+#include "cruiseToBias2.h"
+#include "ballmonitor.h"
 
 
 
@@ -20,19 +21,19 @@ private:
 	RawBall* ball;
 
 	ActionGk nextCmd;
-    Position preventGoalParam;
+        Position preventGoalParam;
 	BallMonitor ballMonitor;
 
 public:
-	Goalkeeper(RoboControl *x,RawBall *b, CoordCalibrer *coordCalibrer, RobotMonitor *robotMonitor, RawBall *ball)
+        Goalkeeper(RoboControl *x, RawBall *b, CoordinatesCalibrer *coordCalibrer, RobotMonitor *robotMonitor);
         
 	Position defaultPos;
-    RoboControl* robot;
+        RoboControl* robot;
 
-    void setNextCmd(void*);
+        void setNextCmd(void*);
 	void setCmdParam();
-    void *performCmd(void);
-    static void *performCmd_helper(void *);
+        void *performCmd(void);
+        static void *performCmd_helper(void *);
 
 	~Goalkeeper();
 };
