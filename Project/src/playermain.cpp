@@ -15,9 +15,10 @@
 
 using namespace std;
 
-PlayerMain::PlayerMain(RoboControl *x,RawBall *b) {
+PlayerMain::PlayerMain(RoboControl *x,RawBall *b, CoordinatesCalibrer *c) {
     robot = x;
     ball  = b;
+    cal =   c;
 
     for(int i=0 ; i<WIDTH;i++){
 
@@ -86,9 +87,10 @@ void PlayerMain::setCmdParam(){
         Point A,B;
         //Point *pt;
         char c;
-        int j;
-        Position tmp;
-        queue<Position> empty_q;
+        int j,idx_tmp;
+        unsigned int interpolate_n = 12;
+        Position robo_n,ball_n;
+
 
 
         switch(nextCmd)
@@ -101,59 +103,51 @@ void PlayerMain::setCmdParam(){
                         break;
 
                 case FOLLOWPATH:
-                        cout << "q size :" <<q.size()<<endl;
-                        if(q.size()==0){
 
-                        A.x = coord2mapX(robot->GetX());
-                        A.y = coord2mapY(robot->GetY());
-                        B.x = coord2mapX(ball->GetX());
-                        B.y = coord2mapY(ball->GetY());
+                        if(m_q.size()==0){
+                            //create queue of move indices
 
-                        //get string with motion commands
-                        path = pathFind(map,A,B);
+                            robo_n = cal->NormalizePosition(robot->GetPos());
+                            ball_n = cal->NormalizePosition(ball->GetPos());
 
-                        cout << "current path string"<< path<< endl;
+                            A.x = coord2mapX(robo_n.GetX());
+                            A.y = coord2mapY(robo_n.GetY());
+                            B.x = coord2mapX(ball_n .GetX());
+                            B.y = coord2mapY(ball_n .GetY());
 
 
-                        /*
-                        //gets list of checkpoints
-                        pt = getCheckPoints(A,path);
-                        //load checkpoints to queue
-                        for (unsigned int i= 0 ; i<path.length(); i++){
-                            tmp.SetX(map2coordX(pt[i].x));
-                            tmp.SetX(map2coordY(pt[i].y));
+                            //get string with motion commands
+                            path = pathFind(map,A,B);
+                            showMap(map,path,A);
 
-                            q.push(tmp);
-                            cout << "checkpoints x/y: "<< map2coordX(pt[i].x)<< "/"<<map2coordX(pt[i].y)<<endl;
-                         }
-                        */
-
-                        for (unsigned int i= 0 ; i<path.length(); i++){
-
-                                    c=path.at(i);
-                                    j=atoi(&c);
-                                    A.x = A.x + dx[j];
-                                    A.y = A.y + dy[j];
-
-                                    tmp.SetX(map2coordX(A.x));
-                                    tmp.SetX(map2coordY(A.y));
-
-                                    q.push(tmp);
+                            for (unsigned int i= 0 ; i<path.length(); i++){
+                                        c=path.at(i);
+                                        j=atoi(&c);
+                                        m_q.push(j);
+                            }
 
                         }
+                        go_x = 0;
+                        go_y = 0;
 
+                        //take n points and interpolate
+                        if (m_q.size()>= interpolate_n)
+                        {
+                            for (unsigned int i=0;i<interpolate_n;i++){
+                                idx_tmp = m_q.front();
+                                go_x = go_x + dx[idx_tmp];
+                                go_y = go_y + dy[idx_tmp];
+                                m_q.pop();
+                            }
 
-
-
-
-                        //set memory free of the allocated array in getcheckpoints- necessary?!
-                        /*
-                        delete[] pt;
-                        pt = NULL;
-
-                        std::cout<<path<<std::endl;
-                        std::cout<< "Checkpoint "<< "i" << "X : "<<"Y: "<< std::endl;
-                        */
+                        }
+                        else{
+                            while(m_q.size()!=0){
+                                idx_tmp = m_q.front();
+                                go_x = go_x + dx[idx_tmp];
+                                go_y = go_y + dy[idx_tmp];
+                                m_q.pop();
+                            }
                         }
 
                         break;
@@ -178,6 +172,8 @@ void PlayerMain::setCmdParam(){
 void *PlayerMain::performCmd(){
             std::cout<< "Player 1 next command is:" << nextCmd<< endl <<"1: GO_TO_DEF_POS,KICK_PENALTY 2: KICK_OFF 3: STOP 4: FOLLOWPATH"<<std::endl;
             Position pos;
+            int mapx,mapy;
+
             switch(nextCmd)
             {
                     case PlayerMain::KICK_PENALTY:
@@ -221,20 +217,20 @@ void *PlayerMain::performCmd(){
 
                     case PlayerMain::FOLLOWPATH:
 
-                          std::cout << "Player1 Perform Followpath:" <<std::endl;
+                        std::cout << "Player1 Perform Followpath (queue size): "<<m_q.size() <<std::endl;
 
+                        pos = cal->NormalizePosition(robot->GetPos());
+                        mapx = coord2mapX(pos.GetX())+ go_x;
+                        mapy = coord2mapY(pos.GetY())+ go_y;
 
+                        pos.SetX(map2coordX(mapx));
+                        pos.SetY(map2coordY(mapy));
 
-                          while(q.size()>0)
-                          {
-                              pos = q.back();
-                              robot->GotoXY(pos.GetX(),pos.GetY());
-                              //wait until movement is done
-                              usleep(0.5e6);
-                              //remove last element from queue
-                              q.pop();
-                           }
-                          break;
+                        robot->GotoPos(cal->UnnormalizePosition(pos));
+                        //wait until movement is done
+                        usleep(0.5e6);
+
+                        break;
 
 
                     default:

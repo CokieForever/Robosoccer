@@ -13,13 +13,14 @@
 #include "playermain.h"
 #include <queue>
 #include "node.h"
+#include "coordinates.h"
 #include "playertwo.h"
 
 //include the libs from sample code
 
 
 
-interpreter::interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,RoboControl *a,RoboControl *b,RoboControl *c,RawBall *d) {
+interpreter::interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,RoboControl *a,RoboControl *b,RoboControl *c,RawBall *d,CoordinatesCalibrer *e) {
 	// TODO Auto-generated constructor stub
 	ref  = y;
 	gk = z;
@@ -29,6 +30,7 @@ interpreter::interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo 
         e1 = a;
         e2 = b;
         e3 = c;
+        cal = e;
 
         mode.mode = ref->GetPlayMode();
         mode.formation = DEF;
@@ -287,7 +289,7 @@ void interpreter::setTurn(){
 	{
                 mode.turn = OUR_TURN;
 	}
-	else
+        else
 	{
                 mode.turn = THEIR_TURN;
 	}
@@ -295,6 +297,14 @@ void interpreter::setTurn(){
 }
 
 void interpreter::updateSituation(){
+
+        RoboControl *robots[5] = {gk->robot, p2->robot, e1, e2, e3};
+
+
+        setObstacles(p1->map);
+
+        matrixupdate(p1->map,p1->robot,robots,ball,cal,mode.our_side);
+
 	setPlayMode();
 	setDefaultPos();
 
@@ -302,31 +312,27 @@ void interpreter::updateSituation(){
 
 void interpreter::setObstacles(int map[][HEIGHT])
 {
+
     int width = WIDTH;
     int height = HEIGHT;
-    int  gk_x = coord2mapX(gk->robot->GetPos().GetX());
-    int  gk_y = coord2mapY(gk->robot->GetPos().GetY());
-    int  p1_x = coord2mapX(p1->robot->GetPos().GetX());
-    int  p1_y = coord2mapY(p1->robot->GetPos().GetY());
-    int  p2_x = coord2mapX(p2->robot->GetPos().GetX());
-    int  p2_y = coord2mapY(p2->robot->GetPos().GetY());
-    int  borderwidth = 3;
+
+    //clear map
+    for(int i=0 ; i<WIDTH;i++){
+
+        for(int j=0;j<HEIGHT;j++){
+            map[i][j] = 0;
+        }
+    }
 
     //restrict borders and penalty area
     for (int i = 0 ; i<width;i++)
     {
         for(int j =0; j<height;j++){
 
-            if((j==0) || (j==height-1) || (i==0)|| (i==width-1) || ((j > HEIGHT/2 - WIDTH/10) && (j < HEIGHT/2 + WIDTH/10) && ((i < WIDTH/10) || (i > WIDTH-WIDTH/10)))
+            if((j==0) || (j==height-1) || (i==0)|| (i==width-1) || ((j > HEIGHT/2 - WIDTH/10) && (j < HEIGHT/2 + WIDTH/10) && ((i < WIDTH/10) || (i > WIDTH-WIDTH/10))))
 
-                    ||   //set obstacle at gk position
-                                        ((i <(gk_x+borderwidth)) && (i>(gk_x-borderwidth)) && (gk_x-borderwidth>=0) && ((gk_x+borderwidth)<=99) && ((j <(gk_y+borderwidth)) && (j>(gk_y-borderwidth)) && (gk_y-borderwidth>=0) && ((gk_y+borderwidth)<=79)))
-                    ||   //set obstacle at p2 position
-                                        ((i <(p1_x+borderwidth)) && (i>(p1_x-borderwidth)) && (p1_x-borderwidth>=0) && ((p1_x+borderwidth)<=99) && ((j <(p1_y+borderwidth)) && (j>(p1_y-borderwidth)) && (p1_y-borderwidth>=0) && ((p1_y+borderwidth)<=79)))
-                    ||   //set obstacle at p1 position
-                                        ((i <(p2_x+borderwidth)) && (i>(p2_x-borderwidth)) && (p2_x-borderwidth>=0) && ((p2_x+borderwidth)<=99) && ((j <(p2_y+borderwidth)) && (j>(p2_y-borderwidth)) && (p2_y-borderwidth>=0) && ((p2_y+borderwidth)<=79))))
-                //set borders to 1
-                map[i][j] = 1;                                          //set penalty areas as obstacle
+                map[i][j] = 1;
+                //set penalty areas as obstacles
 
         }
     }
@@ -338,7 +344,7 @@ int coord2mapX(double x){
     //map width from 0 to 99
     int mapX;
 
-    mapX = WIDTH/2 + floor(x * (WIDTH-1)/2.0);
+    mapX = floor(WIDTH/2 + x * (WIDTH-1)/2.0);
 
     return mapX;
 }
@@ -348,7 +354,7 @@ int coord2mapY(double y){
     //map width from 0 to 99
     int mapY;
 
-    mapY = HEIGHT/2 + floor(y * (HEIGHT-1)/2.0);
+    mapY = floor(HEIGHT/2 + y * (HEIGHT-1)/2.0);
 
     return mapY;
 
@@ -567,5 +573,61 @@ void showMap(int map[][HEIGHT], string path,const Point start){
         }
     }
 
+
+}
+
+
+void matrixupdate(int newMatrix[][HEIGHT],RoboControl *ref, RoboControl *obstacles[5], RawBall* ball, CoordinatesCalibrer *coordCalibrer, eSide our_side)
+{
+
+ CoordinatesCalibrer *m_coordCalibrer = coordCalibrer;
+ //Normalize coordinates of our robot
+ Position pos1 = m_coordCalibrer->NormalizePosition((ref->GetPos()));//ref is our robot
+ //indices of the robot's position in the matrix
+ int i1=coord2mapX(pos1.GetX());
+ int j1=coord2mapY(pos1.GetY());
+
+ newMatrix[i1][j1]=2; // affect 2 to the position of our robot in the matrix
+//Normalize coordinates of the ball
+
+ Position pos = m_coordCalibrer->NormalizePosition(ball->GetPos());
+
+ //indices of the robot's position in the matrix
+ int i=coord2mapX(pos.GetX());
+ int j=coord2mapY(pos.GetY());
+ newMatrix[i][j]=3; // affect 3 to the position of the ball in the matrix
+
+ //generate the obstacles around the ball depending on the side in which our team plays
+ newMatrix[i-1][j-1]=1;
+ newMatrix[i-1][j]=1;
+ newMatrix[i-1][j+1]=1;
+ newMatrix[i+1][j-1]=1;
+ newMatrix[i+1][j]=1;
+ newMatrix[i+1][j+1]=1;
+
+
+ if (our_side == LEFT_SIDE)
+    newMatrix[i][j+1]=1;
+ else
+    newMatrix[i][j-1]=1;
+
+ for (int k=0 ; k < 5 ; k++)
+     {
+        //Normalize coordinates of the obstacles
+        pos = m_coordCalibrer->NormalizePosition((*obstacles)[k].GetPos());//obstacles[i] are the robots
+        //indices of the robot's position in the matrix
+        i=coord2mapX(pos.GetX());
+        j=coord2mapY(pos.GetY());
+
+        cout<< "i: "<<i<<" j: "<<j<<endl;
+
+        newMatrix[i][j]=1; // affect 1 to the position of the obstacle and its surroundings in the matrix
+        newMatrix[i-1][j]=1;
+        newMatrix[i+1][j]=1;
+        newMatrix[i][j-1]=1;
+        newMatrix[i][j+1]=1;
+
+
+    }
 
 }

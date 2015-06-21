@@ -33,7 +33,7 @@ class interpreter {
 
 
 private:
-
+        CoordinatesCalibrer *cal;
         Referee *ref;
         Goalkeeper *gk;
         PlayerMain *p1;
@@ -66,7 +66,7 @@ public:
 
         void setObstacles(int map[][HEIGHT]);
 
-        interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,RoboControl *a,RoboControl *b,RoboControl *c,RawBall *d);
+        interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,RoboControl *a,RoboControl *b,RoboControl *c,RawBall *d,CoordinatesCalibrer *e);
 
         void updateSituation();
         ~interpreter();
@@ -81,6 +81,6 @@ int coord2mapY(double);
 double map2coordX(int);
 double map2coordY(int);
 void showMap(int map[][HEIGHT],string path,const Point start);
-
+void matrixupdate(int newMatrix[][HEIGHT],RoboControl *ref, RoboControl *obstacles[5], RawBall *ball, CoordinatesCalibrer *coordCalibrer, eSide our_side);
 
 #endif /* INTERPRETER_H_ */

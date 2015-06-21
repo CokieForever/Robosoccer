@@ -75,10 +75,10 @@ int main(void)
         refereeDisplay.StartDisplay(robots, &ball);
 
         Goalkeeper gk(&robo1,&ball);
-        PlayerMain p1(&robo2,&ball);
+        PlayerMain p1(&robo2,&ball,&coordCalibrer);
         PlayerTwo p2(&robo3,&ball);
 
-        interpreter info(team,&ref,&gk,&p1,&p2,&robo4,&robo5,&robo6,&ball);
+        interpreter info(team,&ref,&gk,&p1,&p2,&robo4,&robo5,&robo6,&ball,&coordCalibrer);
 
         //-------------------------------------- Ende Init ---------------------------------
 
@@ -96,31 +96,22 @@ int main(void)
         while (1)
         {
             info.updateSituation();
-            if(info.mode.turn == interpreter::OUR_TURN)
-            {
-                cout<<"OUR TURN"<<endl;
-                usleep(1000000);
-            }
-            else
-            {    cout << "NOT OUR TURN"<<endl;
-                 usleep(1000000);
 
-            }
-            gk.setNextCmd(&info);
-            gk.setCmdParam();
+            //gk.setNextCmd(&info);
+            //gk.setCmdParam();
 
             p1.setNextCmd(&info);
             p1.setCmdParam();
 
-            p2.setNextCmd(&info);
-            p2.setCmdParam();
+            //p2.setNextCmd(&info);
+            //p2.setCmdParam();
 
             gk_th = pthread_create(&threads[0],NULL,&Goalkeeper::performCmd_helper,(void*)&gk);
             p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
             p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
 
-            usleep(10e6);
-            sleep(10);
+            usleep(1e6);
+
         }
 
     }

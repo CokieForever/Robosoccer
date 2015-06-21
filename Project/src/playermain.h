@@ -3,6 +3,7 @@
 
 #include "kogmo_rtdb.hxx"
 #include "robo_control.h"
+#include "coordinates.h"
 #include <queue>
 
 
@@ -25,8 +26,10 @@ private:
     KickParam kickPenaltyParam;
     Position kickOffParam;
     string path;
-    queue<Position> q;
+    queue<int> m_q;
+    CoordinatesCalibrer *cal;
     bool actionPerformed;
+    int go_x,go_y;
 
 
 
@@ -40,7 +43,7 @@ public:
     void *performCmd();
     static void *performCmd_helper(void *);
 
-    PlayerMain(RoboControl*,RawBall *);
+    PlayerMain(RoboControl*a,RawBall *b,CoordinatesCalibrer *c);
     ~PlayerMain();
 
 };
