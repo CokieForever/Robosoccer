@@ -3,6 +3,7 @@
 
 #include "kogmo_rtdb.hxx"
 #include "robo_control.h"
+#include "cruiseToBias2.h"
 #include "coordinates.h"
 #include <queue>
 

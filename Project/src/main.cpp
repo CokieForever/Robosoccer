@@ -18,8 +18,11 @@
 #include "refereedisplay.h"
 #include "robotmonitor.h"
 #include "interpreter.h"
+#include "cruiseToBias2.h"
 
 using namespace std;
+
+
 
 
 
@@ -29,7 +32,7 @@ const eTeam team = BLUE_TEAM;
 int main(void)
 {
     //--------------------------------- Init ---------------------------------
-    const int client_nr = 11;
+    const int client_nr = 12;
 
     int rfcomm_nr_blue[] = {0, 1, 2};
     int rfcomm_nr_red[] = {3, 4, 5};
@@ -42,8 +45,8 @@ int main(void)
     int gk_th,p1_th,p2_th;
 
     CoordinatesCalibrer coordCalibrer;
-    //coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));     //Calibration settings for the real field
-    coordCalibrer.SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));                  //Calibration settings for the simulation
+    coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));     //Calibration settings for the real field
+    //coordCalibrer.SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));                  //Calibration settings for the simulation
 
     RobotMonitor robotMonitor(&coordCalibrer);
     BallMonitor ballMonitor(&coordCalibrer, &robotMonitor);
@@ -80,6 +83,7 @@ int main(void)
 
         interpreter info(team,&ref,&gk,&p1,&p2,&robo4,&robo5,&robo6,&ball,&coordCalibrer);
 
+
         //-------------------------------------- Ende Init ---------------------------------
 
         //plan path for p1
@@ -110,7 +114,7 @@ int main(void)
             p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
             p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
 
-            usleep(1e6);
+            //usleep(2e6);
 
         }
 

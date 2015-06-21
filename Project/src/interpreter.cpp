@@ -158,7 +158,7 @@ void interpreter::setDefaultPos(){
                                     p1->defaultPos.SetY(0.4);
 
 
-                                    p2->defaultPos.SetX(0.2);
+                                    p2->defaultPos.SetX(-0.2);
                                     p2->defaultPos.SetY(-0.4);
                                 }
 
@@ -208,12 +208,12 @@ void interpreter::setDefaultPos(){
 
 		default:
                         gk->defaultPos.SetX(1.1);
-                        gk->defaultPos.SetY(0.0);
+                        gk->defaultPos.SetY(0.5);
 
-                        p1->defaultPos.SetX(0.3);
+                        p1->defaultPos.SetX(0.5);
                         p1->defaultPos.SetY(0.2);
 
-                        p2->defaultPos.SetX(0.3);
+                        p2->defaultPos.SetX(-0.5);
                          p2->defaultPos.SetY(-0.2);
                         //states such "as referee init, kick_off/penalty -> defpos doesnt change
 			break;

@@ -88,7 +88,7 @@ void PlayerMain::setCmdParam(){
         //Point *pt;
         char c;
         int j,idx_tmp;
-        unsigned int interpolate_n = 12;
+        unsigned int interpolate_n = 15;
         Position robo_n,ball_n;
 
 
@@ -225,10 +225,12 @@ void *PlayerMain::performCmd(){
 
                         pos.SetX(map2coordX(mapx));
                         pos.SetY(map2coordY(mapy));
+                        pos = cal->UnnormalizePosition(pos.GetPos());
 
-                        robot->GotoPos(cal->UnnormalizePosition(pos));
+                        CruisetoBias(pos.GetX(),pos.GetY(),600,-10,30,robot);
+                        //robot->GotoPos(pos);
                         //wait until movement is done
-                        usleep(0.5e6);
+                        //usleep(0.5e6);
 
                         break;
 
