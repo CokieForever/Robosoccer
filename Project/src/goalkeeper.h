@@ -11,7 +11,7 @@
 
 
 class Goalkeeper {
-	enum ActionGk{GO_TO_DEF_POS,PREVENT_GOAL};
+        enum ActionGk{GO_TO_DEF_POS,PREVENT_GOAL,FOLLOWPATH};
 
 
 private:
