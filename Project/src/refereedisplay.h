@@ -7,14 +7,17 @@
 #include "coordinates.h"
 #include "ballmonitor.h"
 #include "sdlutilities.h"
+#include "matrixdisplay.h"
 
 class RefereeDisplay
 {
 
 public:
-    RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW = 800, int screenH = 600, RoboControl **robots=NULL, RawBall *ball=NULL);
+    RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW = 800, int screenH = 600,
+                   RoboControl **robots=NULL, RawBall *ball=NULL, const MatrixDisplay::Matrix *matrix=NULL);
+    ~RefereeDisplay();
 
-    bool StartDisplay(RoboControl **robots=NULL, RawBall *ball=NULL);
+    bool StartDisplay(RoboControl **robots=NULL, RawBall *ball=NULL, const MatrixDisplay::Matrix *matrix=NULL);
     bool StopDisplay();
 
 private:
@@ -29,7 +32,9 @@ private:
     eTeam m_team;
     BallMonitor *m_ballMonitor;
     CoordinatesCalibrer *m_coordCalibrer;
+    MatrixDisplay *m_matrixDisplay;
 
+    void CreateMatrixDisplay(const MatrixDisplay::Matrix *matrix);
     SDL_Rect PosToRect(Position pos, int w = 0, int h = 0);
     Position RectToPos(SDL_Rect rect);
 

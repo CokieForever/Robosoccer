@@ -18,6 +18,7 @@
 #include "refereedisplay.h"
 #include "robotmonitor.h"
 #include "interpreter.h"
+#include "matrixdisplay.h"
 
 using namespace std;
 
@@ -45,9 +46,13 @@ int main(void)
     coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));     //Calibration settings for the real field
     //coordCalibrer.SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));                  //Calibration settings for the simulation
 
+    int array[4][5] = {{0,0,1,0,0}, {1,1,1,1,1}, {0,0,0,0,0}, {0,0,1,1,1}};
+    MatrixDisplay::Matrix matrix = MatrixDisplay::ConvertToMatrix(&(array[0][0]), 4, 5);
+
     RobotMonitor robotMonitor(&coordCalibrer);
     BallMonitor ballMonitor(&coordCalibrer, &robotMonitor);
     RefereeDisplay refereeDisplay(team, &ballMonitor, &coordCalibrer);
+
 
     try
     {
@@ -70,9 +75,9 @@ int main(void)
         Referee ref(DBC);
         ref.Init();
         cout << ref.GetSide() <<endl;
-		
+
         ballMonitor.StartMonitoring(&ball);
-        refereeDisplay.StartDisplay(robots, &ball);
+        refereeDisplay.StartDisplay(robots, &ball, &matrix);
 
         Goalkeeper gk(&robo1,&ball);
         PlayerMain p1(&robo2,&ball);

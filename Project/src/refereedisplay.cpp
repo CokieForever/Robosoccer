@@ -1,7 +1,8 @@
 #include "refereedisplay.h"
 
 
-RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW, int screenH, RoboControl **robots, RawBall *ball)
+RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW, int screenH,
+                               RoboControl **robots, RawBall *ball, const MatrixDisplay::Matrix *matrix)
 {
     m_keepGoing = true;
     m_isDisplaying = false;
@@ -18,9 +19,18 @@ RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, Coordinates
     m_team = team;
     m_ballMonitor = ballMonitor;
     m_coordCalibrer = coordCalibrer;
+    m_matrixDisplay = NULL;
+
+    CreateMatrixDisplay(matrix);
 }
 
-bool RefereeDisplay::StartDisplay(RoboControl **robots, RawBall *ball)
+RefereeDisplay::~RefereeDisplay()
+{
+    if (m_matrixDisplay)
+        delete m_matrixDisplay;
+}
+
+bool RefereeDisplay::StartDisplay(RoboControl **robots, RawBall *ball, const MatrixDisplay::Matrix *matrix)
 {
     if (m_isDisplaying || !m_ballMonitor || !m_coordCalibrer)
         return false;
@@ -29,6 +39,8 @@ bool RefereeDisplay::StartDisplay(RoboControl **robots, RawBall *ball)
         memcpy(m_robots, robots, sizeof(RoboControl*) * 6);
     if (ball)
         m_ball = ball;
+    if (matrix)
+        CreateMatrixDisplay(matrix);
 
     pthread_create(&m_displayThread, NULL, RefDisplayFn, this);
     usleep(0.1e6);
@@ -46,6 +58,19 @@ bool RefereeDisplay::StopDisplay()
 }
 
 
+void RefereeDisplay::CreateMatrixDisplay(const MatrixDisplay::Matrix *matrix)
+{
+    if (m_matrixDisplay)
+    {
+        delete m_matrixDisplay;
+        m_matrixDisplay = NULL;
+    }
+
+    if (!matrix)
+        return;
+
+    m_matrixDisplay = new MatrixDisplay(*matrix, m_screenW, m_screenH);
+}
 
 void* RefereeDisplay::RefDisplayFn(void *data)
 {
@@ -124,6 +149,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     Position gotoOrders[6] = {Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10)};
 
     SDL_Event event;
+    SDL_Surface *bgSurf = NULL;
     display->m_keepGoing = true;
     while (display->m_keepGoing)
     {
@@ -138,7 +164,11 @@ void* RefereeDisplay::RefDisplayFn(void *data)
                 display->m_ballMonitor->StartBallFollowing(display->m_robots[3]);
         }
 
-        SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 200, 0));
+        bgSurf = display->m_matrixDisplay ? display->m_matrixDisplay->UpdateDisplay() : NULL;
+        if (bgSurf)
+            SDL_BlitSurface(bgSurf, NULL, screen, NULL);
+        else
+            SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0,255,0));
 
         if (ballSurfTr)
         {
