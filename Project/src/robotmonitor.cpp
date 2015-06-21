@@ -1,28 +1,32 @@
 #include "robotmonitor.h"
 
-static GotoOrder currentOrders[6] = {{Position(), NULL, NULL, false},
-                                     {Position(), NULL, NULL, false},
-                                     {Position(), NULL, NULL, false},
-                                     {Position(), NULL, NULL, false},
-                                     {Position(), NULL, NULL, false},
-                                     {Position(), NULL, NULL, false}};
+RobotMonitor::RobotMonitor(CoordinatesCalibrer *coordCalibrer, RoboControl **robots)
+{
+    m_coordCalibrer = coordCalibrer;
 
-static void* RobotWatchingFn(void *data);
+    for (int i=0 ; i < 6 ; i++)
+    {
+        currentOrders[i].isValid = false;
+        currentOrders[i].robot = robots ? robots[i] : NULL;
+        currentOrders[i].target = Position();
+        currentOrders[i].thread = NULL;
+    }
+}
 
 
-void SetRobot(RoboControl *robot, int num)
+void RobotMonitor::SetRobot(RoboControl *robot, int num)
 {
     if (num < 6 && num >= 0)
         currentOrders[num].robot = robot;
 }
 
-void SetAllRobots(RoboControl **robots)
+void RobotMonitor::SetAllRobots(RoboControl **robots)
 {
     for (int i=0 ; i < 6 ; i++)
         currentOrders[i].robot = robots[i];
 }
 
-int GetRobotNum(RoboControl *robot)
+int RobotMonitor::GetRobotNum(RoboControl *robot)
 {
     for (int i=0 ; i < 6 ; i++)
     {
@@ -33,15 +37,15 @@ int GetRobotNum(RoboControl *robot)
     return -1;
 }
 
-void ProgressiveGoto(int robot, Position pos0)
+void RobotMonitor::ProgressiveGoto(int robot, Position pos0)
 {
     GotoOrder *order = &(currentOrders[robot]);
-    Position pos = NormalizePosition(pos0);
+    Position pos = m_coordCalibrer->NormalizePosition(pos0);
 
     if (order->isValid)
     {
         double d1 = pos.DistanceTo(order->target);
-        double d2 = pos.DistanceTo(NormalizePosition(order->robot->GetPos()));
+        double d2 = pos.DistanceTo(m_coordCalibrer->NormalizePosition(order->robot->GetPos()));
 
         if (d1 >= 0.25 * d2)
             order->robot->GotoXY(pos0.GetX(), pos0.GetY(), GetSuitedSpeed(d2), false);
@@ -52,16 +56,16 @@ void ProgressiveGoto(int robot, Position pos0)
     {
         order->target = pos;
         order->isValid = true;
-        order->robot->GotoXY(pos0.GetX(), pos0.GetY(), GetSuitedSpeed(pos.DistanceTo(NormalizePosition(order->robot->GetPos()))), false);
+        order->robot->GotoXY(pos0.GetX(), pos0.GetY(), GetSuitedSpeed(pos.DistanceTo(m_coordCalibrer->NormalizePosition(order->robot->GetPos()))), false);
         pthread_create(&(order->thread), NULL, RobotWatchingFn, order);
     }
 }
 
-void ProgressiveKick(int robot, Position pos0)
+void RobotMonitor::ProgressiveKick(int robot, Position pos0)
 {
     GotoOrder *order = &(currentOrders[robot]);
-    Position pos = NormalizePosition(pos0);
-    Position robotPos = NormalizePosition(order->robot->GetPos());
+    Position pos = m_coordCalibrer->NormalizePosition(pos0);
+    Position robotPos = m_coordCalibrer->NormalizePosition(order->robot->GetPos());
 
     if (order->isValid)
     {
@@ -79,12 +83,12 @@ void ProgressiveKick(int robot, Position pos0)
     {
         order->target = pos;
         order->isValid = true;
-        order->robot->GotoXY(pos0.GetX(), pos0.GetY(), std::max(GetSuitedSpeed(pos.DistanceTo(NormalizePosition(order->robot->GetPos()))), 120), false);
+        order->robot->GotoXY(pos0.GetX(), pos0.GetY(), std::max(GetSuitedSpeed(pos.DistanceTo(m_coordCalibrer->NormalizePosition(order->robot->GetPos()))), 120), false);
         pthread_create(&(order->thread), NULL, RobotWatchingFn, order);
     }
 }
 
-int GetSuitedSpeed(double distToTgt)
+int RobotMonitor::GetSuitedSpeed(double distToTgt)
 {   
     if (distToTgt <= 0.15)
         return 60;
@@ -96,7 +100,7 @@ int GetSuitedSpeed(double distToTgt)
         return 250;
 }
 
-static void* RobotWatchingFn(void *data)
+void* RobotMonitor::RobotWatchingFn(void *data)
 {
     GotoOrder *order = (GotoOrder*)data;
     order->isValid = true;

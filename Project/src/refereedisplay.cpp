@@ -1,53 +1,61 @@
 #include "refereedisplay.h"
 
-#define SCREENW 800
-#define SCREENH 600
 
-static bool keepGoing = true;
-static bool isDisplaying = false;
-static pthread_t displayThread;
-
-static void* RefDisplayFn(void *data);
-static SDL_Rect PosToRect(Position pos, int w = 0, int h = 0);
-static Position RectToPos(SDL_Rect rect);
-
-bool StartRefereeDisplay(RoboControl **robots, RawBall *ball, eTeam team)
+RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW, int screenH, RoboControl **robots, RawBall *ball)
 {
-    if (isDisplaying)
+    m_keepGoing = true;
+    m_isDisplaying = false;
+    m_displayThread = NULL;
+    m_screenW = screenW;
+    m_screenH = screenH;
+
+    if (robots)
+        memcpy(m_robots, robots, sizeof(RoboControl*) * 6);
+    else
+        memset(m_robots, 0, sizeof(RoboControl*) * 6);
+
+    m_ball = ball;
+    m_team = team;
+    m_ballMonitor = ballMonitor;
+    m_coordCalibrer = coordCalibrer;
+}
+
+bool RefereeDisplay::StartDisplay(RoboControl **robots, RawBall *ball)
+{
+    if (m_isDisplaying || !m_ballMonitor || !m_coordCalibrer)
         return false;
 
-    AllData *data = (AllData*)malloc(sizeof(AllData));
-    for (int i=0 ; i < 6 ; i++)
-        data->robots[i] = robots[i];
-    data->ball = ball;
-    data->team = team;
+    if (robots)
+        memcpy(m_robots, robots, sizeof(RoboControl*) * 6);
+    if (ball)
+        m_ball = ball;
 
-    pthread_create(&displayThread, NULL, RefDisplayFn, data);
+    pthread_create(&m_displayThread, NULL, RefDisplayFn, this);
     usleep(0.1e6);
 
     return true;
 }
 
-bool StopRefereeDisplay()
+bool RefereeDisplay::StopDisplay()
 {
-    if (!isDisplaying)
+    if (!m_isDisplaying)
         return false;
-    keepGoing = false;
-    pthread_join(displayThread, NULL);
+    m_keepGoing = false;
+    pthread_join(m_displayThread, NULL);
     return true;
 }
 
 
 
-static void* RefDisplayFn(void *data)
+void* RefereeDisplay::RefDisplayFn(void *data)
 {
-    AllData *allData = (AllData*)data;
-    isDisplaying = true;
+    RefereeDisplay *display = (RefereeDisplay*)data;
+    display->m_isDisplaying = true;
 
     SDL_Init(SDL_INIT_EVERYTHING);
     TTF_Init();
 
-    SDL_Surface *screen = SDL_SetVideoMode(SCREENW, SCREENH, 32, SDL_SWSURFACE);
+    SDL_Surface *screen = SDL_SetVideoMode(display->m_screenW, display->m_screenH, 32, SDL_SWSURFACE);
     SDL_Flip(screen);
 
     SDL_Surface *fSurf = NULL;
@@ -62,7 +70,7 @@ static void* RefDisplayFn(void *data)
         cout << "Unable to load ball bmp: " << SDL_GetError() << endl;
     else
     {
-        double zoom = SCREENW/50 / (double)ballSurf->w;
+        double zoom = display->m_screenW/50 / (double)ballSurf->w;
         SDL_Surface *s = zoomSurface(ballSurf, zoom, zoom, 1);
         if (s)
         {
@@ -78,7 +86,7 @@ static void* RefDisplayFn(void *data)
         cout << "Unable to load red robot bmp: " << SDL_GetError() << endl;
     else
     {
-        double zoom = SCREENW/25 / (double)redRobotSurf->w;
+        double zoom = display->m_screenW/25 / (double)redRobotSurf->w;
         SDL_Surface *s = zoomSurface(redRobotSurf, zoom, zoom, 1);
         if (s)
         {
@@ -94,7 +102,7 @@ static void* RefDisplayFn(void *data)
         cout << "Unable to load blue robot bmp: " << SDL_GetError() << endl;
     else
     {
-        double zoom = SCREENW/25 / (double)blueRobotSurf->w;
+        double zoom = display->m_screenW/25 / (double)blueRobotSurf->w;
         SDL_Surface *s = zoomSurface(blueRobotSurf, zoom, zoom, 1);
         if (s)
         {
@@ -106,56 +114,56 @@ static void* RefDisplayFn(void *data)
     }
 
     SDL_Rect rect = {0,0,0,0};
-    DragDrop robotsDD[6] = {CreateDragDrop(rect, allData->team == BLUE_TEAM ? blueRobotSurfTr : redRobotSurfTr),
-                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? blueRobotSurfTr : redRobotSurfTr),
-                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? blueRobotSurfTr : redRobotSurfTr),
-                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? redRobotSurfTr : blueRobotSurfTr),
-                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? redRobotSurfTr : blueRobotSurfTr),
-                            CreateDragDrop(rect, allData->team == BLUE_TEAM ? redRobotSurfTr : blueRobotSurfTr)};
+    DragDrop robotsDD[6] = {CreateDragDrop(rect, display->m_team == BLUE_TEAM ? blueRobotSurfTr : redRobotSurfTr),
+                            CreateDragDrop(rect, display->m_team == BLUE_TEAM ? blueRobotSurfTr : redRobotSurfTr),
+                            CreateDragDrop(rect, display->m_team == BLUE_TEAM ? blueRobotSurfTr : redRobotSurfTr),
+                            CreateDragDrop(rect, display->m_team == BLUE_TEAM ? redRobotSurfTr : blueRobotSurfTr),
+                            CreateDragDrop(rect, display->m_team == BLUE_TEAM ? redRobotSurfTr : blueRobotSurfTr),
+                            CreateDragDrop(rect, display->m_team == BLUE_TEAM ? redRobotSurfTr : blueRobotSurfTr)};
 
     Position gotoOrders[6] = {Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10)};
 
     SDL_Event event;
-    keepGoing = true;
-    while (keepGoing)
+    display->m_keepGoing = true;
+    while (display->m_keepGoing)
     {
         event.type = SDL_NOEVENT;
         SDL_PollEvent(&event);
 
         if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_f)
         {
-            if (IsBallFollowingStarted())
-                StopBallFollowing();
+            if (display->m_ballMonitor->IsBallFollowingStarted())
+                display->m_ballMonitor->StopBallFollowing();
             else
-                StartBallFollowing(allData->robots[3]);
+                display->m_ballMonitor->StartBallFollowing(display->m_robots[3]);
         }
 
         SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 200, 0));
 
         if (ballSurfTr)
         {
-            rect = PosToRect(NormalizePosition(allData->ball->GetPos()), ballSurfTr->w, ballSurfTr->h);
+            rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_ball->GetPos()), ballSurfTr->w, ballSurfTr->h);
             SDL_BlitSurface(ballSurfTr, NULL, screen, &rect);
         }
 
         Position pos(0,0);
-        if (PredictBallPosition(&pos, 5))
+        if (display->m_ballMonitor->PredictBallPosition(&pos, 5))
         {
-            rect = PosToRect(NormalizePosition(allData->ball->GetPos()));
-            SDL_Rect rect2 = PosToRect(NormalizePosition(pos));
+            rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_ball->GetPos()));
+            SDL_Rect rect2 = display->PosToRect(display->m_coordCalibrer->NormalizePosition(pos));
             DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
         }
 
         for (int i=0 ; i < 6 ; i++)
         {
-            SDL_Surface *robotSurf = ((allData->team == BLUE_TEAM) ^ (i < 3)) ? redRobotSurfTr : blueRobotSurfTr;
+            SDL_Surface *robotSurf = ((display->m_team == BLUE_TEAM) ^ (i < 3)) ? redRobotSurfTr : blueRobotSurfTr;
             if (robotSurf)
             {
-                robotsDD[i].area = PosToRect(NormalizePosition(allData->robots[i]->GetPos()), robotSurf->w, robotSurf->h);
+                robotsDD[i].area = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_robots[i]->GetPos()), robotSurf->w, robotSurf->h);
                 rect = robotsDD[i].area;
                 SDL_BlitSurface(robotSurf, NULL, screen, &rect);
 
-                if (fSurf && i == 3 && IsBallFollowingStarted())
+                if (fSurf && i == 3 && display->m_ballMonitor->IsBallFollowingStarted())
                 {
                     rect.x += robotSurf->w/2 - fSurf->w/2;
                     rect.y += robotSurf->h/2 - fSurf->h/2;
@@ -166,8 +174,8 @@ static void* RefDisplayFn(void *data)
 
                 if (status == DDS_DROPPED)
                 {
-                    gotoOrders[i] = UnnormalizePosition(RectToPos(GetMousePos()));
-                    allData->robots[i]->GotoXY(gotoOrders[i].GetX(), gotoOrders[i].GetY(), 130);
+                    gotoOrders[i] = display->m_coordCalibrer->UnnormalizePosition(display->RectToPos(GetMousePos()));
+                    display->m_robots[i]->GotoXY(gotoOrders[i].GetX(), gotoOrders[i].GetY(), 130);
                 }
                 else if (status == DDS_DRAGGED)
                 {
@@ -177,11 +185,11 @@ static void* RefDisplayFn(void *data)
 
                 if (gotoOrders[i].GetX() > -10)
                 {
-                    if (allData->robots[i]->GetPos().DistanceTo(gotoOrders[i]) <= 0.1)
+                    if (display->m_robots[i]->GetPos().DistanceTo(gotoOrders[i]) <= 0.1)
                         gotoOrders[i].SetX(-10);
                     else
                     {
-                        rect = PosToRect(NormalizePosition(gotoOrders[i]));
+                        rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(gotoOrders[i]));
                         DrawLine(screen, robotsDD[i].area.x + robotSurf->w/2, robotsDD[i].area.y + robotSurf->h/2, rect.x, rect.y, CreateColor(255,128,0));
                     }
                 }
@@ -213,18 +221,17 @@ static void* RefDisplayFn(void *data)
     TTF_Quit();
     SDL_Quit();
 
-    isDisplaying = false;
-    free(allData);
+    display->m_isDisplaying = false;
     return NULL;
 }
 
-static SDL_Rect PosToRect(Position pos, int w, int h)
+SDL_Rect RefereeDisplay::PosToRect(Position pos, int w, int h)
 {
-    SDL_Rect rect = {(pos.GetX()+1)/2 * SCREENW - w/2, (pos.GetY()+1)/2 * SCREENH - h/2, w, h};
+    SDL_Rect rect = {(pos.GetX()+1)/2 * m_screenW - w/2, (pos.GetY()+1)/2 * m_screenH - h/2, w, h};
     return rect;
 }
 
-static Position RectToPos(SDL_Rect rect)
+Position RefereeDisplay::RectToPos(SDL_Rect rect)
 {
-    return Position(2 * rect.x / (double)SCREENW - 1, 2 * rect.y / (double)SCREENH - 1);
+    return Position(2 * rect.x / (double)m_screenW - 1, 2 * rect.y / (double)m_screenH - 1);
 }

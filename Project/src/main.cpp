@@ -41,6 +41,14 @@ int main(void)
     //struct thread_data td[3];
     //int gk_th,p1_th,p2_th;
     int gk_th;
+    CoordinatesCalibrer coordCalibrer;
+    coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));     //Calibration settings for the real field
+    //coordCalibrer.SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));                  //Calibration settings for the simulation
+
+    RobotMonitor robotMonitor(&coordCalibrer);
+    BallMonitor ballMonitor(&coordCalibrer, &robotMonitor);
+    RefereeDisplay refereeDisplay(team, &ballMonitor, &coordCalibrer);
+
     try
     {
         cout << endl << "Connecting to RTDB..." << endl;
@@ -56,18 +64,15 @@ int main(void)
         RoboControl robo6 = RoboControl(DBC, rfcomm_nr_2[2]);
 
         RoboControl *robots[] = {&robo1, &robo2, &robo3, &robo4, &robo5, &robo6};
+        robotMonitor.SetAllRobots(robots);
 
         RawBall ball(DBC);
         Referee ref(DBC);
         ref.Init();
         cout << ref.GetSide() <<endl;
 		
-        //SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));                  //Calibration settings for the simulation
-        SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));     //Calibration settings for the real field
-        
-        StartBallMonitoring(&ball);
-        StartRefereeDisplay(robots, &ball, team);
-        SetAllRobots(robots);
+        ballMonitor.StartMonitoring(&ball);
+        refereeDisplay.StartDisplay(robots, &ball);
 
         Goalkeeper gk(&robo1,&ball);
         PlayerMain p1(&robo2,&ball);
@@ -113,8 +118,8 @@ int main(void)
         cout << "Client died on Error: " << err.what() << endl;
     }
 
-    StopRefereeDisplay();
-    StopBallMonitoring();
+    refereeDisplay.StopDisplay();
+    ballMonitor.StopMonitoring();
 
     cout << "End" << endl;
 	pthread_exit(NULL);
