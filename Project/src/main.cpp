@@ -18,8 +18,11 @@
 #include "refereedisplay.h"
 #include "robotmonitor.h"
 #include "interpreter.h"
+#include "cruiseToBias2.h"
 
 using namespace std;
+
+
 
 
 
@@ -29,14 +32,14 @@ const eTeam team = BLUE_TEAM;
 int main(void)
 {
     //--------------------------------- Init ---------------------------------
-    const int client_nr = 11;
+    const int client_nr = 12;
 
     int rfcomm_nr_blue[] = {0, 1, 2};
     int rfcomm_nr_red[] = {3, 4, 5};
 
     int *rfcomm_nr = team == BLUE_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
     int *rfcomm_nr_2 = team == RED_TEAM ? rfcomm_nr_blue : rfcomm_nr_red;
-	
+
     pthread_t threads[3];
     //struct thread_data td[3];
     int gk_th,p1_th,p2_th;
@@ -70,46 +73,49 @@ int main(void)
         Referee ref(DBC);
         ref.Init();
         cout << ref.GetSide() <<endl;
-		
+
         ballMonitor.StartMonitoring(&ball);
         refereeDisplay.StartDisplay(robots, &ball);
 
         Goalkeeper gk(&robo1,&ball);
-        PlayerMain p1(&robo2,&ball);
+        PlayerMain p1(&robo2,&ball,&coordCalibrer);
         PlayerTwo p2(&robo3,&ball);
-		
-        interpreter info(team,&ref,&gk,&p1,&p2);
+
+        interpreter info(team,&ref,&gk,&p1,&p2,&robo4,&robo5,&robo6,&ball,&coordCalibrer);
+
 
         //-------------------------------------- Ende Init ---------------------------------
 
+        //plan path for p1
+        /*
+        Point A,B;
+        A.x = 2;
+        A.y = 5;
 
+        B.x = 17;
+        B.y = 10;
+
+        showMap(p1.map,pathFind(p1.map,A,B),A);
+        */
         while (1)
         {
             info.updateSituation();
-            if(info.turn == interpreter::OUR_TURN)
-            {
-                cout<<"OUR TURN"<<endl;
-                usleep(1000000);
-            }
-            else
-            {    cout << "NOT OUR TURN"<<endl;
-                 usleep(1000000);
 
-            }
-            gk.setNextCmd(&info);
-            gk.setCmdParam();
+            //gk.setNextCmd(&info);
+            //gk.setCmdParam();
 
             p1.setNextCmd(&info);
             p1.setCmdParam();
 
-            p2.setNextCmd(&info);
-            p2.setCmdParam();
+            //p2.setNextCmd(&info);
+            //p2.setCmdParam();
 
             gk_th = pthread_create(&threads[0],NULL,&Goalkeeper::performCmd_helper,(void*)&gk);
             p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
             p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
 
-            usleep(33000);
+            //usleep(2e6);
+
         }
 
     }
@@ -122,7 +128,7 @@ int main(void)
     ballMonitor.StopMonitoring();
 
     cout << "End" << endl;
-	pthread_exit(NULL);
+        pthread_exit(NULL);
     return 0;
 }
 
@@ -132,80 +138,80 @@ int main(void)
 
 int Milestone2Part2(void)
 {
-	//--------------------------------- Init --------------------------------------------------
+        //--------------------------------- Init --------------------------------------------------
 
-	/** Use client number according to your account number!
-	 *
-	 *	This is necessary in order to assure that there are unique
-	 *	connections to the RTDB.
-	 *
-	 */
+        /** Use client number according to your account number!
+         *
+         *	This is necessary in order to assure that there are unique
+         *	connections to the RTDB.
+         *
+         */
         const int client_nr = 15;
 
-	/** Type in the rfcomm number of the robot you want to connect to.
-	 *  The numbers of the robots you are connected to can be found on the
-	 *  screen when you connected to them.
-	 *
-	 *  The red robots' number will be in the range of 3 to 5
-	 *  The blue robots' number will be in the range from 0 to 2
-	 *
-	 *  The robots are always connected to the lowest free rfcomm device.
-	 *  Therefore if you have two blue robots connected the will be
-	 *  connected to rfcomm number 0 and number 1...
-	 *
-	 */
+        /** Type in the rfcomm number of the robot you want to connect to.
+         *  The numbers of the robots you are connected to can be found on the
+         *  screen when you connected to them.
+         *
+         *  The red robots' number will be in the range of 3 to 5
+         *  The blue robots' number will be in the range from 0 to 2
+         *
+         *  The robots are always connected to the lowest free rfcomm device.
+         *  Therefore if you have two blue robots connected the will be
+         *  connected to rfcomm number 0 and number 1...
+         *
+         */
         int rfcomm_nr = 0;
 
-	try {
+        try {
 
-		/** Establish connection to the RTDB.
-		 *
-		 *  The connection to the RTDB is necessary in order to get access
-		 *  to the control and the status of the robots which are both stored
-		 *  in the RTDB.
-		 *
-		 *  In the RTDB there are also informations about the ball and the
-		 *  other robot positions.
-		 *
-		 */
-		cout << endl << "Connecting to RTDB..." << endl;
-		/** Create the client name with the unique client number*/
-		string client_name = "pololu_client_";
-		client_name.push_back((char) (client_nr + '0'));
-		RTDBConn DBC(client_name.data(), 0.1, "");
+                /** Establish connection to the RTDB.
+                 *
+                 *  The connection to the RTDB is necessary in order to get access
+                 *  to the control and the status of the robots which are both stored
+                 *  in the RTDB.
+                 *
+                 *  In the RTDB there are also informations about the ball and the
+                 *  other robot positions.
+                 *
+                 */
+                cout << endl << "Connecting to RTDB..." << endl;
+                /** Create the client name with the unique client number*/
+                string client_name = "pololu_client_";
+                client_name.push_back((char) (client_nr + '0'));
+                RTDBConn DBC(client_name.data(), 0.1, "");
 
-		/** Create a new RoboControl object.
-		 *
-		 *  This is the basis for any communication with the robot.
-		 *
-		 *  We need to hand over the RTDB connection (DBC) and the rfcomm
-		 *  number of the robot we want to control.
-		 */
-		RoboControl robo(DBC, rfcomm_nr);
+                /** Create a new RoboControl object.
+                 *
+                 *  This is the basis for any communication with the robot.
+                 *
+                 *  We need to hand over the RTDB connection (DBC) and the rfcomm
+                 *  number of the robot we want to control.
+                 */
+                RoboControl robo(DBC, rfcomm_nr);
 
-		/** Now let's print out some information about the robot... */
+                /** Now let's print out some information about the robot... */
 
                 cout << "Robo @ rfcomm" << rfcomm_nr << endl;
                 cout << "\t initial position: " << robo.GetPos() << endl;
-		cout << "\t initial rotation: " << robo.GetPhi() << endl;
+                cout << "\t initial rotation: " << robo.GetPhi() << endl;
 
-		/** Create a ball object
-		 *
-		 *  This ball abject gives you access to all information about the ball
-		 *  which is extracted from the cam.
-		 *
-		 */
-		RawBall ball(DBC);
-		/** lets print this information: */
-		cout << "Ball informations:" << endl;
-		cout << "\t initial position: " << ball.GetPos() << endl;
-		/** Notice that the rotation here refers to the moving direction of the ball.
-		 *  Therefore if the ball does not move the rotation is not defined.
-		 */
-		cout << "\t initial direction: " << ball.GetPhi() << endl;
-		cout << "\t initial velocity: " << ball.GetVelocity() << endl;
+                /** Create a ball object
+                 *
+                 *  This ball abject gives you access to all information about the ball
+                 *  which is extracted from the cam.
+                 *
+                 */
+                RawBall ball(DBC);
+                /** lets print this information: */
+                cout << "Ball informations:" << endl;
+                cout << "\t initial position: " << ball.GetPos() << endl;
+                /** Notice that the rotation here refers to the moving direction of the ball.
+                 *  Therefore if the ball does not move the rotation is not defined.
+                 */
+                cout << "\t initial direction: " << ball.GetPhi() << endl;
+                cout << "\t initial velocity: " << ball.GetVelocity() << endl;
 
-		//-------------------------------------- Ende Init ---------------------------------
+                //-------------------------------------- Ende Init ---------------------------------
 
 
                 double a;
@@ -427,16 +433,16 @@ int Milestone2Part2(void)
 
                         cout <<"ball in forbidden region " << ball.GetPos() << endl;
 
-		}
+                }
 
         }
 
 
         catch (DBError err)
         {
-		cout << "Client died on Error: " << err.what() << endl;
-	}
+                cout << "Client died on Error: " << err.what() << endl;
+        }
 
         cout << "End" << endl;
-	return 0;
+        return 0;
 }
