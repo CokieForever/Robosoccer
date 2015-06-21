@@ -23,7 +23,8 @@ CONFIG +=  debug
 
 HEADERS += \ 
     src/*.h \
-    src/sdl_gfx/*.h
+    src/sdl_gfx/*.h \
+    src/node.h
 SOURCES +=  \
     src/*.cpp \
     src/sdl_gfx/SDL_rotozoom.c
@@ -39,4 +40,5 @@ dox.depends = FORCE
 
 # somewhere else in the *.pro file
 QMAKE_EXTRA_UNIX_TARGETS += dox
+
 

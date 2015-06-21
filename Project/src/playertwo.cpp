@@ -25,7 +25,7 @@ void PlayerTwo::setNextCmd(void *s){
 
         interpreter* info = (interpreter*)s;
 
-        switch(info->playmode)
+        switch(info->mode.mode)
 
         {
 
@@ -40,7 +40,7 @@ void PlayerTwo::setNextCmd(void *s){
 
                 case KICK_OFF:
 
-                        if (info->turn == interpreter::OUR_TURN)
+                        if (info->mode.turn == interpreter::OUR_TURN)
                             nextCmd = PlayerTwo::KICK_OFF;
                         else
                             nextCmd = GO_TO_DEF_POS;
@@ -81,7 +81,7 @@ void *PlayerTwo::performCmd(){
                         robot->GotoXY(defaultPos.GetX(),defaultPos.GetY());
                         break;
                 default:
-                        std::cout << "Player1 Perform Default Command: " <<std::endl;
+                        std::cout << "Player2 Perform Default Command: " <<std::endl;
                         robot->GotoXY(defaultPos.GetX(),defaultPos.GetY());
                         break;
         }

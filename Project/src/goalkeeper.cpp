@@ -26,15 +26,16 @@ Goalkeeper::~Goalkeeper(){
 void Goalkeeper::setNextCmd(void *s){
 
         interpreter* info = (interpreter*)s;
-        switch(info->playmode)
+        switch(info->mode.mode)
 	{
                 case PENALTY:
-                        if(info->turn != interpreter::OUR_TURN)
+                        if(info->mode.turn != interpreter::OUR_TURN)
                             nextCmd = PREVENT_GOAL;
                         else
                             nextCmd = GO_TO_DEF_POS;
 			break;
 		case PLAY_ON:
+
 			nextCmd = PREVENT_GOAL;
                         break;
 		default:
