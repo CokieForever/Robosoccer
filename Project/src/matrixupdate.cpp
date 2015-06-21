@@ -6,7 +6,7 @@
 #include "referee.h"
 using namespace std;
 // function that updates the matrix
- int[][] matrixupdate(int h,int w, int[][] matrix, RoboControl *robots[6], RawBall *ball, CoordinatesCalibrer *coordCalibrer, eSide our_side);
+ int** matrixupdate(int h,int w, int** matrix, RoboControl *robots[6], RawBall *ball, CoordinatesCalibrer *coordCalibrer, eSide our_side);
  int main()
  {   const int client_nr = 15;
      int rfcomm_nr_blue[] = {0, 1, 2};
@@ -21,7 +21,7 @@ using namespace std;
          string client_name = "pololu_client_";
          client_name.push_back((char)(client_nr + '0'));
          RTDBConn DBC(client_name.data(), 0.1, "");
-    int[][] initialMatrix= int[5][5];
+    int initialMatrix[5][5];
 
     RoboControl robo1 = RoboControl(DBC, rfcomm_nr[0]);
     RoboControl robo2 = RoboControl(DBC, rfcomm_nr[1]);
@@ -46,7 +46,7 @@ using namespace std;
      return 0;
  }
 
-int[][] matrixupdate(int h,int w, int[][] matrix, RoboControl *robots[6], RawBall *ball, CoordinatesCalibrer *coordCalibrer, eSide our_side)
+int** matrixupdate(int h,int w, int** matrix, RoboControl *robots[6], RawBall *ball, CoordinatesCalibrer *coordCalibrer, eSide our_side)
 {
  int[][]newMatrix= matrix;
  m_coordCalibrer = coordCalibrer;
