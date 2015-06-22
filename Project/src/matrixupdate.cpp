@@ -21,16 +21,15 @@ using namespace std;
          string client_name = "pololu_client_";
          client_name.push_back((char)(client_nr + '0'));
          RTDBConn DBC(client_name.data(), 0.1, "");
-         int **Matrix = new int*[5];
+         int **initialMatrix = new int*[5];
         for (int i = 0; i <5; i++)
         {
-            Matrix[i] = new int[5];
+            initialMatrix[i] = new int[5];
             for (int j=0; j<5; j++)
             {
-                Matrix[i][j]=0;
+                initialMatrix[i][j]=0;
             }
          }
-    int** initialMatrix= Matrix;
 
     RoboControl robo1 = RoboControl(DBC, rfcomm_nr_blue[0]);
     RoboControl robo2 = RoboControl(DBC, rfcomm_nr_blue[1]);
@@ -63,21 +62,31 @@ using namespace std;
 
 int** matrixupdate(int h,int w, int** matrix, RoboControl *robots[6], RawBall ball, CoordinatesCalibrer *coordCalibrer, eSide our_side)
 {
- int** newMatrix= matrix;
+    int **newMatrix = new int*[h+1];
+   for (int i = 0; i <h+1; i++)
+   {
+       newMatrix[i] = new int[w+1];
+       for (int j=0; j<w+1; j++)
+       { if ((i==0)|| (j==0)||(i==h)|| (j==w))
+           newMatrix[i][j]=1;
+         else
+          newMatrix[i+1][j+1]=matrix[i][j];
+       }
+    }
  CoordinatesCalibrer *m_coordCalibrer = coordCalibrer;
  double l=2/(h-1);
  double k=2/(w-1);
  //Normalize coordinates of our robot
  Position pos1 = m_coordCalibrer->NormalizePosition((*robots)[0].GetPos());//robots[0] is our robot
  //indices of the robot's position in the matrix
- int i1=static_cast<int>(floor(pos1.GetY()/l)-floor(-1/l));
- int j1=static_cast<int>(floor(pos1.GetX()/k)-floor(-1/k));
+ int i1=static_cast<int>(floor(pos1.GetY()/l)-floor(-1/l)+1);
+ int j1=static_cast<int>(floor(pos1.GetX()/k)-floor(-1/k)+1);
  newMatrix[i1][j1]=2; // affect 2 to the position of our robot in the matrix
 //Normalize coordinates of the ball
  Position pos = m_coordCalibrer->NormalizePosition(ball.GetPos());
  //indices of the robot's position in the matrix
- int i=static_cast<int>(floor(pos.GetY()/l)-floor(-1/l));
- int j=static_cast<int>(floor(pos.GetX()/k)-floor(-1/k));
+ int i=static_cast<int>(floor(pos.GetY()/l)-floor(-1/l)+1);
+ int j=static_cast<int>(floor(pos.GetX()/k)-floor(-1/k)+1);
  newMatrix[i][j]=3; // affect 3 to the position of the ball in the matrix
  //generate the obstacles around the ball depending on the side in which our team plays
  newMatrix[i-1][j-1]=1;
@@ -95,8 +104,8 @@ int** matrixupdate(int h,int w, int** matrix, RoboControl *robots[6], RawBall ba
     //Normalize coordinates of the obstacles
     Position pos = m_coordCalibrer->NormalizePosition((*robots)[i].GetPos());//robots[i] is an obstacle
     //indices of the robot's position in the matrix
-    int i=static_cast<int>(floor(pos.GetY()/l)-floor(-1/l));
-    int j=static_cast<int>(floor(pos.GetX()/k)-floor(-1/k));
+    int i=static_cast<int>(floor(pos.GetY()/l)-floor(-1/l)+1);
+    int j=static_cast<int>(floor(pos.GetX()/k)-floor(-1/k)+1);
     newMatrix[i][j]=1; // affect 1 to the position of the obstacle and its surroundings in the matrix
     newMatrix[i-1][j]=1;
     newMatrix[i+1][j]=1;
