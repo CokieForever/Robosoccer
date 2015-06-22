@@ -65,8 +65,6 @@ public:
 
         gameData mode;
 
-        void setObstacles(int map[][HEIGHT]);
-
         interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,RoboControl *a,RoboControl *b,RoboControl *c,RawBall *d,CoordinatesCalibrer *e);
 
         void updateSituation();
