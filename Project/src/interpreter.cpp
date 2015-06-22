@@ -308,31 +308,23 @@ void interpreter::updateSituation(){
 
 }
 
-void interpreter::setObstacles(int map[][HEIGHT])
-{
-
-
-}
-
 
 int coord2mapX(double x){
     //coordinate from -1 to +1
-    //map width from 0 to 99
     int mapX;
     int width = WIDTH - 2* BORDERSIZE;
 
-    mapX = floor(width/2 + x * (width-1)/2.0);
+    mapX = floor(WIDTH/2 + x * (width-1)/2.0);
 
     return mapX;
 }
 
 int coord2mapY(double y){
     //coordinate from -1 to +1
-    //map width from 0 to 99
     int mapY;
     int height = HEIGHT - 2*BORDERSIZE;
 
-    mapY = floor(height/2 + y * (height-1)/2.0);
+    mapY = floor(HEIGHT/2 + y * (height-1)/2.0);
 
     return mapY;
 
@@ -342,7 +334,7 @@ double map2coordX(int mapX){
 
     double coordX;
     int width = WIDTH - 2* BORDERSIZE;
-    coordX = (mapX-width/2.0)/(width/2);
+    coordX = (mapX-(WIDTH/2.0)) * (2.0/(width-1.5));
 
     return coordX;
 }
@@ -352,7 +344,7 @@ double map2coordY(int mapY){
 
     double coordY;
     int height = HEIGHT - 2*BORDERSIZE;
-    coordY = (mapY-height/2.0)/(height/2);
+    coordY = (mapY-(HEIGHT/2.0)) * (2.0/(height-1.5));
 
     return coordY;
 
