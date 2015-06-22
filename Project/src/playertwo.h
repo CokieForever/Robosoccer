@@ -7,7 +7,13 @@
 
 class PlayerTwo
 {
-    enum ActionPlayerTwo{GO_TO_DEF_POS,KICK_PENALTY,KICK_OFF,PLAY,STOP};
+
+public:
+    enum ActionPlayerTwo
+    {
+        GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, PLAY, STOP
+    };
+
     struct KickParam
     {
        double  turnAngle;
@@ -16,6 +22,21 @@ class PlayerTwo
 
     };
 
+    static void* performCmd_helper(void *context);
+
+    PlayerTwo(RoboControl*,RawBall *);
+
+    RoboControl* getRobot() const;
+    Position getDefaultPosition() const;
+
+    void setDefaultPositionX(double x);
+    void setDefaultPositionY(double y);
+    void setDefaultPosition(Position pos);
+
+    void setNextCmd(void *s);
+    void setCmdParam();
+    void* performCmd();
+
 private:
     RawBall* ball;
     ActionPlayerTwo nextCmd;
@@ -23,17 +44,8 @@ private:
     KickParam kickPenaltyParam;
     Position kickOffParam;
 
-
-public:
     Position defaultPos;
     RoboControl* robot;
-
-    void setNextCmd(void*);
-    void setCmdParam();
-    void *performCmd();
-    static void *performCmd_helper(void *);
-    PlayerTwo(RoboControl*,RawBall *);
-    ~PlayerTwo();
 
 };
 #endif // PLAYERTWO_H

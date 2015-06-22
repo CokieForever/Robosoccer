@@ -17,21 +17,19 @@
 
 enum eDirection
 {
-  FORWARD,
-  BACKWARD
+    FORWARD,
+    BACKWARD
 };
 
 bool CruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir, RoboControl * robo);
 eDirection getDirection(double nominal, double actual);
-    void setSpeed(double translation, double rotation, eDirection dir, RoboControl * robo);
-    double getDiffAngle(double nominal, double actual);
-    double getSpeedP(double nominal, double actual); // Drehgeschwindigkeit ruhig
-    double getSpeedPt(double nominal, double actual, int geschw); // Drehgeschwindigkeit bei der Fahrt
-    double getSpeedT(double diff);
-    double degToRad(double deg); // regelt Vorwärtsgeschwindigkeit
-    inline void StopMovement(void);
-
-
+void setSpeed(double translation, double rotation, eDirection dir, RoboControl * robo);
+double getDiffAngle(double nominal, double actual);
+double getSpeedP(double nominal, double actual); // Drehgeschwindigkeit ruhig
+double getSpeedPt(double nominal, double actual, int geschw); // Drehgeschwindigkeit bei der Fahrt
+double getSpeedT(double diff);
+double degToRad(double deg); // regelt Vorwärtsgeschwindigkeit
+inline void StopMovement(void);
 
 
 #endif /* cruise2_CPP_ */
