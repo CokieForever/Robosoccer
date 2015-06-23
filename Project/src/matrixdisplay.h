@@ -34,7 +34,6 @@ private:
     int m_screenH;
     SDL_Surface *m_bgSurf;
 
-    SDL_Rect ConvertMatrixCoordToScreenCoord(int i, int j);
     void ConvertScreenCoordToMatrixCoord(int x, int y, int *i, int *j);
 
 };

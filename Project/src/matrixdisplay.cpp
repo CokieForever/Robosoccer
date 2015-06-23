@@ -1,4 +1,5 @@
 #include "matrixdisplay.h"
+#include "interpreter.h"
 
 using namespace std;
 
@@ -57,16 +58,12 @@ SDL_Surface* MatrixDisplay::UpdateDisplay()
     return m_bgSurf;
 }
 
-
-SDL_Rect MatrixDisplay::ConvertMatrixCoordToScreenCoord(int i, int j)
-{
-    SDL_Rect rect = {round(j * (m_screenW-1) / (double)(m_matrix.cols-1)), round(i * (m_screenH-1) / (double)(m_matrix.rows-1)), 0, 0};
-    return rect;
-}
-
 void MatrixDisplay::ConvertScreenCoordToMatrixCoord(int x, int y, int *i, int *j)
 {
-    *i = max(0, min(m_matrix.rows-1, x * m_matrix.rows / m_screenW));
-    *j = max(0, min(m_matrix.cols-1, y * m_matrix.cols / m_screenH));
+    double dx = 2 * (x / (double)(m_screenW-1) - 0.5);
+    double dy = 2 * (y / (double)(m_screenH-1) - 0.5);
+
+    *i = Interpreter::coord2mapX(dx);
+    *j = Interpreter::coord2mapY(dy);
 }
 
