@@ -6,17 +6,18 @@
 #include "coordinates.h"
 #include "ballmonitor.h"
 #include "sdlutilities.h"
-#include "matrixdisplay.h"
+#include "mapdisplay.h"
+#include "interpreter.h"
 
 class RefereeDisplay
 {
 
 public:
     RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW = 800, int screenH = 600,
-                   NewRoboControl **robots=NULL, RawBall *ball=NULL, const MatrixDisplay::Matrix *matrix=NULL);
+                   NewRoboControl **robots=NULL, RawBall *ball=NULL, const Interpreter::Map *map=NULL);
     ~RefereeDisplay();
 
-    bool StartDisplay(NewRoboControl **robots=NULL, RawBall *ball=NULL, const MatrixDisplay::Matrix *matrix=NULL);
+    bool StartDisplay(NewRoboControl **robots=NULL, RawBall *ball=NULL, const Interpreter::Map *map=NULL);
     bool StopDisplay();
     bool IsActive() const;
 
@@ -32,9 +33,9 @@ private:
     eTeam m_team;
     BallMonitor *m_ballMonitor;
     CoordinatesCalibrer *m_coordCalibrer;
-    MatrixDisplay *m_matrixDisplay;
+    MapDisplay *m_mapDisplay;
 
-    void CreateMatrixDisplay(const MatrixDisplay::Matrix *matrix);
+    void CreateMapDisplay(const Interpreter::Map *map);
     SDL_Rect PosToRect(Position pos, int w = 0, int h = 0);
     Position RectToPos(SDL_Rect rect);
 

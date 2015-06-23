@@ -1,5 +1,5 @@
-#ifndef MATRIXDISPLAY_H
-#define MATRIXDISPLAY_H
+#ifndef MAPDISPLAY_H
+#define MAPDISPLAY_H
 
 #include <SDL.h>
 #include <pthread.h>
@@ -7,26 +7,20 @@
 #include <iostream>
 #include "sdlutilities.h"
 #include <math.h>
+#include "interpreter.h"
 
-class MatrixDisplay
+class MapDisplay
 {
 public:
-    typedef struct
-    {
-        const int *data;
-        int rows, cols;
-    } Matrix;
 
-    static Matrix ConvertToMatrix(const int *array, int rows, int cols);
-
-    MatrixDisplay(Matrix matrix, int width, int height);
-    ~MatrixDisplay();
+    MapDisplay(const Interpreter::Map& map, int screenW, int screenH);
+    ~MapDisplay();
 
     SDL_Surface* GetDisplay() const;
     SDL_Surface* UpdateDisplay();
 
 private:
-    Matrix m_matrix;
+    const Interpreter::Map& m_map;
     bool m_isDisplaying;
     pthread_t m_displayThread;
     bool m_keepGoing;
@@ -34,9 +28,8 @@ private:
     int m_screenH;
     SDL_Surface *m_bgSurf;
 
-    SDL_Rect ConvertMatrixCoordToScreenCoord(int i, int j);
     void ConvertScreenCoordToMatrixCoord(int x, int y, int *i, int *j);
 
 };
 
-#endif // MATRIXDISPLAY_H
+#endif // MAPDISPLAY_H

@@ -1,8 +1,9 @@
 #include "refereedisplay.h"
+#include "interpreter.h"
 
 
 RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW, int screenH,
-                               NewRoboControl **robots, RawBall *ball, const MatrixDisplay::Matrix *matrix)
+                               NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
 {
     m_keepGoing = true;
     m_isDisplaying = false;
@@ -19,18 +20,18 @@ RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, Coordinates
     m_team = team;
     m_ballMonitor = ballMonitor;
     m_coordCalibrer = coordCalibrer;
-    m_matrixDisplay = NULL;
+    m_mapDisplay = NULL;
 
-    CreateMatrixDisplay(matrix);
+    CreateMapDisplay(map);
 }
 
 RefereeDisplay::~RefereeDisplay()
 {
-    if (m_matrixDisplay)
-        delete m_matrixDisplay;
+    if (m_mapDisplay)
+        delete m_mapDisplay;
 }
 
-bool RefereeDisplay::StartDisplay(NewRoboControl **robots, RawBall *ball, const MatrixDisplay::Matrix *matrix)
+bool RefereeDisplay::StartDisplay(NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
 {
     if (m_isDisplaying || !m_ballMonitor || !m_coordCalibrer)
         return false;
@@ -39,13 +40,11 @@ bool RefereeDisplay::StartDisplay(NewRoboControl **robots, RawBall *ball, const 
         memcpy(m_robots, robots, sizeof(NewRoboControl*) * 6);
     if (ball)
         m_ball = ball;
-    if (matrix)
-        CreateMatrixDisplay(matrix);
+    if (map)
+        CreateMapDisplay(map);
 
     pthread_create(&m_displayThread, NULL, RefDisplayFn, this);
-    usleep(0.1e6);
-
-    return true;
+    usleep(0.1e6);return StartDisplay(robots, ball);
 }
 
 bool RefereeDisplay::StopDisplay()
@@ -63,18 +62,15 @@ bool RefereeDisplay::IsActive() const
 }
 
 
-void RefereeDisplay::CreateMatrixDisplay(const MatrixDisplay::Matrix *matrix)
+void RefereeDisplay::CreateMapDisplay(const Interpreter::Map *map)
 {
-    if (m_matrixDisplay)
+    if (m_mapDisplay)
     {
-        delete m_matrixDisplay;
-        m_matrixDisplay = NULL;
+        delete m_mapDisplay;
+        m_mapDisplay = NULL;
     }
 
-    if (!matrix)
-        return;
-
-    m_matrixDisplay = new MatrixDisplay(*matrix, m_screenW, m_screenH);
+    m_mapDisplay = new MapDisplay(*map, m_screenW, m_screenH);
 }
 
 void* RefereeDisplay::RefDisplayFn(void *data)
@@ -156,7 +152,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         if (event.type == SDL_QUIT)
             break;
 
-        bgSurf = display->m_matrixDisplay ? display->m_matrixDisplay->UpdateDisplay() : NULL;
+        bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
         if (bgSurf)
             SDL_BlitSurface(bgSurf, NULL, screen, NULL);
         else
