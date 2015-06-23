@@ -3,11 +3,13 @@
 
 
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
 #include "referee.h"
+#include "teamrobot.h"
+#include "coordinates.h"
 
 
-class Goalkeeper {
+class Goalkeeper : public TeamRobot
+{
 
 public:
     enum ActionGk
@@ -15,29 +17,15 @@ public:
         GO_TO_DEF_POS, PREVENT_GOAL, FOLLOWPATH
     };
 
-    static void *performCmd_helper(void *);
+    Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*);
 
-    Goalkeeper(RoboControl*,RawBall*);
-
-    void setNextCmd(void*);
-    void setCmdParam();
-    void *performCmd(void);
-
-    RoboControl* getRobot();
-    Position getDefaultPosition();
-
-    void setDefaultPositionX(double x);
-    void setDefaultPositionY(double y);
-    void setDefaultPosition(Position pos);
+    void setNextCmd(Interpreter *info);
+    void setCmdParam(void);
+    void* performCmd(void);
 
 private:
-    RawBall* m_ball;
-
     ActionGk m_nextCmd;
     Position m_preventGoalParam;
-
-    Position m_defaultPos;
-    RoboControl* m_robot;
 
 };
 

@@ -2,14 +2,13 @@
 #define PLAYERMAIN_H
 
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
-#include "cruiseToBias2.h"
+#include "teamrobot.h"
 #include "coordinates.h"
 #include "interpreter.h"
 #include <queue>
 
 
-class PlayerMain
+class PlayerMain : public TeamRobot
 {
 
 public:
@@ -26,39 +25,20 @@ public:
         Position ball,pos;
     };
 
-    static void* performCmd_helper(void *context);
+    PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b);
 
-    PlayerMain(RoboControl *a, RawBall *b, CoordinatesCalibrer *c);
-
-    int getMapValue(int i, int j) const;
-    const Interpreter::Map& getMap() const;
-    bool setMapValue(int i, int j, int val);
-    void setMap(const Interpreter::Map &map0);
-
-    RoboControl* getRobot() const;
-
-    Position getDefaultPosition() const;
-    void setDefaultPositionX(double x);
-    void setDefaultPositionY(double y);
-    void setDefaultPosition(Position pos);
-
-    void setNextCmd(void *s);
-    void setCmdParam();
-    void* performCmd();
+    void setNextCmd(Interpreter *info);
+    void setCmdParam(void);
+    void* performCmd(void);
 
 private:
-    RawBall *m_ball;
     ActionPlayerMain m_nextCmd;
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
     string m_path;
     queue<int> m_q;
-    CoordinatesCalibrer *m_cal;
     bool m_actionPerformed;
     int m_go_x,m_go_y;
-    Position m_defaultPos;
-    RoboControl *m_robot;
-    Interpreter::Map m_map;
 
 };
 

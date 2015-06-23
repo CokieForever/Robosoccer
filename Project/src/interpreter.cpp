@@ -30,9 +30,9 @@ int Interpreter::coord2mapX(double x)
 {
     //coordinate from -1 to +1
     int mapX;
-    int width = WIDTH - 2 * BORDERSIZE;
+    int width = MAP_WIDTH - 2 * MAP_BORDERSIZE;
 
-    mapX = floor(WIDTH/2 + x * (width-1)/2.0);
+    mapX = floor(MAP_WIDTH/2 + x * (width-1)/2.0);
 
     return mapX;
 }
@@ -41,9 +41,9 @@ int Interpreter::coord2mapY(double y)
 {
     //coordinate from -1 to +1
     int mapY;
-    int height = HEIGHT - 2 * BORDERSIZE;
+    int height = MAP_HEIGHT - 2 * MAP_BORDERSIZE;
 
-    mapY = floor(HEIGHT/2 + y * (height-1)/2.0);
+    mapY = floor(MAP_HEIGHT/2 + y * (height-1)/2.0);
 
     return mapY;
 }
@@ -51,8 +51,8 @@ int Interpreter::coord2mapY(double y)
 double Interpreter::map2coordX(int mapX)
 {
     double coordX;
-    int width = WIDTH - 2 * BORDERSIZE;
-    coordX = (mapX-(WIDTH/2.0)) * (2.0/(width-1.5));
+    int width = MAP_WIDTH - 2 * MAP_BORDERSIZE;
+    coordX = (mapX-(MAP_WIDTH/2.0)) * (2.0/(width-1.5));
 
     return coordX;
 }
@@ -60,8 +60,8 @@ double Interpreter::map2coordX(int mapX)
 double Interpreter::map2coordY(int mapY)
 {
     double coordY;
-    int height = HEIGHT - 2 * BORDERSIZE;
-    coordY = (mapY-(HEIGHT/2.0)) * (2.0/(height-1.5));
+    int height = MAP_HEIGHT - 2 * MAP_BORDERSIZE;
+    coordY = (mapY-(MAP_HEIGHT/2.0)) * (2.0/(height-1.5));
 
     return coordY;
 }
@@ -106,9 +106,9 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
     static Map dir_map;
 
     // reset the node maps
-    for(y=0 ; y<HEIGHT ; y++)
+    for(y=0 ; y<MAP_HEIGHT ; y++)
     {
-        for(x=0 ; x<WIDTH ; x++)
+        for(x=0 ; x<MAP_WIDTH ; x++)
         {
             closed_nodes_map[x][y]=0;
             open_nodes_map[x][y]=0;
@@ -166,7 +166,7 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
             xdx = x + DX[i];
             ydy = y + DY[i];
 
-            if(!(xdx<0 || xdx>WIDTH-1 || ydy<0 || ydy>HEIGHT-1 || map[xdx][ydy]==1
+            if(!(xdx<0 || xdx>MAP_WIDTH-1 || ydy<0 || ydy>MAP_HEIGHT-1 || map[xdx][ydy]==1
                 || closed_nodes_map[xdx][ydy]==1))
             {
                 // generate a child node
@@ -223,7 +223,7 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
 void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
 {
     Map map;
-    memcpy(&(map[0][0]), &(map0[0][0]), sizeof(int)*WIDTH*HEIGHT);
+    memcpy(&(map[0][0]), &(map0[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
 
     //show planned path
     cout << "path planned:" << path << endl;
@@ -246,9 +246,9 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
         map[x][y]=4;
 
         // display the map with the route
-        for(int y=0 ; y<HEIGHT ; y++)
+        for(int y=0 ; y<MAP_HEIGHT ; y++)
         {
-            for(int x=0 ; x<WIDTH ; x++)
+            for(int x=0 ; x<MAP_WIDTH ; x++)
             {
                 if(map[x][y]==0)
                     cout<<".";
@@ -266,7 +266,7 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
     }
 }
 
-void Interpreter::matrixupdate(Interpreter::Map& map, RoboControl* ref, RoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
+void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
 {
     CoordinatesCalibrer *m_coordCalibrer = coordCalibrer;
     //Normalize coordinates of our robot
@@ -275,13 +275,13 @@ void Interpreter::matrixupdate(Interpreter::Map& map, RoboControl* ref, RoboCont
     //indices of the robot's position in the matrix
     int i1 = coord2mapX(pos1.GetX());
     int j1 = coord2mapY(pos1.GetY());
-    int width = WIDTH;
-    int height = HEIGHT;
-    int border = BORDERSIZE;
-    int obstacle_r = 1.5 * BORDERSIZE;
+    int width = MAP_WIDTH;
+    int height = MAP_HEIGHT;
+    int border = MAP_BORDERSIZE;
+    int obstacle_r = 1.5 * MAP_BORDERSIZE;
 
     //clear map
-    memset(&(map[0][0]), 0, sizeof(int)*WIDTH*HEIGHT);
+    memset(&(map[0][0]), 0, sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
 
     //get all positions of the robots
     for (int k=0 ; k < 5 ; k++)
@@ -298,8 +298,8 @@ void Interpreter::matrixupdate(Interpreter::Map& map, RoboControl* ref, RoboCont
         {
             //TODO Make this readable...
             if((i>=0 && i< border) || (i >=(width - border) && i<= (width-1)) || (j>=0 && j< border) || (j >=(height - border) && j<= (height-1))
-                    || ((j > HEIGHT/2 - WIDTH/10) && (j < HEIGHT/2 + WIDTH/10)
-                        && ((i < WIDTH/10)|| (i > WIDTH-WIDTH/10))))
+                    || ((j > MAP_HEIGHT/2 - MAP_WIDTH/10) && (j < MAP_HEIGHT/2 + MAP_WIDTH/10)
+                        && ((i < MAP_WIDTH/10)|| (i > MAP_WIDTH-MAP_WIDTH/10))))
             map[i][j] = 1;
 
             //set penalty areas as obstacles
@@ -361,7 +361,7 @@ void Interpreter::matrixupdate(Interpreter::Map& map, RoboControl* ref, RoboCont
 }
 
 
-Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,RoboControl *a,RoboControl *b,RoboControl *c,RawBall *d,CoordinatesCalibrer *e)
+Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,NewRoboControl *a,NewRoboControl *b,NewRoboControl *c,RawBall *d,CoordinatesCalibrer *e)
 {
     m_ref  = y;
     m_gk = z;
@@ -384,9 +384,9 @@ Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo 
 
 
     //set gk,p1,p2 map to zero and place penalty area
-    for(int i=0 ; i<WIDTH ; i++)
+    for(int i=0 ; i<MAP_WIDTH ; i++)
     {
-        for(int j=0 ; j<HEIGHT ; j++)
+        for(int j=0 ; j<MAP_HEIGHT ; j++)
         {
             m_p1->setMapValue(i, j, 0);
         }
@@ -404,9 +404,9 @@ Interpreter::GameData Interpreter::getMode() const
 bool Interpreter::verifyPos()
 {
     //check if all robots are on their default position and orientation
-    return (m_gk->getRobot()->GetPos().DistanceTo(m_gk->getDefaultPosition())< 0.01)
-            && (m_p1->getRobot()->GetPos().DistanceTo(m_p1->getDefaultPosition())< 0.01)
-            && (m_p2->getRobot()->GetPos().DistanceTo(m_p2->getDefaultPosition())< 0.01);
+    return (m_gk->GetPos().DistanceTo(m_gk->getDefaultPosition())< 0.01)
+            && (m_p1->GetPos().DistanceTo(m_p1->getDefaultPosition())< 0.01)
+            && (m_p2->GetPos().DistanceTo(m_p2->getDefaultPosition())< 0.01);
 }
 
 void Interpreter::setDefaultPos()
@@ -575,11 +575,11 @@ void Interpreter::setTurn()
 
 void Interpreter::updateSituation()
 {
-    RoboControl *robots[5] = {m_gk->getRobot(), m_p2->getRobot(), m_e1, m_e2, m_e3};
+    NewRoboControl *robots[5] = {m_gk, m_p2, m_e1, m_e2, m_e3};
 
     Interpreter::Map map;
-    memcpy(&(map[0][0]), &(m_p1->getMap()[0][0]), sizeof(int)*Interpreter::WIDTH*Interpreter::HEIGHT);
-    matrixupdate(map,m_p1->getRobot(),robots,m_ball,m_cal,m_mode.our_side);
+    memcpy(&(map[0][0]), &(m_p1->getMap()[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
+    matrixupdate(map,m_p1,robots,m_ball,m_cal,m_mode.our_side);
     m_p1->setMap(map);
 
     setPlayMode();

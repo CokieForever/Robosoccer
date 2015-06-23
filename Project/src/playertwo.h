@@ -2,10 +2,11 @@
 #define PLAYERTWO_H
 
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
+#include "teamrobot.h"
+#include "coordinates.h"
 
 
-class PlayerTwo
+class PlayerTwo : public TeamRobot
 {
 
 public:
@@ -22,30 +23,16 @@ public:
 
     };
 
-    static void* performCmd_helper(void *context);
+    PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*);
 
-    PlayerTwo(RoboControl*,RawBall *);
-
-    RoboControl* getRobot() const;
-    Position getDefaultPosition() const;
-
-    void setDefaultPositionX(double x);
-    void setDefaultPositionY(double y);
-    void setDefaultPosition(Position pos);
-
-    void setNextCmd(void *s);
-    void setCmdParam();
-    void* performCmd();
+    void setNextCmd(Interpreter *info);
+    void setCmdParam(void);
+    void* performCmd(void);
 
 private:
-    RawBall* ball;
-    ActionPlayerTwo nextCmd;
-
-    KickParam kickPenaltyParam;
-    Position kickOffParam;
-
-    Position defaultPos;
-    RoboControl* robot;
+    ActionPlayerTwo m_nextCmd;
+    KickParam m_kickPenaltyParam;
+    Position m_kickOffParam;
 
 };
 #endif // PLAYERTWO_H

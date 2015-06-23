@@ -11,17 +11,17 @@
 #include <iostream>
 #include <pthread.h>
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
 #include "referee.h"
 #include "coordinates.h"
 #include "ballmonitor.h"
 #include "refereedisplay.h"
 #include "interpreter.h"
-#include "cruiseToBias2.h"
+#include "newrobocontrol.h"
 #include "matrixdisplay.h"
 #include "goalkeeper.h"
 #include "playermain.h"
 #include "playertwo.h"
+#include "opponentrobot.h"
 
 using namespace std;
 
@@ -57,25 +57,22 @@ int main(void)
         client_name.push_back((char)(client_nr + '0'));
         RTDBConn DBC(client_name.data(), 0.1, "");
 
-        RoboControl robo1 = RoboControl(DBC, rfcomm_nr[0]);
-        RoboControl robo2 = RoboControl(DBC, rfcomm_nr[1]);
-        RoboControl robo3 = RoboControl(DBC, rfcomm_nr[2]);
-        RoboControl robo4 = RoboControl(DBC, rfcomm_nr_2[0]);
-        RoboControl robo5 = RoboControl(DBC, rfcomm_nr_2[1]);
-        RoboControl robo6 = RoboControl(DBC, rfcomm_nr_2[2]);
-
-        RoboControl *robots[] = {&robo1, &robo2, &robo3, &robo4, &robo5, &robo6};
-
         RawBall ball(DBC);
+
+        Goalkeeper gk = Goalkeeper(DBC, rfcomm_nr[0], &coordCalibrer, &ball);
+        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball);
+        PlayerTwo p2 = PlayerTwo(DBC, rfcomm_nr[2], &coordCalibrer, &ball);
+        OpponentRobot robo4 = OpponentRobot(DBC, rfcomm_nr_2[0]);
+        OpponentRobot robo5 = OpponentRobot(DBC, rfcomm_nr_2[1]);
+        OpponentRobot robo6 = OpponentRobot(DBC, rfcomm_nr_2[2]);
+
+        NewRoboControl *robots[] = {&gk, &p1, &p2, &robo4, &robo5, &robo6};
+
         Referee ref(DBC);
         ref.Init();
         cout << ref.GetSide() <<endl;
 
-        Goalkeeper gk(&robo1,&ball);
-        PlayerMain p1(&robo2,&ball,&coordCalibrer);
-        PlayerTwo p2(&robo3,&ball);
-
-        MatrixDisplay::Matrix matrix = MatrixDisplay::ConvertToMatrix(&(p1.getMap()[0][0]), Interpreter::WIDTH, Interpreter::HEIGHT);
+        MatrixDisplay::Matrix matrix = MatrixDisplay::ConvertToMatrix(&(p1.getMap()[0][0]), Interpreter::MAP_WIDTH, Interpreter::MAP_HEIGHT);
 
         ballMonitor.StartMonitoring(&ball);
         refereeDisplay.StartDisplay(robots, &ball, &matrix);

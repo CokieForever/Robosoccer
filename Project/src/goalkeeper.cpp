@@ -9,42 +9,12 @@
 #include "interpreter.h"
 
 
-Goalkeeper::Goalkeeper(RoboControl *x,RawBall *b)
+Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b) : TeamRobot(DBC, deviceNr, coordCalib, b)
 {
-    m_robot = x;
-    m_ball  = b;
 }
 
-RoboControl* Goalkeeper::getRobot()
+void Goalkeeper::setNextCmd(Interpreter *info)
 {
-    return m_robot;
-}
-
-Position Goalkeeper::getDefaultPosition()
-{
-    return m_defaultPos;
-}
-
-void Goalkeeper::setDefaultPositionX(double x)
-{
-    m_defaultPos.SetX(x);
-}
-
-void Goalkeeper::setDefaultPositionY(double y)
-{
-    m_defaultPos.SetY(y);
-}
-
-void Goalkeeper::setDefaultPosition(Position pos)
-{
-    m_defaultPos = pos;
-}
-
-
-void Goalkeeper::setNextCmd(void *s)
-{
-
-    Interpreter* info = (Interpreter*)s;
     Interpreter::GameData mode = info->getMode();
 
     switch(mode.mode)
@@ -67,7 +37,7 @@ void Goalkeeper::setNextCmd(void *s)
 
 }
 
-void Goalkeeper::setCmdParam()
+void Goalkeeper::setCmdParam(void)
 {
     switch(m_nextCmd)
     {
@@ -81,7 +51,7 @@ void Goalkeeper::setCmdParam()
             else if (y < -0.15)
             y = -0.15;
 
-            double deltaY = fabs(m_robot->GetY() - y);
+            double deltaY = fabs(GetY() - y);
 
             if (deltaY >= 0.05)
             {
@@ -107,21 +77,19 @@ void Goalkeeper::setCmdParam()
     }
 }
 
-
-
-void *Goalkeeper::performCmd(void)
+void* Goalkeeper::performCmd(void)
 {
 
     switch(m_nextCmd)
     {
         case Goalkeeper::PREVENT_GOAL:
             std::cout << "Next command Prevent Goal Position: " << m_preventGoalParam.GetPos()<< std::endl;
-            m_robot->GotoXY(m_defaultPos.GetX(),m_preventGoalParam.GetY());
+            GotoXY(m_defaultPos.GetX(),m_preventGoalParam.GetY());
             break;
 
         case Goalkeeper::GO_TO_DEF_POS:
-            m_robot->GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
-            while(m_robot->GetPos().DistanceTo(m_defaultPos)> 0.1)
+            GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
+            while(GetPos().DistanceTo(m_defaultPos)> 0.1)
             {
                 usleep(10000000);
             }
@@ -133,13 +101,4 @@ void *Goalkeeper::performCmd(void)
 
     return 0;
 }
-
-void *Goalkeeper::performCmd_helper(void *context)
-{
-    return ((Goalkeeper*)context)->performCmd();
-}
-
-
-
-
 

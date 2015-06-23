@@ -10,82 +10,17 @@
 #include <iostream>
 #include "share.h"
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
 #include <queue>
 #include "playermain.h"
 
 using namespace std;
 
-PlayerMain::PlayerMain(RoboControl *x,RawBall *b, CoordinatesCalibrer *c)
+PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b) : TeamRobot(DBC, deviceNr, c, b)
 {
-    m_robot = x;
-    m_ball  = b;
-    m_cal =   c;
-
-    for(int i=0 ; i<Interpreter::WIDTH ; i++)
-    {
-        for(int j=0 ; j<Interpreter::HEIGHT ; j++)
-        {
-            m_map[i][j]=0;
-        }
-    }
-
 }
 
-int PlayerMain::getMapValue(int i, int j) const
+void PlayerMain::setNextCmd(Interpreter *info)
 {
-    return (i<Interpreter::WIDTH && j<Interpreter::HEIGHT && i>0 && j>0) ? m_map[i][j] : 0;
-}
-
-const Interpreter::Map& PlayerMain::getMap() const
-{
-    return m_map;
-}
-
-RoboControl* PlayerMain::getRobot() const
-{
-    return m_robot;
-}
-
-Position PlayerMain::getDefaultPosition() const
-{
-    return m_defaultPos;
-}
-
-bool PlayerMain::setMapValue(int i, int j, int val)
-{
-    if (i<Interpreter::WIDTH && j<Interpreter::HEIGHT && i>0 && j>0)
-    {
-        m_map[i][j] = val;
-        return true;
-    }
-    return false;
-}
-
-void PlayerMain::setMap(const Interpreter::Map &map0)
-{
-    memcpy(&(m_map[0][0]), &(map0[0][0]), sizeof(int)*Interpreter::WIDTH*Interpreter::HEIGHT);
-}
-
-void PlayerMain::setDefaultPositionX(double x)
-{
-    m_defaultPos.SetX(x);
-}
-
-void PlayerMain::setDefaultPositionY(double y)
-{
-    m_defaultPos.SetY(y);
-}
-
-void PlayerMain::setDefaultPosition(Position pos)
-{
-    m_defaultPos = pos;
-}
-
-
-void PlayerMain::setNextCmd(void *s)
-{
-    Interpreter* info = (Interpreter*)s;
     Interpreter::GameData mode = info->getMode();
 
     switch(mode.mode)
@@ -128,7 +63,7 @@ void PlayerMain::setNextCmd(void *s)
     }
 }
 
-void PlayerMain::setCmdParam()
+void PlayerMain::setCmdParam(void)
 {
     //both needed when it comes to path tracking
     Interpreter::Point A,B;
@@ -152,8 +87,8 @@ void PlayerMain::setCmdParam()
             {
                 //create queue of move indices
 
-                robo_n = m_cal->NormalizePosition(m_robot->GetPos());
-                ball_n = m_cal->NormalizePosition(m_ball->GetPos());
+                robo_n = m_coordCalib->NormalizePosition(GetPos());
+                ball_n = m_coordCalib->NormalizePosition(m_ball->GetPos());
 
                 A.x = Interpreter::coord2mapX(robo_n.GetX());
                 A.y = Interpreter::coord2mapY(robo_n.GetY());
@@ -210,7 +145,8 @@ void PlayerMain::setCmdParam()
     }
 }
 
-void* PlayerMain::performCmd(){
+void* PlayerMain::performCmd(void)
+{
     cout << "Player 1 next command is:" << m_nextCmd << endl << "1: GO_TO_DEF_POS,KICK_PENALTY 2: KICK_OFF 3: STOP 4: FOLLOWPATH" << endl;
     Position pos;
     int mapx,mapy;
@@ -225,9 +161,9 @@ void* PlayerMain::performCmd(){
             if (m_kickPenaltyParam.action1Performed==0)
             {
                 cout << "Player1 Perform Kick Penalty: " <<  endl;
-                m_robot->GotoXY(m_kickPenaltyParam.pos.GetX(),m_kickPenaltyParam.pos.GetY());
+                GotoXY(m_kickPenaltyParam.pos.GetX(),m_kickPenaltyParam.pos.GetY());
 
-                while(m_robot->GetPos().DistanceTo(m_kickPenaltyParam.pos)>0.05)
+                while(GetPos().DistanceTo(m_kickPenaltyParam.pos)>0.05)
                 {
                     usleep(100000);
                 }
@@ -236,33 +172,33 @@ void* PlayerMain::performCmd(){
 
             if (m_kickPenaltyParam.action1Performed==1 && m_kickPenaltyParam.action2Performed==0)
             {
-                m_robot->GotoXY(m_kickPenaltyParam.ball.GetX(),m_kickPenaltyParam.ball.GetY());
+                GotoXY(m_kickPenaltyParam.ball.GetX(),m_kickPenaltyParam.ball.GetY());
                 m_kickPenaltyParam.action2Performed=1;
             }
             break;
 
         case PlayerMain::GO_TO_DEF_POS:
             cout << "Player1 Perform Go To Default Pos:" <<endl;
-            m_robot->GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
+            GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
             break;
 
         case PlayerMain::KICK_OFF:
             cout << "Player1 Perform Kick Off:" << endl;
-            m_robot->GotoXY(m_ball->GetX(),m_ball->GetY());
+            GotoXY(m_ball->GetX(),m_ball->GetY());
             break;
 
         case PlayerMain::FOLLOWPATH:
             cout << "Player1 Perform Followpath (queue size): " << m_q.size() << endl;
 
-            pos = m_cal->NormalizePosition(m_robot->GetPos());
+            pos = m_coordCalib->NormalizePosition(GetPos());
             mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
             mapy = Interpreter::coord2mapY(pos.GetY())+ m_go_y;
 
             pos.SetX(Interpreter::map2coordX(mapx));
             pos.SetY(Interpreter::map2coordY(mapy));
-            pos = m_cal->UnnormalizePosition(pos.GetPos());
+            pos = m_coordCalib->UnnormalizePosition(pos.GetPos());
 
-            CruisetoBias(pos.GetX(),pos.GetY(),600,-10,30,m_robot);
+            cruisetoBias(pos.GetX(),pos.GetY(), 600, -10, 30);
             //robot->GotoPos(pos);
             //wait until movement is done
             //usleep(0.5e6);
@@ -271,14 +207,9 @@ void* PlayerMain::performCmd(){
 
         default:
             cout << "Player1 Perform Default Command: " << endl;
-            m_robot->GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
+            GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
             break;
     }
 
     return 0;
-}
-
-void *PlayerMain::performCmd_helper(void *context)
-{
-    return ((PlayerMain*)context)->performCmd();
 }

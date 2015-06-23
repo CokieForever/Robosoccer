@@ -2,7 +2,7 @@
 
 
 RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW, int screenH,
-                               RoboControl **robots, RawBall *ball, const MatrixDisplay::Matrix *matrix)
+                               NewRoboControl **robots, RawBall *ball, const MatrixDisplay::Matrix *matrix)
 {
     m_keepGoing = true;
     m_isDisplaying = false;
@@ -11,9 +11,9 @@ RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, Coordinates
     m_screenH = screenH;
 
     if (robots)
-        memcpy(m_robots, robots, sizeof(RoboControl*) * 6);
+        memcpy(m_robots, robots, sizeof(NewRoboControl*) * 6);
     else
-        memset(m_robots, 0, sizeof(RoboControl*) * 6);
+        memset(m_robots, 0, sizeof(NewRoboControl*) * 6);
 
     m_ball = ball;
     m_team = team;
@@ -30,13 +30,13 @@ RefereeDisplay::~RefereeDisplay()
         delete m_matrixDisplay;
 }
 
-bool RefereeDisplay::StartDisplay(RoboControl **robots, RawBall *ball, const MatrixDisplay::Matrix *matrix)
+bool RefereeDisplay::StartDisplay(NewRoboControl **robots, RawBall *ball, const MatrixDisplay::Matrix *matrix)
 {
     if (m_isDisplaying || !m_ballMonitor || !m_coordCalibrer)
         return false;
 
     if (robots)
-        memcpy(m_robots, robots, sizeof(RoboControl*) * 6);
+        memcpy(m_robots, robots, sizeof(NewRoboControl*) * 6);
     if (ball)
         m_ball = ball;
     if (matrix)

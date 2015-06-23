@@ -3,7 +3,7 @@
 
 #include <pthread.h>
 #include <time.h>
-#include "robo_control.h"
+#include "newrobocontrol.h"
 
 class CoordinatesCalibrer
 {
@@ -16,7 +16,7 @@ public:
     Position NormalizePosition(Position pos) const;
     Position UnnormalizePosition(Position pos) const;
 
-    bool StartCoordCalibration(RoboControl *robot1, RoboControl *robot2);
+    bool StartCoordCalibration(NewRoboControl *robot1, NewRoboControl *robot2);
     bool WaitForCoordCalibrationEnd(bool stopNow = false);
 
     bool GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *kx, double *ky) const;
@@ -30,7 +30,7 @@ private:
     bool m_calibrationSuccessful;
     bool m_stopCalibrating;
     pthread_t m_calibrationThread;
-    RoboControl *m_robots[2];
+    NewRoboControl *m_robots[2];
 
     void Init();
 

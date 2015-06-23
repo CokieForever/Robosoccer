@@ -4,7 +4,6 @@
 #include <pthread.h>
 #include <time.h>
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
 #include "referee.h"
 #include "coordinates.h"
 
@@ -51,7 +50,7 @@ private:
     PosTime m_ballPosTime[NB_POSTIME];
     int m_ballPosTimeInd;
     int m_nbBallPosTime;
-    RoboControl *m_followerRobot;
+    NewRoboControl *m_followerRobot;
     CoordinatesCalibrer *m_coordCalibrer;
 
     void ResetPosTimeList();

@@ -10,9 +10,9 @@ class Goalkeeper;
 #include <iostream>
 #include <pthread.h>
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
 #include "referee.h"
 #include "coordinates.h"
+#include "newrobocontrol.h"
 
 
 class Interpreter
@@ -44,15 +44,15 @@ public:
     };
 
     static const double MID_THRESHOLD  = 0.30;
-    static const int WIDTH = 100;
-    static const int HEIGHT = 80;
-    static const int BORDERSIZE = 5;
+    static const int MAP_WIDTH = 100;
+    static const int MAP_HEIGHT = 80;
+    static const int MAP_BORDERSIZE = 5;
 
     static const int DIR = 8; // number of possible directions to go at any position
     static const int DX[DIR];
     static const int DY[DIR];
 
-    typedef int (Map)[WIDTH][HEIGHT];
+    typedef int (Map)[MAP_WIDTH][MAP_HEIGHT];
 
     static string pathFind(Map map, Point start, Point finish);
     static Point* getCheckPoints(Point start, string path);
@@ -61,9 +61,9 @@ public:
     static double map2coordX(int);
     static double map2coordY(int);
     static void showMap(const Map& map, string path, Point start);
-    static void matrixupdate(Map& map, RoboControl* ref, RoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
+    static void matrixupdate(Map& map, NewRoboControl* ref, NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
 
-    Interpreter(int x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, RoboControl* a, RoboControl* b, RoboControl* c, RawBall* d, CoordinatesCalibrer* e);
+    Interpreter(int x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, NewRoboControl* a, NewRoboControl* b, NewRoboControl* c, RawBall* d, CoordinatesCalibrer* e);
 
     GameData getMode() const;
     void updateSituation();
@@ -75,7 +75,7 @@ private:
     PlayerMain* m_p1;
     PlayerTwo* m_p2;
     RawBall* m_ball;
-    RoboControl* m_e1, *m_e2, *m_e3;
+    NewRoboControl* m_e1, *m_e2, *m_e3;
     GameData m_mode;
 
     void setPlayMode();
@@ -84,6 +84,7 @@ private:
     void setScores();
     bool verifyPos();
     void setDefaultPos();
+
 };
 
 

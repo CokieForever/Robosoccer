@@ -26,7 +26,7 @@ void CoordinatesCalibrer::Init()
     m_stopCalibrating = false;
     m_calibrationThread = NULL;
 
-    memset(m_robots, 0, sizeof(RoboControl*)*2);
+    memset(m_robots, 0, sizeof(NewRoboControl*)*2);
 }
 
 bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Position c, Position d)
@@ -89,7 +89,7 @@ Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
 	return Position(x, y);
 }
 
-bool CoordinatesCalibrer::StartCoordCalibration(RoboControl *robot1, RoboControl *robot2)
+bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboControl *robot2)
 {
     if (robot1)
         m_robots[0] = robot1;
