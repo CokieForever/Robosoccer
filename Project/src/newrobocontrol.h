@@ -1,5 +1,5 @@
-#ifndef cruise2_CPP_
-#define cruise2_CPP_
+#ifndef NEWROBOCONTROL_H
+#define NEWROBOCONTROL_H
 
 //#include "pololu_high_level_control.h"
 
@@ -44,4 +44,4 @@ private:
 };
 
 
-#endif /* cruise2_CPP_ */
+#endif /* NEWROBOCONTROL_H */
