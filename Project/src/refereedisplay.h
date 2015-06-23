@@ -19,6 +19,7 @@ public:
 
     bool StartDisplay(RoboControl **robots=NULL, RawBall *ball=NULL, const MatrixDisplay::Matrix *matrix=NULL);
     bool StopDisplay();
+    bool IsActive() const;
 
 private:
     static void* RefDisplayFn(void *data);

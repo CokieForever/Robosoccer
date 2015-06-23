@@ -155,14 +155,14 @@ void PlayerMain::setCmdParam()
                 robo_n = m_cal->NormalizePosition(m_robot->GetPos());
                 ball_n = m_cal->NormalizePosition(m_ball->GetPos());
 
-                A.x = coord2mapX(robo_n.GetX());
-                A.y = coord2mapY(robo_n.GetY());
-                B.x = coord2mapX(ball_n.GetX());
-                B.y = coord2mapY(ball_n.GetY());
+                A.x = Interpreter::coord2mapX(robo_n.GetX());
+                A.y = Interpreter::coord2mapY(robo_n.GetY());
+                B.x = Interpreter::coord2mapX(ball_n.GetX());
+                B.y = Interpreter::coord2mapY(ball_n.GetY());
 
                 //get string with motion commands
-                m_path = pathFind(m_map,A,B);
-                showMap(m_map,m_path,A);
+                m_path = Interpreter::pathFind(m_map,A,B);
+                Interpreter::showMap(m_map,m_path,A);
 
                 for (unsigned int i= 0 ; i<m_path.length() ; i++)
                 {
@@ -180,8 +180,8 @@ void PlayerMain::setCmdParam()
                 for (unsigned int i=0;i<interpolate_n;i++)
                 {
                     idx_tmp = m_q.front();
-                    m_go_x = m_go_x + Interpreter::dx[idx_tmp];
-                    m_go_y = m_go_y + Interpreter::dy[idx_tmp];
+                    m_go_x = m_go_x + Interpreter::DX[idx_tmp];
+                    m_go_y = m_go_y + Interpreter::DY[idx_tmp];
                     m_q.pop();
                 }
 
@@ -191,8 +191,8 @@ void PlayerMain::setCmdParam()
                 while(m_q.size()!=0)
                 {
                     idx_tmp = m_q.front();
-                    m_go_x = m_go_x + Interpreter::dx[idx_tmp];
-                    m_go_y = m_go_y + Interpreter::dy[idx_tmp];
+                    m_go_x = m_go_x + Interpreter::DX[idx_tmp];
+                    m_go_y = m_go_y + Interpreter::DY[idx_tmp];
                     m_q.pop();
                 }
             }
@@ -255,11 +255,11 @@ void* PlayerMain::performCmd(){
             cout << "Player1 Perform Followpath (queue size): " << m_q.size() << endl;
 
             pos = m_cal->NormalizePosition(m_robot->GetPos());
-            mapx = coord2mapX(pos.GetX())+ m_go_x;
-            mapy = coord2mapY(pos.GetY())+ m_go_y;
+            mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
+            mapy = Interpreter::coord2mapY(pos.GetY())+ m_go_y;
 
-            pos.SetX(map2coordX(mapx));
-            pos.SetY(map2coordY(mapy));
+            pos.SetX(Interpreter::map2coordX(mapx));
+            pos.SetY(Interpreter::map2coordY(mapy));
             pos = m_cal->UnnormalizePosition(pos.GetPos());
 
             CruisetoBias(pos.GetX(),pos.GetY(),600,-10,30,m_robot);

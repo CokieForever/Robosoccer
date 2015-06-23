@@ -51,7 +51,7 @@ bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Posi
 	return true;
 }
 
-Position CoordinatesCalibrer::NormalizePosition(Position pos)
+Position CoordinatesCalibrer::NormalizePosition(Position pos) const
 {
 	double x = pos.GetX(), y = pos.GetY();
 	
@@ -70,7 +70,7 @@ Position CoordinatesCalibrer::NormalizePosition(Position pos)
 	return Position(x, y);
 }
 
-Position CoordinatesCalibrer::UnnormalizePosition(Position pos)
+Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
 {
 	double x = pos.GetX(), y = pos.GetY();
 	
@@ -111,7 +111,7 @@ bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
     return true;
 }
 
-bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *kx, double *ky)
+bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *kx, double *ky) const
 {
     if (!m_calibrationSuccessful)
         return false;
@@ -130,7 +130,7 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, dou
     return true;
 }
 
-bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin)
+bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin) const
 {
     if (!m_calibrationSuccessful)
         return false;

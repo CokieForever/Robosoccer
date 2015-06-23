@@ -7,7 +7,6 @@
 #include "robo_control.h"
 #include "referee.h"
 #include "coordinates.h"
-#include "robotmonitor.h"
 
 class BallMonitor
 {
@@ -27,7 +26,7 @@ public:
         clock_t time;
     } PosTime;
 
-    BallMonitor(CoordinatesCalibrer *coordCalibrer, RobotMonitor *robotMonitor, RawBall *ball = NULL);
+    BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball = NULL);
 
     bool StartMonitoring(RawBall *ball = NULL);
     bool StopMonitoring();
@@ -35,10 +34,6 @@ public:
     bool GetBallDirection(Direction *dir);
     bool PredictBallPosition(Position *pos, int precision = 0);
     bool IsBallMoving();
-
-    bool StartBallFollowing(RoboControl *robo);
-    bool StopBallFollowing();
-    bool IsBallFollowingStarted();
 
 private:
 
@@ -58,11 +53,9 @@ private:
     int m_nbBallPosTime;
     RoboControl *m_followerRobot;
     CoordinatesCalibrer *m_coordCalibrer;
-    RobotMonitor *m_robotMonitor;
 
     void ResetPosTimeList();
     bool ComputeLinearRegression(double *a, double *b, int precision = 2);
-
 
 };
 

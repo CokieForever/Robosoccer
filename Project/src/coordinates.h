@@ -13,14 +13,14 @@ public:
     CoordinatesCalibrer(Position a, Position b, Position c, Position d);
 
     bool SetManualCoordCalibration(Position a, Position b, Position c, Position d);
-    Position NormalizePosition(Position pos);
-    Position UnnormalizePosition(Position pos);
+    Position NormalizePosition(Position pos) const;
+    Position UnnormalizePosition(Position pos) const;
 
     bool StartCoordCalibration(RoboControl *robot1, RoboControl *robot2);
     bool WaitForCoordCalibrationEnd(bool stopNow = false);
 
-    bool GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *kx, double *ky);
-    bool GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin);
+    bool GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *kx, double *ky) const;
+    bool GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin) const;
 
 private:
     static void* CalibrationFn(void *data);

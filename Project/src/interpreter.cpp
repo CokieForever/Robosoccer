@@ -21,9 +21,345 @@
 using namespace std;
 
 /*** if dir==8 ***/
-const int Interpreter::dx[Interpreter::dir] = {1, 1, 0, -1, -1, -1, 0, 1};
-const int Interpreter::dy[Interpreter::dir] = {0, 1, 1, 1, 0, -1, -1, -1};
+const int Interpreter::DX[Interpreter::DIR] = {1, 1, 0, -1, -1, -1, 0, 1};
+const int Interpreter::DY[Interpreter::DIR] = {0, 1, 1, 1, 0, -1, -1, -1};
 /*** end if ***/
+
+
+int Interpreter::coord2mapX(double x)
+{
+    //coordinate from -1 to +1
+    int mapX;
+    int width = WIDTH - 2 * BORDERSIZE;
+
+    mapX = floor(WIDTH/2 + x * (width-1)/2.0);
+
+    return mapX;
+}
+
+int Interpreter::coord2mapY(double y)
+{
+    //coordinate from -1 to +1
+    int mapY;
+    int height = HEIGHT - 2 * BORDERSIZE;
+
+    mapY = floor(HEIGHT/2 + y * (height-1)/2.0);
+
+    return mapY;
+}
+
+double Interpreter::map2coordX(int mapX)
+{
+    double coordX;
+    int width = WIDTH - 2 * BORDERSIZE;
+    coordX = (mapX-(WIDTH/2.0)) * (2.0/(width-1.5));
+
+    return coordX;
+}
+
+double Interpreter::map2coordY(int mapY)
+{
+    double coordY;
+    int height = HEIGHT - 2 * BORDERSIZE;
+    coordY = (mapY-(HEIGHT/2.0)) * (2.0/(height-1.5));
+
+    return coordY;
+}
+
+Interpreter::Point* Interpreter::getCheckPoints(Interpreter::Point start, string path)
+{
+
+    Point *ptr = NULL;
+    Point tmp = start;
+
+    int n = path.length();
+    char c;
+    int j;
+    ptr = new Point[n];
+
+    //calculate checkpoints from start position
+    for (int i=0 ; i<(int)path.length() ; i++)
+    {
+        c =path.at(i);
+        j = atoi(&c);
+
+        tmp.x = tmp.x + DX[j];
+        tmp.y = tmp.y + DY[j];
+
+        ptr[i] = tmp;
+    }
+
+    //don't forget to delete array and set pointer to NULL after walking the checkpoints
+    return ptr;
+}
+
+string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Interpreter::Point finish)
+{
+    static priority_queue<node> pq[2]; // list of open (not-yet-tried) nodes
+    static int pqi=0; // pq index
+    static node* n0;
+    static node* m0;
+    static int i, j, x, y, xdx, ydy;
+    static char c;
+    static Map closed_nodes_map;
+    static Map open_nodes_map;
+    static Map dir_map;
+
+    // reset the node maps
+    for(y=0 ; y<HEIGHT ; y++)
+    {
+        for(x=0 ; x<WIDTH ; x++)
+        {
+            closed_nodes_map[x][y]=0;
+            open_nodes_map[x][y]=0;
+            dir_map[x][y] = 0;
+        }
+    }
+
+    // create the start node and push into list of open nodes
+    n0 = new node(start.x, start.y, 0, 0);
+    n0->updatePriority(finish.x, finish.y);
+    pq[pqi].push(*n0);
+    open_nodes_map[x][y] = n0->getPriority(); // mark it on the open nodes map
+
+    // A* search
+    while(!pq[pqi].empty())
+    {
+        // get the current node w/ the highest priority
+        // from the list of open nodes
+        n0=new node( pq[pqi].top().getxPos(), pq[pqi].top().getyPos(),
+                     pq[pqi].top().getLevel(), pq[pqi].top().getPriority());
+
+        x=n0->getxPos(); y=n0->getyPos();
+
+        pq[pqi].pop(); // remove the node from the open list
+        open_nodes_map[x][y]=0;
+        // mark it on the closed nodes map
+        closed_nodes_map[x][y]=1;
+
+        // quit searching when the goal state is reached
+        //if((*n0).estimate(xFinish, yFinish) == 0)
+        if(x==finish.x && y==finish.y)
+        {
+            // generate the path from finish to start
+            // by following the directions
+            string path="";
+            while(!(x==start.x && y==start.y))
+            {
+                j = dir_map[x][y];
+                c = '0' + (j+DIR/2) % DIR;
+                path = c + path;
+                x += DX[j];
+                y += DY[j];
+            }
+
+            // garbage collection
+            delete n0;
+            // empty the leftover nodes
+            while(!pq[pqi].empty()) pq[pqi].pop();
+            return path;
+        }
+
+        // generate moves (child nodes) in all possible directions
+        for(i=0 ; i < DIR ; i++)
+        {
+            xdx = x + DX[i];
+            ydy = y + DY[i];
+
+            if(!(xdx<0 || xdx>WIDTH-1 || ydy<0 || ydy>HEIGHT-1 || map[xdx][ydy]==1
+                || closed_nodes_map[xdx][ydy]==1))
+            {
+                // generate a child node
+                m0=new node( xdx, ydy, n0->getLevel(),
+                             n0->getPriority());
+                m0->nextLevel(i);
+                m0->updatePriority(finish.x, finish.y);
+
+                // if it is not in the open list then add into that
+                if(open_nodes_map[xdx][ydy]==0)
+                {
+                    open_nodes_map[xdx][ydy]=m0->getPriority();
+                    pq[pqi].push(*m0);
+                    // mark its parent node direction
+                    dir_map[xdx][ydy] = (i + DIR/2) % DIR;
+                }
+                else if(open_nodes_map[xdx][ydy]>m0->getPriority())
+                {
+                    // update the priority info
+                    open_nodes_map[xdx][ydy]=m0->getPriority();
+                    // update the parent direction info
+                    dir_map[xdx][ydy]= (i + DIR/2) % DIR;
+
+                    // replace the node
+                    // by emptying one pq to the other one
+                    // except the node to be replaced will be ignored
+                    // and the new node will be pushed in instead
+                    while(!(pq[pqi].top().getxPos()==xdx &&
+                           pq[pqi].top().getyPos()==ydy))
+                    {
+                        pq[1-pqi].push(pq[pqi].top());
+                        pq[pqi].pop();
+                    }
+                    pq[pqi].pop(); // remove the wanted node
+
+                    // empty the larger size pq to the smaller one
+                    if(pq[pqi].size()>pq[1-pqi].size()) pqi=1-pqi;
+                    while(!pq[pqi].empty())
+                    {
+                        pq[1-pqi].push(pq[pqi].top());
+                        pq[pqi].pop();
+                    }
+                    pqi=1-pqi;
+                    pq[pqi].push(*m0); // add the better node instead
+                }
+                else delete m0; // garbage collection
+            }
+        }
+        delete n0; // garbage collection
+    }
+    return ""; // no route found
+}
+
+void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
+{
+    Map map;
+    memcpy(&(map[0][0]), &(map0[0][0]), sizeof(int)*WIDTH*HEIGHT);
+
+    //show planned path
+    cout << "path planned:" << path << endl;
+    if (path.length()>0)
+    {
+        int j; char c;
+        int x = start.x;
+        int y = start.y;
+        map[x][y]=2;
+
+        int l = (int)path.length();
+        for(int i=0 ; i < l ; i++)
+        {
+            c = path.at(i);
+            j = atoi(&c);
+            x = x + DX[j];
+            y = y + DY[j];
+            map[x][y]=3;
+        }
+        map[x][y]=4;
+
+        // display the map with the route
+        for(int y=0 ; y<HEIGHT ; y++)
+        {
+            for(int x=0 ; x<WIDTH ; x++)
+            {
+                if(map[x][y]==0)
+                    cout<<".";
+                else if(map[x][y]==1)
+                    cout<<"O"; //obstacle
+                else if(map[x][y]==2)
+                    cout<<"S"; //start
+                else if(map[x][y]==3)
+                    cout<<"R"; //path
+                else if(map[x][y]==4)
+                    cout<<"F"; //finish
+            }
+            cout << endl;
+        }
+    }
+}
+
+void Interpreter::matrixupdate(Interpreter::Map& map, RoboControl* ref, RoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
+{
+    CoordinatesCalibrer *m_coordCalibrer = coordCalibrer;
+    //Normalize coordinates of our robot
+    Position pos1 = m_coordCalibrer->NormalizePosition((ref->GetPos()));//ref is our robot
+    Position posptr[5];
+    //indices of the robot's position in the matrix
+    int i1 = coord2mapX(pos1.GetX());
+    int j1 = coord2mapY(pos1.GetY());
+    int width = WIDTH;
+    int height = HEIGHT;
+    int border = BORDERSIZE;
+    int obstacle_r = 1.5 * BORDERSIZE;
+
+    //clear map
+    memset(&(map[0][0]), 0, sizeof(int)*WIDTH*HEIGHT);
+
+    //get all positions of the robots
+    for (int k=0 ; k < 5 ; k++)
+    {
+        //Normalize coordinates of the obstacles
+        posptr[k] = m_coordCalibrer->NormalizePosition((obstacles[k])->GetPos());   //obstacles[i] are the robots
+    }
+
+    pos1=m_coordCalibrer->NormalizePosition(ref->GetPos());
+    //restrict borders and penalty area
+    for (int i = 0 ; i<width;i++)
+    {
+        for (int j =0; j<height;j++)
+        {
+            //TODO Make this readable...
+            if((i>=0 && i< border) || (i >=(width - border) && i<= (width-1)) || (j>=0 && j< border) || (j >=(height - border) && j<= (height-1))
+                    || ((j > HEIGHT/2 - WIDTH/10) && (j < HEIGHT/2 + WIDTH/10)
+                        && ((i < WIDTH/10)|| (i > WIDTH-WIDTH/10))))
+            map[i][j] = 1;
+
+            //set penalty areas as obstacles
+
+            if (ceil(pow(i-coord2mapX(posptr[0].GetX()),2)+pow(j-coord2mapY(posptr[0].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+                map[i][j] = 1;
+            if (ceil(pow(i-coord2mapX(posptr[1].GetX()),2)+pow(j-coord2mapY(posptr[1].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+                map[i][j] = 1;
+            if (ceil(pow(i-coord2mapX(posptr[2].GetX()),2)+pow(j-coord2mapY(posptr[2].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+                map[i][j] = 1;
+            if (ceil(pow(i-coord2mapX(posptr[3].GetX()),2)+pow(j-coord2mapY(posptr[3].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+                map[i][j] = 1;
+            if (ceil(pow(i-coord2mapX(posptr[4].GetX()),2)+pow(j-coord2mapY(posptr[4].GetY()),2)) <= ceil(pow(obstacle_r,2)))
+                map[i][j] = 1;
+
+            //clear the area around reference
+
+            if (ceil(pow(i-coord2mapX(pos1.GetX()),2)+pow(j-coord2mapY(pos1.GetY()),2)) <= ceil(pow(obstacle_r,2)))
+                map[i][j] = 0;
+        }
+    }
+
+    map[i1][j1] = 2; // affect 2 to the position of our robot in the matrix
+
+    //Normalize coordinates of the ball
+    pos1 = m_coordCalibrer->NormalizePosition(ball->GetPos());
+
+    //indices of the robot's position in the matrix
+    int i=coord2mapX(pos1.GetX());
+    int j=coord2mapY(pos1.GetY());
+    map[i][j]=3; // affect 3 to the position of the ball in the matrix
+
+    //generate the obstacles around the ball depending on the side in which our team plays
+    map[i-1][j-1]=1;
+    map[i-1][j]=1;
+    map[i-1][j+1]=1;
+    map[i+1][j-1]=1;
+    map[i+1][j]=1;
+    map[i+1][j+1]=1;
+
+    if (our_side == LEFT_SIDE)
+        map[i][j+1]=1;
+    else
+        map[i][j-1]=1;
+
+    /*
+    //indices of the robot's position in the matrix
+    i=coord2mapX(pos1.GetX());
+    j=coord2mapY(pos1.GetY());
+
+    cout<< "i: "<<i<<" j: "<<j<<endl;
+
+    map[i][j]=1; // affect 1 to the position of the obstacle and its surroundings in the matrix
+    map[i-1][j]=1;
+    map[i+1][j]=1;
+    map[i][j-1]=1;
+    map[i][j+1]=1;
+    */
+}
+
 
 Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,RoboControl *a,RoboControl *b,RoboControl *c,RawBall *d,CoordinatesCalibrer *e)
 {
@@ -72,7 +408,6 @@ bool Interpreter::verifyPos()
             && (m_p1->getRobot()->GetPos().DistanceTo(m_p1->getDefaultPosition())< 0.01)
             && (m_p2->getRobot()->GetPos().DistanceTo(m_p2->getDefaultPosition())< 0.01);
 }
-
 
 void Interpreter::setDefaultPos()
 {
@@ -174,8 +509,6 @@ void Interpreter::setDefaultPos()
     }
 }
 
-
-
 void Interpreter::setPlayMode()
 {
     m_mode.mode = m_ref->GetPlayMode();
@@ -251,347 +584,5 @@ void Interpreter::updateSituation()
 
     setPlayMode();
     setDefaultPos();
-}
-
-int coord2mapX(double x)
-{
-    //coordinate from -1 to +1
-    int mapX;
-    int width = Interpreter::WIDTH - 2 * Interpreter::BORDERSIZE;
-
-    mapX = floor(Interpreter::WIDTH/2 + x * (width-1)/2.0);
-
-    return mapX;
-}
-
-int coord2mapY(double y)
-{
-    //coordinate from -1 to +1
-    int mapY;
-    int height = Interpreter::HEIGHT - 2 * Interpreter::BORDERSIZE;
-
-    mapY = floor(Interpreter::HEIGHT/2 + y * (height-1)/2.0);
-
-    return mapY;
-
-}
-
-double map2coordX(int mapX)
-{
-    double coordX;
-    int width = Interpreter::WIDTH - 2 * Interpreter::BORDERSIZE;
-    coordX = (mapX-(Interpreter::WIDTH/2.0)) * (2.0/(width-1.5));
-
-    return coordX;
-}
-
-
-double map2coordY(int mapY)
-{
-    double coordY;
-    int height = Interpreter::HEIGHT - 2 * Interpreter::BORDERSIZE;
-    coordY = (mapY-(Interpreter::HEIGHT/2.0)) * (2.0/(height-1.5));
-
-    return coordY;
-}
-
-Interpreter::Point* getCheckPoints(Interpreter::Point start, string path)
-{
-
-    Interpreter::Point *ptr = NULL;
-    Interpreter::Point tmp = start;
-
-    int n = path.length();
-    char c;
-    int j;
-    ptr = new Interpreter::Point[n];
-
-    //calculate checkpoints from start position
-    for (int i=0 ; i<(int)path.length() ; i++)
-    {
-        c =path.at(i);
-        j = atoi(&c);
-
-        tmp.x = tmp.x + Interpreter::dx[j];
-        tmp.y = tmp.y + Interpreter::dy[j];
-
-        ptr[i] = tmp;
-    }
-
-    //don't forget to delete array and set pointer to NULL after walking the checkpoints
-    return ptr;
-}
-
-string pathFind( Interpreter::Map map, Interpreter::Point start, Interpreter::Point finish)
-{
-    static priority_queue<node> pq[2]; // list of open (not-yet-tried) nodes
-    static int pqi=0; // pq index
-    static node* n0;
-    static node* m0;
-    static int i, j, x, y, xdx, ydy;
-    static char c;
-    static Interpreter::Map closed_nodes_map;
-    static Interpreter::Map open_nodes_map;
-    static Interpreter::Map dir_map;
-
-    // reset the node maps
-    for(y=0 ; y<Interpreter::HEIGHT ; y++)
-    {
-        for(x=0 ; x<Interpreter::WIDTH ; x++)
-        {
-            closed_nodes_map[x][y]=0;
-            open_nodes_map[x][y]=0;
-            dir_map[x][y] = 0;
-        }
-    }
-
-    // create the start node and push into list of open nodes
-    n0 = new node(start.x, start.y, 0, 0);
-    n0->updatePriority(finish.x, finish.y);
-    pq[pqi].push(*n0);
-    open_nodes_map[x][y] = n0->getPriority(); // mark it on the open nodes map
-
-    // A* search
-    while(!pq[pqi].empty())
-    {
-        // get the current node w/ the highest priority
-        // from the list of open nodes
-        n0=new node( pq[pqi].top().getxPos(), pq[pqi].top().getyPos(),
-                     pq[pqi].top().getLevel(), pq[pqi].top().getPriority());
-
-        x=n0->getxPos(); y=n0->getyPos();
-
-        pq[pqi].pop(); // remove the node from the open list
-        open_nodes_map[x][y]=0;
-        // mark it on the closed nodes map
-        closed_nodes_map[x][y]=1;
-
-        // quit searching when the goal state is reached
-        //if((*n0).estimate(xFinish, yFinish) == 0)
-        if(x==finish.x && y==finish.y)
-        {
-            // generate the path from finish to start
-            // by following the directions
-            string path="";
-            while(!(x==start.x && y==start.y))
-            {
-                j = dir_map[x][y];
-                c = '0' + (j+Interpreter::dir/2) % Interpreter::dir;
-                path = c + path;
-                x += Interpreter::dx[j];
-                y += Interpreter::dy[j];
-            }
-
-            // garbage collection
-            delete n0;
-            // empty the leftover nodes
-            while(!pq[pqi].empty()) pq[pqi].pop();
-            return path;
-        }
-
-        // generate moves (child nodes) in all possible directions
-        for(i=0 ; i < Interpreter::dir ; i++)
-        {
-            xdx = x + Interpreter::dx[i];
-            ydy = y + Interpreter::dy[i];
-
-            if(!(xdx<0 || xdx>Interpreter::WIDTH-1 || ydy<0 || ydy>Interpreter::HEIGHT-1 || map[xdx][ydy]==1
-                || closed_nodes_map[xdx][ydy]==1))
-            {
-                // generate a child node
-                m0=new node( xdx, ydy, n0->getLevel(),
-                             n0->getPriority());
-                m0->nextLevel(i);
-                m0->updatePriority(finish.x, finish.y);
-
-                // if it is not in the open list then add into that
-                if(open_nodes_map[xdx][ydy]==0)
-                {
-                    open_nodes_map[xdx][ydy]=m0->getPriority();
-                    pq[pqi].push(*m0);
-                    // mark its parent node direction
-                    dir_map[xdx][ydy] = (i + Interpreter::dir/2) % Interpreter::dir;
-                }
-                else if(open_nodes_map[xdx][ydy]>m0->getPriority())
-                {
-                    // update the priority info
-                    open_nodes_map[xdx][ydy]=m0->getPriority();
-                    // update the parent direction info
-                    dir_map[xdx][ydy]= (i + Interpreter::dir/2) % Interpreter::dir;
-
-                    // replace the node
-                    // by emptying one pq to the other one
-                    // except the node to be replaced will be ignored
-                    // and the new node will be pushed in instead
-                    while(!(pq[pqi].top().getxPos()==xdx &&
-                           pq[pqi].top().getyPos()==ydy))
-                    {
-                        pq[1-pqi].push(pq[pqi].top());
-                        pq[pqi].pop();
-                    }
-                    pq[pqi].pop(); // remove the wanted node
-
-                    // empty the larger size pq to the smaller one
-                    if(pq[pqi].size()>pq[1-pqi].size()) pqi=1-pqi;
-                    while(!pq[pqi].empty())
-                    {
-                        pq[1-pqi].push(pq[pqi].top());
-                        pq[pqi].pop();
-                    }
-                    pqi=1-pqi;
-                    pq[pqi].push(*m0); // add the better node instead
-                }
-                else delete m0; // garbage collection
-            }
-        }
-        delete n0; // garbage collection
-    }
-    return ""; // no route found
-}
-
-void showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
-{
-    Interpreter::Map map;
-    memcpy(&(map[0][0]), &(map0[0][0]), sizeof(int)*Interpreter::WIDTH*Interpreter::HEIGHT);
-
-    //show planned path
-    cout << "path planned:" << path << endl;
-    if (path.length()>0)
-    {
-        int j; char c;
-        int x = start.x;
-        int y = start.y;
-        map[x][y]=2;
-
-        int l = (int)path.length();
-        for(int i=0 ; i < l ; i++)
-        {
-            c = path.at(i);
-            j = atoi(&c);
-            x = x + Interpreter::dx[j];
-            y = y + Interpreter::dy[j];
-            map[x][y]=3;
-        }
-        map[x][y]=4;
-
-        // display the map with the route
-        for(int y=0 ; y<Interpreter::HEIGHT ; y++)
-        {
-            for(int x=0 ; x<Interpreter::WIDTH ; x++)
-            {
-                if(map[x][y]==0)
-                    cout<<".";
-                else if(map[x][y]==1)
-                    cout<<"O"; //obstacle
-                else if(map[x][y]==2)
-                    cout<<"S"; //start
-                else if(map[x][y]==3)
-                    cout<<"R"; //path
-                else if(map[x][y]==4)
-                    cout<<"F"; //finish
-            }
-            cout << endl;
-        }
-    }
-}
-
-void matrixupdate(Interpreter::Map& map, RoboControl* ref, RoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
-{
-    CoordinatesCalibrer *m_coordCalibrer = coordCalibrer;
-    //Normalize coordinates of our robot
-    Position pos1 = m_coordCalibrer->NormalizePosition((ref->GetPos()));//ref is our robot
-    Position posptr[5];
-    //indices of the robot's position in the matrix
-    int i1=coord2mapX(pos1.GetX());
-    int j1=coord2mapY(pos1.GetY());
-    int width = Interpreter::WIDTH;
-    int height = Interpreter::HEIGHT;
-    int border = Interpreter::BORDERSIZE;
-    int obstacle_r = Interpreter::BORDERSIZE*1.5;
-
-    //clear map
-    for(int i=0 ; i<Interpreter::WIDTH ; i++)
-    {
-        for(int j=0 ; j<Interpreter::HEIGHT ; j++)
-        {
-            map[i][j] = 0;
-        }
-    }
-
-    //get all positions of the robots
-    for (int k=0 ; k < 5 ; k++)
-    {
-        //Normalize coordinates of the obstacles
-        posptr[k] = m_coordCalibrer->NormalizePosition((obstacles[k])->GetPos());//obstacles[i] are the robots
-    }
-
-    pos1=m_coordCalibrer->NormalizePosition(ref->GetPos());
-    //restrict borders and penalty area
-    for (int i = 0 ; i<width;i++)
-    {
-        for (int j =0; j<height;j++)
-        {
-            //TODO Make this readable...
-            if((i>=0 && i< border) || (i >=(width - border) && i<= (width-1)) || (j>=0 && j< border) || (j >=(height - border) && j<= (height-1))
-                    || ((j > Interpreter::HEIGHT/2 - Interpreter::WIDTH/10) && (j < Interpreter::HEIGHT/2 + Interpreter::WIDTH/10)
-                        && ((i < Interpreter::WIDTH/10)|| (i > Interpreter::WIDTH-Interpreter::WIDTH/10))))
-            map[i][j] = 1;
-
-            //set penalty areas as obstacles
-
-            if (ceil(pow(i-coord2mapX(posptr[0].GetX()),2)+pow(j-coord2mapY(posptr[0].GetY()),2)) <= ceil(pow(obstacle_r,2)))
-                map[i][j] = 1;
-            if (ceil(pow(i-coord2mapX(posptr[1].GetX()),2)+pow(j-coord2mapY(posptr[1].GetY()),2)) <= ceil(pow(obstacle_r,2)))
-                map[i][j] = 1;
-            if (ceil(pow(i-coord2mapX(posptr[2].GetX()),2)+pow(j-coord2mapY(posptr[2].GetY()),2)) <= ceil(pow(obstacle_r,2)))
-                map[i][j] = 1;
-            if (ceil(pow(i-coord2mapX(posptr[3].GetX()),2)+pow(j-coord2mapY(posptr[3].GetY()),2)) <= ceil(pow(obstacle_r,2)))
-                map[i][j] = 1;
-            if (ceil(pow(i-coord2mapX(posptr[4].GetX()),2)+pow(j-coord2mapY(posptr[4].GetY()),2)) <= ceil(pow(obstacle_r,2)))
-                map[i][j] = 1;
-
-            //clear the area around reference
-
-            if (ceil(pow(i-coord2mapX(pos1.GetX()),2)+pow(j-coord2mapY(pos1.GetY()),2)) <= ceil(pow(obstacle_r,2)))
-                map[i][j] = 0;
-        }
-    }
-
-    map[i1][j1] = 2; // affect 2 to the position of our robot in the matrix
-
-    //Normalize coordinates of the ball
-    pos1 = m_coordCalibrer->NormalizePosition(ball->GetPos());
-
-    //indices of the robot's position in the matrix
-    int i=coord2mapX(pos1.GetX());
-    int j=coord2mapY(pos1.GetY());
-    map[i][j]=3; // affect 3 to the position of the ball in the matrix
-
-    //generate the obstacles around the ball depending on the side in which our team plays
-    map[i-1][j-1]=1;
-    map[i-1][j]=1;
-    map[i-1][j+1]=1;
-    map[i+1][j-1]=1;
-    map[i+1][j]=1;
-    map[i+1][j+1]=1;
-
-    if (our_side == LEFT_SIDE)
-        map[i][j+1]=1;
-    else
-        map[i][j-1]=1;
-
-    /*
-    //indices of the robot's position in the matrix
-    i=coord2mapX(pos1.GetX());
-    j=coord2mapY(pos1.GetY());
-
-    cout<< "i: "<<i<<" j: "<<j<<endl;
-
-    map[i][j]=1; // affect 1 to the position of the obstacle and its surroundings in the matrix
-    map[i-1][j]=1;
-    map[i+1][j]=1;
-    map[i][j-1]=1;
-    map[i][j+1]=1;
-    */
 }
 

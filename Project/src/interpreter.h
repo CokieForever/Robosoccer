@@ -48,11 +48,20 @@ public:
     static const int HEIGHT = 80;
     static const int BORDERSIZE = 5;
 
+    static const int DIR = 8; // number of possible directions to go at any position
+    static const int DX[DIR];
+    static const int DY[DIR];
+
     typedef int (Map)[WIDTH][HEIGHT];
 
-    static const int dir = 8; // number of possible directions to go at any position
-    static const int dx[dir];
-    static const int dy[dir];
+    static string pathFind(Map map, Point start, Point finish);
+    static Point* getCheckPoints(Point start, string path);
+    static int coord2mapX(double);
+    static int coord2mapY(double);
+    static double map2coordX(int);
+    static double map2coordY(int);
+    static void showMap(const Map& map, string path, Point start);
+    static void matrixupdate(Map& map, RoboControl* ref, RoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
 
     Interpreter(int x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, RoboControl* a, RoboControl* b, RoboControl* c, RawBall* d, CoordinatesCalibrer* e);
 
@@ -77,15 +86,7 @@ private:
     void setDefaultPos();
 };
 
-string pathFind(Interpreter::Map map, Interpreter::Point start, Interpreter::Point finish);
 
-Interpreter::Point* getCheckPoints(Interpreter::Point start, string path);
 
-int coord2mapX(double);
-int coord2mapY(double);
-double map2coordX(int);
-double map2coordY(int);
-void showMap(const Interpreter::Map& map, string path, Interpreter::Point start);
-void matrixupdate(Interpreter::Map& map, RoboControl* ref, RoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
 
 #endif /* INTERPRETER_H_ */

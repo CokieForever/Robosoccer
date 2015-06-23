@@ -1,9 +1,9 @@
 //============================================================================
-// Name        : soccer_client.cpp
+// Name        : main.cpp
 // Author      :
 // Version     :
-// Copyright   : Your copyright notice
-// Description : Client for RTDB which controls team 1, Ansi-style
+// Copyright   :
+// Description :
 //============================================================================
 
 
@@ -16,7 +16,6 @@
 #include "coordinates.h"
 #include "ballmonitor.h"
 #include "refereedisplay.h"
-#include "robotmonitor.h"
 #include "interpreter.h"
 #include "cruiseToBias2.h"
 #include "matrixdisplay.h"
@@ -48,10 +47,8 @@ int main(void)
     coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));     //Calibration settings for the real field
     //coordCalibrer.SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));                  //Calibration settings for the simulation
 
-    RobotMonitor robotMonitor(&coordCalibrer);
-    BallMonitor ballMonitor(&coordCalibrer, &robotMonitor);
+    BallMonitor ballMonitor(&coordCalibrer);
     RefereeDisplay refereeDisplay(team, &ballMonitor, &coordCalibrer);
-
 
     try
     {
@@ -68,7 +65,6 @@ int main(void)
         RoboControl robo6 = RoboControl(DBC, rfcomm_nr_2[2]);
 
         RoboControl *robots[] = {&robo1, &robo2, &robo3, &robo4, &robo5, &robo6};
-        robotMonitor.SetAllRobots(robots);
 
         RawBall ball(DBC);
         Referee ref(DBC);
@@ -100,7 +96,7 @@ int main(void)
 
         showMap(p1.map,pathFind(p1.map,A,B),A);
         */
-        while (1)
+        while (refereeDisplay.IsActive())
         {
             info.updateSituation();
 

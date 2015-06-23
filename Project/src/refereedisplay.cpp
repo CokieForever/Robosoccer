@@ -57,6 +57,11 @@ bool RefereeDisplay::StopDisplay()
     return true;
 }
 
+bool RefereeDisplay::IsActive() const
+{
+    return m_isDisplaying;
+}
+
 
 void RefereeDisplay::CreateMatrixDisplay(const MatrixDisplay::Matrix *matrix)
 {
@@ -78,17 +83,9 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     display->m_isDisplaying = true;
 
     SDL_Init(SDL_INIT_EVERYTHING);
-    TTF_Init();
 
     SDL_Surface *screen = SDL_SetVideoMode(display->m_screenW, display->m_screenH, 32, SDL_SWSURFACE);
     SDL_Flip(screen);
-
-    SDL_Surface *fSurf = NULL;
-    TTF_Font *font = TTF_OpenFont("../data/font.ttf", 25);
-    if (!font)
-        cout << "Unable to open font: " << TTF_GetError() << endl;
-    else
-        fSurf = TTF_RenderText_Blended(font, "F", CreateColor(255,255,255));
 
     SDL_Surface *ballSurf = SDL_LoadBMP("../data/ball.bmp"), *ballSurfTr = NULL;
     if (!ballSurf)
@@ -156,13 +153,8 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         event.type = SDL_NOEVENT;
         SDL_PollEvent(&event);
 
-        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_f)
-        {
-            if (display->m_ballMonitor->IsBallFollowingStarted())
-                display->m_ballMonitor->StopBallFollowing();
-            else
-                display->m_ballMonitor->StartBallFollowing(display->m_robots[3]);
-        }
+        if (event.type == SDL_QUIT)
+            break;
 
         bgSurf = display->m_matrixDisplay ? display->m_matrixDisplay->UpdateDisplay() : NULL;
         if (bgSurf)
@@ -192,13 +184,6 @@ void* RefereeDisplay::RefDisplayFn(void *data)
                 robotsDD[i].area = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_robots[i]->GetPos()), robotSurf->w, robotSurf->h);
                 rect = robotsDD[i].area;
                 SDL_BlitSurface(robotSurf, NULL, screen, &rect);
-
-                if (fSurf && i == 3 && display->m_ballMonitor->IsBallFollowingStarted())
-                {
-                    rect.x += robotSurf->w/2 - fSurf->w/2;
-                    rect.y += robotSurf->h/2 - fSurf->h/2;
-                    SDL_BlitSurface(fSurf, NULL, screen, &rect);
-                }
 
                 DragDropStatus status = ManageDragDrop(&(robotsDD[i]), event);
 
@@ -243,12 +228,6 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     if (blueRobotSurfTr)
         SDL_FreeSurface(blueRobotSurfTr);
 
-    if (font)
-        TTF_CloseFont(font);
-    if (fSurf)
-        SDL_FreeSurface(fSurf);
-
-    TTF_Quit();
     SDL_Quit();
 
     display->m_isDisplaying = false;
