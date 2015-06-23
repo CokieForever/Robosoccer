@@ -1,37 +1,32 @@
-
 #ifndef GOALKEEPER_H_
 #define GOALKEEPER_H_
 
 
-
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
 #include "referee.h"
+#include "teamrobot.h"
+#include "coordinates.h"
 
 
-
-class Goalkeeper {
-        enum ActionGk{GO_TO_DEF_POS,PREVENT_GOAL,FOLLOWPATH};
-
-
-private:
-
-        RawBall* ball;
-
-	ActionGk nextCmd;
-        Position preventGoalParam;
+class Goalkeeper : public TeamRobot
+{
 
 public:
-	Position defaultPos;
-        RoboControl* robot;
+    enum ActionGk
+    {
+        GO_TO_DEF_POS, PREVENT_GOAL, FOLLOWPATH
+    };
 
-        void setNextCmd(void*);
-	void setCmdParam();
-        void *performCmd(void);
-        Goalkeeper(RoboControl*,RawBall*);
-        static void *performCmd_helper(void *);
+    Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*);
 
-	~Goalkeeper();
+    void setNextCmd(Interpreter *info);
+    void setCmdParam(void);
+    void* performCmd(void);
+
+private:
+    ActionGk m_nextCmd;
+    Position m_preventGoalParam;
+
 };
 
 #endif /* GOALKEEPER_H_ */

@@ -1,87 +1,93 @@
 
 #ifndef INTERPRETER_H_
 #define INTERPRETER_H_
-#define WIDTH 100
-#define HEIGHT 80
-#define BORDERSIZE 5
 
+class PlayerMain;
+class PlayerTwo;
+class Goalkeeper;
 
 #include <time.h>
 #include <iostream>
 #include <pthread.h>
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
 #include "referee.h"
-#include "goalkeeper.h"
-#include "playermain.h"
-#include "playertwo.h"
+#include "coordinates.h"
+#include "newrobocontrol.h"
 
 
-static const int dir=8; // number of possible directions to go at any position
-// if dir==8
-static const int dx[dir]={1, 1, 0, -1, -1, -1, 0, 1};
-static const int dy[dir]={0, 1, 1, 1, 0, -1, -1, -1};
-
-typedef struct{
-    int x;
-    int y;
-}Point;
-
-
-
-class interpreter {
-
-
-
-private:
-        CoordinatesCalibrer *cal;
-        Referee *ref;
-        Goalkeeper *gk;
-        PlayerMain *p1;
-        PlayerTwo *p2;
-        RawBall *ball;
-        RoboControl *e1,*e2,*e3;
-
-        void setPlayMode();
-	void setSide();
-	void setTurn();
-        void setScores();
-	bool verifyPos();
-	void setDefaultPos();
+class Interpreter
+{
 
 public:
-        enum kick_turn{OUR_TURN,THEIR_TURN};
-        enum strategy{ATK,DEF,MIX};
+    enum KickTurn
+    {
+        OUR_TURN, THEIR_TURN
+    };
 
-        typedef struct{
-            int team,oponent_score,our_score;
-            ePlayMode mode;
-            strategy formation;
-            eSide our_side;
-            kick_turn turn;
-        }gameData;
+    enum Strategy
+    {
+        ATK, DEF, MIX
+    };
 
-        static const double MID_THRESHOLD  = 0.30;
+    struct GameData
+    {
+        int team, oponent_score, our_score;
+        ePlayMode mode;
+        Strategy formation;
+        eSide our_side;
+        KickTurn turn;
+    };
 
-        gameData mode;
+    struct Point
+    {
+        int x, y;
+    };
 
-        void setObstacles(int map[][HEIGHT]);
+    static const double MID_THRESHOLD  = 0.30;
+    static const int MAP_WIDTH = 100;
+    static const int MAP_HEIGHT = 80;
+    static const int MAP_BORDERSIZE = 5;
 
-        interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,RoboControl *a,RoboControl *b,RoboControl *c,RawBall *d,CoordinatesCalibrer *e);
+    static const int DIR = 8; // number of possible directions to go at any position
+    static const int DX[DIR];
+    static const int DY[DIR];
 
-        void updateSituation();
-        ~interpreter();
+    typedef int (Map)[MAP_WIDTH][MAP_HEIGHT];
+
+    static string pathFind(Map map, Point start, Point finish);
+    static Point* getCheckPoints(Point start, string path);
+    static int coord2mapX(double);
+    static int coord2mapY(double);
+    static double map2coordX(int);
+    static double map2coordY(int);
+    static void showMap(const Map& map, string path, Point start);
+    static void matrixupdate(Map& map, NewRoboControl* ref, NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
+
+    Interpreter(int x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, NewRoboControl* a, NewRoboControl* b, NewRoboControl* c, RawBall* d, CoordinatesCalibrer* e);
+
+    GameData getMode() const;
+    void updateSituation();
+
+private:
+    CoordinatesCalibrer* m_cal;
+    Referee* m_ref;
+    Goalkeeper* m_gk;
+    PlayerMain* m_p1;
+    PlayerTwo* m_p2;
+    RawBall* m_ball;
+    NewRoboControl* m_e1, *m_e2, *m_e3;
+    GameData m_mode;
+
+    void setPlayMode();
+    void setSide();
+    void setTurn();
+    void setScores();
+    bool verifyPos();
+    void setDefaultPos();
+
 };
 
-string pathFind( int map[][HEIGHT], const Point A,const Point B);
 
-Point* getCheckPoints(Point start,string path);
 
-int coord2mapX(double);
-int coord2mapY(double);
-double map2coordX(int);
-double map2coordY(int);
-void showMap(int map[][HEIGHT],string path,const Point start);
-void matrixupdate(int newMatrix[][HEIGHT],RoboControl *ref, RoboControl *obstacles[5], RawBall *ball, CoordinatesCalibrer *coordCalibrer, eSide our_side);
 
 #endif /* INTERPRETER_H_ */
