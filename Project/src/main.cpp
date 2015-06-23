@@ -17,7 +17,7 @@
 #include "refereedisplay.h"
 #include "interpreter.h"
 #include "newrobocontrol.h"
-#include "matrixdisplay.h"
+#include "mapdisplay.h"
 #include "goalkeeper.h"
 #include "playermain.h"
 #include "playertwo.h"
@@ -72,10 +72,8 @@ int main(void)
         ref.Init();
         cout << ref.GetSide() <<endl;
 
-        MatrixDisplay::Matrix matrix = MatrixDisplay::ConvertToMatrix(&(p1.getMap()[0][0]), Interpreter::MAP_WIDTH, Interpreter::MAP_HEIGHT);
-
         ballMonitor.StartMonitoring(&ball);
-        refereeDisplay.StartDisplay(robots, &ball, &matrix);
+        refereeDisplay.StartDisplay(robots, &ball, &(p1.getMap()));
 
         Interpreter info(team,&ref,&gk,&p1,&p2,&robo4,&robo5,&robo6,&ball,&coordCalibrer);
 
