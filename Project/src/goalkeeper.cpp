@@ -5,123 +5,100 @@
  *      Author: dean
  */
 
+#include "goalkeeper.h"
 #include "interpreter.h"
-#include <iostream>
-#include "share.h"
-#include "kogmo_rtdb.hxx"
-#include "robo_control.h"
-#include "ballmonitor.h"
 
 
-
-
-Goalkeeper::Goalkeeper(RoboControl *x,RawBall *b, CoordinatesCalibrer *coordCalibrer, RobotMonitor *robotMonitor) : ballMonitor(coordCalibrer, robotMonitor) {
-	robot = x;
-	ball  = b;
-	
-        ballMonitor.StartMonitoring(ball);
+Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b) : TeamRobot(DBC, deviceNr, coordCalib, b)
+{
 }
 
-Goalkeeper::~Goalkeeper(){
-}
+void Goalkeeper::setNextCmd(Interpreter *info)
+{
+    Interpreter::GameData mode = info->getMode();
 
-void Goalkeeper::setNextCmd(void *s){
+    switch(mode.mode)
+    {
+        case PENALTY:
+            if (mode.turn != Interpreter::OUR_TURN)
+                m_nextCmd = PREVENT_GOAL;
+            else
+                m_nextCmd = GO_TO_DEF_POS;
+            break;
 
-        interpreter* info = (interpreter*)s;
-        switch(info->playmode)
-	{
-                case PENALTY:
-                        if(info->turn != interpreter::OUR_TURN)
-                            nextCmd = PREVENT_GOAL;
-                        else
-                            nextCmd = GO_TO_DEF_POS;
-                        break;
-		case PLAY_ON:
-                        nextCmd = PREVENT_GOAL;
-                        break;
-		default:
-                        nextCmd = GO_TO_DEF_POS;
-                        break;
-	}
+        case PLAY_ON:
+            m_nextCmd = PREVENT_GOAL;
+            break;
+
+        default:
+            m_nextCmd = GO_TO_DEF_POS;
+            break;
+    }
 
 }
 
-
-void Goalkeeper::setCmdParam(){
-    Position predballPos_old, predballPos_new, realballPos;
-    static int counter = 0;
-    double y;
-    double deltaY;
-    cout << "switch" << nextCmd << endl;
-    switch(nextCmd)
+void Goalkeeper::setCmdParam(void)
+{
+    switch(m_nextCmd)
+    {
+        case PREVENT_GOAL:
         {
-		case PREVENT_GOAL:  
-//counter 10 predictballpos(..., 5) worked good
-                    if(counter >= 9)
-                   {
-                        ballMonitor.PredictBallPosition(& predballPos_old, 5);
-                        cout << "predictball" << predballPos_old << endl;
+            Position ballPos = m_ball->GetPos();
+            double y = ballPos.GetY();
 
-                        y = predballPos_old.GetY();
-                        //define Goal borders
-                        if (y > 0.22)
-                             y = 0.22;
-                         else if (y < -0.15)
-                             y = -0.15;
+            if (y > 0.15)
+            y = 0.15;
+            else if (y < -0.15)
+            y = -0.15;
 
-                         deltaY = fabs(robot->GetY() - y);
-                         cout << "Goal keeper moving to y = " << y << std::endl;
-                         preventGoalParam.SetX(defaultPos.GetX());
-                         preventGoalParam.SetY(y);
-                   counter =0;
-                    }
-                     counter ++;
-                    break;
+            double deltaY = fabs(GetY() - y);
 
-                case GO_TO_DEF_POS:
-                        std::cout << " = " << defaultPos <<std::endl;
-                        break;
+            if (deltaY >= 0.05)
+            {
+                cout << "Goal keeper moving to y = " << y << std::endl;
+                m_preventGoalParam.SetX(m_defaultPos.GetX());
+                m_preventGoalParam.SetY(y);
+            }
+            else
+            {
+                m_preventGoalParam.SetX(m_defaultPos.GetX());
+                m_preventGoalParam.SetY(m_defaultPos.GetY());
+            }
 
-                default :
-			break;
-	}
+            break;
+        }
+
+        case GO_TO_DEF_POS:
+            std::cout << "Goal keeper moving to Position = " << m_defaultPos <<std::endl;
+            break;
+
+        default :
+            break;
+    }
 }
 
+void* Goalkeeper::performCmd(void)
+{
 
+    switch(m_nextCmd)
+    {
+        case Goalkeeper::PREVENT_GOAL:
+            std::cout << "Next command Prevent Goal Position: " << m_preventGoalParam.GetPos()<< std::endl;
+            GotoXY(m_defaultPos.GetX(),m_preventGoalParam.GetY());
+            break;
 
-void *Goalkeeper::performCmd(void){
+        case Goalkeeper::GO_TO_DEF_POS:
+            GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
+            while(GetPos().DistanceTo(m_defaultPos)> 0.1)
+            {
+                usleep(10000000);
+            }
+            break;
 
-	switch(nextCmd)
-	{
-                case Goalkeeper::PREVENT_GOAL:
-                        std::cout << "Next command Prevent Goal Position: " << preventGoalParam.GetPos()<< std::endl;
+        default:
+            break;
+    }
 
-                        CruisetoBias(defaultPos.GetX(),preventGoalParam.GetY(), 650, -10, 30, robot);
-
-                        break;
-                case Goalkeeper::GO_TO_DEF_POS:
-
-                        robot->GotoXY(defaultPos.GetX(),defaultPos.GetY());
-                      /*  while(robot->GetPos().DistanceTo(defaultPos)> 0.01)
-                        {
-                           usleep(10000000);
-                        }*/
-
-			break;
-		default:
-			break;
-	}
-        return 0;
-
+    return 0;
 }
-
-void *Goalkeeper::performCmd_helper(void *context){
-
-    return ((Goalkeeper*)context)->performCmd();
-
-}
-
-
-
-
 

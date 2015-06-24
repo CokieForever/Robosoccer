@@ -1,7 +1,9 @@
 #include "refereedisplay.h"
+#include "interpreter.h"
 
 
-RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW, int screenH, RoboControl **robots, RawBall *ball)
+RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW, int screenH,
+                               NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
 {
     m_keepGoing = true;
     m_isDisplaying = false;
@@ -10,30 +12,39 @@ RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, Coordinates
     m_screenH = screenH;
 
     if (robots)
-        memcpy(m_robots, robots, sizeof(RoboControl*) * 6);
+        memcpy(m_robots, robots, sizeof(NewRoboControl*) * 6);
     else
-        memset(m_robots, 0, sizeof(RoboControl*) * 6);
+        memset(m_robots, 0, sizeof(NewRoboControl*) * 6);
 
     m_ball = ball;
     m_team = team;
     m_ballMonitor = ballMonitor;
     m_coordCalibrer = coordCalibrer;
+    m_mapDisplay = NULL;
+
+    CreateMapDisplay(map);
 }
 
-bool RefereeDisplay::StartDisplay(RoboControl **robots, RawBall *ball)
+RefereeDisplay::~RefereeDisplay()
+{
+    if (m_mapDisplay)
+        delete m_mapDisplay;
+}
+
+bool RefereeDisplay::StartDisplay(NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
 {
     if (m_isDisplaying || !m_ballMonitor || !m_coordCalibrer)
         return false;
 
     if (robots)
-        memcpy(m_robots, robots, sizeof(RoboControl*) * 6);
+        memcpy(m_robots, robots, sizeof(NewRoboControl*) * 6);
     if (ball)
         m_ball = ball;
+    if (map)
+        CreateMapDisplay(map);
 
     pthread_create(&m_displayThread, NULL, RefDisplayFn, this);
-    usleep(0.1e6);
-
-    return true;
+    usleep(0.1e6);return StartDisplay(robots, ball);
 }
 
 bool RefereeDisplay::StopDisplay()
@@ -45,7 +56,22 @@ bool RefereeDisplay::StopDisplay()
     return true;
 }
 
+bool RefereeDisplay::IsActive() const
+{
+    return m_isDisplaying;
+}
 
+
+void RefereeDisplay::CreateMapDisplay(const Interpreter::Map *map)
+{
+    if (m_mapDisplay)
+    {
+        delete m_mapDisplay;
+        m_mapDisplay = NULL;
+    }
+
+    m_mapDisplay = new MapDisplay(*map, m_screenW, m_screenH);
+}
 
 void* RefereeDisplay::RefDisplayFn(void *data)
 {
@@ -53,17 +79,9 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     display->m_isDisplaying = true;
 
     SDL_Init(SDL_INIT_EVERYTHING);
-    TTF_Init();
 
     SDL_Surface *screen = SDL_SetVideoMode(display->m_screenW, display->m_screenH, 32, SDL_SWSURFACE);
     SDL_Flip(screen);
-
-    SDL_Surface *fSurf = NULL;
-    TTF_Font *font = TTF_OpenFont("../data/font.ttf", 25);
-    if (!font)
-        cout << "Unable to open font: " << TTF_GetError() << endl;
-    else
-        fSurf = TTF_RenderText_Blended(font, "F", CreateColor(255,255,255));
 
     SDL_Surface *ballSurf = SDL_LoadBMP("../data/ball.bmp"), *ballSurfTr = NULL;
     if (!ballSurf)
@@ -124,21 +142,21 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     Position gotoOrders[6] = {Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10)};
 
     SDL_Event event;
+    SDL_Surface *bgSurf = NULL;
     display->m_keepGoing = true;
     while (display->m_keepGoing)
     {
         event.type = SDL_NOEVENT;
         SDL_PollEvent(&event);
 
-        if (event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_f)
-        {
-            if (display->m_ballMonitor->IsBallFollowingStarted())
-                display->m_ballMonitor->StopBallFollowing();
-            else
-                display->m_ballMonitor->StartBallFollowing(display->m_robots[3]);
-        }
+        if (event.type == SDL_QUIT)
+            break;
 
-        SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 200, 0));
+        bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
+        if (bgSurf)
+            SDL_BlitSurface(bgSurf, NULL, screen, NULL);
+        else
+            SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0,255,0));
 
         if (ballSurfTr)
         {
@@ -162,13 +180,6 @@ void* RefereeDisplay::RefDisplayFn(void *data)
                 robotsDD[i].area = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_robots[i]->GetPos()), robotSurf->w, robotSurf->h);
                 rect = robotsDD[i].area;
                 SDL_BlitSurface(robotSurf, NULL, screen, &rect);
-
-                if (fSurf && i == 3 && display->m_ballMonitor->IsBallFollowingStarted())
-                {
-                    rect.x += robotSurf->w/2 - fSurf->w/2;
-                    rect.y += robotSurf->h/2 - fSurf->h/2;
-                    SDL_BlitSurface(fSurf, NULL, screen, &rect);
-                }
 
                 DragDropStatus status = ManageDragDrop(&(robotsDD[i]), event);
 
@@ -213,12 +224,6 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     if (blueRobotSurfTr)
         SDL_FreeSurface(blueRobotSurfTr);
 
-    if (font)
-        TTF_CloseFont(font);
-    if (fSurf)
-        SDL_FreeSurface(fSurf);
-
-    TTF_Quit();
     SDL_Quit();
 
     display->m_isDisplaying = false;

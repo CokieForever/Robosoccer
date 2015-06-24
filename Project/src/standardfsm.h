@@ -4,18 +4,18 @@
 #include <time.h>
 #include <iostream>
 #include <pthread.h>
-#include "robo_control.h"
 #include "referee.h"
+#include "newrobocontrol.h"
 
 typedef struct
 {
-    RoboControl *robo;
+    NewRoboControl *robo;
     RawBall *ball;
     Referee *ref;
 } RoboBall;
 
-typedef void (*PlayFunc)(RoboControl**, RawBall*, Referee*);
+typedef void (*PlayFunc)(NewRoboControl**, RawBall*, Referee*);
 
-void StandardFSM(RoboControl *robots[], RawBall *ball, Referee *ref);
+void StandardFSM(NewRoboControl *robots[], RawBall *ball, Referee *ref);
 
 #endif // STANDARDFSM_H

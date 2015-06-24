@@ -11,18 +11,18 @@ using namespace std;
 
 static eTeam team = BLUE_TEAM;
 
-static void BeforeKickOff(RoboControl *robots[], RawBall *ball, Referee *ref);
-static void KickOff(RoboControl *robots[], RawBall *ball, Referee *ref);
-static void BeforePenalty(RoboControl *robots[], RawBall *ball, Referee *ref);
-static void Penalty(RoboControl *robots[], RawBall *ball, Referee *ref);
-static void PlayOn(RoboControl *robots[], RawBall *ball, Referee *ref);
-static void Pause(RoboControl *robots[], RawBall *ball, Referee *ref);
-static void TimeOver(RoboControl *robots[], RawBall *ball, Referee *ref);
+static void BeforeKickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref);
+static void KickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref);
+static void BeforePenalty(NewRoboControl *robots[], RawBall *ball, Referee *ref);
+static void Penalty(NewRoboControl *robots[], RawBall *ball, Referee *ref);
+static void PlayOn(NewRoboControl *robots[], RawBall *ball, Referee *ref);
+static void Pause(NewRoboControl *robots[], RawBall *ball, Referee *ref);
+static void TimeOver(NewRoboControl *robots[], RawBall *ball, Referee *ref);
 
 static void* GoalKeeper(void* data);
 
 
-void StandardFSM(RoboControl *robots[], RawBall *ball, Referee *ref, eTeam t)
+void StandardFSM(NewRoboControl *robots[], RawBall *ball, Referee *ref, eTeam t)
 {
     const PlayFunc playFunctions[] = {NULL, BeforeKickOff, KickOff, BeforePenalty, Penalty, PlayOn, Pause, TimeOver};
     team = t;
@@ -48,7 +48,7 @@ void StandardFSM(RoboControl *robots[], RawBall *ball, Referee *ref, eTeam t)
 }
 
 
-static void BeforeKickOff(RoboControl *robots[], RawBall *ball, Referee *ref)
+static void BeforeKickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     eSide side = (team == BLUE_TEAM) ^(ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
 
@@ -69,7 +69,7 @@ static void BeforeKickOff(RoboControl *robots[], RawBall *ball, Referee *ref)
     ref->SetReady(team);
 }
 
-static void KickOff(RoboControl *robots[], RawBall *ball, Referee *ref)
+static void KickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     eSide side = (team == BLUE_TEAM) ^(ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
 
@@ -82,7 +82,7 @@ static void KickOff(RoboControl *robots[], RawBall *ball, Referee *ref)
     }
 }
 
-static void BeforePenalty(RoboControl *robots[], RawBall *ball, Referee *ref)
+static void BeforePenalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     eSide side = (team == BLUE_TEAM) ^(ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
     robots[2]->GotoXY(0.3, -0.5);
@@ -101,7 +101,7 @@ static void BeforePenalty(RoboControl *robots[], RawBall *ball, Referee *ref)
     }
 }
 
-static void Penalty(RoboControl *robots[], RawBall *ball, Referee *ref)
+static void Penalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     eSide side = (team == BLUE_TEAM) ^(ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
 
@@ -138,7 +138,7 @@ static void Penalty(RoboControl *robots[], RawBall *ball, Referee *ref)
     }
 }
 
-static void PlayOn(RoboControl *robots[], RawBall *ball, Referee *ref)
+static void PlayOn(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     pthread_t thread1;
     RoboBall roboBall = {robots[0], ball, ref};
@@ -154,12 +154,12 @@ static void PlayOn(RoboControl *robots[], RawBall *ball, Referee *ref)
     pthread_join(thread1, NULL);
 }
 
-static void Pause(RoboControl *robots[], RawBall *ball, Referee *ref)
+static void Pause(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     //Well, nothing to do, just wait...
 }
 
-static void TimeOver(RoboControl *robots[], RawBall *ball, Referee *ref)
+static void TimeOver(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     //Well, nothing to do, just stop.
 }
