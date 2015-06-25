@@ -25,7 +25,7 @@ public:
         Position ball,pos;
     };
 
-    PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b);
+    PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, RefereeDisplay *display = NULL);
 
     void setNextCmd(Interpreter *info);
     void setCmdParam(void);

@@ -5,11 +5,13 @@ void* TeamRobot::performCmd_helper(void *context)
     return ((TeamRobot*)context)->performCmd();
 }
 
-TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball) : NewRoboControl(DBC, deviceNr)
+TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
 {
     m_coordCalib = coordCalib;
     m_ball = ball;
+    m_display = display;
     memset(&(m_map[0][0]), 0, sizeof(int)*Interpreter::MAP_WIDTH*Interpreter::MAP_HEIGHT);
+    m_pathFinder.AddRectangle(PathFinder::CreatePoint(-0.3, -0.3), PathFinder::CreatePoint(0.3, 0.3));
 }
 
 Position TeamRobot::getDefaultPosition() const

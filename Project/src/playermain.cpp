@@ -15,8 +15,11 @@
 
 using namespace std;
 
-PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b) : TeamRobot(DBC, deviceNr, c, b)
+PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, display)
 {
+    //TEST
+    if (m_display)
+        m_display->DisplayPolygons(m_pathFinder.GetPolygons());
 }
 
 void PlayerMain::setNextCmd(Interpreter *info)
@@ -83,6 +86,7 @@ void PlayerMain::setCmdParam(void)
             break;
 
         case FOLLOWPATH:
+        {
             if (m_q.size()==0)
             {
                 //create queue of move indices
@@ -132,8 +136,18 @@ void PlayerMain::setCmdParam(void)
                 }
             }
 
-            break;
 
+            //TEST
+            /*robo_n = m_coordCalib->NormalizePosition(GetPos());
+            ball_n = m_coordCalib->NormalizePosition(m_ball->GetPos());
+            PathFinder::Point start = PathFinder::CreatePoint(robo_n.GetX(), robo_n.GetY());
+            PathFinder::Point end = PathFinder::CreatePoint(ball_n.GetX(), ball_n.GetY());
+            PathFinder::Path path = m_pathFinder.ComputePath(start, end);
+            m_display->DisplayPath(path);
+            delete path;*/
+
+            break;
+        }
         case GO_TO_DEF_POS:
             break;
         case KICK_OFF:

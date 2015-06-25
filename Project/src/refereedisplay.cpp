@@ -1,9 +1,10 @@
 #include "refereedisplay.h"
 #include "interpreter.h"
+#include "sdl_gfx/SDL_gfxPrimitives.h"
 
 
-RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer, int screenW, int screenH,
-                               NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
+RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer,
+                               int screenW, int screenH, NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
 {
     m_keepGoing = true;
     m_isDisplaying = false;
@@ -21,6 +22,8 @@ RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, Coordinates
     m_ballMonitor = ballMonitor;
     m_coordCalibrer = coordCalibrer;
     m_mapDisplay = NULL;
+    m_polygons = NULL;
+    m_path = new std::vector<PathFinder::Point>();
 
     CreateMapDisplay(map);
 }
@@ -29,6 +32,8 @@ RefereeDisplay::~RefereeDisplay()
 {
     if (m_mapDisplay)
         delete m_mapDisplay;
+    if (m_path)
+        delete m_path;
 }
 
 bool RefereeDisplay::StartDisplay(NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
@@ -59,6 +64,23 @@ bool RefereeDisplay::StopDisplay()
 bool RefereeDisplay::IsActive() const
 {
     return m_isDisplaying;
+}
+
+void RefereeDisplay::DisplayPolygons(const PathFinder::PolygonsList& polygons)
+{
+    m_polygons = &polygons;
+}
+
+void RefereeDisplay::DisplayPath(const PathFinder::Path path)
+{
+    m_path->clear();
+
+    int n = path->size();
+    for (int i=0 ; i < n ; i++)
+    {
+        PathFinder::Point *pt = &((*path)[i]);
+        m_path->push_back(PathFinder::CreatePoint(pt->x, pt->y));
+    }
 }
 
 
@@ -142,7 +164,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     Position gotoOrders[6] = {Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10)};
 
     SDL_Event event;
-    SDL_Surface *bgSurf = NULL;
+    //SDL_Surface *bgSurf = NULL;
     display->m_keepGoing = true;
     while (display->m_keepGoing)
     {
@@ -152,11 +174,30 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         if (event.type == SDL_QUIT)
             break;
 
-        bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
+        /*bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
         if (bgSurf)
             SDL_BlitSurface(bgSurf, NULL, screen, NULL);
-        else
+        else*/
             SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0,255,0));
+
+        if (display->m_polygons)
+        {
+            for (PathFinder::PolygonsList::iterator it = ((PathFinder::PolygonsList*)(display->m_polygons))->begin() ; it != ((PathFinder::PolygonsList*)(display->m_polygons))->end() ; it++)
+            {
+                PathFinder::ConvexPolygon *polygon = *it;
+                int n = polygon->points.size();
+                Sint16 *vx = new Sint16[n];
+                Sint16 *vy = new Sint16[n];
+
+                for (int i=0 ; i < n ; i++)
+                {
+                    vx[i] = display->m_screenW * (polygon->points[i]->x + 1) / 2;
+                    vy[i] = display->m_screenH * (polygon->points[i]->y + 1) / 2;
+                }
+
+                filledPolygonRGBA(screen, vx, vy, n, 255, 0, 0, 255);
+            }
+        }
 
         if (ballSurfTr)
         {

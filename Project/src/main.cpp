@@ -22,6 +22,7 @@
 #include "playermain.h"
 #include "playertwo.h"
 #include "opponentrobot.h"
+#include "pathfinder.h"
 
 using namespace std;
 
@@ -60,7 +61,7 @@ int main(void)
         RawBall ball(DBC);
 
         Goalkeeper gk = Goalkeeper(DBC, rfcomm_nr[0], &coordCalibrer, &ball);
-        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball);
+        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball, &refereeDisplay);
         PlayerTwo p2 = PlayerTwo(DBC, rfcomm_nr[2], &coordCalibrer, &ball);
         OpponentRobot robo4 = OpponentRobot(DBC, rfcomm_nr_2[0]);
         OpponentRobot robo5 = OpponentRobot(DBC, rfcomm_nr_2[1]);
@@ -106,7 +107,7 @@ int main(void)
             p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
             p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
 
-            usleep(33000);
+            usleep(0.5e6);
 
         }
 

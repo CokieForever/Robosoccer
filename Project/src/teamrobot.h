@@ -4,6 +4,8 @@
 #include "newrobocontrol.h"
 #include "coordinates.h"
 #include "interpreter.h"
+#include "pathfinder.h"
+#include "refereedisplay.h"
 
 class TeamRobot : public NewRoboControl
 {
@@ -11,7 +13,7 @@ class TeamRobot : public NewRoboControl
 public:
     static void* performCmd_helper(void *context);
 
-    TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball);
+    TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, RefereeDisplay *display=NULL);
 
     Position getDefaultPosition() const;
     void setDefaultPositionX(double x);
@@ -32,6 +34,8 @@ protected:
     CoordinatesCalibrer *m_coordCalib;
     Interpreter::Map m_map;
     RawBall *m_ball;
+    PathFinder m_pathFinder;
+    RefereeDisplay *m_display;
 
 private:
     /* Well, nothing. */

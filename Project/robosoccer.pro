@@ -26,7 +26,9 @@ HEADERS += \
     src/sdl_gfx/*.h
 SOURCES +=  \
     src/*.cpp \
-    src/sdl_gfx/SDL_rotozoom.c
+    src/sdl_gfx/SDL_rotozoom.c \
+    src/sdl_gfx/SDL_gfxPrimitives.c \
+    src/sdl_gfx/SDL_gfxBlitFunc.c
 		
 		
 ##############
