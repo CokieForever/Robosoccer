@@ -80,17 +80,6 @@ int main(void)
 
         //-------------------------------------- Ende Init ---------------------------------
 
-        //plan path for p1
-        /*
-        Point A,B;
-        A.x = 2;
-        A.y = 5;
-
-        B.x = 17;
-        B.y = 10;
-
-        showMap(p1.map,pathFind(p1.map,A,B),A);
-        */
         while (refereeDisplay.IsActive())
         {
             info.updateSituation();
@@ -105,7 +94,6 @@ int main(void)
             gk_th = pthread_create(&threads[0],NULL,&Goalkeeper::performCmd_helper,(void*)&gk);
             p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
             p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
-
             usleep(33000);
 
         }

@@ -147,7 +147,6 @@ void PlayerMain::setCmdParam(void)
 
 void* PlayerMain::performCmd(void)
 {
-    cout << "Player 1 next command is:" << m_nextCmd << endl << "1: GO_TO_DEF_POS,KICK_PENALTY 2: KICK_OFF 3: STOP 4: FOLLOWPATH" << endl;
     Position pos;
     int mapx,mapy;
 
@@ -198,10 +197,10 @@ void* PlayerMain::performCmd(void)
             pos.SetY(Interpreter::map2coordY(mapy));
             pos = m_coordCalib->UnnormalizePosition(pos.GetPos());
 
-            cruisetoBias(pos.GetX(),pos.GetY(), 600, -10, 30);
-            //robot->GotoPos(pos);
+            //cruisetoBias(pos.GetX(),pos.GetY(), 600, -10, 30);
+            GotoPos(pos);
             //wait until movement is done
-            //usleep(0.5e6);
+            usleep(0.5e6);
 
             break;
 

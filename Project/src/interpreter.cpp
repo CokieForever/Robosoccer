@@ -580,9 +580,164 @@ void Interpreter::updateSituation()
     Interpreter::Map map;
     memcpy(&(map[0][0]), &(m_p1->getMap()[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
     matrixupdate(map,m_p1,robots,m_ball,m_cal,m_mode.our_side);
+
+    formationUpdateP1(map);
     m_p1->setMap(map);
 
     setPlayMode();
     setDefaultPos();
 }
+
+void Interpreter::maskOmitUpperLeft(Map &map)
+{
+    int i,j;
+    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
+    {
+        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
+        {
+            if(i >= floor(MAP_WIDTH/2)  || j >= floor(MAP_HEIGHT/2))
+                map[i][j] = 1;
+
+        }
+
+    }
+
+}
+void Interpreter::maskOmitUpperRight(Map &map)
+{
+    int i,j;
+    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
+    {
+        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
+        {
+            if(i <= floor(MAP_WIDTH/2) || j >= floor(MAP_HEIGHT/2))
+                map[i][j] = 1;
+
+        }
+
+    }
+
+}
+
+void Interpreter::maskOmitLowerLeft(Map &map)
+{
+    int i,j;
+    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
+    {
+        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
+        {
+            if(i >= floor(MAP_WIDTH/2) || j <= floor(MAP_HEIGHT/2))
+                map[i][j] = 1;
+
+        }
+
+    }
+
+}
+
+void Interpreter::maskOmitLowerRight(Map &map)
+{
+    int i,j;
+    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
+    {
+        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
+        {
+            if(i <= floor(MAP_WIDTH/2) || j <= floor(MAP_HEIGHT/2))
+                map[i][j] = 1;
+
+        }
+
+    }
+
+}
+
+void Interpreter::maskOmitLeft(Map &map)
+{
+    int i,j;
+    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
+    {
+        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
+        {
+            if(i >= floor(MAP_WIDTH/2))
+                map[i][j] = 1;
+
+        }
+
+    }
+
+}
+void Interpreter::maskOmitRight(Map &map)
+{
+    int i,j;
+    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
+    {
+        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
+        {
+            if(i <= floor(MAP_WIDTH/2))
+                map[i][j] = 1;
+
+        }
+
+    }
+
+}
+
+
+
+void Interpreter::formationUpdateP1(Map& map)
+{
+    //Player1 plays on the left side for ATK/DEF,for MIXED Player1 is in ATK, form goalie point of view, if formation is unknown -> ATK
+
+    GameData info = this->getMode();
+
+    switch(info.formation)
+    {
+        case Interpreter::DEF:
+            (info.our_side== LEFT_SIDE)?maskOmitUpperLeft(map):maskOmitLowerRight(map);
+            break;
+
+        case Interpreter::MIX:
+            (info.our_side== LEFT_SIDE)?maskOmitRight(map):maskOmitLeft(map);
+            break;
+
+        default:
+            //ATK case
+            (info.our_side== LEFT_SIDE)?maskOmitUpperRight(map):maskOmitLowerLeft(map);
+            break;
+
+    }
+
+}
+void Interpreter::formationUpdateP2(Map &map)
+{
+    //Player2 plays on the right side for ATK/DEF,for MIXED Player2 is in DEF, form goalie point of view, if formation is unknown -> DEF
+    GameData info = this->getMode();
+
+    switch(info.formation)
+    {
+        case Interpreter::ATK:
+            (info.our_side== LEFT_SIDE)?maskOmitLowerRight(map):maskOmitUpperLeft(map);
+            break;
+
+
+        case Interpreter::MIX:
+            (info.our_side== LEFT_SIDE)?maskOmitLeft(map):maskOmitRight(map);
+            break;
+
+        default:
+            //DEF case
+            (info.our_side== LEFT_SIDE)?maskOmitLowerLeft(map):maskOmitUpperRight(map);
+            break;
+    }
+
+
+}
+
+
+
+
+
+
+
+
 

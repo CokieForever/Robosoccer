@@ -62,7 +62,14 @@ public:
     static double map2coordY(int);
     static void showMap(const Map& map, string path, Point start);
     static void matrixupdate(Map& map, NewRoboControl* ref, NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
-
+    static void maskOmitLowerRight(Map &map);
+    static void maskOmitLowerLeft(Map &map);
+    static void maskOmitUpperRight(Map &map);
+    static void maskOmitUpperLeft(Map &map);
+    static void maskOmitLeft(Map &map);
+    static void maskOmitRight(Map &map);
+    void formationUpdateP1(Map& map);
+    void formationUpdateP2(Map& map);
     Interpreter(int x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, NewRoboControl* a, NewRoboControl* b, NewRoboControl* c, RawBall* d, CoordinatesCalibrer* e);
 
     GameData getMode() const;
