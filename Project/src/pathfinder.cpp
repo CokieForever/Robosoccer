@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 #include <math.h>
+#include "coordinates.h"
 
 using namespace std;
 
@@ -12,6 +13,22 @@ PathFinder::Point PathFinder::CreatePoint(double x, double y)
 {
     Point pt = {x, y, vector<Point*>(), INFINI_TY, NULL};
     return pt;
+}
+
+vector<Position>* PathFinder::ConvertPathToReal(const Path path, CoordinatesCalibrer *calibrer)
+{
+    vector<Position>* posList = new vector<Position>;
+    for (vector<Point>::const_iterator it = path->begin() ; it != path->end() ; it++)
+    {
+        const Point *pt = &(*it);
+        Position pos(pt->x, pt->y);
+        if (calibrer)
+            posList->push_back(calibrer->UnnormalizePosition(pos));
+        else
+            posList->push_back(pos);
+    }
+
+    return posList;
 }
 
 
@@ -51,6 +68,14 @@ const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
 {
     ConvexPolygon *polygon = new ConvexPolygon(p);
 
+    m_polygons.push_back(polygon);
+
+    for (PointsList::iterator it = polygon->points.begin() ; it != polygon->points.end() ; it++)
+    {
+        Point *point = *it;
+        m_points.push_back(point);
+    }
+
     for (PointsList::iterator it = m_points.begin() ; it != m_points.end() ; it++)
     {
         Point *pt1 = *it;
@@ -65,14 +90,6 @@ const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
         }
     }
 
-    m_polygons.push_back(polygon);
-
-    for (PointsList::iterator it = polygon->points.begin() ; it != polygon->points.end() ; it++)
-    {
-        Point *point = *it;
-        m_points.push_back(point);
-    }
-
     for (PointsList::iterator it = polygon->points.begin() ; it != polygon->points.end() ; it++)
     {
         Point *point = *it;
@@ -84,8 +101,6 @@ const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
 
 bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
 {
-    //TODO remove polygon and points from m_polygons and m_points
-
     PolygonsList::iterator it = find(m_polygons.begin(), m_polygons.end(), poly);
     if (it == m_polygons.end())
         return false;
@@ -99,19 +114,50 @@ bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
             pt1->visMap.erase(remove(pt1->visMap.begin(), pt1->visMap.end(), pt2), pt1->visMap.end());
         }
 
+        m_points.erase(remove(m_points.begin(), m_points.end(), pt2), m_points.end());
         delete pt2;
     }
 
+    m_polygons.erase(remove(m_polygons.begin(), m_polygons.end(), poly), m_polygons.end());
     delete poly;
+
+    for (PolygonsList::iterator it2 = m_polygons.begin() ; it2 != m_polygons.end() ; it2++)
+    {
+        ConvexPolygon *poly1 = *it2;
+        int n = poly1->points.size();
+        Point *pt1 = poly1->points[0];
+        for (int i=0 ; i < n ; i++)
+        {
+            Point *pt2 = poly1->points[(i+1)%n];
+            if (!ReadPointsVisibility(pt1, pt2) && CheckPointsVisibility(pt1, pt2))
+            {
+                pt1->visMap.push_back(pt2);
+                pt2->visMap.push_back(pt1);
+            }
+
+            for (PolygonsList::iterator it3 = it2+1 ; it3 != m_polygons.end() ; it3++)
+            {
+                ConvexPolygon *poly2 = *it3;
+                for (PointsList::iterator it4 = poly2->points.begin() ; it4 != poly2->points.end() ; it4++)
+                {
+                    Point *pt3 = *it4;
+                    if (!ReadPointsVisibility(pt1, pt3) && CheckPointsVisibility(pt1, pt3))
+                    {
+                        pt1->visMap.push_back(pt3);
+                        pt3->visMap.push_back(pt1);
+                    }
+                }
+            }
+
+            pt1 = pt2;
+        }
+    }
+
     return true;
 }
 
-PathFinder::Path PathFinder::ComputePath(Point &start, Point &end)
+PathFinder::Path PathFinder::ComputePath(Point start, Point end)
 {
-    double bestScore = INFINI_TY;
-    Point *bestPoint = NULL;
-    vector<Point*> accessiblePoints;
-
     //Check if point is directly accessible
     if (CheckPointsVisibility(&start, &end))
     {
@@ -122,46 +168,38 @@ PathFinder::Path PathFinder::ComputePath(Point &start, Point &end)
     }
 
     //Determine points which are accesible from start / end
-    for (PolygonsList::iterator it = m_polygons.begin() ; it != m_polygons.end() ; it++)
+    PointsList accessiblePoints;
+    start.visMap.clear();
+    for (PointsList::iterator it = m_points.begin() ; it != m_points.end() ; it++)
     {
-        ConvexPolygon *poly = *it;
-        for (PointsList::iterator it2 = poly->points.begin() ; it2 != poly->points.end() ; it2++)
-        {
-            Point *pt = *it2;
-            if (CheckPointsVisibility(&start, pt))
-            {
-                pt->score = distBetweenPoints(start, *pt);
-                if (pt->score < bestScore)
-                {
-                    bestScore = pt->score;
-                    bestPoint = pt;
-                }
-            }
-            else
-                pt->score = INFINI_TY;
-            pt->prevPoint = NULL;
+        Point *pt = *it;
+        pt->prevPoint = NULL;
+        pt->score = INFINI_TY;
 
-            if (CheckPointsVisibility(pt, &end))
-                accessiblePoints.push_back(pt);
-        }
+        if (CheckPointsVisibility(&start, pt))
+            start.visMap.push_back(pt);
+
+        if (CheckPointsVisibility(pt, &end))
+            accessiblePoints.push_back(pt);
     }
 
-    if (bestScore == INFINI_TY)
-        return NULL;
-
     //Dijkstra
-    while (true)
+    double currentScore = 0;
+    Point *currentPoint = &start;
+    start.prevPoint = NULL;
+    end.score = INFINI_TY;
+    PointsList allPoints = m_points;
+    allPoints.push_back(&end);
+
+    while (currentPoint != &end)
     {
-        Point *currentPoint = bestPoint;
-        double currentScore = currentPoint->score;
-
-        if (find(accessiblePoints.begin(), accessiblePoints.end(), currentPoint) != accessiblePoints.end())
-            break;
-
-        bestScore = INFINI_TY;
         currentPoint->score = -1;
 
-        for (vector<Point*>::iterator it = currentPoint->visMap.begin() ; it != currentPoint->visMap.end() ; it++)
+        PointsList visMap = currentPoint->visMap;
+        if (find(accessiblePoints.begin(), accessiblePoints.end(), currentPoint) != accessiblePoints.end())
+            visMap.push_back(&end);
+
+        for (vector<Point*>::iterator it = visMap.begin() ; it != visMap.end() ; it++)
         {
             Point *pt = *it;
             if (pt->score >= 0)
@@ -172,29 +210,36 @@ PathFinder::Path PathFinder::ComputePath(Point &start, Point &end)
                     pt->score = d + currentScore;
                     pt->prevPoint = currentPoint;
                 }
+            }
+        }
 
-                if (pt->score < bestScore)
-                {
-                    bestScore = pt->score;
-                    bestPoint = pt;
-                }
+        Point *bestPoint = NULL;
+        double bestScore = INFINI_TY;
+
+        for (vector<Point*>::iterator it = allPoints.begin() ; it != allPoints.end() ; it++)
+        {
+            Point *pt = *it;
+            if (pt->score >= 0 && pt->score < bestScore)
+            {
+                bestScore = pt->score;
+                bestPoint = pt;
             }
         }
 
         if (bestScore == INFINI_TY)
             return NULL;
+
+        currentPoint = bestPoint;
+        currentScore = currentPoint->score;
     }
 
     //Computing path
     PathFinder::Path path = new vector<Point>();
-    path->push_back(CreatePoint(end.x, end.y));
-    Point *currentPoint = bestPoint;
     do
     {
         path->push_back(CreatePoint(currentPoint->x, currentPoint->y));
         currentPoint = currentPoint->prevPoint;
     } while(currentPoint);
-    path->push_back(CreatePoint(start.x, start.y));
 
     reverse(path->begin(), path->end());
     return path;
@@ -213,6 +258,11 @@ bool PathFinder::CheckPointsVisibility(const Point *p1, const Point *p2)
     for (PolygonsList::iterator it = m_polygons.begin() ; it != m_polygons.end() ; it++)
     {
         ConvexPolygon *poly = *it;
+
+        if ((DoesPointBelongToPolygon(p1, poly) < 0 && isPointInsidePolygon(*p1, *poly))
+                || (DoesPointBelongToPolygon(p2, poly) < 0 && isPointInsidePolygon(*p2, *poly)))
+            return false;
+
         int n = poly->points.size();
         Point *point = poly->points[0];
         for (int i=0 ; i < n ; i++)
@@ -279,8 +329,8 @@ int PathFinder::DoesPointBelongToPolygon(const Point *point, const ConvexPolygon
 
 PathFinder::Rectangle PathFinder::getBoundingBox(Segment seg)
 {
-    Point ul = CreatePoint(min(seg.start.x, seg.end.x), min(seg.start.y, seg.end.y));
-    Point lr = CreatePoint(max(seg.start.x, seg.end.x), max(seg.start.y, seg.end.y));
+    Point ul = CreatePoint(std::min(seg.start.x, seg.end.x), std::min(seg.start.y, seg.end.y));
+    Point lr = CreatePoint(std::max(seg.start.x, seg.end.x), std::max(seg.start.y, seg.end.y));
     Rectangle bb = {ul, lr};
     return bb;
 }
@@ -296,7 +346,7 @@ bool PathFinder::doRectanglesIntersect(PathFinder::Rectangle a, PathFinder::Rect
 int PathFinder::orientation(Segment seg, const Point& pt)
 {
     double p = (seg.end.x - seg.start.x) * (pt.y - seg.end.y) - (seg.end.y - seg.start.y) * (pt.x - seg.end.x);
-    if (fabs(p) <= 1e-5)
+    if (fabs(p) <= 1e-6)
         return 0;
     else
         return p > 0 ? 1 : -1;
@@ -317,5 +367,24 @@ bool PathFinder::doSegmentsIntersect(Segment seg1, Segment seg2)
 
 double PathFinder::distBetweenPoints(Point &a, Point &b)
 {
-    return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
+    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+}
+
+bool PathFinder::isPointInsidePolygon(const Point& point, const ConvexPolygon& polygon)
+{
+    int nbIsects = 0;
+    Segment segment = {point, CreatePoint(point.x, 100)};
+
+    int n = polygon.points.size();
+    Point *pt1 = polygon.points[0];
+    for (int i=0 ; i < n ; i++)
+    {
+        Point *pt2 = polygon.points[(i+1)%n];
+        Segment seg = {*pt1, *pt2};
+        if (doSegmentsIntersect(segment, seg))
+            nbIsects++;
+        pt1 = pt2;
+    }
+
+    return nbIsects % 2 == 1;
 }

@@ -26,7 +26,7 @@ public:
     bool StopDisplay();
     bool IsActive() const;
 
-    void DisplayPolygons(const PathFinder::PolygonsList& polygons);
+    void DisplayPolygons(const PathFinder::PolygonsList& polygons, PathFinder *pathFinder=NULL);
     void DisplayPath(const PathFinder::Path path);
 
 private:
@@ -44,8 +44,10 @@ private:
     MapDisplay *m_mapDisplay;
     const PathFinder::PolygonsList* m_polygons;
     PathFinder::Path m_path;
+    PathFinder *m_pathFinder;
 
     void CreateMapDisplay(const Interpreter::Map *map);
+    void DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Surface *screen);
     SDL_Rect PosToRect(Position pos, int w = 0, int h = 0);
     Position RectToPos(SDL_Rect rect);
 

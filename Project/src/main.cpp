@@ -45,8 +45,8 @@ int main(void)
     int gk_th,p1_th,p2_th;
 
     CoordinatesCalibrer coordCalibrer;
-    coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));     //Calibration settings for the real field
-    //coordCalibrer.SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));                  //Calibration settings for the simulation
+    //coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));     //Calibration settings for the real field
+    coordCalibrer.SetManualCoordCalibration(Position(0,-0.867), Position(1.367,0), Position(0,0.867), Position(-1.367,0));                  //Calibration settings for the simulation
 
     BallMonitor ballMonitor(&coordCalibrer);
     RefereeDisplay refereeDisplay(team, &ballMonitor, &coordCalibrer);

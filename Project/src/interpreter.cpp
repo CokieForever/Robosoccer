@@ -582,6 +582,8 @@ void Interpreter::updateSituation()
     matrixupdate(map,m_p1,robots,m_ball,m_cal,m_mode.our_side);
     m_p1->setMap(map);
 
+    m_p1->UpdatePathFinder(robots, m_mode.our_side);
+
     setPlayMode();
     setDefaultPos();
 }

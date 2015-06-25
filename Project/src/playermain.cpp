@@ -17,9 +17,8 @@ using namespace std;
 
 PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, display)
 {
-    //TEST
     if (m_display)
-        m_display->DisplayPolygons(m_pathFinder.GetPolygons());
+        m_display->DisplayPolygons(m_pathFinder.GetPolygons(), &m_pathFinder);
 }
 
 void PlayerMain::setNextCmd(Interpreter *info)
@@ -69,11 +68,11 @@ void PlayerMain::setNextCmd(Interpreter *info)
 void PlayerMain::setCmdParam(void)
 {
     //both needed when it comes to path tracking
-    Interpreter::Point A,B;
-    //interpreter::Point *pt;
+    /*Interpreter::Point A,B;
+    //Interpreter::Point *pt;
     char c;
     int j,idx_tmp;
-    unsigned int interpolate_n = 15;
+    unsigned int interpolate_n = 15;*/
     Position robo_n,ball_n;
 
     switch(m_nextCmd)
@@ -87,7 +86,7 @@ void PlayerMain::setCmdParam(void)
 
         case FOLLOWPATH:
         {
-            if (m_q.size()==0)
+            /*if (m_q.size()==0)
             {
                 //create queue of move indices
 
@@ -134,18 +133,19 @@ void PlayerMain::setCmdParam(void)
                     m_go_y = m_go_y + Interpreter::DY[idx_tmp];
                     m_q.pop();
                 }
-            }
+            }*/
 
+            if (m_pathFinderPath)
+                delete m_pathFinderPath;
 
-            //TEST
             robo_n = m_coordCalib->NormalizePosition(GetPos());
             ball_n = m_coordCalib->NormalizePosition(m_ball->GetPos());
             PathFinder::Point start = PathFinder::CreatePoint(robo_n.GetX(), robo_n.GetY());
             PathFinder::Point end = PathFinder::CreatePoint(ball_n.GetX(), ball_n.GetY());
-            PathFinder::Path path = m_pathFinder.ComputePath(start, end);
-            m_display->DisplayPath(path);
-            std::cout << "Path = " << path << std::endl;
-            delete path;
+            m_pathFinderPath = m_pathFinder.ComputePath(start, end);
+
+            if (m_display)
+                m_display->DisplayPath(m_pathFinderPath);
 
             break;
         }
@@ -163,8 +163,8 @@ void PlayerMain::setCmdParam(void)
 void* PlayerMain::performCmd(void)
 {
     cout << "Player 1 next command is:" << m_nextCmd << endl << "1: GO_TO_DEF_POS,KICK_PENALTY 2: KICK_OFF 3: STOP 4: FOLLOWPATH" << endl;
-    Position pos;
-    int mapx,mapy;
+    /*Position pos;
+    int mapx,mapy;*/
 
     switch(m_nextCmd)
     {
@@ -203,7 +203,7 @@ void* PlayerMain::performCmd(void)
             break;
 
         case PlayerMain::FOLLOWPATH:
-            cout << "Player1 Perform Followpath (queue size): " << m_q.size() << endl;
+            /*cout << "Player1 Perform Followpath (queue size): " << m_q.size() << endl;
 
             pos = m_coordCalib->NormalizePosition(GetPos());
             mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
@@ -214,9 +214,21 @@ void* PlayerMain::performCmd(void)
             pos = m_coordCalib->UnnormalizePosition(pos.GetPos());
 
             cruisetoBias(pos.GetX(),pos.GetY(), 600, -10, 30);
-            //robot->GotoPos(pos);
+            //GotoPos(pos);
             //wait until movement is done
-            //usleep(0.5e6);
+            //usleep(0.5e6);*/
+
+            if (m_pathFinderPath)
+            {
+                std::vector<Position>* posList = PathFinder::ConvertPathToReal(m_pathFinderPath, m_coordCalib);
+                Position *tgt = drivePath(posList);
+                if (tgt)
+                {
+                    //cruisetoBias(tgt->GetX(),tgt->GetY(), 600, -10, 30);
+                    GotoXY(tgt->GetX(), tgt->GetY());
+                }
+                delete posList;
+            }
 
             break;
 

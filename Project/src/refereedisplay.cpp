@@ -66,9 +66,11 @@ bool RefereeDisplay::IsActive() const
     return m_isDisplaying;
 }
 
-void RefereeDisplay::DisplayPolygons(const PathFinder::PolygonsList& polygons)
+void RefereeDisplay::DisplayPolygons(const PathFinder::PolygonsList& polygons, PathFinder *pathFinder)
 {
     m_polygons = &polygons;
+    if (pathFinder)
+        m_pathFinder = pathFinder;
 }
 
 void RefereeDisplay::DisplayPath(const PathFinder::Path path)
@@ -96,6 +98,44 @@ void RefereeDisplay::CreateMapDisplay(const Interpreter::Map *map)
     }
 
     m_mapDisplay = new MapDisplay(*map, m_screenW, m_screenH);
+}
+
+void RefereeDisplay::DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Surface *screen)
+{
+    for (PathFinder::PointsList::iterator it2 = ((PathFinder::ConvexPolygon&)polygon).points.begin() ; it2 != ((PathFinder::ConvexPolygon&)polygon).points.end() ; it2++)
+    {
+        PathFinder::Point *pt1 = *it2;
+        double x1 = m_screenW * (pt1->x + 1) / 2;
+        double y1 = m_screenH * (pt1->y + 1) / 2;
+        for (PathFinder::PointsList::iterator it3 = pt1->visMap.begin() ; it3 != pt1->visMap.end() ; it3++)
+        {
+            PathFinder::Point *pt2 = *it3;
+            double x2 = m_screenW * (pt2->x + 1) / 2;
+            double y2 = m_screenH * (pt2->y + 1) / 2;
+            DrawLine(screen, x1, y1, x2, y2, CreateColor(255, 255, 0));
+        }
+
+        if (m_pathFinder)
+        {
+            Position pos = m_coordCalibrer->NormalizePosition(m_robots[1]->GetPos());
+            PathFinder::Point pt3 = PathFinder::CreatePoint(pos.GetX(), pos.GetY());
+            if (m_pathFinder->CheckPointsVisibility(pt1, &pt3))
+            {
+                double x3 = m_screenW * (pt3.x + 1) / 2;
+                double y3 = m_screenH * (pt3.y + 1) / 2;
+                DrawLine(screen, x1, y1, x3, y3, CreateColor(255, 255, 0));
+            }
+
+            pos = m_coordCalibrer->NormalizePosition(m_ball->GetPos());
+            pt3 = PathFinder::CreatePoint(pos.GetX(), pos.GetY());
+            if (m_pathFinder->CheckPointsVisibility(pt1, &pt3))
+            {
+                double x3 = m_screenW * (pt3.x + 1) / 2;
+                double y3 = m_screenH * (pt3.y + 1) / 2;
+                DrawLine(screen, x1, y1, x3, y3, CreateColor(255, 255, 0));
+            }
+        }
+    }
 }
 
 void* RefereeDisplay::RefDisplayFn(void *data)
@@ -194,13 +234,15 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
                 for (int i=0 ; i < n ; i++)
                 {
-                    vx[i] = display->m_screenW * (polygon->points[i]->x + 1) / 2;
-                    vy[i] = display->m_screenH * (polygon->points[i]->y + 1) / 2;
+                    vx[i] = std::max(0., std::min((double)display->m_screenW-1, (display->m_screenW-1) * (polygon->points[i]->x + 1) / 2));
+                    vy[i] = std::max(0., std::min((double)display->m_screenH-1, (display->m_screenH-1) * (polygon->points[i]->y + 1) / 2));
                 }
 
                 filledPolygonRGBA(screen, vx, vy, n, 255, 0, 0, 255);
                 delete vx;
                 delete vy;
+
+                //display->DisplayWeb(*polygon, screen);
             }
         }
 
@@ -300,11 +342,11 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
 SDL_Rect RefereeDisplay::PosToRect(Position pos, int w, int h)
 {
-    SDL_Rect rect = {(pos.GetX()+1)/2 * m_screenW - w/2, (pos.GetY()+1)/2 * m_screenH - h/2, w, h};
+    SDL_Rect rect = {(pos.GetX()+1)/2 * (m_screenW-1) - w/2, (pos.GetY()+1)/2 * (m_screenH-1) - h/2, w, h};
     return rect;
 }
 
 Position RefereeDisplay::RectToPos(SDL_Rect rect)
 {
-    return Position(2 * rect.x / (double)m_screenW - 1, 2 * rect.y / (double)m_screenH - 1);
+    return Position(2 * rect.x / (double)(m_screenW-1) - 1, 2 * rect.y / (double)(m_screenH-1) - 1);
 }

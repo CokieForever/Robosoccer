@@ -2,6 +2,7 @@
 //----------------------------------------Function bodys----------------------------------------------------
 //----------------------------------------------------------------------------------------------------------
 #include "newrobocontrol.h"
+#include "pathfinder.h"
 
 //Berechnung in welcher Richtung Roboter fahren soll
 /**
@@ -188,7 +189,6 @@ NewRoboControl::~NewRoboControl()
 
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
 {
-
     /*   returniert true, wenn Roboter am Ziel angekommen ist. returniert false, wenn Roboter noch unterwegs ist
     **   Ablauf:
     **     1.  Anfahren zur Zielposition
@@ -263,6 +263,22 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
 
     return false;
 }
+
+Position* NewRoboControl::drivePath(std::vector<Position>* path)
+{
+    for (std::vector<Position>::iterator it = path->begin() ; it != path->end() ; it++)
+    {
+        Position *pos = &(*it);
+        if (pos->DistanceTo(GetPos()) >= 0.01)
+        {
+            if (it != path->begin())
+                path->erase(path->begin(), it-1);
+            return pos;
+        }
+    }
+    return NULL;
+}
+
 
 //Motorgeschwindigkeit der einzelnen Räder festlegen
 /**
