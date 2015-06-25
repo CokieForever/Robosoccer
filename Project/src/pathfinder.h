@@ -26,22 +26,12 @@ public:
         Point *prevPoint;
     };
 
-    struct Segment
-    {
-        const Point &start, &end;
-    };
-
-    struct Rectangle
-    {
-        const Point &ul, &lr;
-    };
-
     struct ConvexPolygon
     {
         PointsList points;
     };
 
-    static const double INFINI_TY = 10e6;
+    static const double INFINI_TY = 10e6;   //INFINITY does not compile. Don't ask me why.
     static Point CreatePoint(double x, double y);
 
     PathFinder();
@@ -54,12 +44,20 @@ public:
     std::vector<Point>* ComputePath(Point &start, Point &end);
 
 private:
+    struct Segment
+    {
+        const Point &start, &end;
+    };
+
+    struct Rectangle
+    {
+        Point ul, lr;
+    };
+
     static Rectangle getBoundingBox(Segment seg);
     static bool doRectanglesIntersect(PathFinder::Rectangle a, PathFinder::Rectangle b);
-    static int crossProduct(Point a, Point b);
-    static bool isPointRightOfLine(Segment a, Point b);
-    static bool doSegmentCrossLine(Segment a, Segment b);
-    static bool doSegmentsIntersect(Segment a, Segment b);
+    int orientation(Segment seg, const Point& pt);
+    bool doSegmentsIntersect(Segment seg1, Segment seg2);
     static double distBetweenPoints(Point &a, Point &b);
 
     PolygonsList m_polygons;

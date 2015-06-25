@@ -138,13 +138,14 @@ void PlayerMain::setCmdParam(void)
 
 
             //TEST
-            /*robo_n = m_coordCalib->NormalizePosition(GetPos());
+            robo_n = m_coordCalib->NormalizePosition(GetPos());
             ball_n = m_coordCalib->NormalizePosition(m_ball->GetPos());
             PathFinder::Point start = PathFinder::CreatePoint(robo_n.GetX(), robo_n.GetY());
             PathFinder::Point end = PathFinder::CreatePoint(ball_n.GetX(), ball_n.GetY());
             PathFinder::Path path = m_pathFinder.ComputePath(start, end);
             m_display->DisplayPath(path);
-            delete path;*/
+            std::cout << "Path = " << path << std::endl;
+            delete path;
 
             break;
         }

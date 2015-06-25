@@ -3,6 +3,8 @@
 #include <vector>
 #include <time.h>
 #include <algorithm>
+#include <iostream>
+#include <math.h>
 
 using namespace std;
 
@@ -82,6 +84,8 @@ const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
 
 bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
 {
+    //TODO remove polygon and points from m_polygons and m_points
+
     PolygonsList::iterator it = find(m_polygons.begin(), m_polygons.end(), poly);
     if (it == m_polygons.end())
         return false;
@@ -107,6 +111,15 @@ PathFinder::Path PathFinder::ComputePath(Point &start, Point &end)
     double bestScore = INFINI_TY;
     Point *bestPoint = NULL;
     vector<Point*> accessiblePoints;
+
+    //Check if point is directly accessible
+    if (CheckPointsVisibility(&start, &end))
+    {
+        PathFinder::Path path = new vector<Point>();
+        path->push_back(CreatePoint(start.x, start.y));
+        path->push_back(CreatePoint(end.x, end.y));
+        return path;
+    }
 
     //Determine points which are accesible from start / end
     for (PolygonsList::iterator it = m_polygons.begin() ; it != m_polygons.end() ; it++)
@@ -137,48 +150,50 @@ PathFinder::Path PathFinder::ComputePath(Point &start, Point &end)
         return NULL;
 
     //Dijkstra
-    bool done = false;
-    while (!done)
+    while (true)
     {
-        double currentScore = bestScore;
         Point *currentPoint = bestPoint;
+        double currentScore = currentPoint->score;
+
+        if (find(accessiblePoints.begin(), accessiblePoints.end(), currentPoint) != accessiblePoints.end())
+            break;
 
         bestScore = INFINI_TY;
-        currentPoint->score = INFINI_TY;
+        currentPoint->score = -1;
 
         for (vector<Point*>::iterator it = currentPoint->visMap.begin() ; it != currentPoint->visMap.end() ; it++)
         {
             Point *pt = *it;
-            double d = distBetweenPoints(*currentPoint, *pt);
-            if (d+currentScore < pt->score)
+            if (pt->score >= 0)
             {
-                pt->score = d + currentScore;
-                pt->prevPoint = currentPoint;
-            }
+                double d = distBetweenPoints(*currentPoint, *pt);
+                if (d+currentScore < pt->score)
+                {
+                    pt->score = d + currentScore;
+                    pt->prevPoint = currentPoint;
+                }
 
-            if (pt->score < bestScore)
-            {
-                bestScore = d + pt->score;
-                bestPoint = pt;
+                if (pt->score < bestScore)
+                {
+                    bestScore = pt->score;
+                    bestPoint = pt;
+                }
             }
         }
 
         if (bestScore == INFINI_TY)
             return NULL;
-
-        if (find(accessiblePoints.begin(), accessiblePoints.end(), bestPoint) != accessiblePoints.end())
-            done = 1;
     }
 
     //Computing path
     PathFinder::Path path = new vector<Point>();
     path->push_back(CreatePoint(end.x, end.y));
     Point *currentPoint = bestPoint;
-    while(currentPoint->prevPoint)
+    do
     {
         path->push_back(CreatePoint(currentPoint->x, currentPoint->y));
         currentPoint = currentPoint->prevPoint;
-    }
+    } while(currentPoint);
     path->push_back(CreatePoint(start.x, start.y));
 
     reverse(path->begin(), path->end());
@@ -205,7 +220,7 @@ bool PathFinder::CheckPointsVisibility(const Point *p1, const Point *p2)
             Point *next = poly->points[(i+1) % n];
             Segment seg = {*point, *next};
 
-            if ((point != p1 || next != p2) && (point != p2 || next != p1))
+            if (point != p1 && point != p2 && next != p1 && next != p2)
             {
                 if (doSegmentsIntersect(segment, seg))
                     return false;
@@ -278,32 +293,26 @@ bool PathFinder::doRectanglesIntersect(PathFinder::Rectangle a, PathFinder::Rect
         && a.lr.y >= b.ul.y;
 }
 
-int PathFinder::crossProduct(Point a, Point b)
+int PathFinder::orientation(Segment seg, const Point& pt)
 {
-    return a.x * b.y - a.y * b.x;
+    double p = (seg.end.x - seg.start.x) * (pt.y - seg.end.y) - (seg.end.y - seg.start.y) * (pt.x - seg.end.x);
+    if (fabs(p) <= 1e-5)
+        return 0;
+    else
+        return p > 0 ? 1 : -1;
 }
 
-bool PathFinder::isPointRightOfLine(Segment a, Point b)
+bool PathFinder::doSegmentsIntersect(Segment seg1, Segment seg2)
 {
-    Point p1 = CreatePoint(0,0);
-    Point p2 = CreatePoint(a.end.x - a.start.x, a.end.y - a.start.y);
-    Segment aTmp = {p1, p2};
-    Point bTmp = CreatePoint(b.x - a.start.x, b.y - a.start.y);
-    return crossProduct(aTmp.end, bTmp) < 0;
-}
+    if (!doRectanglesIntersect(getBoundingBox(seg1), getBoundingBox(seg2)))
+        return false;
 
-bool PathFinder::doSegmentCrossLine(Segment a, Segment b)
-{
-    return (isPointRightOfLine(a, b.start) ^ isPointRightOfLine(a, b.end));
-}
+    int o1 = orientation(seg1, seg2.start);
+    int o2 = orientation(seg1, seg2.end);
+    int o3 = orientation(seg2, seg1.start);
+    int o4 = orientation(seg2, seg1.end);
 
-bool PathFinder::doSegmentsIntersect(Segment a, Segment b)
-{
-    Rectangle box1 = getBoundingBox(a);
-    Rectangle box2 = getBoundingBox(b);
-    return doRectanglesIntersect(box1, box2)
-            && doSegmentCrossLine(a, b)
-            && doSegmentCrossLine(b, a);
+    return (o1 == 0 || o2 == 0 || o1 != o2) && (o3 == 0 || o4 == 0 || o3 != o4);
 }
 
 double PathFinder::distBetweenPoints(Point &a, Point &b)

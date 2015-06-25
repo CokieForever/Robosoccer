@@ -75,11 +75,14 @@ void RefereeDisplay::DisplayPath(const PathFinder::Path path)
 {
     m_path->clear();
 
-    int n = path->size();
-    for (int i=0 ; i < n ; i++)
+    if (path)
     {
-        PathFinder::Point *pt = &((*path)[i]);
-        m_path->push_back(PathFinder::CreatePoint(pt->x, pt->y));
+        int n = path->size();
+        for (int i=0 ; i < n ; i++)
+        {
+            PathFinder::Point *pt = &((*path)[i]);
+            m_path->push_back(PathFinder::CreatePoint(pt->x, pt->y));
+        }
     }
 }
 
@@ -196,6 +199,30 @@ void* RefereeDisplay::RefDisplayFn(void *data)
                 }
 
                 filledPolygonRGBA(screen, vx, vy, n, 255, 0, 0, 255);
+                delete vx;
+                delete vy;
+            }
+        }
+
+        if (display->m_path)
+        {
+            int n = display->m_path->size();
+            if (n > 1)
+            {
+                PathFinder::Point *point = &((*(display->m_path))[0]);
+                double x = display->m_screenW * (point->x + 1) / 2;
+                double y = display->m_screenH * (point->y + 1) / 2;
+                for (int i=1 ; i < n ; i++)
+                {
+                    PathFinder::Point *next = &((*(display->m_path))[i]);
+                    double nx = display->m_screenW * (next->x + 1) / 2;
+                    double ny = display->m_screenH * (next->y + 1) / 2;
+
+                    DrawLine(screen, x, y, nx, ny, CreateColor(255,0,0));
+
+                    x = nx;
+                    y = ny;
+                }
             }
         }
 
