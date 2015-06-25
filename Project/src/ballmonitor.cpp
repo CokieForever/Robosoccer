@@ -1,6 +1,6 @@
 #include "ballmonitor.h"
 
-BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RobotMonitor *robotMonitor, RawBall *ball)
+BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball)
 {
     m_mainBall = ball;
     m_stopBallMonitoring = false;
@@ -13,12 +13,11 @@ BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RobotMonitor *robot
     m_nbBallPosTime = 0;
     m_followerRobot = NULL;
     m_coordCalibrer = coordCalibrer;
-    m_robotMonitor = robotMonitor;
 }
 
 bool BallMonitor::StartMonitoring(RawBall *ball)
 {
-    if (m_ballMonitoring || !m_coordCalibrer || !m_robotMonitor)
+    if (m_ballMonitoring || !m_coordCalibrer)
         return false;
     else
     {
@@ -201,39 +200,6 @@ bool BallMonitor::IsBallMoving()
     return moving;
 }
 
-bool BallMonitor::StartBallFollowing(RoboControl *robo)
-{
-    if (m_ballFollowing)
-        return false;
-    else
-    {
-        if (!robo)
-            return false;
-        m_followerRobot = robo;
-        pthread_create(&m_ballFollowingThread, NULL, BallFollowingFn, this);
-        usleep(0.1e6);
-        return true;
-    }
-}
-
-bool BallMonitor::StopBallFollowing()
-{
-    if (!m_ballFollowing)
-        return false;
-    else
-    {
-        m_stopBallFollowing = true;
-        pthread_join(m_ballFollowingThread, NULL);
-        return true;
-    }
-}
-
-bool BallMonitor::IsBallFollowingStarted()
-{
-    return m_ballFollowing;
-}
-
-
 
 bool BallMonitor::ComputeLinearRegression(double *a, double *b, int precision)
 {
@@ -312,58 +278,4 @@ void* BallMonitor::BallMonitoringFn(void *data)
     monitor->m_ballMonitoring = false;
     return NULL;
 }
-
-void* BallMonitor::BallFollowingFn(void *data)
-{
-    BallMonitor *monitor = (BallMonitor*)data;
-    RoboControl *robot = monitor->m_followerRobot;
-
-    int robotNum = monitor->m_robotMonitor->GetRobotNum(robot);
-    bool kickMode = false;
-    bool waitMode = true;
-
-    monitor->m_ballFollowing = true;
-    monitor->m_stopBallFollowing = false;
-    while (!monitor->m_stopBallFollowing)
-    {
-        if (!kickMode)
-        {
-            Position ballPos;
-            if (monitor->PredictBallPosition(&ballPos, 5))
-            {
-                waitMode = false;
-                monitor->m_robotMonitor->ProgressiveGoto(robotNum, ballPos);
-
-                Position robotPos = monitor->m_coordCalibrer->NormalizePosition(robot->GetPos());
-                Position realBallPos;
-                monitor->GetBallPosition(&realBallPos);
-
-                double d1 = monitor->m_coordCalibrer->NormalizePosition(ballPos).DistanceTo(robotPos);
-                double d2 = monitor->m_coordCalibrer->NormalizePosition(realBallPos).DistanceTo(robotPos);
-                if (d1 <= 0.045 && d2 <= 1.25)
-                    kickMode = true;
-            }
-            else if (!waitMode && !monitor->IsBallMoving())
-                kickMode = true;
-        }
-
-        if (kickMode)
-        {
-            Position ballPos;
-            monitor->GetBallPosition(&ballPos);
-            double d = monitor->m_coordCalibrer->NormalizePosition(ballPos).DistanceTo(monitor->m_coordCalibrer->NormalizePosition(robot->GetPos()));
-            if (d <= 0.07)
-                break;
-            else
-                monitor->m_robotMonitor->ProgressiveKick(robotNum, ballPos);
-        }
-
-        usleep(5000);
-    }
-
-    monitor->m_ballFollowing = false;
-    return NULL;
-}
-
-
 

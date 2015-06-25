@@ -2,50 +2,43 @@
 #define PLAYERMAIN_H
 
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
-#include "cruiseToBias2.h"
+#include "teamrobot.h"
 #include "coordinates.h"
+#include "interpreter.h"
 #include <queue>
 
 
-class PlayerMain
+class PlayerMain : public TeamRobot
 {
-    enum ActionPlayerMain{GO_TO_DEF_POS,KICK_PENALTY,KICK_OFF,STOP,FOLLOWPATH};
-    struct KickParam
-    {
-       double  turnAngle;
-       int  force;
-       bool action1Performed,action2Performed;
-       Position ball,pos;
-
-
-    };
-
-private:
-    RawBall* ball;
-    ActionPlayerMain nextCmd;
-    KickParam kickPenaltyParam;
-    Position kickOffParam;
-    string path;
-    queue<int> m_q;
-    CoordinatesCalibrer *cal;
-    bool actionPerformed;
-    int go_x,go_y;
-
-
 
 public:
-    Position defaultPos;
-    RoboControl* robot;
-    int map[WIDTH][HEIGHT];
+    enum ActionPlayerMain
+    {
+        GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH
+    };
 
-    void setNextCmd(void*);
-    void setCmdParam();
-    void *performCmd();
-    static void *performCmd_helper(void *);
+    struct KickParam
+    {
+        double  turnAngle;
+        int  force;
+        bool action1Performed,action2Performed;
+        Position ball,pos;
+    };
 
-    PlayerMain(RoboControl*a,RawBall *b,CoordinatesCalibrer *c);
-    ~PlayerMain();
+    PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b);
+
+    void setNextCmd(Interpreter *info);
+    void setCmdParam(void);
+    void* performCmd(void);
+
+private:
+    ActionPlayerMain m_nextCmd;
+    KickParam m_kickPenaltyParam;
+    Position m_kickOffParam;
+    string m_path;
+    queue<int> m_q;
+    bool m_actionPerformed;
+    int m_go_x,m_go_y;
 
 };
 
