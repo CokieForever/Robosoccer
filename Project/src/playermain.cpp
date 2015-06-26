@@ -231,10 +231,8 @@ void* PlayerMain::performCmd(void)
             pos.SetY(Interpreter::map2coordY(mapy));
             pos = m_coordCalib->UnnormalizePosition(pos.GetPos());
 
-            cruisetoBias(pos.GetX(),pos.GetY(), 600, -10, 30);
-            //GotoPos(pos);
+            GotoPos(pos);
             //wait until movement is done
-            //usleep(0.5e6);*/
 
             if (m_pathFinderPath)
             {
