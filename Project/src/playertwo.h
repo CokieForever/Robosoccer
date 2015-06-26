@@ -32,6 +32,7 @@ class PlayerTwo : public TeamRobot
     void setNextCmd(Interpreter* info);
     void setCmdParam(void);
     void* performCmd(void);
+    void defend_p2 (void);
 
   private:
     BallMonitor* m_ballpt;
@@ -42,6 +43,7 @@ class PlayerTwo : public TeamRobot
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
     int m_go_x, m_go_y;
+
 
 };
 #endif // PLAYERTWO_H

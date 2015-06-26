@@ -7,14 +7,13 @@
 
 #include "goalkeeper.h"
 #include "interpreter.h"
-#include "cruise2_2.h"
+#include "newrobocontrol.h"
 
 
 Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer* coordCalib, RawBall* b, BallMonitor* ballgk) : TeamRobot(DBC, deviceNr, coordCalib, b)
 {
   m_ballgk = ballgk;
 }
-
 
 
 void Goalkeeper::setNextCmd(Interpreter* info)
@@ -48,9 +47,6 @@ void Goalkeeper::setCmdParam()
   static int counter = 0;
   double y;
   double deltaY;
-
-  //Just to test m_nextCmd = PREVENT_GOAL;
-  m_nextCmd = PREVENT_GOAL;
 
   switch (m_nextCmd)
   {
@@ -90,7 +86,7 @@ void* Goalkeeper::performCmd(void)
   switch (m_nextCmd)
   {
     case Goalkeeper::PREVENT_GOAL:
-      CruisetoBias(m_defendgk.GetX(), m_preventGoalParam.GetY(), 650, -10, 30, this);
+      NewRoboControl::cruisetoBias(m_defendgk.GetX(), m_preventGoalParam.GetY(), 650, -10, 30);
       break;
 
     case Goalkeeper::GO_TO_DEF_POS:

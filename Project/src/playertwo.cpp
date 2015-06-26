@@ -10,8 +10,7 @@
 #include "share.h"
 #include "kogmo_rtdb.hxx"
 #include "playertwo.h"
-#include "cruise2_2.h"
-
+#include "newrobocontrol.h"
 
 PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer* coordCalib, RawBall* b,  BallMonitor* ballpt) : TeamRobot(DBC, deviceNr, coordCalib, b)
 {
@@ -61,56 +60,20 @@ void PlayerTwo::setNextCmd(Interpreter* info)
 
 void PlayerTwo::setCmdParam(void)
 {
-  //Just for testing DEFENSE Mode
-  m_nextCmd = DEFENSE;
 
   switch (m_nextCmd)
   {
 
-      //Playertwo defend the goal corners
+
     case DEFENSE:
-      {
-        static int counter = 0;
-        double y;
-        if (counter >= 10)        //Counter for Cruisetobias function
-        {
-          m_ballpt->GetBallPosition(&m_defendp2);
-          y = m_defendp2.GetY();
 
-          //define Goal borders
-          if (y > 0.35)
-          {
-            y = 0.5;
-            m_defendp2.SetX(-1.4);
-          }
-
-          else if (y < -0.25)
-          {
-            y = -0.5;
-            m_defendp2.SetX(-1.4);
-          }
-
-          else if (y < 0.3 && 0 < y)
-          {
-            y = 0.5;
-            m_defendp2.SetX(-0.5);
-          }
-          else if (-0.2 < y && y < 0)
-          {
-            y = -0.5;
-            m_defendp2.SetX(-0.5);
-          }
-          m_defendp2.SetY(y);
-          counter = 0;
-        }
-        counter++;
-
-        break;
-      }
-    default:
       break;
+
+default:
+  break;
   }
 }
+
 
 
 void* PlayerTwo::performCmd(void)
@@ -124,7 +87,7 @@ void* PlayerTwo::performCmd(void)
       break;
 
     case DEFENSE:
-      CruisetoBias(m_defendp2.GetX(), m_defendp2.GetY(), 650, -10, 30, this);
+      NewRoboControl::cruisetoBias(m_defendp2.GetX(), m_defendp2.GetY(), 650, -10, 30);
       break;
 
     default:
@@ -138,3 +101,43 @@ void* PlayerTwo::performCmd(void)
   return 0;
 }
 
+
+//Playertwo defend the goal corners
+//could be used in Defend Mode for P2
+/*void defend_p2(void)
+{
+    static int counter = 0;
+    double y;
+    if (counter >= 10)        //Counter for Cruisetobias function
+    {
+      m_ballpt->GetBallPosition(&m_defendp2);
+      y = defendp2.GetY();
+
+      //define Goal borders
+      if (y > 0.35)
+      {
+        y = 0.5;
+        m_defendp2.SetX(-1.4);
+      }
+
+      else if (y < -0.25)
+      {
+        y = -0.5;
+        m_defendp2.SetX(-1.4);
+      }
+
+      else if (y < 0.3 && 0 < y)
+      {
+        y = 0.5;
+        m_defendp2.SetX(-0.5);
+      }
+      else if (-0.2 < y && y < 0)
+      {
+        y = -0.5;
+        m_defendp2.SetX(-0.5);
+      }
+      m_defendp2.SetY(y);
+      counter = 0;
+    }
+    counter++;
+}*/

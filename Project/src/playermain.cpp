@@ -12,8 +12,7 @@
 #include "kogmo_rtdb.hxx"
 #include <queue>
 #include "playermain.h"
-#include "cruise2_2.h"
-
+#include "newrobocontrol.h"
 
 using namespace std;
 
@@ -82,9 +81,6 @@ void PlayerMain::setCmdParam(void)
   int j, idx_tmp;
   unsigned int interpolate_n = 15;
   Position robo_n, ball_n;
-
-
-  m_nextCmd = DEFENSE;
 
   switch (m_nextCmd)
   {
@@ -239,7 +235,7 @@ void* PlayerMain::performCmd(void)
       pos.SetY(Interpreter::map2coordY(mapy));
       pos = m_coordCalib->UnnormalizePosition(pos.GetPos());
 
-      cruisetoBias(pos.GetX(), pos.GetY(), 600, -10, 30);
+      //CruisetoBias(pos.GetX(), pos.GetY(), 600, -10, 30);
       //robot->GotoPos(pos);
       //wait until movement is done
       //usleep(0.5e6);
@@ -247,7 +243,7 @@ void* PlayerMain::performCmd(void)
       break;
     case DEFENSE:
 
-      CruisetoBias(m_defendpm.GetX(), m_defendpm.GetY(), 650, -10, 30, this);
+      NewRoboControl::cruisetoBias(m_defendpm.GetX(), m_defendpm.GetY(), 650, -10, 30);
       break;
 
       break;
