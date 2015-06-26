@@ -26,7 +26,7 @@ void CoordinatesCalibrer::Init()
     m_stopCalibrating = false;
     m_calibrationThread = NULL;
 
-    memset(m_robots, 0, sizeof(RoboControl*)*2);
+    memset(m_robots, 0, sizeof(NewRoboControl*)*2);
 }
 
 bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Position c, Position d)
@@ -51,7 +51,7 @@ bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Posi
 	return true;
 }
 
-Position CoordinatesCalibrer::NormalizePosition(Position pos)
+Position CoordinatesCalibrer::NormalizePosition(Position pos) const
 {
 	double x = pos.GetX(), y = pos.GetY();
 	
@@ -70,7 +70,7 @@ Position CoordinatesCalibrer::NormalizePosition(Position pos)
 	return Position(x, y);
 }
 
-Position CoordinatesCalibrer::UnnormalizePosition(Position pos)
+Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
 {
 	double x = pos.GetX(), y = pos.GetY();
 	
@@ -89,7 +89,7 @@ Position CoordinatesCalibrer::UnnormalizePosition(Position pos)
 	return Position(x, y);
 }
 
-bool CoordinatesCalibrer::StartCoordCalibration(RoboControl *robot1, RoboControl *robot2)
+bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboControl *robot2)
 {
     if (robot1)
         m_robots[0] = robot1;
@@ -111,7 +111,7 @@ bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
     return true;
 }
 
-bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *kx, double *ky)
+bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *kx, double *ky) const
 {
     if (!m_calibrationSuccessful)
         return false;
@@ -130,7 +130,7 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, dou
     return true;
 }
 
-bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin)
+bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin) const
 {
     if (!m_calibrationSuccessful)
         return false;

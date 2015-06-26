@@ -2,12 +2,19 @@
 #define PLAYERTWO_H
 
 #include "kogmo_rtdb.hxx"
-#include "robo_control.h"
+#include "teamrobot.h"
+#include "coordinates.h"
 
 
-class PlayerTwo
+class PlayerTwo : public TeamRobot
 {
-    enum ActionPlayerTwo{GO_TO_DEF_POS,KICK_PENALTY,KICK_OFF,PLAY,STOP};
+
+public:
+    enum ActionPlayerTwo
+    {
+        GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, PLAY, STOP
+    };
+
     struct KickParam
     {
        double  turnAngle;
@@ -16,24 +23,16 @@ class PlayerTwo
 
     };
 
+    PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*);
+
+    void setNextCmd(Interpreter *info);
+    void setCmdParam(void);
+    void* performCmd(void);
+
 private:
-    RawBall* ball;
-    ActionPlayerTwo nextCmd;
-
-    KickParam kickPenaltyParam;
-    Position kickOffParam;
-
-
-public:
-    Position defaultPos;
-    RoboControl* robot;
-
-    void setNextCmd(void*);
-    void setCmdParam();
-    void *performCmd();
-    static void *performCmd_helper(void *);
-    PlayerTwo(RoboControl*,RawBall *);
-    ~PlayerTwo();
+    ActionPlayerTwo m_nextCmd;
+    KickParam m_kickPenaltyParam;
+    Position m_kickOffParam;
 
 };
 #endif // PLAYERTWO_H

@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = soccer_sample
+TARGET = robosoccer
 
 #include(/DIST/lehre/lab_roso/tech/usr/include/settings.pri)
 include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
@@ -39,4 +39,9 @@ dox.depends = FORCE
 
 # somewhere else in the *.pro file
 QMAKE_EXTRA_UNIX_TARGETS += dox
+
+
+
+
+
 
