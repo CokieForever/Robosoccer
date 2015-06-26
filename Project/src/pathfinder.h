@@ -39,6 +39,8 @@ public:
     PathFinder();
 
     const ConvexPolygon* AddRectangle(const Point &ul, const Point &lr);
+    const ConvexPolygon* AddParallelogram(const Point& ul0, const Point& ur0, const Point& ll0);
+    const ConvexPolygon* AddThickLine(const Point& pt1, const Point& pt2, double thickness);
     const ConvexPolygon* AddPolygon(const ConvexPolygon& p);
     bool RemovePolygon(const ConvexPolygon* poly);
     bool IsPolygonRegistered(const ConvexPolygon* poly) const;

@@ -6,6 +6,7 @@
 #include <iostream>
 #include <math.h>
 #include "coordinates.h"
+#include "sdlutilities.h"
 
 using namespace std;
 
@@ -55,6 +56,41 @@ const PathFinder::ConvexPolygon* PathFinder::AddRectangle(const Point& ul0, cons
     Point *ll = new Point(CreatePoint(lr0.x, ul0.y));
     Point *ul = new Point(CreatePoint(ul0.x, ul0.y));
     Point *lr = new Point(CreatePoint(lr0.x, lr0.y));
+
+    polygon.points.push_back(ul);
+    polygon.points.push_back(ur);
+    polygon.points.push_back(lr);
+    polygon.points.push_back(ll);
+
+    return AddPolygon(polygon);
+}
+
+const PathFinder::ConvexPolygon* PathFinder::AddParallelogram(const Point& ul0, const Point& ur0, const Point& ll0)
+{
+    ConvexPolygon polygon;
+    Point *ur = new Point(CreatePoint(ur0.x, ur0.y));
+    Point *ll = new Point(CreatePoint(ll0.x, ll0.y));
+    Point *ul = new Point(CreatePoint(ul0.x, ul0.y));
+    Point *lr = new Point(CreatePoint(ll0.x+ur0.x-ul0.x, ll0.y+ur0.y-ul0.y));
+
+    polygon.points.push_back(ul);
+    polygon.points.push_back(ur);
+    polygon.points.push_back(lr);
+    polygon.points.push_back(ll);
+
+    return AddPolygon(polygon);
+}
+
+const PathFinder::ConvexPolygon* PathFinder::AddThickLine(const Point& pt1, const Point& pt2, double thickness)
+{
+    double rectX[4], rectY[4];
+    ComputeThickLineRect(pt1.x, pt1.y, pt2.x, pt2.y, thickness, rectX, rectY);
+
+    ConvexPolygon polygon;
+    Point *ur = new Point(CreatePoint(rectX[1], rectY[1]));
+    Point *ll = new Point(CreatePoint(rectX[3], rectY[3]));
+    Point *ul = new Point(CreatePoint(rectX[0], rectY[0]));
+    Point *lr = new Point(CreatePoint(rectX[2], rectY[2]));
 
     polygon.points.push_back(ul);
     polygon.points.push_back(ur);
@@ -158,6 +194,11 @@ bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
 
 PathFinder::Path PathFinder::ComputePath(Point start, Point end)
 {
+    bool restart = IsPointInsideSomePolygon(start);
+    Point realStart = start;
+    if (restart)
+        start = ComputeNearestPolygonPoint(start);
+
     //Check if point is directly accessible
     if (CheckPointsVisibility(&start, &end))
     {
@@ -240,6 +281,9 @@ PathFinder::Path PathFinder::ComputePath(Point start, Point end)
         path->push_back(CreatePoint(currentPoint->x, currentPoint->y));
         currentPoint = currentPoint->prevPoint;
     } while(currentPoint);
+
+    if (restart)
+        path->push_back(CreatePoint(realStart->x, realStart->y));
 
     reverse(path->begin(), path->end());
     return path;

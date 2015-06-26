@@ -1,4 +1,5 @@
 #include "teamrobot.h"
+#include "sdlutilities.h"
 
 void* TeamRobot::performCmd_helper(void *context)
 {
@@ -13,6 +14,9 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coo
     m_pathFinderPath = NULL;
     memset(&(m_map[0][0]), 0, sizeof(int)*Interpreter::MAP_WIDTH*Interpreter::MAP_HEIGHT);
 
+    m_ballObstaclePos = Position(-10, -10);
+    for (int i=0 ; i < 3 ; i++)
+        m_ballObstacles[i] = NULL;
     for (int i=0 ; i < 5 ; i++)
     {
         m_roboObstacles[i] = NULL;
@@ -125,6 +129,36 @@ void TeamRobot::UpdatePathFinder(NewRoboControl *const obstacles[5], eSide our_s
             m_roboObstacles[i] = m_pathFinder.AddRectangle(ul, lr);
             m_roboObstaclePos[i] = pos;
         }
+    }
+
+    Position ballPos = m_coordCalib->NormalizePosition(m_ball->GetPos());
+    if (ballPos.DistanceTo(m_ballObstaclePos) >= 0.01)
+    {
+        for (int i=0 ; i < 3 ; i++)
+            m_pathFinder.RemovePolygon(m_ballObstacles[i]);
+
+        double bx = ballPos.GetX(), by = ballPos.GetY();
+        double goalX = our_side == LEFT_SIDE ? -1 : 1;
+        double cosAngle, sinAngle;
+        ComputeLineAngle(bx, by, goalX, 0, &cosAngle, &sinAngle);
+
+        double x, y;
+        ComputeVectorEnd(bx, by, cosAngle, sinAngle, 0.075, &x, &y);
+
+        double x1, y1;
+        ComputeVectorEnd(x, y, sinAngle, -cosAngle, 0.1, &x1, &y1);
+
+        double x2, y2;
+        ComputeVectorEnd(x, y, -sinAngle, cosAngle, 0.1, &x2, &y2);
+        m_ballObstacles[0] = m_pathFinder.AddThickLine(PathFinder::CreatePoint(x1,y1), PathFinder::CreatePoint(x2,y2), 0.03);
+
+        ComputeVectorEnd(x1, y1, -cosAngle, -sinAngle, 0.2, &x, &y);
+        m_ballObstacles[1] = m_pathFinder.AddThickLine(PathFinder::CreatePoint(x1,y1), PathFinder::CreatePoint(x,y), 0.03);
+
+        ComputeVectorEnd(x2, y2, -cosAngle, -sinAngle, 0.2, &x, &y);
+        m_ballObstacles[2] = m_pathFinder.AddThickLine(PathFinder::CreatePoint(x2,y2), PathFinder::CreatePoint(x,y), 0.03);
+
+        m_ballObstaclePos = ballPos;
     }
 }
 

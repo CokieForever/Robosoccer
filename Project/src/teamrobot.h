@@ -44,6 +44,8 @@ protected:
     RefereeDisplay *m_display;
     const PathFinder::ConvexPolygon* m_roboObstacles[5];
     Position m_roboObstaclePos[5];
+    const PathFinder::ConvexPolygon* m_ballObstacles[3];
+    Position m_ballObstaclePos;
     PathFinder::Path m_pathFinderPath;
 
 private:
