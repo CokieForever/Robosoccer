@@ -269,7 +269,7 @@ Position* NewRoboControl::drivePath(std::vector<Position>* path)
     for (std::vector<Position>::iterator it = path->begin() ; it != path->end() ; it++)
     {
         Position *pos = &(*it);
-        if (pos->DistanceTo(GetPos()) >= 0.01)
+        if (pos->DistanceTo(GetPos()) >= 0.045)
         {
             if (it != path->begin())
                 path->erase(path->begin(), it-1);

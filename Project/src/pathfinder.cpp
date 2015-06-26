@@ -137,11 +137,14 @@ const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
 
 bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
 {
+    if (!poly)
+        return true;
+
     PolygonsList::iterator it = find(m_polygons.begin(), m_polygons.end(), poly);
     if (it == m_polygons.end())
         return false;
 
-    for (PointsList::iterator it3 = ((ConvexPolygon*)poly)->points.begin() ; it3 != ((ConvexPolygon*)poly)->points.end() ; it3++)
+    for (PointsList::const_iterator it3 = poly->points.begin() ; it3 != poly->points.end() ; it3++)
     {
         Point *pt2 = *it3;
         for (PointsList::iterator it2 = m_points.begin() ; it2 != m_points.end() ; it2++)
@@ -192,12 +195,33 @@ bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
     return true;
 }
 
+bool PathFinder::RemovePolygons(const ConvexPolygon* polys[], int n)
+{
+    bool success = true;
+    for (int i=0 ; i < n ; i++)
+        success &= RemovePolygon(polys[i]);
+    return success;
+}
+
 PathFinder::Path PathFinder::ComputePath(Point start, Point end)
 {
-    bool restart = IsPointInsideSomePolygon(start);
-    Point realStart = start;
-    if (restart)
-        start = ComputeNearestPolygonPoint(start);
+    //If the start point is inside a polygon, immediately go to the closest "allowed" point
+    const ConvexPolygon *polygon = IsPointInsideSomePolygon(start);
+    if (polygon)
+    {
+        Point exitPoint;
+        sqDistToPolygon(start, *polygon, &exitPoint);
+
+        double d = sqrt(sqDistBetweenPoints(start, exitPoint));
+        double cosAngle, sinAngle;
+        ComputeLineAngle(start.x, start.y, exitPoint.x, exitPoint.y, &cosAngle, &sinAngle);
+        ComputeVectorEnd(start.x, start.y, cosAngle, sinAngle, d+0.05, &(exitPoint.x), &(exitPoint.y));
+
+        Path path = new vector<Point>;
+        path->push_back(CreatePoint(start.x, start.y));
+        path->push_back(CreatePoint(exitPoint.x, exitPoint.y));
+        return path;
+    }
 
     //Check if point is directly accessible
     if (CheckPointsVisibility(&start, &end))
@@ -245,7 +269,7 @@ PathFinder::Path PathFinder::ComputePath(Point start, Point end)
             Point *pt = *it;
             if (pt->score >= 0)
             {
-                double d = distBetweenPoints(*currentPoint, *pt);
+                double d = sqrt(sqDistBetweenPoints(*currentPoint, *pt));
                 if (d+currentScore < pt->score)
                 {
                     pt->score = d + currentScore;
@@ -281,9 +305,6 @@ PathFinder::Path PathFinder::ComputePath(Point start, Point end)
         path->push_back(CreatePoint(currentPoint->x, currentPoint->y));
         currentPoint = currentPoint->prevPoint;
     } while(currentPoint);
-
-    if (restart)
-        path->push_back(CreatePoint(realStart->x, realStart->y));
 
     reverse(path->begin(), path->end());
     return path;
@@ -371,6 +392,17 @@ int PathFinder::DoesPointBelongToPolygon(const Point *point, const ConvexPolygon
     return it == polygon->points.end() ? (-1) : (it - polygon->points.begin());
 }
 
+const PathFinder::ConvexPolygon* PathFinder::IsPointInsideSomePolygon(const Point &point)
+{
+    for (PolygonsList::iterator it = m_polygons.begin() ; it != m_polygons.end() ; it++)
+    {
+        ConvexPolygon *polygon = *it;
+        if (isPointInsidePolygon(point, *polygon))
+            return polygon;
+    }
+    return NULL;
+}
+
 PathFinder::Rectangle PathFinder::getBoundingBox(Segment seg)
 {
     Point ul = CreatePoint(std::min(seg.start.x, seg.end.x), std::min(seg.start.y, seg.end.y));
@@ -409,15 +441,15 @@ bool PathFinder::doSegmentsIntersect(Segment seg1, Segment seg2)
     return (o1 == 0 || o2 == 0 || o1 != o2) && (o3 == 0 || o4 == 0 || o3 != o4);
 }
 
-double PathFinder::distBetweenPoints(Point &a, Point &b)
+double PathFinder::sqDistBetweenPoints(const Point &a, const Point &b)
 {
-    return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+    return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
 }
 
 bool PathFinder::isPointInsidePolygon(const Point& point, const ConvexPolygon& polygon)
 {
     int nbIsects = 0;
-    Segment segment = {point, CreatePoint(point.x, 100)};
+    Segment segment = {point, CreatePoint(point.x, INFINI_TY)};
 
     int n = polygon.points.size();
     Point *pt1 = polygon.points[0];
@@ -431,4 +463,60 @@ bool PathFinder::isPointInsidePolygon(const Point& point, const ConvexPolygon& p
     }
 
     return nbIsects % 2 == 1;
+}
+
+double PathFinder::sqDistToSegment(const Point &a, Segment seg, Point *isect)
+{
+    double p = (seg.end.x - seg.start.x) * (a.x - seg.start.x) + (seg.end.y - seg.start.y) * (a.y - seg.start.y);
+    double l = sqDistBetweenPoints(seg.start, seg.end);
+
+    if (p < 0)
+    {
+        if (isect)
+            *isect = CreatePoint(seg.start.x, seg.start.y);
+        return sqDistBetweenPoints(a, seg.start);
+    }
+    else if (p > l)
+    {
+        if (isect)
+            *isect = CreatePoint(seg.end.x, seg.end.y);
+        return sqDistBetweenPoints(a, seg.end);
+    }
+    else
+    {
+        if (isect)
+        {
+            double cosAngle, sinAngle;
+            ComputeLineAngle(seg.start.x, seg.start.y, seg.end.x, seg.end.y, &cosAngle, &sinAngle);
+            ComputeVectorEnd(seg.start.x, seg.start.y, cosAngle, sinAngle, p/sqrt(l), &(isect->x), &(isect->y));
+        }
+        return sqDistBetweenPoints(a, seg.start) - p*p/l;
+    }
+}
+
+double PathFinder::sqDistToPolygon(const Point &a, const ConvexPolygon &polygon, Point *isect)
+{
+    int n = polygon.points.size();
+    Point *pt1 = polygon.points[0];
+    double minD = INFINI_TY;
+
+    for (int i=0 ; i < n ; i++)
+    {
+        Point *pt2 = polygon.points[(i+1)%n];
+        Segment seg = {*pt1, *pt2};
+        Point it;
+
+        double d = sqDistToSegment(a, seg, isect ? &it : NULL);
+
+        if (d < minD)
+        {
+            if (isect)
+                *isect = CreatePoint(it.x, it.y);
+            minD = d;
+        }
+
+        pt1 = pt2;
+    }
+
+    return minD;
 }

@@ -43,6 +43,7 @@ public:
     const ConvexPolygon* AddThickLine(const Point& pt1, const Point& pt2, double thickness);
     const ConvexPolygon* AddPolygon(const ConvexPolygon& p);
     bool RemovePolygon(const ConvexPolygon* poly);
+    bool RemovePolygons(const ConvexPolygon* polys[], int n);
     bool IsPolygonRegistered(const ConvexPolygon* poly) const;
     const std::vector<ConvexPolygon*>& GetPolygons() const;
     std::vector<Point>* ComputePath(Point start, Point end);
@@ -63,8 +64,10 @@ private:
     static bool doRectanglesIntersect(PathFinder::Rectangle a, PathFinder::Rectangle b);
     static int orientation(Segment seg, const Point& pt);
     static bool doSegmentsIntersect(Segment seg1, Segment seg2);
-    static double distBetweenPoints(Point &a, Point &b);
+    static double sqDistBetweenPoints(const Point &a, const Point &b);
     static bool isPointInsidePolygon(const Point& point, const ConvexPolygon& polygon);
+    static double sqDistToSegment(const Point &a, Segment seg, Point *isect);
+    static double sqDistToPolygon(const Point &a, const ConvexPolygon &polygon, Point *isect);
 
     PolygonsList m_polygons;
     PointsList m_points;
@@ -72,6 +75,7 @@ private:
     bool ReadPointsVisibility(const Point* p1, const Point* p2);
     void ComputeVisibilityMap(Point *point);
     int DoesPointBelongToPolygon(const Point *point, const ConvexPolygon *polygon);
+    const ConvexPolygon* IsPointInsideSomePolygon(const Point &point);
 
 };
 

@@ -142,7 +142,25 @@ void PlayerMain::setCmdParam(void)
             ball_n = m_coordCalib->NormalizePosition(m_ball->GetPos());
             PathFinder::Point start = PathFinder::CreatePoint(robo_n.GetX(), robo_n.GetY());
             PathFinder::Point end = PathFinder::CreatePoint(ball_n.GetX(), ball_n.GetY());
+
             m_pathFinderPath = m_pathFinder.ComputePath(start, end);
+            if (!IsPathOK(m_pathFinderPath, end))
+            {
+                m_pathFinder.RemovePolygons(m_borderObstacles, 4);
+                AddBorderObstaclesToPathFinder(true);
+                m_pathFinderPath = m_pathFinder.ComputePath(start, end);
+                if (!IsPathOK(m_pathFinderPath, end))
+                {
+                    m_pathFinder.RemovePolygon(m_ballObstacles[1]);
+                    m_pathFinder.RemovePolygon(m_ballObstacles[2]);
+                    m_ballObstacles[1] = NULL;
+                    m_ballObstacles[2] = NULL;
+                    m_pathFinderPath = m_pathFinder.ComputePath(start, end);
+                    m_ballObstaclePos = Position(-10, -10); //Update request
+                }
+                m_pathFinder.RemovePolygons(m_borderObstacles, 4);
+                AddBorderObstaclesToPathFinder(false);
+            }
 
             if (m_display)
                 m_display->DisplayPath(m_pathFinderPath);

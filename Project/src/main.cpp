@@ -42,7 +42,7 @@ int main(void)
 
     pthread_t threads[3];
     //struct thread_data td[3];
-    int gk_th,p1_th,p2_th;
+    int gk_th,p2_th;
 
     CoordinatesCalibrer coordCalibrer;
     //coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));     //Calibration settings for the real field
@@ -104,8 +104,10 @@ int main(void)
             p2.setCmdParam();
 
             gk_th = pthread_create(&threads[0],NULL,&Goalkeeper::performCmd_helper,(void*)&gk);
-            p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
+            //p1_th = pthread_create(&threads[1],NULL,&PlayerMain::performCmd_helper,(void*)&p1);
             p2_th = pthread_create(&threads[2],NULL,&PlayerTwo::performCmd_helper,(void*)&p2);
+
+            p1.performCmd();
 
             usleep(0.5e6);
 

@@ -266,7 +266,7 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
     }
 }
 
-void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
+void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
 {
     CoordinatesCalibrer *m_coordCalibrer = coordCalibrer;
     //Normalize coordinates of our robot
@@ -575,7 +575,7 @@ void Interpreter::setTurn()
 
 void Interpreter::updateSituation()
 {
-    NewRoboControl *robots[5] = {m_gk, m_p2, m_e1, m_e2, m_e3};
+    const NewRoboControl *robots[5] = {m_gk, m_p2, m_e1, m_e2, m_e3};
 
     Interpreter::Map map;
     memcpy(&(map[0][0]), &(m_p1->getMap()[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);

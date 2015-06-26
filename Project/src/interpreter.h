@@ -61,7 +61,7 @@ public:
     static double map2coordX(int);
     static double map2coordY(int);
     static void showMap(const Map& map, string path, Point start);
-    static void matrixupdate(Map& map, NewRoboControl* ref, NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
+    static void matrixupdate(Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
 
     Interpreter(int x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, NewRoboControl* a, NewRoboControl* b, NewRoboControl* c, RawBall* d, CoordinatesCalibrer* e);
 

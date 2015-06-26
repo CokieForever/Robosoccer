@@ -29,13 +29,15 @@ public:
     bool setMapValue(int i, int j, int val);
     void setMap(const Interpreter::Map &map);
 
-    void UpdatePathFinder(NewRoboControl *const obstacles[5], eSide our_side);
+    void UpdatePathFinder(const NewRoboControl* obstacles[5], eSide our_side);
 
     virtual void setNextCmd(Interpreter *info) = 0;
     virtual void setCmdParam() = 0;
     virtual void* performCmd() = 0;
 
 protected:
+    static bool IsPathOK(PathFinder::Path path, PathFinder::Point& tgt);
+
     Position m_defaultPos;
     CoordinatesCalibrer *m_coordCalib;
     Interpreter::Map m_map;
@@ -46,7 +48,11 @@ protected:
     Position m_roboObstaclePos[5];
     const PathFinder::ConvexPolygon* m_ballObstacles[3];
     Position m_ballObstaclePos;
+    const PathFinder::ConvexPolygon* m_penaltyAreaObstacles[2];
+    const PathFinder::ConvexPolygon* m_borderObstacles[4];
     PathFinder::Path m_pathFinderPath;
+
+    void AddBorderObstaclesToPathFinder(bool small = false);
 
 private:
     /* Well, nothing. */
