@@ -13,7 +13,9 @@ class Goalkeeper;
 #include "referee.h"
 #include "coordinates.h"
 #include "newrobocontrol.h"
+#include "SDL.h"
 
+class Matrix;
 
 class Interpreter
 {
@@ -52,7 +54,7 @@ public:
     static const int DX[DIR];
     static const int DY[DIR];
 
-    typedef int (Map)[MAP_WIDTH][MAP_HEIGHT];
+    typedef Matrix Map;
 
     static string pathFind(Map map, Point start, Point finish);
     static Point* getCheckPoints(Point start, string path);

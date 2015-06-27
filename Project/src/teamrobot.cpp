@@ -1,5 +1,6 @@
 #include "teamrobot.h"
 #include "sdlutilities.h"
+#include "matrix.h"
 
 void* TeamRobot::performCmd_helper(void *context)
 {
@@ -21,7 +22,7 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coo
     m_ball = ball;
     m_display = display;
     m_pathFinderPath = NULL;
-    memset(&(m_map[0][0]), 0, sizeof(int)*Interpreter::MAP_WIDTH*Interpreter::MAP_HEIGHT);
+    m_map.Fill(0);
 
     m_ballObstaclePos = Position(-10, -10);
     for (int i=0 ; i < 3 ; i++)
@@ -126,7 +127,7 @@ bool TeamRobot::setMapValue(int i, int j, int val)
 
 void TeamRobot::setMap(const Interpreter::Map &map)
 {
-    memcpy(&(m_map[0][0]), &(map[0][0]), sizeof(int)*Interpreter::MAP_WIDTH*Interpreter::MAP_HEIGHT);
+    m_map = map;
 }
 
 void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], eSide our_side)

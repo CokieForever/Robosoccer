@@ -1,5 +1,6 @@
 #include "mapdisplay.h"
 #include "interpreter.h"
+#include "matrix.h"
 
 using namespace std;
 
@@ -45,6 +46,10 @@ SDL_Surface* MapDisplay::UpdateDisplay()
                 PutPixel(m_bgSurf, x, y, SDL_MapRGB(m_bgSurf->format, 0, 255, 0));
             else if (n == 1)
                 PutPixel(m_bgSurf, x, y, SDL_MapRGB(m_bgSurf->format, 255, 0, 0));
+            else if (n == 2)
+                PutPixel(m_bgSurf, x, y, SDL_MapRGB(m_bgSurf->format, 255, 255, 0));
+            else
+                PutPixel(m_bgSurf, x, y, SDL_MapRGB(m_bgSurf->format, 0, 0, 0));
         }
     }
     SDL_UnlockSurface(m_bgSurf);

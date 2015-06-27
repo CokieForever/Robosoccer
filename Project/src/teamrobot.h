@@ -6,6 +6,7 @@
 #include "interpreter.h"
 #include "pathfinder.h"
 #include "refereedisplay.h"
+#include "matrix.h"
 
 class TeamRobot : public NewRoboControl
 {

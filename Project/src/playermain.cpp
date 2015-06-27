@@ -72,8 +72,8 @@ void PlayerMain::setCmdParam(void)
     //Interpreter::Point *pt;
     char c;
     int j,idx_tmp;
-    unsigned int interpolate_n = 15;*/
-    Position robo_n,ball_n;
+    unsigned int interpolate_n = 15;
+    Position robo_n,ball_n;*/
 
     switch(m_nextCmd)
     {
@@ -135,7 +135,7 @@ void PlayerMain::setCmdParam(void)
                 }
             }*/
 
-            if (m_pathFinderPath)
+            /*if (m_pathFinderPath)
                 delete m_pathFinderPath;
 
             robo_n = m_coordCalib->NormalizePosition(GetPos());
@@ -163,7 +163,7 @@ void PlayerMain::setCmdParam(void)
             }
 
             if (m_display)
-                m_display->DisplayPath(m_pathFinderPath);
+                m_display->DisplayPath(m_pathFinderPath);*/
 
             break;
         }
@@ -231,8 +231,10 @@ void* PlayerMain::performCmd(void)
             pos.SetY(Interpreter::map2coordY(mapy));
             pos = m_coordCalib->UnnormalizePosition(pos.GetPos());
 
+            //cruisetoBias(pos.GetX(), pos.GetY(), 600, -10, 30);
             GotoPos(pos);
             //wait until movement is done
+            usleep(0.5e6);
 
             if (m_pathFinderPath)
             {
@@ -244,7 +246,7 @@ void* PlayerMain::performCmd(void)
                     GotoXY(tgt->GetX(), tgt->GetY());
                 }
                 delete posList;
-            }
+            }*/
 
             break;
 

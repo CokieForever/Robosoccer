@@ -15,6 +15,7 @@
 #include "node.h"
 #include "coordinates.h"
 #include "playertwo.h"
+#include "matrix.h"
 
 //include the libs from sample code
 
@@ -183,7 +184,7 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
                     // mark its parent node direction
                     dir_map[xdx][ydy] = (i + DIR/2) % DIR;
                 }
-                else if(open_nodes_map[xdx][ydy]>m0->getPriority())
+                else if(open_nodes_map[xdx][ydy]>(Uint32)m0->getPriority())
                 {
                     // update the priority info
                     open_nodes_map[xdx][ydy]=m0->getPriority();
@@ -222,8 +223,7 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
 
 void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
 {
-    Map map;
-    memcpy(&(map[0][0]), &(map0[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
+    Map map(map0);
 
     //show planned path
     cout << "path planned:" << path << endl;
@@ -281,7 +281,7 @@ void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref,
     int obstacle_r = 1.5 * MAP_BORDERSIZE;
 
     //clear map
-    memset(&(map[0][0]), 0, sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
+    map.Fill(0);
 
     //get all positions of the robots
     for (int k=0 ; k < 5 ; k++)
@@ -322,8 +322,6 @@ void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref,
         }
     }
 
-    map[i1][j1] = 2; // affect 2 to the position of our robot in the matrix
-
     //Normalize coordinates of the ball
     pos1 = m_coordCalibrer->NormalizePosition(ball->GetPos());
 
@@ -333,17 +331,28 @@ void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref,
     map[i][j]=3; // affect 3 to the position of the ball in the matrix
 
     //generate the obstacles around the ball depending on the side in which our team plays
-    map[i-1][j-1]=1;
-    map[i-1][j]=1;
-    map[i-1][j+1]=1;
-    map[i+1][j-1]=1;
-    map[i+1][j]=1;
-    map[i+1][j+1]=1;
+    double bx = coord2mapX(pos1.GetX()), by = coord2mapY(pos1.GetY());
+    double goalX = coord2mapX(our_side == LEFT_SIDE ? 1 : -1);
+    double cosAngle, sinAngle;
+    ComputeLineAngle(bx, by, goalX, coord2mapY(0), &cosAngle, &sinAngle);
 
-    if (our_side == LEFT_SIDE)
-        map[i][j+1]=1;
-    else
-        map[i][j-1]=1;
+    double x, y;
+    ComputeVectorEnd(bx, by, cosAngle, sinAngle, 5, &x, &y);
+
+    double x1, y1;
+    ComputeVectorEnd(x, y, sinAngle, -cosAngle, 5, &x1, &y1);
+
+    double x2, y2;
+    ComputeVectorEnd(x, y, -sinAngle, cosAngle, 5, &x2, &y2);
+    map.DrawThickLine(Map::CreatePoint(x1,y1), Map::CreatePoint(x2,y2), 2, 1);
+
+    ComputeVectorEnd(x1, y1, -cosAngle, -sinAngle, 10, &x, &y);
+    map.DrawThickLine(Map::CreatePoint(x1,y1), Map::CreatePoint(x,y), 3, 1);
+
+    ComputeVectorEnd(x2, y2, -cosAngle, -sinAngle, 10, &x, &y);
+    map.DrawThickLine(Map::CreatePoint(x2,y2), Map::CreatePoint(x,y), 3, 1);
+
+    map[i1][j1] = 2; // affect 2 to the position of our robot in the matrix
 
     /*
     //indices of the robot's position in the matrix
@@ -577,11 +586,11 @@ void Interpreter::updateSituation()
 {
     const NewRoboControl *robots[5] = {m_gk, m_p2, m_e1, m_e2, m_e3};
 
-    Interpreter::Map map;
-    memcpy(&(map[0][0]), &(m_p1->getMap()[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
+    Interpreter::Map map(m_p1->getMap());
     matrixupdate(map,m_p1,robots,m_ball,m_cal,m_mode.our_side);
 
     formationUpdateP1(map);
+
     m_p1->setMap(map);
 
     m_p1->UpdatePathFinder(robots, m_mode.our_side);
@@ -592,7 +601,7 @@ void Interpreter::updateSituation()
 
 void Interpreter::maskOmitUpperLeft(Map &map)
 {
-    int i,j;
+    /*int i,j;
     for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
     {
         for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
@@ -602,12 +611,13 @@ void Interpreter::maskOmitUpperLeft(Map &map)
 
         }
 
-    }
+    }*/
+
 
 }
 void Interpreter::maskOmitUpperRight(Map &map)
 {
-    int i,j;
+    /*int i,j;
     for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
     {
         for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
@@ -617,13 +627,16 @@ void Interpreter::maskOmitUpperRight(Map &map)
 
         }
 
-    }
+    }*/
 
+    Map::Point ul = {MAP_WIDTH/2, MAP_BORDERSIZE-1};
+    Map::Point lr = {MAP_WIDTH-MAP_BORDERSIZE-1, MAP_HEIGHT/2};
+    map.DrawRectangle(ul, lr, 1);
 }
 
 void Interpreter::maskOmitLowerLeft(Map &map)
 {
-    int i,j;
+    /*int i,j;
     for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
     {
         for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
@@ -633,13 +646,13 @@ void Interpreter::maskOmitLowerLeft(Map &map)
 
         }
 
-    }
+    }*/
 
 }
 
 void Interpreter::maskOmitLowerRight(Map &map)
 {
-    int i,j;
+    /*int i,j;
     for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
     {
         for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
@@ -649,13 +662,13 @@ void Interpreter::maskOmitLowerRight(Map &map)
 
         }
 
-    }
+    }*/
 
 }
 
 void Interpreter::maskOmitLeft(Map &map)
 {
-    int i,j;
+    /*int i,j;
     for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
     {
         for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
@@ -665,12 +678,12 @@ void Interpreter::maskOmitLeft(Map &map)
 
         }
 
-    }
+    }*/
 
 }
 void Interpreter::maskOmitRight(Map &map)
 {
-    int i,j;
+    /*int i,j;
     for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
     {
         for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
@@ -680,7 +693,7 @@ void Interpreter::maskOmitRight(Map &map)
 
         }
 
-    }
+    }*/
 
 }
 

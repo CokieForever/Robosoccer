@@ -207,7 +207,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     Position gotoOrders[6] = {Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10)};
 
     SDL_Event event;
-    //SDL_Surface *bgSurf = NULL;
+    SDL_Surface *bgSurf = NULL;
     display->m_keepGoing = true;
     while (display->m_keepGoing)
     {
@@ -217,13 +217,13 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         if (event.type == SDL_QUIT)
             break;
 
-        /*bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
+        bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
         if (bgSurf)
             SDL_BlitSurface(bgSurf, NULL, screen, NULL);
-        else*/
+        else
             SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0,255,0));
 
-        if (display->m_polygons)
+        /*if (display->m_polygons)
         {
             for (PathFinder::PolygonsList::iterator it = ((PathFinder::PolygonsList*)(display->m_polygons))->begin() ; it != ((PathFinder::PolygonsList*)(display->m_polygons))->end() ; it++)
             {
@@ -244,9 +244,9 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
                 //display->DisplayWeb(*polygon, screen);
             }
-        }
+        }*/
 
-        if (display->m_path)
+        /*if (display->m_path)
         {
             int n = display->m_path->size();
             if (n > 1)
@@ -266,7 +266,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
                     y = ny;
                 }
             }
-        }
+        }*/
 
         if (ballSurfTr)
         {
