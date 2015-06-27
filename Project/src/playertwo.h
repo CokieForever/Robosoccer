@@ -12,7 +12,7 @@ class PlayerTwo : public TeamRobot
 public:
     enum ActionPlayerTwo
     {
-        GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, PLAY, STOP
+        GO_TO_DEF_POS, FOLLOWPATH, STOP
     };
 
     struct KickParam
@@ -23,16 +23,18 @@ public:
 
     };
 
-    PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*);
+    PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*, RefereeDisplay *display);
 
     void setNextCmd(const Interpreter::GameData& info);
     void setCmdParam(const Interpreter& interpreter);
-    void* performCmd(void);
+    void performCmd(void);
 
 private:
     ActionPlayerTwo m_nextCmd;
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
+
+    void AddObstacleForFormation(Interpreter::Strategy formation);
 
 };
 #endif // PLAYERTWO_H

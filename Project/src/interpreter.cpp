@@ -419,14 +419,14 @@ Interpreter::GameData Interpreter::getMode() const
     return m_mode;
 }
 
-void Interpreter::SetP1MapToRobot(PlayerMain *p1) const
+void Interpreter::SetP1MapToRobot(TeamRobot *p1) const
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_p1MapMutex);
     p1->setMap(m_p1Map);
     pthread_mutex_unlock((pthread_mutex_t*)&m_p1MapMutex);
 }
 
-void Interpreter::SetP2MapToRobot(PlayerTwo *p2) const
+void Interpreter::SetP2MapToRobot(TeamRobot *p2) const
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_p2MapMutex);
     p2->setMap(m_p2Map);

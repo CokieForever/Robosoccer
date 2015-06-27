@@ -28,8 +28,16 @@ void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
             m_nextCmd = PREVENT_GOAL;
             break;
 
-        default:
+        case BEFORE_KICK_OFF:
+        case BEFORE_PENALTY:
             m_nextCmd = GO_TO_DEF_POS;
+            break;
+
+        case REFEREE_INIT:
+        case KICK_OFF:
+        case PAUSE:
+        case TIME_OVER:
+            m_nextCmd = STOP;
             break;
     }
 
@@ -71,12 +79,12 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
             std::cout << "Goal keeper moving to Position = " << m_defaultPos <<std::endl;
             break;
 
-        default :
+        case STOP:
             break;
     }
 }
 
-void* Goalkeeper::performCmd(void)
+void Goalkeeper::performCmd(void)
 {
 
     switch(m_nextCmd)
@@ -94,10 +102,13 @@ void* Goalkeeper::performCmd(void)
             }
             break;
 
-        default:
+        case STOP:
             break;
     }
+}
 
-    return 0;
+void Goalkeeper::AddObstacleForFormation(Interpreter::Strategy formation)
+{
+    m_areaObstacle = NULL;
 }
 

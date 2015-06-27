@@ -82,8 +82,8 @@ public:
 
     GameData getMode() const;
 
-    void SetP1MapToRobot(PlayerMain *p1) const;
-    void SetP2MapToRobot(PlayerTwo *p2) const;
+    void SetP1MapToRobot(TeamRobot *p1) const;
+    void SetP2MapToRobot(TeamRobot *p2) const;
 
     Position getGKDefaultPos() const;
     Position getP1DefaultPos() const;

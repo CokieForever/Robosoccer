@@ -5,7 +5,6 @@
 #include "teamrobot.h"
 #include "coordinates.h"
 #include "interpreter.h"
-#include <queue>
 
 
 class PlayerMain : public TeamRobot
@@ -29,16 +28,14 @@ public:
 
     void setNextCmd(const Interpreter::GameData& info);
     void setCmdParam(const Interpreter& interpreter);
-    void* performCmd(void);
+    void performCmd(void);
 
 private:
     ActionPlayerMain m_nextCmd;
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
-    string m_path;
-    queue<int> m_q;
-    bool m_actionPerformed;
-    int m_go_x,m_go_y;
+
+    void AddObstacleForFormation(Interpreter::Strategy formation);
 
 };
 

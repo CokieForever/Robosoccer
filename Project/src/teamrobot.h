@@ -6,6 +6,7 @@
 #include "interpreter.h"
 #include "pathfinder.h"
 #include "matrix.h"
+#include <queue>
 
 class RefereeDisplay;
 
@@ -31,11 +32,9 @@ public:
     bool setMapValue(int i, int j, int val);
     void setMap(const Interpreter::Map &map);
 
-    void UpdatePathFinder(const NewRoboControl* obstacles[5], eSide our_side);
-
     virtual void setNextCmd(const Interpreter::GameData& info) = 0;
     virtual void setCmdParam(const Interpreter& interpreter) = 0;
-    virtual void* performCmd() = 0;
+    virtual void performCmd() = 0;
 
 protected:
     static bool IsPathOK(PathFinder::Path path, PathFinder::Point& tgt);
@@ -53,8 +52,19 @@ protected:
     const PathFinder::ConvexPolygon* m_penaltyAreaObstacles[2];
     const PathFinder::ConvexPolygon* m_borderObstacles[4];
     PathFinder::Path m_pathFinderPath;
+    Interpreter::Strategy m_prevFormation;
+    const PathFinder::ConvexPolygon* m_areaObstacle;
+    string m_path;
+    queue<int> m_q;
+    bool m_actionPerformed;
+    int m_go_x,m_go_y;
 
     void AddBorderObstaclesToPathFinder(bool small = false);
+    void UpdatePathFinder(const NewRoboControl* obstacles[5], const Interpreter::GameData& info);
+    void ComputePath(const Interpreter& interpreter);
+    void FollowPath(void);
+
+    virtual void AddObstacleForFormation(Interpreter::Strategy formation) = 0;
 
 private:
     /* Well, nothing. */
