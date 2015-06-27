@@ -35,8 +35,10 @@ public:
     static const double INFINI_TY = 10e6;   //INFINITY does not compile. Don't ask me why.
     static Point CreatePoint(double x, double y);
     static std::vector<Position>* ConvertPathToReal(const Path path, CoordinatesCalibrer *calibrer = NULL);
+    static void DestroyPolygonsList(PolygonsList list);
 
     PathFinder();
+    ~PathFinder();
 
     const ConvexPolygon* AddRectangle(const Point &ul, const Point &lr);
     const ConvexPolygon* AddParallelogram(const Point& ul0, const Point& ur0, const Point& ll0);
@@ -45,7 +47,9 @@ public:
     bool RemovePolygon(const ConvexPolygon* poly);
     bool RemovePolygons(const ConvexPolygon* polys[], int n);
     bool IsPolygonRegistered(const ConvexPolygon* poly) const;
+    bool IsPointRegistered(const Point* pt) const;
     const std::vector<ConvexPolygon*>& GetPolygons() const;
+    PolygonsList GetPolygonsCopy() const;
     std::vector<Point>* ComputePath(Point start, Point end);
     bool CheckPointsVisibility(const Point *p1, const Point *p2);
 
@@ -71,12 +75,13 @@ private:
 
     PolygonsList m_polygons;
     PointsList m_points;
+    pthread_mutex_t m_mutex;
 
     bool ReadPointsVisibility(const Point* p1, const Point* p2);
     void ComputeVisibilityMap(Point *point);
     int DoesPointBelongToPolygon(const Point *point, const ConvexPolygon *polygon);
     const ConvexPolygon* IsPointInsideSomePolygon(const Point &point);
-
+    bool CheckPointsVisibility_p(const Point *p1, const Point *p2);
 };
 
 #endif // PATHFINDER_H

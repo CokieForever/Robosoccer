@@ -12,23 +12,26 @@
 #include "kogmo_rtdb.hxx"
 #include <queue>
 #include "playermain.h"
+#include "refereedisplay.h"
+#include "goalkeeper.h"
+#include "playertwo.h"
 
 using namespace std;
 
 PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, display)
 {
+#if defined(PATHPLANNING_POLYGONS) && !defined(PATHPLANNING_ASTAR)
     if (m_display)
-        m_display->DisplayPolygons(m_pathFinder.GetPolygons(), &m_pathFinder);
+        m_display->DisplayPathFinder(&m_pathFinder);
+#endif
 }
 
-void PlayerMain::setNextCmd(Interpreter *info)
+void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 {
-    Interpreter::GameData mode = info->getMode();
-
-    switch(mode.mode)
+    switch(info.mode)
     {
         case PENALTY:
-            if (mode.turn == Interpreter::OUR_TURN)
+            if (info.turn == Interpreter::OUR_TURN)
                 m_nextCmd = KICK_PENALTY;
             else
                 m_nextCmd = GO_TO_DEF_POS;
@@ -45,7 +48,7 @@ void PlayerMain::setNextCmd(Interpreter *info)
             break;
 
         case KICK_OFF:
-            if (mode.turn == Interpreter::OUR_TURN)
+            if (info.turn == Interpreter::OUR_TURN)
                 m_nextCmd = PlayerMain::KICK_OFF;
             else
                 m_nextCmd = GO_TO_DEF_POS;
@@ -65,15 +68,19 @@ void PlayerMain::setNextCmd(Interpreter *info)
     }
 }
 
-void PlayerMain::setCmdParam(void)
+void PlayerMain::setCmdParam(const Interpreter& interpreter)
 {
+#ifdef PATHPLANNING_ASTAR
     //both needed when it comes to path tracking
-    /*Interpreter::Point A,B;
+    Interpreter::Point A,B;
     //Interpreter::Point *pt;
     char c;
     int j,idx_tmp;
     unsigned int interpolate_n = 15;
-    Position robo_n,ball_n;*/
+    Position robo_n,ball_n;
+#elif defined(PATHPLANNING_POLYGONS)
+    Position robo_n,ball_n;
+#endif
 
     switch(m_nextCmd)
     {
@@ -86,7 +93,11 @@ void PlayerMain::setCmdParam(void)
 
         case FOLLOWPATH:
         {
-            /*if (m_q.size()==0)
+            interpreter.SetP1MapToRobot(this);
+
+            #ifdef PATHPLANNING_ASTAR
+
+            if (m_q.size()==0)
             {
                 //create queue of move indices
 
@@ -133,10 +144,15 @@ void PlayerMain::setCmdParam(void)
                     m_go_y = m_go_y + Interpreter::DY[idx_tmp];
                     m_q.pop();
                 }
-            }*/
+            }
 
-            /*if (m_pathFinderPath)
+            #elif defined(PATHPLANNING_POLYGONS)
+
+            if (m_pathFinderPath)
                 delete m_pathFinderPath;
+
+            const NewRoboControl* robots[5] = {interpreter.getGK(), interpreter.getP2(), interpreter.getE1(), interpreter.getE2(), interpreter.getE3()};
+            UpdatePathFinder(robots, interpreter.getMode().our_side);
 
             robo_n = m_coordCalib->NormalizePosition(GetPos());
             ball_n = m_coordCalib->NormalizePosition(m_ball->GetPos());
@@ -163,11 +179,14 @@ void PlayerMain::setCmdParam(void)
             }
 
             if (m_display)
-                m_display->DisplayPath(m_pathFinderPath);*/
+                m_display->DisplayPath(m_pathFinderPath);
+
+            #endif
 
             break;
         }
         case GO_TO_DEF_POS:
+            m_defaultPos = interpreter.getP1DefaultPos();
             break;
         case KICK_OFF:
             break;
@@ -181,8 +200,11 @@ void PlayerMain::setCmdParam(void)
 void* PlayerMain::performCmd(void)
 {
     cout << "Player 1 next command is:" << m_nextCmd << endl << "1: GO_TO_DEF_POS,KICK_PENALTY 2: KICK_OFF 3: STOP 4: FOLLOWPATH" << endl;
-    /*Position pos;
-    int mapx,mapy;*/
+
+#ifdef PATHPLANNING_ASTAR
+    Position pos;
+    int mapx,mapy;
+#endif
 
     switch(m_nextCmd)
     {
@@ -221,7 +243,9 @@ void* PlayerMain::performCmd(void)
             break;
 
         case PlayerMain::FOLLOWPATH:
-            /*cout << "Player1 Perform Followpath (queue size): " << m_q.size() << endl;
+            #ifdef PATHPLANNING_ASTAR
+
+            cout << "Player1 Perform Followpath (queue size): " << m_q.size() << endl;
 
             pos = m_coordCalib->NormalizePosition(GetPos());
             mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
@@ -231,23 +255,25 @@ void* PlayerMain::performCmd(void)
             pos.SetY(Interpreter::map2coordY(mapy));
             pos = m_coordCalib->UnnormalizePosition(pos.GetPos());
 
-            //cruisetoBias(pos.GetX(), pos.GetY(), 600, -10, 30);
-            GotoPos(pos);
+            cruisetoBias(pos.GetX(), pos.GetY(), 600, -10, 30);
+
+            #ifdef SIMULATION
             //wait until movement is done
             usleep(0.5e6);
+            #endif
+
+            #elif defined(PATHPLANNING_POLYGONS)
 
             if (m_pathFinderPath)
             {
                 std::vector<Position>* posList = PathFinder::ConvertPathToReal(m_pathFinderPath, m_coordCalib);
                 Position *tgt = drivePath(posList);
                 if (tgt)
-                {
-                    //cruisetoBias(tgt->GetX(),tgt->GetY(), 600, -10, 30);
-                    GotoXY(tgt->GetX(), tgt->GetY());
-                }
+                    cruisetoBias(tgt->GetX(),tgt->GetY(), 600, -10, 30);
                 delete posList;
-            }*/
+            }
 
+            #endif
             break;
 
         default:

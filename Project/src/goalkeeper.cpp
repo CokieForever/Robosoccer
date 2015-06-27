@@ -13,14 +13,12 @@ Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c
 {
 }
 
-void Goalkeeper::setNextCmd(Interpreter *info)
+void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
 {
-    Interpreter::GameData mode = info->getMode();
-
-    switch(mode.mode)
+    switch(info.mode)
     {
         case PENALTY:
-            if (mode.turn != Interpreter::OUR_TURN)
+            if (info.turn != Interpreter::OUR_TURN)
                 m_nextCmd = PREVENT_GOAL;
             else
                 m_nextCmd = GO_TO_DEF_POS;
@@ -37,7 +35,7 @@ void Goalkeeper::setNextCmd(Interpreter *info)
 
 }
 
-void Goalkeeper::setCmdParam(void)
+void Goalkeeper::setCmdParam(const Interpreter& interpreter)
 {
     switch(m_nextCmd)
     {
@@ -69,6 +67,7 @@ void Goalkeeper::setCmdParam(void)
         }
 
         case GO_TO_DEF_POS:
+            m_defaultPos = interpreter.getGKDefaultPos();
             std::cout << "Goal keeper moving to Position = " << m_defaultPos <<std::endl;
             break;
 

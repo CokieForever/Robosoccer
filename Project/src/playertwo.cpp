@@ -16,11 +16,9 @@ PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coo
 {
 }
 
-void PlayerTwo::setNextCmd(Interpreter *info)
+void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
 {
-    Interpreter::GameData mode = info->getMode();
-
-    switch(mode.mode)
+    switch(info.mode)
     {
         case PENALTY:
             m_nextCmd = GO_TO_DEF_POS;
@@ -31,7 +29,7 @@ void PlayerTwo::setNextCmd(Interpreter *info)
             break;
 
         case KICK_OFF:
-            if (mode.turn == Interpreter::OUR_TURN)
+            if (info.turn == Interpreter::OUR_TURN)
                 m_nextCmd = PlayerTwo::KICK_OFF;
             else
                 m_nextCmd = GO_TO_DEF_POS;
@@ -51,10 +49,13 @@ void PlayerTwo::setNextCmd(Interpreter *info)
 
 }
 
-void PlayerTwo::setCmdParam(void)
+void PlayerTwo::setCmdParam(const Interpreter& interpreter)
 {
     switch(m_nextCmd)
     {
+        case GO_TO_DEF_POS:
+            m_defaultPos = interpreter.getP2DefaultPos();
+            break;
         default:
             break;
     }
@@ -64,13 +65,13 @@ void *PlayerTwo::performCmd(void)
 {
     switch(m_nextCmd)
     {
-        case PlayerTwo::GO_TO_DEF_POS:
-            std::cout << "Player1 Perform Go To Default Pos:" <<std::endl;
+        case GO_TO_DEF_POS:
+            //std::cout << "Player2 Perform Go To Default Pos:" <<std::endl;
             GotoXY(m_defaultPos.GetX(), m_defaultPos.GetY());
             break;
 
         default:
-            std::cout << "Player2 Perform Default Command: " <<std::endl;
+            //std::cout << "Player2 Perform Default Command: " <<std::endl;
             GotoXY(m_defaultPos.GetX(), m_defaultPos.GetY());
             break;
     }

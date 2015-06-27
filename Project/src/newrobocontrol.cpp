@@ -189,6 +189,11 @@ NewRoboControl::~NewRoboControl()
 
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
 {
+#ifdef SIMULATION       //The cruisetoBias function does not work in simulation
+    Position pos(tarX, tarY);
+    GotoXY(tarX, tarY);
+    return GetPos().DistanceTo(pos) < 0.05;
+#else
     /*   returniert true, wenn Roboter am Ziel angekommen ist. returniert false, wenn Roboter noch unterwegs ist
     **   Ablauf:
     **     1.  Anfahren zur Zielposition
@@ -262,6 +267,7 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
     }
 
     return false;
+#endif
 }
 
 Position* NewRoboControl::drivePath(std::vector<Position>* path)

@@ -5,8 +5,9 @@
 #include "coordinates.h"
 #include "interpreter.h"
 #include "pathfinder.h"
-#include "refereedisplay.h"
 #include "matrix.h"
+
+class RefereeDisplay;
 
 class TeamRobot : public NewRoboControl
 {
@@ -32,8 +33,8 @@ public:
 
     void UpdatePathFinder(const NewRoboControl* obstacles[5], eSide our_side);
 
-    virtual void setNextCmd(Interpreter *info) = 0;
-    virtual void setCmdParam() = 0;
+    virtual void setNextCmd(const Interpreter::GameData& info) = 0;
+    virtual void setCmdParam(const Interpreter& interpreter) = 0;
     virtual void* performCmd() = 0;
 
 protected:

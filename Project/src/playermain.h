@@ -27,8 +27,8 @@ public:
 
     PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, RefereeDisplay *display = NULL);
 
-    void setNextCmd(Interpreter *info);
-    void setCmdParam(void);
+    void setNextCmd(const Interpreter::GameData& info);
+    void setCmdParam(const Interpreter& interpreter);
     void* performCmd(void);
 
 private:

@@ -7,8 +7,10 @@
 #include <math.h>
 #include "coordinates.h"
 #include "sdlutilities.h"
+//#include "mutexdebug.h"
 
 using namespace std;
+
 
 PathFinder::Point PathFinder::CreatePoint(double x, double y)
 {
@@ -32,20 +34,72 @@ vector<Position>* PathFinder::ConvertPathToReal(const Path path, CoordinatesCali
     return posList;
 }
 
+void PathFinder::DestroyPolygonsList(PolygonsList list)
+{
+    for (PolygonsList::iterator it = list.begin() ; it != list.end() ; it++)
+    {
+        ConvexPolygon *poly = *it;
+        for (PointsList::iterator it2 = poly->points.begin() ; it2 != poly->points.end() ; it2++)
+        {
+            Point *pt = *it2;
+            delete pt;
+        }
+        delete poly;
+    }
+}
+
 
 PathFinder::PathFinder()
 {
-    srand(time(NULL));
+    pthread_mutex_init(&m_mutex, NULL);
 }
+
+PathFinder::~PathFinder()
+{
+    pthread_mutex_destroy(&m_mutex);
+}
+
 
 bool PathFinder::IsPolygonRegistered(const ConvexPolygon* poly) const
 {
-    return find(m_polygons.begin(), m_polygons.end(), poly) != m_polygons.end();
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    bool result = find(m_polygons.begin(), m_polygons.end(), poly) != m_polygons.end();
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+    return result;
+}
+
+bool PathFinder::IsPointRegistered(const Point* pt) const
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    bool result = find(m_points.begin(), m_points.end(), pt) != m_points.end();
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+    return result;
 }
 
 const PathFinder::PolygonsList& PathFinder::GetPolygons() const
 {
     return m_polygons;
+}
+
+PathFinder::PolygonsList PathFinder::GetPolygonsCopy() const
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+
+    PolygonsList list;
+    for (PolygonsList::const_iterator it = m_polygons.begin() ; it != m_polygons.end() ; it++)
+    {
+        ConvexPolygon *poly = *it;
+        ConvexPolygon *newPoly = new ConvexPolygon;
+        for (PointsList::iterator it2 = poly->points.begin() ; it2 != poly->points.end() ; it2++)
+        {
+            Point *pt = *it2;
+            newPoly->points.push_back(new Point(*pt));
+        }
+        list.push_back(newPoly);
+    }
+
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+    return list;
 }
 
 
@@ -102,6 +156,8 @@ const PathFinder::ConvexPolygon* PathFinder::AddThickLine(const Point& pt1, cons
 
 const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
 {
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+
     ConvexPolygon *polygon = new ConvexPolygon(p);
 
     m_polygons.push_back(polygon);
@@ -118,7 +174,7 @@ const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
         for (PointsList::iterator it2 = it+1 ; it2 != m_points.end() ; it2++)
         {
             Point *pt2 = *it2;
-            if (ReadPointsVisibility(pt1, pt2) && !CheckPointsVisibility(pt1, pt2))
+            if (ReadPointsVisibility(pt1, pt2) && !CheckPointsVisibility_p(pt1, pt2))
             {
                 pt1->visMap.erase(remove(pt1->visMap.begin(), pt1->visMap.end(), pt2), pt1->visMap.end());
                 pt2->visMap.erase(remove(pt2->visMap.begin(), pt2->visMap.end(), pt1), pt2->visMap.end());
@@ -132,6 +188,7 @@ const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
         ComputeVisibilityMap(point);
     }
 
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
     return polygon;
 }
 
@@ -140,9 +197,14 @@ bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
     if (!poly)
         return true;
 
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+
     PolygonsList::iterator it = find(m_polygons.begin(), m_polygons.end(), poly);
     if (it == m_polygons.end())
+    {
+        pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
         return false;
+    }
 
     for (PointsList::const_iterator it3 = poly->points.begin() ; it3 != poly->points.end() ; it3++)
     {
@@ -168,7 +230,7 @@ bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
         for (int i=0 ; i < n ; i++)
         {
             Point *pt2 = poly1->points[(i+1)%n];
-            if (!ReadPointsVisibility(pt1, pt2) && CheckPointsVisibility(pt1, pt2))
+            if (!ReadPointsVisibility(pt1, pt2) && CheckPointsVisibility_p(pt1, pt2))
             {
                 pt1->visMap.push_back(pt2);
                 pt2->visMap.push_back(pt1);
@@ -180,7 +242,7 @@ bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
                 for (PointsList::iterator it4 = poly2->points.begin() ; it4 != poly2->points.end() ; it4++)
                 {
                     Point *pt3 = *it4;
-                    if (!ReadPointsVisibility(pt1, pt3) && CheckPointsVisibility(pt1, pt3))
+                    if (!ReadPointsVisibility(pt1, pt3) && CheckPointsVisibility_p(pt1, pt3))
                     {
                         pt1->visMap.push_back(pt3);
                         pt3->visMap.push_back(pt1);
@@ -192,6 +254,7 @@ bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
         }
     }
 
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
     return true;
 }
 
@@ -205,6 +268,8 @@ bool PathFinder::RemovePolygons(const ConvexPolygon* polys[], int n)
 
 PathFinder::Path PathFinder::ComputePath(Point start, Point end)
 {
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+
     //If the start point is inside a polygon, immediately go to the closest "allowed" point
     const ConvexPolygon *polygon = IsPointInsideSomePolygon(start);
     if (polygon)
@@ -220,15 +285,19 @@ PathFinder::Path PathFinder::ComputePath(Point start, Point end)
         Path path = new vector<Point>;
         path->push_back(CreatePoint(start.x, start.y));
         path->push_back(CreatePoint(exitPoint.x, exitPoint.y));
+
+        pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
         return path;
     }
 
     //Check if point is directly accessible
-    if (CheckPointsVisibility(&start, &end))
+    if (CheckPointsVisibility_p(&start, &end))
     {
         PathFinder::Path path = new vector<Point>();
         path->push_back(CreatePoint(start.x, start.y));
         path->push_back(CreatePoint(end.x, end.y));
+
+        pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
         return path;
     }
 
@@ -241,10 +310,10 @@ PathFinder::Path PathFinder::ComputePath(Point start, Point end)
         pt->prevPoint = NULL;
         pt->score = INFINI_TY;
 
-        if (CheckPointsVisibility(&start, pt))
+        if (CheckPointsVisibility_p(&start, pt))
             start.visMap.push_back(pt);
 
-        if (CheckPointsVisibility(pt, &end))
+        if (CheckPointsVisibility_p(pt, &end))
             accessiblePoints.push_back(pt);
     }
 
@@ -292,7 +361,10 @@ PathFinder::Path PathFinder::ComputePath(Point start, Point end)
         }
 
         if (bestScore == INFINI_TY)
+        {
+            pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
             return NULL;
+        }
 
         currentPoint = bestPoint;
         currentScore = currentPoint->score;
@@ -307,9 +379,18 @@ PathFinder::Path PathFinder::ComputePath(Point start, Point end)
     } while(currentPoint);
 
     reverse(path->begin(), path->end());
+
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
     return path;
 }
 
+bool PathFinder::CheckPointsVisibility(const Point *p1, const Point *p2)
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    bool result = CheckPointsVisibility_p(p1, p2);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+    return result;
+}
 
 
 bool PathFinder::ReadPointsVisibility(const Point* p1, const Point* p2)
@@ -317,7 +398,7 @@ bool PathFinder::ReadPointsVisibility(const Point* p1, const Point* p2)
     return find(p1->visMap.begin(), p1->visMap.end(), p2) != p1->visMap.end();
 }
 
-bool PathFinder::CheckPointsVisibility(const Point *p1, const Point *p2)
+bool PathFinder::CheckPointsVisibility_p(const Point *p1, const Point *p2)
 {
     Segment segment = {*p1, *p2};
     for (PolygonsList::iterator it = m_polygons.begin() ; it != m_polygons.end() ; it++)
@@ -358,14 +439,14 @@ void PathFinder::ComputeVisibilityMap(Point *point)
             int n = poly->points.size();
 
             Point *pt = poly->points[(i+1) % n];
-            if (CheckPointsVisibility(point, pt))
+            if (CheckPointsVisibility_p(point, pt))
             {
                 point->visMap.push_back(pt);
                 pt->visMap.push_back(point);
             }
 
             pt = poly->points[(i-1+n) % n];
-            if (CheckPointsVisibility(point, pt))
+            if (CheckPointsVisibility_p(point, pt))
             {
                 point->visMap.push_back(pt);
                 pt->visMap.push_back(point);
@@ -376,7 +457,7 @@ void PathFinder::ComputeVisibilityMap(Point *point)
             for (PointsList::iterator it2 = poly->points.begin() ; it2 != poly->points.end() ; it2++)
             {
                 Point *pt = *it2;
-                if (CheckPointsVisibility(point, pt))
+                if (CheckPointsVisibility_p(point, pt))
                 {
                     point->visMap.push_back(pt);
                     pt->visMap.push_back(point);

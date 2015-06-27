@@ -19,8 +19,8 @@ public:
 
     Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*);
 
-    void setNextCmd(Interpreter *info);
-    void setCmdParam(void);
+    void setNextCmd(const Interpreter::GameData& info);
+    void setCmdParam(const Interpreter& interpreter);
     void* performCmd(void);
 
 private:

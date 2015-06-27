@@ -26,7 +26,7 @@ public:
     bool StopDisplay();
     bool IsActive() const;
 
-    void DisplayPolygons(const PathFinder::PolygonsList& polygons, PathFinder *pathFinder=NULL);
+    void DisplayPathFinder(PathFinder *pathFinder);
     void DisplayPath(const PathFinder::Path path);
 
 private:
@@ -42,9 +42,9 @@ private:
     BallMonitor *m_ballMonitor;
     CoordinatesCalibrer *m_coordCalibrer;
     MapDisplay *m_mapDisplay;
-    const PathFinder::PolygonsList* m_polygons;
-    PathFinder::Path m_path;
+    std::vector<PathFinder::Point> m_path;
     PathFinder *m_pathFinder;
+    pthread_mutex_t m_pathMutex;
 
     void CreateMapDisplay(const Interpreter::Map *map);
     void DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Surface *screen);

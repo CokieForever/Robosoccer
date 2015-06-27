@@ -22,8 +22,8 @@ RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, Coordinates
     m_ballMonitor = ballMonitor;
     m_coordCalibrer = coordCalibrer;
     m_mapDisplay = NULL;
-    m_polygons = NULL;
-    m_path = new std::vector<PathFinder::Point>();
+    m_pathFinder = NULL;
+    pthread_mutex_init(&m_pathMutex, NULL);
 
     CreateMapDisplay(map);
 }
@@ -32,8 +32,7 @@ RefereeDisplay::~RefereeDisplay()
 {
     if (m_mapDisplay)
         delete m_mapDisplay;
-    if (m_path)
-        delete m_path;
+    pthread_mutex_destroy(&m_pathMutex);
 }
 
 bool RefereeDisplay::StartDisplay(NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
@@ -66,16 +65,15 @@ bool RefereeDisplay::IsActive() const
     return m_isDisplaying;
 }
 
-void RefereeDisplay::DisplayPolygons(const PathFinder::PolygonsList& polygons, PathFinder *pathFinder)
+void RefereeDisplay::DisplayPathFinder(PathFinder *pathFinder)
 {
-    m_polygons = &polygons;
-    if (pathFinder)
-        m_pathFinder = pathFinder;
+    m_pathFinder = pathFinder;
 }
 
 void RefereeDisplay::DisplayPath(const PathFinder::Path path)
 {
-    m_path->clear();
+    pthread_mutex_lock((pthread_mutex_t*)&m_pathMutex);
+    m_path.clear();
 
     if (path)
     {
@@ -83,9 +81,10 @@ void RefereeDisplay::DisplayPath(const PathFinder::Path path)
         for (int i=0 ; i < n ; i++)
         {
             PathFinder::Point *pt = &((*path)[i]);
-            m_path->push_back(PathFinder::CreatePoint(pt->x, pt->y));
+            m_path.push_back(PathFinder::CreatePoint(pt->x, pt->y));
         }
     }
+    pthread_mutex_unlock((pthread_mutex_t*)&m_pathMutex);
 }
 
 
@@ -207,7 +206,6 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     Position gotoOrders[6] = {Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10), Position(-10,-10)};
 
     SDL_Event event;
-    SDL_Surface *bgSurf = NULL;
     display->m_keepGoing = true;
     while (display->m_keepGoing)
     {
@@ -217,15 +215,22 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         if (event.type == SDL_QUIT)
             break;
 
-        bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
+        #ifdef PATHPLANNING_ASTAR
+        SDL_Surface *bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
         if (bgSurf)
             SDL_BlitSurface(bgSurf, NULL, screen, NULL);
         else
             SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0,255,0));
+        #else
+        SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0,255,0));
+        #endif
 
-        /*if (display->m_polygons)
-        {
-            for (PathFinder::PolygonsList::iterator it = ((PathFinder::PolygonsList*)(display->m_polygons))->begin() ; it != ((PathFinder::PolygonsList*)(display->m_polygons))->end() ; it++)
+        #if defined(PATHPLANNING_POLYGONS) && !defined(PATHPLANNING_ASTAR)
+
+        if (display->m_pathFinder)
+        {;
+            PathFinder::PolygonsList polygons = display->m_pathFinder->GetPolygonsCopy();
+            for (PathFinder::PolygonsList::iterator it = polygons.begin() ; it != polygons.end() ; it++)
             {
                 PathFinder::ConvexPolygon *polygon = *it;
                 int n = polygon->points.size();
@@ -244,29 +249,30 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
                 //display->DisplayWeb(*polygon, screen);
             }
-        }*/
+        }
 
-        /*if (display->m_path)
+        pthread_mutex_lock(&(display->m_pathMutex));
+        int n = display->m_path.size();
+        if (n > 1)
         {
-            int n = display->m_path->size();
-            if (n > 1)
+            PathFinder::Point *point = &(display->m_path[0]);
+            double x = display->m_screenW * (point->x + 1) / 2;
+            double y = display->m_screenH * (point->y + 1) / 2;
+            for (int i=1 ; i < n ; i++)
             {
-                PathFinder::Point *point = &((*(display->m_path))[0]);
-                double x = display->m_screenW * (point->x + 1) / 2;
-                double y = display->m_screenH * (point->y + 1) / 2;
-                for (int i=1 ; i < n ; i++)
-                {
-                    PathFinder::Point *next = &((*(display->m_path))[i]);
-                    double nx = display->m_screenW * (next->x + 1) / 2;
-                    double ny = display->m_screenH * (next->y + 1) / 2;
+                PathFinder::Point *next = &(display->m_path[i]);
+                double nx = display->m_screenW * (next->x + 1) / 2;
+                double ny = display->m_screenH * (next->y + 1) / 2;
 
-                    DrawLine(screen, x, y, nx, ny, CreateColor(255,0,0));
+                DrawLine(screen, x, y, nx, ny, CreateColor(255,0,0));
 
-                    x = nx;
-                    y = ny;
-                }
+                x = nx;
+                y = ny;
             }
-        }*/
+        }
+        pthread_mutex_unlock(&(display->m_pathMutex));
+
+        #endif
 
         if (ballSurfTr)
         {
