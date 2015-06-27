@@ -171,14 +171,14 @@ void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Inter
         ComputeLineAngle(bx, by, goalX, 0, &cosAngle, &sinAngle);
 
         double x, y;
-        ComputeVectorEnd(bx, by, cosAngle, sinAngle, 0.075, &x, &y);
+        ComputeVectorEnd(bx, by, cosAngle, sinAngle, 0.085, &x, &y);
 
         double x1, y1;
         ComputeVectorEnd(x, y, sinAngle, -cosAngle, 0.1, &x1, &y1);
 
         double x2, y2;
         ComputeVectorEnd(x, y, -sinAngle, cosAngle, 0.1, &x2, &y2);
-        m_ballObstacles[0] = m_pathFinder.AddThickLine(PathFinder::CreatePoint(x1,y1), PathFinder::CreatePoint(x2,y2), 0.05);
+        m_ballObstacles[0] = m_pathFinder.AddThickLine(PathFinder::CreatePoint(x1,y1), PathFinder::CreatePoint(x2,y2), 0.1);
 
         ComputeVectorEnd(x1, y1, -cosAngle, -sinAngle, 0.2, &x, &y);
         m_ballObstacles[1] = m_pathFinder.AddThickLine(PathFinder::CreatePoint(x1,y1), PathFinder::CreatePoint(x,y), 0.05);
@@ -288,16 +288,26 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
     m_pathFinderPath = m_pathFinder.ComputePath(start, end);
     if (!IsPathOK(m_pathFinderPath, end))
     {
+        if (m_pathFinderPath)
+            delete m_pathFinderPath;
         m_pathFinder.RemovePolygons(m_borderObstacles, 4);
         AddBorderObstaclesToPathFinder(true);
         m_pathFinderPath = m_pathFinder.ComputePath(start, end);
         if (!IsPathOK(m_pathFinderPath, end))
         {
+            if (m_pathFinderPath)
+                delete m_pathFinderPath;
             m_pathFinder.RemovePolygon(m_ballObstacles[1]);
             m_pathFinder.RemovePolygon(m_ballObstacles[2]);
             m_ballObstacles[1] = NULL;
             m_ballObstacles[2] = NULL;
             m_pathFinderPath = m_pathFinder.ComputePath(start, end);
+            if (!m_pathFinderPath)
+            {
+                PathFinder::Point pt = m_pathFinder.ComputeClosestAccessiblePoint(start, end);
+                if (pt.x != start.x || pt.y != start.y)
+                    m_pathFinderPath = m_pathFinder.ComputePath(start, pt);
+            }
             m_ballObstaclePos = Position(-10, -10); //Update request
         }
         m_pathFinder.RemovePolygons(m_borderObstacles, 4);

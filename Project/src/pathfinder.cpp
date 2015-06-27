@@ -7,6 +7,7 @@
 #include <math.h>
 #include "coordinates.h"
 #include "sdlutilities.h"
+#include "matrix.h"
 //#include "mutexdebug.h"
 
 using namespace std;
@@ -16,6 +17,14 @@ PathFinder::Point PathFinder::CreatePoint(double x, double y)
 {
     Point pt = {x, y, vector<Point*>(), INFINI_TY, NULL};
     return pt;
+}
+
+PathFinder::Path PathFinder::CreatePath(Point start, Point end)
+{
+    Path path = new vector<Point>;
+    path->push_back(CreatePoint(start.x, start.y));
+    path->push_back(CreatePoint(end.x, end.y));
+    return path;
 }
 
 vector<Position>* PathFinder::ConvertPathToReal(const Path path, CoordinatesCalibrer *calibrer)
@@ -301,7 +310,7 @@ PathFinder::Path PathFinder::ComputePath(Point start, Point end)
         return path;
     }
 
-    //Determine points which are accesible from start / end
+    //Determine points which are accessible from start / end
     PointsList accessiblePoints;
     start.visMap.clear();
     for (PointsList::iterator it = m_points.begin() ; it != m_points.end() ; it++)
@@ -390,6 +399,78 @@ bool PathFinder::CheckPointsVisibility(const Point *p1, const Point *p2)
     bool result = CheckPointsVisibility_p(p1, p2);
     pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
     return result;
+}
+
+PathFinder::Point PathFinder::ComputeClosestAccessiblePoint(const Point &start, const Point &end)
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+
+    //Check if point is directly accessible
+    if (CheckPointsVisibility_p(&start, &end))
+    {
+        pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+        return CreatePoint(end.x, end.y);
+    }
+
+    //Convert polygons to map
+    const int height = 200, width = 200;
+    Matrix matrix(height, width);
+    for (PolygonsList::iterator it = m_polygons.begin() ; it != m_polygons.end() ; it++)
+    {
+        ConvexPolygon *polygon = *it;
+        int n = polygon->points.size();
+        Matrix::Point *points = new Matrix::Point[n];
+
+        for (int i=0 ; i < n ; i++)
+        {
+            points[i].x = std::max(0., std::min((double)width-1, (width-1) * (polygon->points[i]->x + 1) / 2));
+            points[i].y = std::max(0., std::min((double)height-1, (height-1) * (polygon->points[i]->y + 1) / 2));
+        }
+
+        matrix.DrawPolygon(points, n, 1);
+        delete points;
+    }
+
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+
+    //Flood map from start
+    int sx = std::max(0., std::min((double)width-1, (width-1) * (start.x + 1) / 2));
+    int sy = std::max(0., std::min((double)height-1, (height-1) * (start.y + 1) / 2));
+    if (matrix[sx][sy] == 1)
+        return CreatePoint(start.x, start.y);
+    matrix.FloodFill(Matrix::CreatePoint(sx,sy), 2);
+
+    //Look for closest point to target
+    int ex = std::max(0., std::min((double)width-1, (width-1) * (end.x + 1) / 2));
+    int ey = std::max(0., std::min((double)height-1, (height-1) * (end.y + 1) / 2));
+    int bestX=0, bestY=0;
+    double dMin = INFINI_TY;
+    for (int x=0 ; x < width ; x++)
+    {
+        for (int y=0 ; y < height ; y++)
+        {
+            if (matrix[x][y] == 2)
+            {
+                double d = (x-ex)*(x-ex) + (y-ey)*(y-ey);
+                if (d < dMin)
+                {
+                    bestX = x;
+                    bestY = y;
+                    dMin = d;
+                }
+            }
+        }
+    }
+
+    if (dMin == INFINI_TY)
+        return CreatePoint(start.x, start.y);
+
+    return CreatePoint(2 * (bestX / (double)(width-1) - 0.5), 2 * (bestY / (double)(height-1) - 0.5));
+}
+
+bool PathFinder::ComparePoints(Point *pt1, Point *pt2)
+{
+    return pt1->score > pt2->score;
 }
 
 

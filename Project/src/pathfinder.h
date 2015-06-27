@@ -34,6 +34,7 @@ public:
 
     static const double INFINI_TY = 10e6;   //INFINITY does not compile. Don't ask me why.
     static Point CreatePoint(double x, double y);
+    static Path CreatePath(Point start, Point end);
     static std::vector<Position>* ConvertPathToReal(const Path path, CoordinatesCalibrer *calibrer = NULL);
     static void DestroyPolygonsList(PolygonsList list);
 
@@ -52,6 +53,7 @@ public:
     PolygonsList GetPolygonsCopy() const;
     std::vector<Point>* ComputePath(Point start, Point end);
     bool CheckPointsVisibility(const Point *p1, const Point *p2);
+    Point ComputeClosestAccessiblePoint(const Point &start, const Point &end);
 
 private:
     struct Segment
@@ -64,6 +66,7 @@ private:
         Point ul, lr;
     };
 
+    static bool ComparePoints(Point *pt1, Point *pt2);
     static Rectangle getBoundingBox(Segment seg);
     static bool doRectanglesIntersect(PathFinder::Rectangle a, PathFinder::Rectangle b);
     static int orientation(Segment seg, const Point& pt);
