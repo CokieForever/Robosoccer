@@ -6,11 +6,6 @@
 #include "refereedisplay.h"
 #include "playermain.h"
 
-void* TeamRobot::performCmd_helper(void *context)
-{
-    ((TeamRobot*)context)->performCmd();
-    return NULL;
-}
 
 bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
 {
@@ -42,13 +37,13 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coo
     }
 
     //Left penalty area
-    PathFinder::Point ul = PathFinder::CreatePoint(-2, -0.25);
-    PathFinder::Point lr = PathFinder::CreatePoint(-0.9, 0.25);
+    PathFinder::Point ul = PathFinder::CreatePoint(-2, -0.3);
+    PathFinder::Point lr = PathFinder::CreatePoint(-0.8, 0.3);
     m_penaltyAreaObstacles[0] = m_pathFinder.AddRectangle(ul, lr);
 
     //Right penalty area
-    ul = PathFinder::CreatePoint(0.9, -0.25);
-    lr = PathFinder::CreatePoint(2, 0.25);
+    ul = PathFinder::CreatePoint(0.8, -0.3);
+    lr = PathFinder::CreatePoint(2, 0.3);
     m_penaltyAreaObstacles[1] = m_pathFinder.AddRectangle(ul, lr);
 
     AddBorderObstaclesToPathFinder();
@@ -194,7 +189,7 @@ void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Inter
     if (info.formation != m_prevFormation)
     {
         m_pathFinder.RemovePolygon(m_areaObstacle);
-        AddObstacleForFormation(info.formation);
+        AddObstacleForFormation(info);
         m_prevFormation = info.formation;
     }
 }
@@ -307,7 +302,13 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
             {
                 PathFinder::Point pt = m_pathFinder.ComputeClosestAccessiblePoint(start, end);
                 if (pt.x != start.x || pt.y != start.y)
+                {
                     m_pathFinderPath = m_pathFinder.ComputePath(start, pt);
+                    if (!m_pathFinderPath)
+                        MoveMs(rand() % 100, rand() % 100, 250, 0);
+                }
+                else
+                    MoveMs(rand() % 100, rand() % 100, 250, 0);
             }
             m_ballObstaclePos = Position(-10, -10); //Update request
         }
@@ -321,7 +322,7 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
 #endif
 }
 
-void TeamRobot::FollowPath(void)
+void TeamRobot::FollowPath(const Interpreter::GameData& info)
 {
 #ifdef PATHPLANNING_ASTAR
 
@@ -349,7 +350,36 @@ void TeamRobot::FollowPath(void)
         std::vector<Position>* posList = PathFinder::ConvertPathToReal(m_pathFinderPath, m_coordCalib);
         Position *tgt = drivePath(posList);
         if (tgt)
-            cruisetoBias(tgt->GetX(),tgt->GetY(), 600, -10, 30);
+        {
+            Position pos = m_coordCalib->NormalizePosition(GetPos());
+            Position ballPos;
+            m_ballPm->GetBallPosition(&ballPos);
+            ballPos = m_coordCalib->NormalizePosition(ballPos);
+            double goalX = info.our_side == LEFT_SIDE ? +1 : -1;
+            double ballAngle, robotAngle;
+            double speed = 600;
+
+            ComputeLineAngle(ballPos.GetX(), ballPos.GetY(), goalX, 0, &ballAngle);
+            ComputeLineAngle(pos.GetX(), pos.GetY(), goalX, 0, &robotAngle);
+
+            double roboDir = GetPhi().Get();
+            double ballDir;
+            ComputeLineAngle(pos.GetX(), pos.GetY(), ballPos.GetX(), ballPos.GetY(), &ballDir);
+
+            eDirection dir = (GetSpeedLeft() + GetSpeedRight()) / 2 <= 0 ? FORWARD : BACKWARD;
+            if (dir == FORWARD)
+                roboDir = roboDir<=0 ? roboDir+M_PI : roboDir-M_PI;
+
+            if (fabs(ballAngle - robotAngle) <= 10 * M_PI / 180 && pos.DistanceTo(ballPos) <= 0.1 && fabs(roboDir-ballDir) <= 10 * M_PI / 180)
+            {
+                int m = BACKWARD ? -500 : 500;
+                MoveMs(m, m, 500, 0);
+            }
+            else
+                cruisetoBias(tgt->GetX(),tgt->GetY(), speed, -10, 30);
+        }
+        else
+            MoveMs(rand() % 100, rand() % 100, 250, 0);
         delete posList;
     }
 

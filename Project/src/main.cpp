@@ -64,6 +64,12 @@ static void* MainLoop(void* data);
 
 const eTeam team = BLUE_TEAM;
 
+#ifdef SIMULATION
+const unsigned int refreshWait = 500;
+#else
+const unsigned int refreshWait = 50;
+#endif
+
 int main(void)
 {
 
@@ -84,7 +90,7 @@ int main(void)
     //--------------------------------- Init ---------------------------------
     srand(time(NULL));
 
-    const int client_nr = 11;
+    const int client_nr = 12;
 
     int rfcomm_nr_blue[] = {0, 1, 2};
     int rfcomm_nr_red[] = {3, 4, 5};
@@ -146,8 +152,8 @@ int main(void)
 
             info.updateSituation();
 
-            if (SDL_GetTicks() - t0 <= 500)
-                usleep((500 - (SDL_GetTicks() - t0)) * 1000);
+            if (SDL_GetTicks() - t0 <= refreshWait)
+                usleep((refreshWait - (SDL_GetTicks() - t0)) * 1000);
         }
 
         pthread_join(gkThread, NULL);
@@ -180,7 +186,7 @@ static void* MainLoop(void* data)
 
         s->robo->setNextCmd(s->info->getMode());
         s->robo->setCmdParam(*(s->info));
-        s->robo->performCmd();
+        s->robo->performCmd(s->info->getMode());
     }
 
     return NULL;

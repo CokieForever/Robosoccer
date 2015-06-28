@@ -29,7 +29,7 @@ class PlayerMain : public TeamRobot
 
     void setNextCmd(const Interpreter::GameData& info);
     void setCmdParam(const Interpreter& interpreter);
-    void performCmd(void);
+    void performCmd(const Interpreter::GameData& info);
 
   private:
     ActionPlayerMain m_nextCmd;
@@ -37,7 +37,7 @@ class PlayerMain : public TeamRobot
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
 
-    void AddObstacleForFormation(Interpreter::Strategy formation);
+    void AddObstacleForFormation(const Interpreter::GameData& info);
 
 };
 
