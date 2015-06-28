@@ -624,7 +624,7 @@ bool PathFinder::isPointInsidePolygon(const Point& point, const ConvexPolygon& p
         pt1 = pt2;
     }
 
-    return nbIsects % 2 == 1;
+    return nbIsects == 1;   //Should be nbIsects%2 == 1 but this does not deal good with special cases, and as we only have convex polygons...
 }
 
 double PathFinder::sqDistToSegment(const Point &a, Segment seg, Point *isect)

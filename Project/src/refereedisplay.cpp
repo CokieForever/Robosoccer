@@ -247,7 +247,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
                 delete vx;
                 delete vy;
 
-                //display->DisplayWeb(*polygon, screen);
+                display->DisplayWeb(*polygon, screen);
             }
         }
 
