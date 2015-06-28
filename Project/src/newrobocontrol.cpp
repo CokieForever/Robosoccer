@@ -204,7 +204,7 @@ void* NewRoboControl::Checkspeed(void *data)
         speed_current = sqrt(robo->GetSpeedLeft()*robo->GetSpeedLeft()+robo->GetSpeedRight()*robo->GetSpeedRight());
         speed_check=(abs(speed_current-robo->m_targetSpeed)>0.1);
 
-        if (speed_current)
+        if (speed_check)
         {
             robo->driveBack();
         }
@@ -214,12 +214,13 @@ void* NewRoboControl::Checkspeed(void *data)
 
 void NewRoboControl::driveBack()
 {
-    double posX=GetX();
-    double posY=GetY();
+    double posX=rand()%20;
+    double posY=rand()%20;
+    posX=posX/10-1;
+    posY=posY/10-1;
     //double posP = GetPhi().Rad();
-    GotoXY(-posX,-posY,160,false);
+    GotoXY(posX,posY,160,false);
     usleep(10000);
-
 }
 
 bool NewRoboControl::robotNotOnTargetPos()
