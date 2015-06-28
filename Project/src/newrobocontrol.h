@@ -37,9 +37,15 @@ public:
 
     bool cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir);
     void setSpeed(double translation, double rotation, eDirection dir);
+    void driveBack();
+    bool robotNotOnTargetPos();
+    static void* Checkspeed(void *data);
 
 private:
-    /* Well, nothing. */
+    pthread_t m_thread;
+    Position m_targetPos;
+    bool m_checkSpeedFinishNow;
+    double m_targetSpeed;
 
 };
 

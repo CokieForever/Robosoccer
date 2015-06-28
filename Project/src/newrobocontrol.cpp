@@ -2,6 +2,8 @@
 //----------------------------------------Function bodys----------------------------------------------------
 //----------------------------------------------------------------------------------------------------------
 #include "newrobocontrol.h"
+#include "math.h"
+#include <pthread.h>
 
 //Berechnung in welcher Richtung Roboter fahren soll
 /**
@@ -86,7 +88,7 @@ double NewRoboControl::getSpeedP(double nominal, double actual) // Drehgeschwind
 
 /**
  * @brief
- *
+ *l
  * @param nominal
  * @param actual
  * @return double
@@ -179,15 +181,69 @@ double NewRoboControl::degToRad(double deg)
 
 NewRoboControl::NewRoboControl(RTDBConn &DBC, const int deviceNr) : RoboControl(DBC, deviceNr)
 {
+    pthread_create(&m_thread, NULL, Checkspeed, this);
 }
 
 //The destructor is empty but is there only to prevent class instantation (see newrobocontrol.h)
 NewRoboControl::~NewRoboControl()
 {
+
+    m_checkSpeedFinishNow = true;
+    pthread_join(m_thread, NULL);
+
+}
+
+void* NewRoboControl::Checkspeed(void *data)
+{
+    NewRoboControl *robo = (NewRoboControl*)data;
+    robo->m_checkSpeedFinishNow = false;
+    double speed_current;
+    bool speed_check;
+    while (!robo->m_checkSpeedFinishNow && robo->robotNotOnTargetPos())
+    {
+        speed_current = sqrt(robo->GetSpeedLeft()*robo->GetSpeedLeft()+robo->GetSpeedRight()*robo->GetSpeedRight());
+        speed_check=(abs(speed_current-robo->m_targetSpeed)>0.1);
+
+        if (speed_current)
+        {
+            robo->driveBack();
+        }
+    }
+    return 0;
+}
+
+void NewRoboControl::driveBack()
+{
+    double posX=GetX();
+    double posY=GetY();
+    //double posP = GetPhi().Rad();
+    GotoXY(-posX,-posY,160,false);
+    usleep(10000);
+
+}
+
+bool NewRoboControl::robotNotOnTargetPos()
+{
+    double tar_x = m_targetPos.GetX();
+    double tar_y = m_targetPos.GetY();
+    double pos_x = GetX();
+    double pos_y = GetY();
+
+    double distance;
+
+    distance= sqrt((tar_x-pos_x)*(tar_x-pos_x)+(tar_y-pos_y)*(tar_y-pos_y));
+
+    if(distance>0.1)
+        return 1;
+    else
+        return 0;
 }
 
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
 {
+
+   m_targetPos = Position(tarX, tarY);
+   m_targetSpeed = speed;
 
     /*   returniert true, wenn Roboter am Ziel angekommen ist. returniert false, wenn Roboter noch unterwegs ist
     **   Ablauf:
