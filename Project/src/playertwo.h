@@ -23,7 +23,7 @@ public:
 
     };
 
-    PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*, RefereeDisplay *display);
+    PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*, BallMonitor *ballPm, RefereeDisplay *display = NULL);
 
     void setNextCmd(const Interpreter::GameData& info);
     void setCmdParam(const Interpreter& interpreter);
@@ -33,7 +33,8 @@ private:
     ActionPlayerTwo m_nextCmd;
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
-
+    Position m_defendpm;
+    
     void AddObstacleForFormation(Interpreter::Strategy formation);
 
 };

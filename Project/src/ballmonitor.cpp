@@ -88,7 +88,7 @@ bool BallMonitor::GetBallDirection(Direction *dir)
     }
 }
 
-bool BallMonitor::PredictBallPosition(Position *pos, int precision)
+bool BallMonitor::PredictBallPosition(Position *pos, int precision, double xmin)
 {
     if (!m_ballMonitoring)
         return false;
@@ -108,7 +108,7 @@ bool BallMonitor::PredictBallPosition(Position *pos, int precision)
         ballPos2 = m_coordCalibrer->NormalizePosition(m_ballPosTime[m_ballPosTimeInd].pos);
         pthread_mutex_unlock(&m_ballMonitoringMtx);
 
-        double xMax=0.85, xMin=-0.85, yMax=0.85, yMin=-0.85;
+        double xMax=0.85, xMin=xmin, yMax=0.85, yMin=-0.85;
         double a, b;
 
         if ((precision > 1 && !ComputeLinearRegression(&a, &b, precision)) || (precision <= 1 && fabs(ballPos2.GetX() - ballPos1.GetX()) <= 1e-4))

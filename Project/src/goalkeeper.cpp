@@ -9,7 +9,7 @@
 #include "interpreter.h"
 
 
-Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b) : TeamRobot(DBC, deviceNr, coordCalib, b)
+Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm)
 {
 }
 
@@ -45,35 +45,37 @@ void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
 
 void Goalkeeper::setCmdParam(const Interpreter& interpreter)
 {
+    static int counter = 0;
+    
     switch(m_nextCmd)
     {
         case PREVENT_GOAL:
         {
-            Position ballPos = m_ball->GetPos();
-            double y = ballPos.GetY();
-
-            if (y > 0.15)
-            y = 0.15;
-            else if (y < -0.15)
-            y = -0.15;
-
-            double deltaY = fabs(GetY() - y);
-
-            if (deltaY >= 0.05)
+            m_ballgk->GetBallPosition(&m_predictballgk);
+            m_defendgk.SetX(-1.43);
+            m_defendgk.SetY(0.036);
+            double y;
+            double deltaY;
+            
+            if (counter >= 9)      //counter for cruisetobias(), otherwise too many commands, robot has not enough time to drive
             {
-                cout << "Goal keeper moving to y = " << y << std::endl;
-                m_preventGoalParam.SetX(m_defaultPos.GetX());
+                m_ballgk->PredictBallPosition(&m_predictballgk, 4, -0.99);
+                y = m_predictballgk.GetY();
+                //Define Goal borders
+                if (y > 0.22)
+                    y = 0.22;
+                else if (y < -0.15)
+                    y = -0.15;
+
+                deltaY = fabs(GetY() - y);
+                m_preventGoalParam.SetX(m_defendgk.GetX());
                 m_preventGoalParam.SetY(y);
+                counter = 0;
             }
-            else
-            {
-                m_preventGoalParam.SetX(m_defaultPos.GetX());
-                m_preventGoalParam.SetY(m_defaultPos.GetY());
-            }
-
+            
+            counter ++;
             break;
         }
-
         case GO_TO_DEF_POS:
             m_defaultPos = interpreter.getGKDefaultPos();
             std::cout << "Goal keeper moving to Position = " << m_defaultPos <<std::endl;
@@ -89,12 +91,11 @@ void Goalkeeper::performCmd(void)
 
     switch(m_nextCmd)
     {
-        case Goalkeeper::PREVENT_GOAL:
-            std::cout << "Next command Prevent Goal Position: " << m_preventGoalParam.GetPos()<< std::endl;
-            GotoXY(m_defaultPos.GetX(),m_preventGoalParam.GetY());
+        case PREVENT_GOAL:
+            cruisetoBias(m_defendgk.GetX(), m_preventGoalParam.GetY(), 650, -10, 30);
             break;
 
-        case Goalkeeper::GO_TO_DEF_POS:
+        case GO_TO_DEF_POS:
             GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
             while(GetPos().DistanceTo(m_defaultPos)> 0.1)
             {

@@ -111,9 +111,9 @@ int main(void)
 
         RawBall ball(DBC);
 
-        Goalkeeper gk = Goalkeeper(DBC, rfcomm_nr[0], &coordCalibrer, &ball);
-        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball);
-        PlayerTwo p2 = PlayerTwo(DBC, rfcomm_nr[2], &coordCalibrer, &ball, &refereeDisplay);
+        Goalkeeper gk = Goalkeeper(DBC, rfcomm_nr[0], &coordCalibrer, &ball, &ballMonitor);
+        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball, &ballMonitor);
+        PlayerTwo p2 = PlayerTwo(DBC, rfcomm_nr[2], &coordCalibrer, &ball, &ballMonitor, &refereeDisplay);
         OpponentRobot robo4 = OpponentRobot(DBC, rfcomm_nr_2[0]);
         OpponentRobot robo5 = OpponentRobot(DBC, rfcomm_nr_2[1]);
         OpponentRobot robo6 = OpponentRobot(DBC, rfcomm_nr_2[2]);

@@ -18,7 +18,7 @@
 
 using namespace std;
 
-PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, display)
+PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, ballPm, display)
 {
 }
 
@@ -147,3 +147,45 @@ void PlayerMain::AddObstacleForFormation(Interpreter::Strategy formation)
     else
         m_areaObstacle = NULL;   //Should never happen
 }
+
+
+//Player main defend the goal corners
+//could be used in Defend Mode for P2
+/*void defend_p2(void)
+{
+    static int counter = 0;
+    double y;
+    if (counter >= 10)        //Counter for Cruisetobias function
+    {
+      m_ballpt->GetBallPosition(&m_defendp2);
+      y = defendp2.GetY();
+
+      //define Goal borders
+      if (y > 0.35)
+      {
+        y = 0.5;
+        m_defendp2.SetX(-1.4);
+      }
+
+      else if (y < -0.25)
+      {
+        y = -0.5;
+        m_defendp2.SetX(-1.4);
+      }
+
+      else if (y < 0.3 && 0 < y)
+      {
+        y = 0.5;
+        m_defendp2.SetX(-0.5);
+      }
+      else if (-0.2 < y && y < 0)
+      {
+        y = -0.5;
+        m_defendp2.SetX(-0.5);
+      }
+      m_defendp2.SetY(y);
+      counter = 0;
+    }
+    counter++;
+}*/
+

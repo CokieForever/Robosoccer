@@ -26,7 +26,10 @@ public:
 private:
     ActionGk m_nextCmd;
     Position m_preventGoalParam;
-
+    BallMonitor* m_ballgk;
+    Position m_defendgk;
+    Position m_predictballgk;
+    
     void AddObstacleForFormation(Interpreter::Strategy formation);
 
 };
