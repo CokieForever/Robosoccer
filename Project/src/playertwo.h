@@ -30,7 +30,7 @@ class PlayerTwo : public TeamRobot
 
     void setNextCmd(const Interpreter::GameData& info);
     void setCmdParam(const Interpreter& interpreter);
-    void performCmd(void);
+    void performCmd(const Interpreter::GameData& info);
     void defend_p2 (void);
 
   private:
@@ -42,7 +42,7 @@ class PlayerTwo : public TeamRobot
     Position m_kickOffParam;
     Position m_defendpm;
     
-    void AddObstacleForFormation(Interpreter::Strategy formation);
+    void AddObstacleForFormation(const Interpreter::GameData& info);
 
 
 };

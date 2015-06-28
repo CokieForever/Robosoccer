@@ -73,7 +73,8 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
                 Position ballPos;
                 m_ballPm->GetBallPosition(&ballPos);
                 ballPos = m_coordCalib->NormalizePosition(ballPos);
-                m_preventGoalParam = m_coordCalib->UnnormalizePosition(Position(x, ballPos.GetY()));
+                double y = std::max(-0.25, std::min(0.25, ballPos.GetY()));
+                m_preventGoalParam = m_coordCalib->UnnormalizePosition(Position(x, y));
             }
 
             break;
@@ -89,7 +90,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
     }
 }
 
-void Goalkeeper::performCmd(void)
+void Goalkeeper::performCmd(const Interpreter::GameData& info)
 {
 
     switch(m_nextCmd)
@@ -99,11 +100,7 @@ void Goalkeeper::performCmd(void)
             break;
 
         case GO_TO_DEF_POS:
-            GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
-            while(GetPos().DistanceTo(m_defaultPos)> 0.1)
-            {
-                usleep(10000000);
-            }
+            cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650, -10, 30);
             break;
 
         case STOP:
@@ -111,7 +108,7 @@ void Goalkeeper::performCmd(void)
     }
 }
 
-void Goalkeeper::AddObstacleForFormation(Interpreter::Strategy formation)
+void Goalkeeper::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     m_areaObstacle = NULL;
 }

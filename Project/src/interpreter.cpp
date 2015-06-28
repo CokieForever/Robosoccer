@@ -481,9 +481,9 @@ const OpponentRobot* Interpreter::getE3() const
 bool Interpreter::verifyPos()
 {
     //check if all robots are on their default position and orientation
-    return (m_gk->GetPos().DistanceTo(m_gk->getDefaultPosition())< 0.01)
-            && (m_p1->GetPos().DistanceTo(m_p1->getDefaultPosition())< 0.01)
-            && (m_p2->GetPos().DistanceTo(m_p2->getDefaultPosition())< 0.01);
+    return (m_gk->GetPos().DistanceTo(m_gk->getDefaultPosition())< 0.05)
+            && (m_p1->GetPos().DistanceTo(m_p1->getDefaultPosition())< 0.05)
+            && (m_p2->GetPos().DistanceTo(m_p2->getDefaultPosition())< 0.05);
 }
 
 void Interpreter::setDefaultPos()

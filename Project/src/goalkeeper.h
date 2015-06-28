@@ -23,7 +23,7 @@ class Goalkeeper : public TeamRobot
 
     void setNextCmd(const Interpreter::GameData& info);
     void setCmdParam(const Interpreter& interpreter);
-    void performCmd(void);
+    void performCmd(const Interpreter::GameData& info);
 
 
   private:
@@ -31,7 +31,7 @@ class Goalkeeper : public TeamRobot
     Position m_preventGoalParam;
     BallMonitor* m_ballgk;
     
-    void AddObstacleForFormation(Interpreter::Strategy formation);
+    void AddObstacleForFormation(const Interpreter::GameData& info);
 
 
 };

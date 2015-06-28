@@ -80,7 +80,7 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
     }
 }
 
-void PlayerMain::performCmd(void)
+void PlayerMain::performCmd(const Interpreter::GameData& info)
 {
     cout << "Player 1 next command is:" << m_nextCmd << endl << "1: GO_TO_DEF_POS,KICK_PENALTY 2: KICK_OFF 3: STOP 4: FOLLOWPATH" << endl;
 
@@ -112,16 +112,16 @@ void PlayerMain::performCmd(void)
 
         case GO_TO_DEF_POS:
             cout << "Player1 Perform Go To Default Pos:" <<endl;
-            GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
+            cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650, -10, 30);
             break;
 
         case KICK_OFF:
             cout << "Player1 Perform Kick Off:" << endl;
-            GotoXY(m_ball->GetX(),m_ball->GetY());
+            cruisetoBias(m_ball->GetX(),m_ball->GetY(), 650, -10, 30);
             break;
 
         case FOLLOWPATH:
-            FollowPath();
+            FollowPath(info);
             break;
 
         case STOP:
@@ -129,14 +129,29 @@ void PlayerMain::performCmd(void)
     }
 }
 
-void PlayerMain::AddObstacleForFormation(Interpreter::Strategy formation)
+void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
-    if (formation == Interpreter::ATK)
+    if (info.formation == Interpreter::ATK)
+    {
+        std::cout << "ATTAAAAAAACK" << std::endl;
         m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, 0), PathFinder::CreatePoint(2, 2));
-    else if (formation == Interpreter::DEF)
-        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.75, 2));
-    else if (formation == Interpreter::MIX)
-        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+    }
+    else if (info.formation == Interpreter::DEF)
+    {
+        std::cout << "DEFEEEEEEENSE" << std::endl;
+        if (info.our_side == LEFT_SIDE)
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.75, 2));
+        else
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.75, -2), PathFinder::CreatePoint(2, 2));
+    }
+    else if (info.formation == Interpreter::MIX)
+    {
+        std::cout << "MIIIIIIIX" << std::endl;
+        if (info.our_side == LEFT_SIDE)
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+        else
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+    }
     else
         m_areaObstacle = NULL;   //Should never happen
 }

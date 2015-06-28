@@ -15,8 +15,6 @@ class TeamRobot : public NewRoboControl
 {
 
 public:
-    static void* performCmd_helper(void *context);
-
     TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display=NULL);
     virtual ~TeamRobot();
 
@@ -35,7 +33,7 @@ public:
 
     virtual void setNextCmd(const Interpreter::GameData& info) = 0;
     virtual void setCmdParam(const Interpreter& interpreter) = 0;
-    virtual void performCmd() = 0;
+    virtual void performCmd(const Interpreter::GameData& info) = 0;
 
 protected:
     static bool IsPathOK(PathFinder::Path path, PathFinder::Point& tgt);
@@ -64,9 +62,9 @@ protected:
     void AddBorderObstaclesToPathFinder(bool small = false);
     void UpdatePathFinder(const NewRoboControl* obstacles[5], const Interpreter::GameData& info);
     void ComputePath(const Interpreter& interpreter);
-    void FollowPath(void);
+    void FollowPath(const Interpreter::GameData& info);
 
-    virtual void AddObstacleForFormation(Interpreter::Strategy formation) = 0;
+    virtual void AddObstacleForFormation(const Interpreter::GameData& info) = 0;
 
 private:
     /* Well, nothing. */

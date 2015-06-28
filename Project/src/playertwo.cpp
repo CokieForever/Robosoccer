@@ -73,7 +73,7 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
                 double a, b;
                 if (m_ballPm->PredictBallPosition(&a, &b, 4) && a < PathFinder::INFINI_TY)
                 {
-                    double y = std::max(-0.95, std::min(0.95, a * x + b));
+                    double y = std::max(-0.5, std::min(0.5, a * x + b));
                     m_defendpm = m_coordCalib->UnnormalizePosition(Position(x,y));
                     success = true;
                 }
@@ -84,7 +84,8 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
                 Position ballPos;
                 m_ballPm->GetBallPosition(&ballPos);
                 ballPos = m_coordCalib->NormalizePosition(ballPos);
-                m_defendpm = m_coordCalib->UnnormalizePosition(Position(x, ballPos.GetY()));
+                double y = std::max(-0.5, std::min(0.5, ballPos.GetY()));
+                m_defendpm = m_coordCalib->UnnormalizePosition(Position(x, y));
             }
 
             break;
@@ -92,17 +93,17 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
     }
 }
 
-void PlayerTwo::performCmd(void)
+void PlayerTwo::performCmd(const Interpreter::GameData& info)
 {
     switch(m_nextCmd)
     {
         case GO_TO_DEF_POS:
             //std::cout << "Player2 Perform Go To Default Pos:" <<std::endl;
-            GotoXY(m_defaultPos.GetX(), m_defaultPos.GetY());
+            cruisetoBias(m_defaultPos.GetX(), m_defaultPos.GetY(), 650, -10, 30);
             break;
 
         case FOLLOWPATH:
-            FollowPath();
+            FollowPath(info);
             break;
 
         case STOP:
@@ -114,15 +115,19 @@ void PlayerTwo::performCmd(void)
     }
 }
 
-void PlayerTwo::AddObstacleForFormation(Interpreter::Strategy formation)
+void PlayerTwo::AddObstacleForFormation(const Interpreter::GameData& info)
 {
-    if (formation == Interpreter::ATK)
+    if (info.formation == Interpreter::ATK)
         m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(2, 0));
-    else if (formation == Interpreter::DEF)
+    else if (info.formation == Interpreter::DEF)
         m_areaObstacle = NULL;  //Behavior different in this mode
-    else if (formation == Interpreter::MIX)
-        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
-    else
+    else if (info.formation == Interpreter::MIX)
+    {
+        if (info.our_side == RIGHT_SIDE)
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+        else
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+    }else
         m_areaObstacle = NULL;  //Should never happen
 }
 

@@ -31,16 +31,20 @@ public:
     static double getSpeedPt(double nominal, double actual, int geschw); // Drehgeschwindigkeit bei der Fahrt
     static double getSpeedT(double diff);
     static double degToRad(double deg); // regelt Vorwärtsgeschwindigkeit
+    static bool IsOnTarget(Position current, Position target);
 
     NewRoboControl(RTDBConn& DBC, const int deviceNr);
     virtual ~NewRoboControl() = 0;  //Prevents instantiation of NewRoboControl
 
+    bool IsOnTarget(Position target);
     bool cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir);
     Position* drivePath(std::vector<Position>* path);
     void setSpeed(double translation, double rotation, eDirection dir);
 
 private:
-    /* Well, nothing. */
+    bool m_stopCruisingNow;
+    bool m_isCruising;
+    pthread_t m_cruiseThread;
 
 };
 
