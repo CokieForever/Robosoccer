@@ -20,7 +20,6 @@ using namespace std;
 
 PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, ballPm, display)
 {
-  m_ballpm = ballpm;
 }
 
 void PlayerMain::setNextCmd(const Interpreter::GameData& info)
@@ -34,24 +33,19 @@ void PlayerMain::setNextCmd(const Interpreter::GameData& info)
                 m_nextCmd = STOP;
             break;
 
-    case BEFORE_PENALTY:
-      m_nextCmd = GO_TO_DEF_POS;
-      m_kickPenaltyParam.action1Performed = 0;
-      m_kickPenaltyParam.action2Performed = 0;
-      break;
+        case BEFORE_PENALTY:
+            m_nextCmd = GO_TO_DEF_POS;
+            m_kickPenaltyParam.action1Performed = 0;
+            m_kickPenaltyParam.action2Performed = 0;
+            break;
 
-    case PLAY_ON:
-      if (mode.formation == 1)
-        m_nextCmd = DEFENSE;
-      else if (mode.formation == 0)
-        m_nextCmd = ATTACK;
-      else
-        m_nextCmd = FOLLOWPATH;
-      break;
+        case PLAY_ON:
+            m_nextCmd = FOLLOWPATH;
+            break;
 
         case KICK_OFF:
             if (info.turn == Interpreter::OUR_TURN)
-                m_nextCmd = PlayerMain::KICK_OFF;
+                m_nextCmd = KICK_OFF;
             else
                 m_nextCmd = STOP;
             break;
@@ -70,30 +64,16 @@ void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 
 void PlayerMain::setCmdParam(const Interpreter& interpreter)
 {
-
-  //interpreter::Point *pt;
-  char c;
-  int j, idx_tmp;
-  unsigned int interpolate_n = 15;
-  Position robo_n, ball_n;
-
+    switch(m_nextCmd)
+    {
         case FOLLOWPATH:
             ComputePath(interpreter);
-      //take n points and interpolate
-      if (m_q.size() >= interpolate_n)
-      {
-        for (unsigned int i = 0; i < interpolate_n; i++)
-        {
-          idx_tmp = m_q.front();
-          m_go_x = m_go_x + Interpreter::DX[idx_tmp];
-          m_go_y = m_go_y + Interpreter::DY[idx_tmp];
-          m_q.pop();
-        }
 
         case GO_TO_DEF_POS:
             m_defaultPos = interpreter.getP1DefaultPos();
             break;
 
+        case KICK_PENALTY:
         case KICK_OFF:
         case STOP:
             break;
@@ -108,27 +88,27 @@ void PlayerMain::performCmd(void)
     {
         case KICK_PENALTY:
 
-      //at first go to an predefined position then kick the ball
-      // approach to define multiple commands in one command : define checkpoints in action structure
+            //at first go to an predefined position then kick the ball
+            // approach to define multiple commands in one command : define checkpoints in action structure
 
-      if (m_kickPenaltyParam.action1Performed == 0)
-      {
-        cout << "Player1 Perform Kick Penalty: " <<  endl;
-        GotoXY(m_kickPenaltyParam.pos.GetX(), m_kickPenaltyParam.pos.GetY());
+            if (m_kickPenaltyParam.action1Performed == 0)
+            {
+                cout << "Player1 Perform Kick Penalty: " <<  endl;
+                GotoXY(m_kickPenaltyParam.pos.GetX(), m_kickPenaltyParam.pos.GetY());
 
-        while (GetPos().DistanceTo(m_kickPenaltyParam.pos) > 0.05)
-        {
-          usleep(100000);
-        }
-        m_kickPenaltyParam.action1Performed = 1;
-      }
+                while (GetPos().DistanceTo(m_kickPenaltyParam.pos) > 0.05)
+                {
+                    usleep(100000);
+                }
+                m_kickPenaltyParam.action1Performed = 1;
+            }
 
-      if (m_kickPenaltyParam.action1Performed == 1 && m_kickPenaltyParam.action2Performed == 0)
-      {
-        GotoXY(m_kickPenaltyParam.ball.GetX(), m_kickPenaltyParam.ball.GetY());
-        m_kickPenaltyParam.action2Performed = 1;
-      }
-      break;
+            if (m_kickPenaltyParam.action1Performed == 1 && m_kickPenaltyParam.action2Performed == 0)
+            {
+                GotoXY(m_kickPenaltyParam.ball.GetX(), m_kickPenaltyParam.ball.GetY());
+                m_kickPenaltyParam.action2Performed = 1;
+            }
+            break;
 
         case GO_TO_DEF_POS:
             cout << "Player1 Perform Go To Default Pos:" <<endl;

@@ -247,7 +247,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
                 delete vx;
                 delete vy;
 
-                display->DisplayWeb(*polygon, screen);
+                //display->DisplayWeb(*polygon, screen);
             }
         }
 
@@ -280,13 +280,13 @@ void* RefereeDisplay::RefDisplayFn(void *data)
             SDL_BlitSurface(ballSurfTr, NULL, screen, &rect);
         }
 
-        Position pos(0,0);
-        if (display->m_ballMonitor->PredictBallPosition(&pos, 5))
+        /*double a, b;
+        if (display->m_ballMonitor->PredictBallPosition(&a, &b, 5))
         {
             rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_ball->GetPos()));
             SDL_Rect rect2 = display->PosToRect(display->m_coordCalibrer->NormalizePosition(pos));
             DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
-        }
+        }*/
 
         for (int i=0 ; i < 6 ; i++)
         {

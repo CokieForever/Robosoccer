@@ -12,10 +12,6 @@
 #include "playertwo.h"
 #include "newrobocontrol.h"
 
-PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer* coordCalib, RawBall* b,  BallMonitor* ballpt) : TeamRobot(DBC, deviceNr, coordCalib, b)
-{
-  m_ballpt = ballpt;
-
 PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm, display)
 {
 }
@@ -25,7 +21,7 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
     switch(info.mode)
     {
         case PLAY_ON:
-            if (mode.formation == Interpreter::DEF)
+            if (info.formation == Interpreter::DEF)
                 m_nextCmd = DEFENSE;
             else
                 m_nextCmd = FOLLOWPATH;
@@ -40,9 +36,9 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
         case REFEREE_INIT:
         case KICK_OFF:
         case PAUSE:
-    case TIME_OVER:
-      m_nextCmd = STOP;
-      break;
+        case TIME_OVER:
+            m_nextCmd = STOP;
+            break;
     }
 
 }
@@ -62,28 +58,35 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
         case STOP:
             break;
             
-        //PlayerMain in Defense Mode follows y-coordinates of ball
+        //PlayerTwo in Defense Mode follows y-coordinates of ball
         case DEFENSE:
         {
-            static int counter = 0;
-            double y;
+            eSide side = interpreter.getMode().our_side;
+            double x = side == LEFT_SIDE ? -0.8 : +0.8;
 
-            if (counter >= 10)
+            BallMonitor::Direction dir;
+            m_ballPm->GetBallDirection(&dir);
+
+            bool success = false;
+            if ((dir.x >= 0) != (side == LEFT_SIDE))
             {
-                m_ballpm->GetBallPosition(&m_defendpm);
-                y = m_defendpm.GetY();
-                //define Goal borders
-                if (y > 0.30)
-                    y = 0.30;
-                else if (y < -0.25)
-                    y = -0.25;
-                m_defendpm.SetY(y);
-                m_defendpm.SetX(-1.1);
-
-                counter = 0;
+                double a, b;
+                if (m_ballPm->PredictBallPosition(&a, &b, 4) && a < PathFinder::INFINI_TY)
+                {
+                    double y = std::max(-0.95, std::min(0.95, a * x + b));
+                    m_defendpm = m_coordCalib->UnnormalizePosition(Position(x,y));
+                    success = true;
+                }
             }
-            
-            counter++;
+
+            if (!success)
+            {
+                Position ballPos;
+                m_ballPm->GetBallPosition(&ballPos);
+                ballPos = m_coordCalib->NormalizePosition(ballPos);
+                m_defendpm = m_coordCalib->UnnormalizePosition(Position(x, ballPos.GetY()));
+            }
+
             break;
         }
     }

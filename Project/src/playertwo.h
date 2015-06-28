@@ -15,7 +15,7 @@ class PlayerTwo : public TeamRobot
   public:
     enum ActionPlayerTwo
     {
-        GO_TO_DEF_POS, FOLLOWPATH, STOP
+        GO_TO_DEF_POS, FOLLOWPATH, STOP, DEFENSE
     };
 
     struct KickParam
@@ -35,7 +35,6 @@ class PlayerTwo : public TeamRobot
 
   private:
     BallMonitor* m_ballpt;
-    Position m_defendp2;
     queue<int> m_q;
     string m_path;
     ActionPlayerTwo m_nextCmd;

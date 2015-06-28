@@ -21,7 +21,7 @@ bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
     return last.x == tgt.x && last.y == tgt.y;
 }
 
-TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
+TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
 {
     m_coordCalib = coordCalib;
     m_ball = ball;
@@ -30,6 +30,7 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coo
     m_map.Fill(0);
     m_prevFormation = Interpreter::MIX;     //Update request
     m_areaObstacle = NULL;
+    m_ballPm = ballPm;
 
     m_ballObstaclePos = Position(-10, -10);
     for (int i=0 ; i < 3 ; i++)

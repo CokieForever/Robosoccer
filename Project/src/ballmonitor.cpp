@@ -1,4 +1,5 @@
 #include "ballmonitor.h"
+#include "pathfinder.h"
 
 BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball)
 {
@@ -88,9 +89,8 @@ bool BallMonitor::GetBallDirection(Direction *dir)
     }
 }
 
-bool BallMonitor::PredictBallPosition(Position *pos, int precision, double xmin)
+bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
 {
-    double xMin = xmin;
     if (!m_ballMonitoring)
         return false;
     else if (!IsBallMoving())
@@ -109,79 +109,18 @@ bool BallMonitor::PredictBallPosition(Position *pos, int precision, double xmin)
         ballPos2 = m_coordCalibrer->NormalizePosition(m_ballPosTime[m_ballPosTimeInd].pos);
         pthread_mutex_unlock(&m_ballMonitoringMtx);
 
-        double xMax=0.85, xMin=xmin, yMax=0.85, yMin=-0.85;
-        double a, b;
-
-        if ((precision > 1 && !ComputeLinearRegression(&a, &b, precision)) || (precision <= 1 && fabs(ballPos2.GetX() - ballPos1.GetX()) <= 1e-4))
+        if ((precision > 1 && !ComputeLinearRegression(a, b, precision)) || (precision <= 1 && fabs(ballPos2.GetX() - ballPos1.GetX()) <= 1e-4))
         {
-            pos->SetX(ballPos2.GetX());
-            pos->SetY(ballPos2.GetY() >= ballPos1.GetY() ? yMax : yMin);
+            *a = PathFinder::INFINI_TY;
+            *b = PathFinder::INFINI_TY;
+            return true;
         }
-        else
+        else if (precision <= 1)
         {
-            if (precision <= 1)
-            {
-                a = (ballPos2.GetY() - ballPos1.GetY()) / (ballPos2.GetX() - ballPos1.GetX());
-                b = ballPos2.GetY() - a * ballPos2.GetX();
-            }
-
-            if (fabs(a) <= 1e-4)
-            {
-                pos->SetX(ballPos2.GetX() >= ballPos1.GetX() ? xMax : xMin);
-                pos->SetY(ballPos2.GetY());
-            }
-            else
-            {
-                if (ballPos2.GetY() >= ballPos1.GetY())
-                {
-                    if (ballPos2.GetX() >= ballPos1.GetX())
-                    {
-                        pos->SetX((yMax - b) / a);
-                        pos->SetY(yMax);
-                        if (pos->GetX() > xMax)
-                        {
-                            pos->SetX(xMax);
-                            pos->SetY(a * xMax + b);
-                        }
-                    }
-                    else
-                    {
-                        pos->SetX((yMax - b) / a);
-                        pos->SetY(yMax);
-                        if (pos->GetX() < xMin)
-                        {
-                            pos->SetX(xMin);
-                            pos->SetY(a * xMin + b);
-                        }
-                    }
-                }
-                else
-                {
-                    if (ballPos2.GetX() >= ballPos1.GetX())
-                    {
-                        pos->SetX((yMin - b) / a);
-                        pos->SetY(yMin);
-                        if (pos->GetX() > xMax)
-                        {
-                            pos->SetX(xMax);
-                            pos->SetY(a * xMax + b);
-                        }
-                    }
-                    else
-                    {
-                        pos->SetX((yMin - b) / a);
-                        pos->SetY(yMin);
-                        if (pos->GetX() < xMin)
-                        {
-                            pos->SetX(xMin);
-                            pos->SetY(a * xMin + b);
-                        }
-                    }
-                }
-            }
+            *a = (ballPos2.GetY() - ballPos1.GetY()) / (ballPos2.GetX() - ballPos1.GetX());
+            *b = ballPos2.GetY() - (*a) * ballPos2.GetX();
         }
 
-        *pos = m_coordCalibrer->UnnormalizePosition(*pos);
         return true;
     }
 }

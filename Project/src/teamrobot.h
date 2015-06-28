@@ -7,6 +7,7 @@
 #include "pathfinder.h"
 #include "matrix.h"
 #include <queue>
+#include "ballmonitor.h"
 
 class RefereeDisplay;
 
@@ -16,7 +17,7 @@ class TeamRobot : public NewRoboControl
 public:
     static void* performCmd_helper(void *context);
 
-    TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, RefereeDisplay *display=NULL);
+    TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display=NULL);
     virtual ~TeamRobot();
 
     Position getDefaultPosition() const;
@@ -58,6 +59,7 @@ protected:
     queue<int> m_q;
     bool m_actionPerformed;
     int m_go_x,m_go_y;
+    BallMonitor *m_ballPm;
 
     void AddBorderObstaclesToPathFinder(bool small = false);
     void UpdatePathFinder(const NewRoboControl* obstacles[5], const Interpreter::GameData& info);

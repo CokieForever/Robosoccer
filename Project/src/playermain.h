@@ -13,7 +13,7 @@ class PlayerMain : public TeamRobot
   public:
     enum ActionPlayerMain
     {
-      GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH, DEFENSE, ATTACK
+        GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH
     };
 
 
@@ -34,7 +34,6 @@ class PlayerMain : public TeamRobot
   private:
     ActionPlayerMain m_nextCmd;
     BallMonitor* m_ballpm;
-    Position m_defendpm;
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
 
