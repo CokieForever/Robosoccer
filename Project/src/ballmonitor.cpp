@@ -90,6 +90,7 @@ bool BallMonitor::GetBallDirection(Direction *dir)
 
 bool BallMonitor::PredictBallPosition(Position *pos, int precision, double xmin)
 {
+    double xMin = xmin;
     if (!m_ballMonitoring)
         return false;
     else if (!IsBallMoving())

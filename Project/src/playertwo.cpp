@@ -10,7 +10,11 @@
 #include "share.h"
 #include "kogmo_rtdb.hxx"
 #include "playertwo.h"
+#include "newrobocontrol.h"
 
+PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer* coordCalib, RawBall* b,  BallMonitor* ballpt) : TeamRobot(DBC, deviceNr, coordCalib, b)
+{
+  m_ballpt = ballpt;
 
 PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm, display)
 {
@@ -36,9 +40,9 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
         case REFEREE_INIT:
         case KICK_OFF:
         case PAUSE:
-        case TIME_OVER:
-            m_nextCmd = STOP;
-            break;
+    case TIME_OVER:
+      m_nextCmd = STOP;
+      break;
     }
 
 }
@@ -119,3 +123,43 @@ void PlayerTwo::AddObstacleForFormation(Interpreter::Strategy formation)
         m_areaObstacle = NULL;  //Should never happen
 }
 
+
+//Playertwo defend the goal corners
+//could be used in Defend Mode for P2
+/*void defend_p2(void)
+{
+    static int counter = 0;
+    double y;
+    if (counter >= 10)        //Counter for Cruisetobias function
+    {
+      m_ballpt->GetBallPosition(&m_defendp2);
+      y = defendp2.GetY();
+
+      //define Goal borders
+      if (y > 0.35)
+      {
+        y = 0.5;
+        m_defendp2.SetX(-1.4);
+      }
+
+      else if (y < -0.25)
+      {
+        y = -0.5;
+        m_defendp2.SetX(-1.4);
+      }
+
+      else if (y < 0.3 && 0 < y)
+      {
+        y = 0.5;
+        m_defendp2.SetX(-0.5);
+      }
+      else if (-0.2 < y && y < 0)
+      {
+        y = -0.5;
+        m_defendp2.SetX(-0.5);
+      }
+      m_defendp2.SetY(y);
+      counter = 0;
+    }
+    counter++;
+}*/

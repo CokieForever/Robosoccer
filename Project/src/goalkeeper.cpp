@@ -7,10 +7,12 @@
 
 #include "goalkeeper.h"
 #include "interpreter.h"
+#include "newrobocontrol.h"
 
 
 Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm)
 {
+  m_ballgk = ballgk;
 }
 
 void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
@@ -24,9 +26,9 @@ void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
                 m_nextCmd = GO_TO_DEF_POS;
             break;
 
-        case PLAY_ON:
-            m_nextCmd = PREVENT_GOAL;
-            break;
+    case PLAY_ON:
+      m_nextCmd = PREVENT_GOAL;
+      break;
 
         case BEFORE_KICK_OFF:
         case BEFORE_PENALTY:
@@ -74,8 +76,10 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
             }
             
             counter ++;
-            break;
-        }
+    default :
+      break;
+  }
+}
         case GO_TO_DEF_POS:
             m_defaultPos = interpreter.getGKDefaultPos();
             std::cout << "Goal keeper moving to Position = " << m_defaultPos <<std::endl;

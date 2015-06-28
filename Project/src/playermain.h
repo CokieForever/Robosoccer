@@ -4,24 +4,25 @@
 #include "kogmo_rtdb.hxx"
 #include "teamrobot.h"
 #include "coordinates.h"
-#include "interpreter.h"
+#include <ballmonitor.h>
 
 
 class PlayerMain : public TeamRobot
 {
 
-public:
+  public:
     enum ActionPlayerMain
     {
-        GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH
+      GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH, DEFENSE, ATTACK
     };
+
 
     struct KickParam
     {
-        double  turnAngle;
-        int  force;
-        bool action1Performed,action2Performed;
-        Position ball,pos;
+      double  turnAngle;
+      int  force;
+      bool action1Performed, action2Performed;
+      Position ball, pos;
     };
 
     PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display = NULL);
@@ -30,8 +31,10 @@ public:
     void setCmdParam(const Interpreter& interpreter);
     void performCmd(void);
 
-private:
+  private:
     ActionPlayerMain m_nextCmd;
+    BallMonitor* m_ballpm;
+    Position m_defendpm;
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
 
