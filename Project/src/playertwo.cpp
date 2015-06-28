@@ -12,93 +12,118 @@
 #include "playertwo.h"
 #include "newrobocontrol.h"
 
-PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer* coordCalib, RawBall* b,  BallMonitor* ballpt) : TeamRobot(DBC, deviceNr, coordCalib, b)
+PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm, display)
 {
-  m_ballpt = ballpt;
+}
+
+void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
+{
+    switch(info.mode)
+    {
+        case PLAY_ON:
+            if (info.formation == Interpreter::DEF)
+                m_nextCmd = DEFENSE;
+            else
+                m_nextCmd = FOLLOWPATH;
+            break;
+
+        case BEFORE_KICK_OFF:
+        case BEFORE_PENALTY:
+            m_nextCmd = GO_TO_DEF_POS;
+            break;
+
+        case PENALTY:
+        case REFEREE_INIT:
+        case KICK_OFF:
+        case PAUSE:
+        case TIME_OVER:
+            m_nextCmd = STOP;
+            break;
+    }
 
 }
 
-void PlayerTwo::setNextCmd(Interpreter* info)
+void PlayerTwo::setCmdParam(const Interpreter& interpreter)
 {
-  Interpreter::GameData mode = info->getMode();
+    switch(m_nextCmd)
+    {
+        case GO_TO_DEF_POS:
+            m_defaultPos = interpreter.getP2DefaultPos();
+            break;
 
-  switch (mode.mode)
-  {
-    case PENALTY:
-      m_nextCmd = GO_TO_DEF_POS;
-      break;
+        case FOLLOWPATH:
+            ComputePath(interpreter);
+            break;
 
-    case PLAY_ON:
-      if (mode.formation == 1)
-        m_nextCmd = DEFENSE;
-      else if (mode.formation == 0)
-        m_nextCmd = ATTACK;
-      else
-        m_nextCmd = FOLLOWPATH;
-      break;
+        case STOP:
+            break;
+            
+        //PlayerTwo in Defense Mode follows y-coordinates of ball
+        case DEFENSE:
+        {
+            eSide side = interpreter.getMode().our_side;
+            double x = side == LEFT_SIDE ? -0.8 : +0.8;
 
-    case KICK_OFF:
-      if (mode.turn == Interpreter::OUR_TURN)
-        m_nextCmd = PlayerTwo::KICK_OFF;
-      else
-        m_nextCmd = GO_TO_DEF_POS;
-      break;
+            BallMonitor::Direction dir;
+            m_ballPm->GetBallDirection(&dir);
 
-    case PAUSE:
-      m_nextCmd = STOP;
-      break;
+            bool success = false;
+            if ((dir.x >= 0) != (side == LEFT_SIDE))
+            {
+                double a, b;
+                if (m_ballPm->PredictBallPosition(&a, &b, 4) && a < PathFinder::INFINI_TY)
+                {
+                    double y = std::max(-0.95, std::min(0.95, a * x + b));
+                    m_defendpm = m_coordCalib->UnnormalizePosition(Position(x,y));
+                    success = true;
+                }
+            }
 
-    case TIME_OVER:
-      m_nextCmd = STOP;
-      break;
+            if (!success)
+            {
+                Position ballPos;
+                m_ballPm->GetBallPosition(&ballPos);
+                ballPos = m_coordCalib->NormalizePosition(ballPos);
+                m_defendpm = m_coordCalib->UnnormalizePosition(Position(x, ballPos.GetY()));
+            }
 
-    default:
-      m_nextCmd = GO_TO_DEF_POS;
-  }
-
+            break;
+        }
+    }
 }
 
-void PlayerTwo::setCmdParam(void)
+void PlayerTwo::performCmd(void)
 {
-
-  switch (m_nextCmd)
-  {
-
-
-    case DEFENSE:
-
-      break;
-
-default:
-  break;
-  }
-}
-
-
-
-void* PlayerTwo::performCmd(void)
-{
-
-  switch (m_nextCmd)
-  {
-    case PlayerTwo::GO_TO_DEF_POS:
-      std::cout << "Player1 Perform Go To Default Pos:" << std::endl;
-      GotoXY(m_defaultPos.GetX(), m_defaultPos.GetY());
-      break;
-
-    case DEFENSE:
-      NewRoboControl::cruisetoBias(m_defendp2.GetX(), m_defendp2.GetY(), 650, -10, 30);
-      break;
-
-    default:
-      /*
-            std::cout << "Player2 Perform Default Command: " << std::endl;
+    switch(m_nextCmd)
+    {
+        case GO_TO_DEF_POS:
+            //std::cout << "Player2 Perform Go To Default Pos:" <<std::endl;
             GotoXY(m_defaultPos.GetX(), m_defaultPos.GetY());
-            break;*/
-      break;
-  }
+            break;
 
-  return 0;
+        case FOLLOWPATH:
+            FollowPath();
+            break;
+
+        case STOP:
+            break;
+			
+        case DEFENSE:
+            cruisetoBias(m_defendpm.GetX(), m_defendpm.GetY(), 650, -10, 30);
+            break;
+    }
+}
+
+void PlayerTwo::AddObstacleForFormation(Interpreter::Strategy formation)
+{
+    if (formation == Interpreter::ATK)
+        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(2, 0));
+    else if (formation == Interpreter::DEF)
+        m_areaObstacle = NULL;  //Behavior different in this mode
+    else if (formation == Interpreter::MIX)
+        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+    else
+        m_areaObstacle = NULL;  //Should never happen
 }
 
 

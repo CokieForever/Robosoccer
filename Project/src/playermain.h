@@ -4,7 +4,6 @@
 #include "kogmo_rtdb.hxx"
 #include "teamrobot.h"
 #include "coordinates.h"
-#include <queue>
 #include <ballmonitor.h>
 
 
@@ -14,7 +13,7 @@ class PlayerMain : public TeamRobot
   public:
     enum ActionPlayerMain
     {
-      GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH, DEFENSE, ATTACK
+        GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH
     };
 
 
@@ -26,22 +25,19 @@ class PlayerMain : public TeamRobot
       Position ball, pos;
     };
 
-    PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer* c, RawBall* b, BallMonitor* ballpm);
+    PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display = NULL);
 
-    void setNextCmd(Interpreter* info);
-    void setCmdParam(void);
-    void* performCmd(void);
+    void setNextCmd(const Interpreter::GameData& info);
+    void setCmdParam(const Interpreter& interpreter);
+    void performCmd(void);
 
   private:
     ActionPlayerMain m_nextCmd;
     BallMonitor* m_ballpm;
-    Position m_defendpm;
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
-    string m_path;
-    queue<int> m_q;
-    bool m_actionPerformed;
-    int m_go_x, m_go_y;
+
+    void AddObstacleForFormation(Interpreter::Strategy formation);
 
 };
 

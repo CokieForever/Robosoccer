@@ -13,7 +13,7 @@
 #include "types.h"
 #include "vector3d.h"
 #include "robo_control.h"
-
+#include <vector>
 
 class NewRoboControl : public RoboControl
 {
@@ -36,6 +36,7 @@ public:
     virtual ~NewRoboControl() = 0;  //Prevents instantiation of NewRoboControl
 
     bool cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir);
+    Position* drivePath(std::vector<Position>* path);
     void setSpeed(double translation, double rotation, eDirection dir);
 
 private:

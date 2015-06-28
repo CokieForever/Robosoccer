@@ -255,3 +255,41 @@ DragDropStatus ManageDragDrop(DragDrop *dd, SDL_Event event)
 
     return status;
 }
+
+
+void ComputeVectorEnd(double startX, double startY, double angle, double length, double *endX, double *endY)
+{
+    ComputeVectorEnd(startX, startY, cos(angle), sin(angle), length, endX, endY);
+}
+
+void ComputeVectorEnd(double startX, double startY, double cosAngle, double sinAngle, double length, double *endX, double *endY)
+{
+    *endX = startX + cosAngle * length;
+    *endY = startY + sinAngle * length;
+}
+
+void ComputeLineAngle(double startX, double startY, double endX, double endY, double *angle)
+{
+    double cosAngle, sinAngle;
+    ComputeLineAngle(startX, startY, endX, endY, &cosAngle, &sinAngle);
+    *angle = acos(cosAngle);
+    if (sinAngle < 0)
+        *angle = -(*angle);
+}
+
+void ComputeLineAngle(double startX, double startY, double endX, double endY, double *cosAngle, double *sinAngle)
+{
+    double d = sqrt((endX-startX)*(endX-startX) + (endY-startY)*(endY-startY));
+    *cosAngle = (endX - startX) / d;
+    *sinAngle = (endY - startY) / d;
+}
+
+void ComputeThickLineRect(double startX, double startY, double endX, double endY, double thickness, double (&rectX)[4], double (&rectY)[4])
+{
+    double cosAngle, sinAngle;
+    ComputeLineAngle(startX, startY, endX, endY, &cosAngle, &sinAngle);
+    ComputeVectorEnd(startX, startY, sinAngle, -cosAngle, thickness/2, &(rectX[0]), &(rectY[0]));
+    ComputeVectorEnd(startX, startY, -sinAngle, cosAngle, thickness/2, &(rectX[3]), &(rectY[3]));
+    ComputeVectorEnd(endX, endY, sinAngle, -cosAngle, thickness/2, &(rectX[1]), &(rectY[1]));
+    ComputeVectorEnd(endX, endY, -sinAngle, cosAngle, thickness/2, &(rectX[2]), &(rectY[2]));
+}
