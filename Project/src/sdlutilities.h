@@ -64,4 +64,10 @@ ButtonStatus ManageButton(Button *button, SDL_Event event);
 DragDrop CreateDragDrop(SDL_Rect area, SDL_Surface *ghostSurf = NULL, SDL_Color colorHovered = CreateColor(255,128,0));
 DragDropStatus ManageDragDrop(DragDrop *dd, SDL_Event event);
 
+void ComputeVectorEnd(double startX, double startY, double angle, double length, double *endX, double *endY);
+void ComputeVectorEnd(double startX, double startY, double cosAngle, double sinAngle, double length, double *endX, double *endY);
+void ComputeLineAngle(double startX, double startY, double endX, double endY, double *angle);
+void ComputeLineAngle(double startX, double startY, double endX, double endY, double *cosAngle, double *sinAngle);
+void ComputeThickLineRect(double startX, double startY, double endX, double endY, double thickness, double (&rectX)[4], double (&rectY)[4]);
+
 #endif // SDLUTILITIES_H

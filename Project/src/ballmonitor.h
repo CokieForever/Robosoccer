@@ -31,7 +31,7 @@ public:
     bool StopMonitoring();
     bool GetBallPosition(Position *pos);
     bool GetBallDirection(Direction *dir);
-    bool PredictBallPosition(Position *pos, int precision = 0);
+    bool PredictBallPosition(double *a, double *b, int precision);
     bool IsBallMoving();
 
 private:

@@ -2,6 +2,7 @@
 //----------------------------------------Function bodys----------------------------------------------------
 //----------------------------------------------------------------------------------------------------------
 #include "newrobocontrol.h"
+#include "pathfinder.h"
 
 //Berechnung in welcher Richtung Roboter fahren soll
 /**
@@ -176,9 +177,16 @@ double NewRoboControl::degToRad(double deg)
     return deg * M_PI / 180.0;
 }
 
+bool NewRoboControl::IsOnTarget(Position current, Position target)
+{
+    return fabs(current.GetX()-target.GetX()) < 0.05 && fabs(current.GetY()-target.GetY()) < 0.05;
+}
+
 
 NewRoboControl::NewRoboControl(RTDBConn &DBC, const int deviceNr) : RoboControl(DBC, deviceNr)
 {
+    m_stopCruisingNow = false;
+    m_isCruising = false;
 }
 
 //The destructor is empty but is there only to prevent class instantation (see newrobocontrol.h)
@@ -186,9 +194,13 @@ NewRoboControl::~NewRoboControl()
 {
 }
 
+bool NewRoboControl::IsOnTarget(Position target)
+{
+    return IsOnTarget(GetPos(), target);
+}
+
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
 {
-
     /*   returniert true, wenn Roboter am Ziel angekommen ist. returniert false, wenn Roboter noch unterwegs ist
     **   Ablauf:
     **     1.  Anfahren zur Zielposition
@@ -263,6 +275,18 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
 
     return false;
 }
+
+Position* NewRoboControl::drivePath(std::vector<Position>* path)
+{
+    for (std::vector<Position>::iterator it = path->begin() ; it != path->end() ; it++)
+    {
+        Position *pos = &(*it);
+        if (!IsOnTarget(*pos))
+            return pos;
+    }
+    return NULL;
+}
+
 
 //Motorgeschwindigkeit der einzelnen Räder festlegen
 /**

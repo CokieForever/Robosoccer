@@ -1,9 +1,16 @@
 TEMPLATE = app
 TARGET = robosoccer
 
-#include(/DIST/lehre/lab_roso/tech/usr/include/settings.pri)
-include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
+#DEFINES += SIMULATION
+#DEFINES += PATHPLANNING_ASTAR
+DEFINES += PATHPLANNING_POLYGONS
+#DEFINES += STACK_LOG
 
+contains(DEFINES, SIMULATION) {
+    include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
+} else {
+    include(/DIST/lehre/lab_roso/tech/usr/include/settings.pri)
+}
 
 DEPENDPATH += src
 INCLUDEPATH += src SDL/headers
@@ -26,7 +33,9 @@ HEADERS += \
     src/sdl_gfx/*.h
 SOURCES +=  \
     src/*.cpp \
-    src/sdl_gfx/SDL_rotozoom.c
+    src/sdl_gfx/SDL_rotozoom.c \
+    src/sdl_gfx/SDL_gfxPrimitives.c \
+    src/sdl_gfx/SDL_gfxBlitFunc.c
 		
 		
 ##############
@@ -39,6 +48,7 @@ dox.depends = FORCE
 
 # somewhere else in the *.pro file
 QMAKE_EXTRA_UNIX_TARGETS += dox
+QMAKE_CXXFLAGS += -rdynamic -g
 
 
 
