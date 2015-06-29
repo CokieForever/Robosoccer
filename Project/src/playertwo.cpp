@@ -11,6 +11,7 @@
 #include "kogmo_rtdb.hxx"
 #include "playertwo.h"
 #include "newrobocontrol.h"
+#include "log.h"
 
 PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm, display)
 {
@@ -98,7 +99,7 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
     switch(m_nextCmd)
     {
         case GO_TO_DEF_POS:
-            //std::cout << "Player2 Perform Go To Default Pos:" <<std::endl;
+            Log("Player2 Perform Go To Default Pos", DEBUG);
             cruisetoBias(m_defaultPos.GetX(), m_defaultPos.GetY(), 650, -10, 30);
             break;
 

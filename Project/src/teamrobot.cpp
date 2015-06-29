@@ -5,6 +5,7 @@
 #include "playertwo.h"
 #include "refereedisplay.h"
 #include "playermain.h"
+#include "log.h"
 
 
 bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
@@ -326,7 +327,7 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
 {
 #ifdef PATHPLANNING_ASTAR
 
-    cout << "Player1 Perform Followpath (queue size): " << m_q.size() << endl;
+    Log("Player1 Perform Followpath (queue size): " + ToString(m_q.size()), DEBUG);
 
     Position pos = m_coordCalib->NormalizePosition(GetPos());
     int mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;

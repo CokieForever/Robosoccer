@@ -30,6 +30,7 @@
 #include "playertwo.h"
 #include "opponentrobot.h"
 #include "pathfinder.h"
+#include "log.h"
 
 #ifdef STACK_LOG
 static int StackFd;
@@ -110,7 +111,9 @@ int main(void)
 
     try
     {
-        cout << endl << "Connecting to RTDB..." << endl;
+        cout << endl;
+        Log("Connecting to RTDB...", INFO);
+
         string client_name = "pololu_client_";
         client_name.push_back((char)(client_nr + '0'));
         RTDBConn DBC(client_name.data(), 0.1, "");
@@ -128,7 +131,7 @@ int main(void)
 
         Referee ref(DBC);
         ref.Init();
-        cout << ref.GetSide() << endl;
+        Log("Side: " + ToString(ref.GetSide()), INFO);
 
         ballMonitor.StartMonitoring(&ball);
         refereeDisplay.StartDisplay(robots, &ball, &(p1.getMap()));
@@ -163,13 +166,13 @@ int main(void)
 
     catch (DBError err)
     {
-        cout << "Client died on Error: " << err.what() << endl;
+        Log(string("Client died on Error: ") + err.what(), ERROR);
     }
 
     refereeDisplay.StopDisplay();
     ballMonitor.StopMonitoring();
 
-    cout << "End" << endl;
+    Log("End", INFO);
     pthread_exit(NULL);
     return 0;
 }

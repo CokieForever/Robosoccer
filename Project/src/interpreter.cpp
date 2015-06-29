@@ -17,6 +17,7 @@
 #include "playertwo.h"
 #include "matrix.h"
 #include "sdlutilities.h"
+#include "log.h"
 
 //include the libs from sample code
 
@@ -224,6 +225,7 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
 
 void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
 {
+#ifdef VERY_VERBOSE
     Map map(map0);
 
     //show planned path
@@ -265,6 +267,7 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
             cout << endl;
         }
     }
+#endif
 }
 
 void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
@@ -388,9 +391,9 @@ Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo 
     m_mode.team = x;
 
     if (x== 0)
-        cout << "We are team blue!" << endl;
+        Log("We are team blue!", INFO);
     else
-        cout << "We are team red!" << endl;
+        Log("We are team red!", INFO);
 
     //set gk,p1,p2 map to zero and place penalty area
     m_p1Map.Fill(0);
@@ -402,7 +405,7 @@ Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo 
     pthread_mutex_init(&m_mutex, NULL);
     pthread_cond_init(&m_cond, NULL);
 
-    cout << "Interpreter initialized" << endl;
+    Log("Interpreter initialized", INFO);
 }
 
 Interpreter::~Interpreter()

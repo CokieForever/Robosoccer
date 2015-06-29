@@ -1,6 +1,7 @@
 #include "refereedisplay.h"
 #include "interpreter.h"
 #include "sdl_gfx/SDL_gfxPrimitives.h"
+#include "log.h"
 
 
 RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer,
@@ -149,7 +150,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
     SDL_Surface *ballSurf = SDL_LoadBMP("../data/ball.bmp"), *ballSurfTr = NULL;
     if (!ballSurf)
-        cout << "Unable to load ball bmp: " << SDL_GetError() << endl;
+        Log(string("Unable to load ball bmp: ") + SDL_GetError(), WARNING);
     else
     {
         double zoom = display->m_screenW/50 / (double)ballSurf->w;
@@ -165,7 +166,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
     SDL_Surface *redRobotSurf = SDL_LoadBMP("../data/red_robot.bmp"), *redRobotSurfTr = NULL;
     if (!redRobotSurf)
-        cout << "Unable to load red robot bmp: " << SDL_GetError() << endl;
+        Log(string("Unable to load red robot bmp: ") + SDL_GetError(), WARNING);
     else
     {
         double zoom = display->m_screenW/25 / (double)redRobotSurf->w;
@@ -181,7 +182,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
     SDL_Surface *blueRobotSurf = SDL_LoadBMP("../data/blue_robot.bmp"), *blueRobotSurfTr = NULL;
     if (!blueRobotSurf)
-        cout << "Unable to load blue robot bmp: " << SDL_GetError() << endl;
+        Log(string("Unable to load blue robot bmp: ") + SDL_GetError(), WARNING);
     else
     {
         double zoom = display->m_screenW/25 / (double)blueRobotSurf->w;

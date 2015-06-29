@@ -3,6 +3,7 @@
 //----------------------------------------------------------------------------------------------------------
 #include "newrobocontrol.h"
 #include "pathfinder.h"
+#include "log.h"
 
 //Berechnung in welcher Richtung Roboter fahren soll
 /**
@@ -96,7 +97,7 @@ double NewRoboControl::getSpeedPt(double nominal, double actual, int geschw) // 
 {
     double diff = getDiffAngle(nominal, actual);
     double korr = (geschw / 400) * (geschw / 400) * 1.2;
-    cout << "Differenz: " << diff << endl;
+    Log("Differenz: " + ToString(diff), DEBUG);
 
     // TODO Create Table
 
@@ -201,6 +202,15 @@ bool NewRoboControl::IsOnTarget(Position target) const
 
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
 {
+#ifdef SIMULATION   //The cruisetoBias() does not work in simulation
+
+    if (IsOnTarget(Position(tarX, tarY)))
+        return true;
+    GotoXY(tarX, tarY);
+    return false;
+
+#else
+
     /*   returniert true, wenn Roboter am Ziel angekommen ist. returniert false, wenn Roboter noch unterwegs ist
     **   Ablauf:
     **     1.  Anfahren zur Zielposition
@@ -240,7 +250,7 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
         diffAngle = getDiffAngle(diffP, posP);
         speedAngle = getSpeedP(diffP, posP);
         speedAngleDrive = getSpeedPt(diffP, posP, speed);
-        cout << "Diff2: " << speedAngleDrive << endl;
+        Log("Diff2: " + ToString(speedAngleDrive), DEBUG);
         if ((fabs(diffAngle) > variationDirec) && (fabs(diffAngle) < degToRad(90)))  // pi/2 = 1,57079633     Schritt 1.1
         {
             //Roboter rotieren
@@ -274,6 +284,8 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
     }
 
     return false;
+
+#endif
 }
 
 void NewRoboControl::RandomMove()
@@ -313,7 +325,7 @@ void NewRoboControl::setSpeed(double translation, double rotation, eDirection di
     {
         wheelL = wheelR = -translation;
     }
-    cout << wheelL << "und" << wheelR << endl;
+    Log(ToString(wheelL) + " und " + ToString(wheelR), DEBUG);
     wheelL = wheelL - rotation * 800.0 / 3.14159265358965;
     wheelR = wheelR + rotation * 800.0 / 3.14159265358965;
 

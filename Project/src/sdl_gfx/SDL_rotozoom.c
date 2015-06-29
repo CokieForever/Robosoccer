@@ -32,7 +32,7 @@ Andreas Schiffler -- aschiffler at ferzkopp dot net
 #endif
 
 #include <stdlib.h>
-#include <string.h>
+//#include <string.h>
 
 #include "SDL_rotozoom.h"
 

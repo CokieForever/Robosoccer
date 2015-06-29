@@ -30,7 +30,7 @@ Andreas Schiffler -- aschiffler at ferzkopp dot net
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <string.h>
+//#include <string.h>
 
 #include "SDL_gfxPrimitives.h"
 #include "SDL_rotozoom.h"
