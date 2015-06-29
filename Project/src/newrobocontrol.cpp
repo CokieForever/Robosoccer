@@ -194,7 +194,7 @@ NewRoboControl::~NewRoboControl()
 {
 }
 
-bool NewRoboControl::IsOnTarget(Position target)
+bool NewRoboControl::IsOnTarget(Position target) const
 {
     return IsOnTarget(GetPos(), target);
 }
@@ -274,6 +274,11 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
     }
 
     return false;
+}
+
+void NewRoboControl::RandomMove()
+{
+    MoveMs((rand() % 11 - 5) * 100, (rand() % 11 -5) * 100, 250);
 }
 
 Position* NewRoboControl::drivePath(std::vector<Position>* path)

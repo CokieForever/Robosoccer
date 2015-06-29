@@ -36,8 +36,9 @@ public:
     NewRoboControl(RTDBConn& DBC, const int deviceNr);
     virtual ~NewRoboControl() = 0;  //Prevents instantiation of NewRoboControl
 
-    bool IsOnTarget(Position target);
+    bool IsOnTarget(Position target) const;
     bool cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir);
+    void RandomMove();
     Position* drivePath(std::vector<Position>* path);
     void setSpeed(double translation, double rotation, eDirection dir);
 

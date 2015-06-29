@@ -305,10 +305,10 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
                 {
                     m_pathFinderPath = m_pathFinder.ComputePath(start, pt);
                     if (!m_pathFinderPath)
-                        MoveMs(rand() % 100, rand() % 100, 250, 0);
+                        RandomMove();
                 }
                 else
-                    MoveMs(rand() % 100, rand() % 100, 250, 0);
+                    RandomMove();
             }
             m_ballObstaclePos = Position(-10, -10); //Update request
         }
@@ -355,31 +355,56 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
             Position ballPos;
             m_ballPm->GetBallPosition(&ballPos);
             ballPos = m_coordCalib->NormalizePosition(ballPos);
-            double goalX = info.our_side == LEFT_SIDE ? +1 : -1;
-            double ballAngle, robotAngle;
-            double speed = 600;
 
-            ComputeLineAngle(ballPos.GetX(), ballPos.GetY(), goalX, 0, &ballAngle);
-            ComputeLineAngle(pos.GetX(), pos.GetY(), goalX, 0, &robotAngle);
-
-            double roboDir = GetPhi().Get();
-            double ballDir;
-            ComputeLineAngle(pos.GetX(), pos.GetY(), ballPos.GetX(), ballPos.GetY(), &ballDir);
-
-            eDirection dir = (GetSpeedLeft() + GetSpeedRight()) / 2 <= 0 ? FORWARD : BACKWARD;
-            if (dir == FORWARD)
-                roboDir = roboDir<=0 ? roboDir+M_PI : roboDir-M_PI;
-
-            if (fabs(ballAngle - robotAngle) <= 10 * M_PI / 180 && pos.DistanceTo(ballPos) <= 0.1 && fabs(roboDir-ballDir) <= 10 * M_PI / 180)
+            bool kicked = false;
+            if (pos.DistanceTo(ballPos) <= 0.1)
             {
-                int m = BACKWARD ? -500 : 500;
-                MoveMs(m, m, 500, 0);
+                double goalX = info.our_side == LEFT_SIDE ? +1 : -1;
+                double ballGoalAngle, robotGoalAngle;
+
+                ComputeLineAngle(ballPos.GetX(), ballPos.GetY(), goalX, 0, &ballGoalAngle);
+                ComputeLineAngle(pos.GetX(), pos.GetY(), goalX, 0, &robotGoalAngle);
+
+                double diff1 = fmod(ballGoalAngle - robotGoalAngle + 2*M_PI, 2*M_PI);
+                if (diff1 >= M_PI)
+                    diff1 -= 2*M_PI;
+
+                if (fabs(diff1) <= 10 * M_PI / 180)
+                {
+                    double roboBallAngle, roboAngle = GetPhi().Get();
+                    ComputeLineAngle(ballPos.GetX(), ballPos.GetY(), pos.GetX(), pos.GetY(), &roboBallAngle);
+
+                    double diff2 = fmod(roboAngle - roboBallAngle + 2*M_PI, 2*M_PI);
+                    if (diff2 >= M_PI)
+                        diff2 -= 2*M_PI;
+
+                    if (fabs(diff1 - diff2) <= 20 * M_PI / 180)
+                    {
+                        MoveMsBlocking(500, 500, 500, 0);
+                        kicked = true;
+                    }
+                    else
+                    {
+                        roboAngle = roboAngle<=0 ? roboAngle+M_PI : roboAngle-M_PI;
+                        diff2 = fmod(roboAngle - roboBallAngle + 2*M_PI, 2*M_PI);
+                        if (diff2 >= M_PI)
+                            diff2 -= 2*M_PI;
+
+                        if (fabs(diff1 - diff2) <= 20 * M_PI / 180)
+                        {
+                            MoveMsBlocking(-500, -500, 500, 0);
+                            kicked = true;
+                        }
+                    }
+                }
             }
-            else
-                cruisetoBias(tgt->GetX(),tgt->GetY(), speed, -10, 30);
+
+            if (!kicked)
+                cruisetoBias(tgt->GetX(),tgt->GetY(), 600, -10, 30);
         }
         else
-            MoveMs(rand() % 100, rand() % 100, 250, 0);
+            RandomMove();
+
         delete posList;
     }
 
