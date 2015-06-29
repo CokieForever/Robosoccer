@@ -68,7 +68,7 @@ const eTeam team = BLUE_TEAM;
 #ifdef SIMULATION
 const unsigned int refreshWait = 500;
 #else
-const unsigned int refreshWait = 50;
+const unsigned int refreshWait = 20;
 #endif
 
 int main(void)
@@ -107,7 +107,7 @@ int main(void)
     #endif
 
     BallMonitor ballMonitor(&coordCalibrer);
-    RefereeDisplay refereeDisplay(team, &ballMonitor, &coordCalibrer);
+    RefereeDisplay refereeDisplay(&ballMonitor, &coordCalibrer);
 
     try
     {
@@ -121,23 +121,24 @@ int main(void)
         RawBall ball(DBC);
 
         Goalkeeper gk = Goalkeeper(DBC, rfcomm_nr[0], &coordCalibrer, &ball, &ballMonitor);
-        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball, &ballMonitor, &refereeDisplay);
+        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball, &ballMonitor);
         PlayerTwo p2 = PlayerTwo(DBC, rfcomm_nr[2], &coordCalibrer, &ball, &ballMonitor);
         OpponentRobot robo4 = OpponentRobot(DBC, rfcomm_nr_2[0]);
         OpponentRobot robo5 = OpponentRobot(DBC, rfcomm_nr_2[1]);
         OpponentRobot robo6 = OpponentRobot(DBC, rfcomm_nr_2[2]);
 
-        NewRoboControl* robots[] = {&gk, &p1, &p2, &robo4, &robo5, &robo6};
 
         Referee ref(DBC);
         ref.Init();
         Log("Side: " + ToString(ref.GetSide()), INFO);
 
         ballMonitor.StartMonitoring(&ball);
-        refereeDisplay.StartDisplay(robots, &ball, &(p1.getMap()));
 
         Interpreter info(team, &ref, &gk, &p1, &p2, &robo4, &robo5, &robo6, &ball, &coordCalibrer);
 
+        NewRoboControl* robots[] = {&gk, &p1, &p2, &robo4, &robo5, &robo6};
+        refereeDisplay.StartDisplay(robots, &info, &(p1.getMap()));
+        p1.GiveDisplay(&refereeDisplay);
 
         //-------------------------------------- Ende Init ---------------------------------
         MainLoopDataStruct s1 = {&refereeDisplay, &info, &gk};

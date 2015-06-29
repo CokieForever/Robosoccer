@@ -4,8 +4,8 @@
 #include "log.h"
 
 
-RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer,
-                               int screenW, int screenH, NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
+RefereeDisplay::RefereeDisplay(const BallMonitor *ballMonitor, const CoordinatesCalibrer *coordCalibrer,
+                               int screenW, int screenH, NewRoboControl **robots, const Interpreter *interpreter)
 {
     m_keepGoing = true;
     m_isDisplaying = false;
@@ -18,15 +18,16 @@ RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, Coordinates
     else
         memset(m_robots, 0, sizeof(NewRoboControl*) * 6);
 
-    m_ball = ball;
-    m_team = team;
+    m_interpreter = interpreter;
     m_ballMonitor = ballMonitor;
     m_coordCalibrer = coordCalibrer;
     m_mapDisplay = NULL;
     m_pathFinder = NULL;
-    pthread_mutex_init(&m_pathMutex, NULL);
 
-    CreateMapDisplay(map);
+    if (interpreter)
+        m_team = interpreter->getMode().team;
+
+    pthread_mutex_init(&m_pathMutex, NULL);
 }
 
 RefereeDisplay::~RefereeDisplay()
@@ -36,20 +37,24 @@ RefereeDisplay::~RefereeDisplay()
     pthread_mutex_destroy(&m_pathMutex);
 }
 
-bool RefereeDisplay::StartDisplay(NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
+bool RefereeDisplay::StartDisplay(NewRoboControl **robots, const Interpreter *interpreter, const Interpreter::Map *map)
 {
     if (m_isDisplaying || !m_ballMonitor || !m_coordCalibrer)
         return false;
 
     if (robots)
         memcpy(m_robots, robots, sizeof(NewRoboControl*) * 6);
-    if (ball)
-        m_ball = ball;
-    if (map)
-        CreateMapDisplay(map);
+    if (interpreter)
+    {
+        m_interpreter = interpreter;
+        m_team = interpreter->getMode().team;
+    }
+
+    CreateMapDisplay(map);
 
     pthread_create(&m_displayThread, NULL, RefDisplayFn, this);
-    usleep(0.1e6);return StartDisplay(robots, ball);
+    usleep(0.1e6);
+    return true;
 }
 
 bool RefereeDisplay::StopDisplay()
@@ -126,7 +131,7 @@ void RefereeDisplay::DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Su
                 DrawLine(screen, x1, y1, x3, y3, CreateColor(255, 255, 0));
             }
 
-            pos = m_coordCalibrer->NormalizePosition(m_ball->GetPos());
+            pos = m_coordCalibrer->NormalizePosition(GetBallPos());
             pt3 = PathFinder::CreatePoint(pos.GetX(), pos.GetY());
             if (m_pathFinder->CheckPointsVisibility(pt1, &pt3))
             {
@@ -228,8 +233,9 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
         #if defined(PATHPLANNING_POLYGONS) && !defined(PATHPLANNING_ASTAR)
 
+        //Display path finder polygons
         if (display->m_pathFinder)
-        {;
+        {
             PathFinder::PolygonsList polygons = display->m_pathFinder->GetPolygonsCopy();
             for (PathFinder::PolygonsList::iterator it = polygons.begin() ; it != polygons.end() ; it++)
             {
@@ -252,6 +258,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
             }
         }
 
+        //Display current path
         pthread_mutex_lock(&(display->m_pathMutex));
         int n = display->m_path.size();
         if (n > 1)
@@ -275,12 +282,14 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
         #endif
 
+        Position ballPos = display->GetBallPos();
         if (ballSurfTr)
         {
-            rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_ball->GetPos()), ballSurfTr->w, ballSurfTr->h);
+            rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(ballPos), ballSurfTr->w, ballSurfTr->h);
             SDL_BlitSurface(ballSurfTr, NULL, screen, &rect);
         }
 
+        //TODO reactivate this
         /*double a, b;
         if (display->m_ballMonitor->PredictBallPosition(&a, &b, 5))
         {
@@ -289,14 +298,34 @@ void* RefereeDisplay::RefDisplayFn(void *data)
             DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
         }*/
 
+        Position goalPos_n(display->m_interpreter->getMode().our_side == LEFT_SIDE ? +1 : -1, 0);
+        Position goalPos = display->m_coordCalibrer->UnnormalizePosition(goalPos_n);
+
         for (int i=0 ; i < 6 ; i++)
         {
             SDL_Surface *robotSurf = ((display->m_team == BLUE_TEAM) ^ (i < 3)) ? redRobotSurfTr : blueRobotSurfTr;
             if (robotSurf)
             {
-                robotsDD[i].area = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_robots[i]->GetPos()), robotSurf->w, robotSurf->h);
+                Position robotPos = display->m_robots[i]->GetPos();
+                Position robotPos_n = display->m_coordCalibrer->NormalizePosition(robotPos);
+                robotsDD[i].area = display->PosToRect(robotPos_n, robotSurf->w, robotSurf->h);
                 rect = robotsDD[i].area;
                 SDL_BlitSurface(robotSurf, NULL, screen, &rect);
+
+                SDL_Color color = CreateColor(0,0,0);
+                SDL_Rect robotR = display->PosToRect(robotPos_n);
+                if (i < 3 && display->m_robots[i]->ShouldKick(ballPos, goalPos))
+                {
+                    color = CreateColor(255, 255, 255);
+                    SDL_Rect goalR = display->PosToRect(goalPos_n);
+                    DrawLine(screen, robotR.x, robotR.y, goalR.x, goalR.y, color);
+                }
+
+                double phi = display->m_robots[i]->GetPhi().Get();
+                double endX, endY;
+                ComputeVectorEnd(robotPos.GetX(), robotPos.GetY(), phi, 0.15, &endX, &endY);
+                SDL_Rect r = display->PosToRect(display->m_coordCalibrer->NormalizePosition(Position(endX, endY)));
+                DrawLine(screen, robotR.x, robotR.y, r.x, r.y, color);
 
                 DragDropStatus status = ManageDragDrop(&(robotsDD[i]), event);
 
@@ -356,4 +385,11 @@ SDL_Rect RefereeDisplay::PosToRect(Position pos, int w, int h)
 Position RefereeDisplay::RectToPos(SDL_Rect rect)
 {
     return Position(2 * rect.x / (double)(m_screenW-1) - 1, 2 * rect.y / (double)(m_screenH-1) - 1);
+}
+
+Position RefereeDisplay::GetBallPos()
+{
+    Position ballPos;
+    m_ballMonitor->GetBallPosition(&ballPos);
+    return ballPos;
 }

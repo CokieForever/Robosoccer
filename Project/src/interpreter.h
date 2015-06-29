@@ -34,7 +34,8 @@ public:
 
     struct GameData
     {
-        int team, oponent_score, our_score;
+        eTeam team;
+        int oponent_score, our_score;
         ePlayMode mode;
         Strategy formation;
         eSide our_side;
@@ -77,7 +78,7 @@ public:
     static void maskLeft(Map &map);
     static void maskRight(Map &map);
 
-    Interpreter(int x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, OpponentRobot* a, OpponentRobot* b, OpponentRobot* c, RawBall* d, CoordinatesCalibrer* e);
+    Interpreter(eTeam x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, OpponentRobot* a, OpponentRobot* b, OpponentRobot* c, RawBall* d, CoordinatesCalibrer* e);
     ~Interpreter();
 
     GameData getMode() const;

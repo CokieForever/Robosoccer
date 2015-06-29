@@ -17,7 +17,7 @@ bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
     return last.x == tgt.x && last.y == tgt.y;
 }
 
-TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
+TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
 {
     m_coordCalib = coordCalib;
     m_ball = ball;
@@ -49,10 +49,7 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coo
 
     AddBorderObstaclesToPathFinder();
 
-#if defined(PATHPLANNING_POLYGONS) && !defined(PATHPLANNING_ASTAR)
-    if (m_display)
-        m_display->DisplayPathFinder(&m_pathFinder);
-#endif
+    GiveDisplay(display);
 }
 
 void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
@@ -104,7 +101,7 @@ void TeamRobot::setDefaultPosition(Position pos)
     m_defaultPos = pos;
 }
 
-CoordinatesCalibrer* TeamRobot::getCoordinatesCalibrer() const
+const CoordinatesCalibrer* TeamRobot::getCoordinatesCalibrer() const
 {
     return m_coordCalib;
 }
@@ -137,6 +134,15 @@ bool TeamRobot::setMapValue(int i, int j, int val)
 void TeamRobot::setMap(const Interpreter::Map &map)
 {
     m_map = map;
+}
+
+void TeamRobot::GiveDisplay(RefereeDisplay *display)
+{
+    m_display = display;
+#if defined(PATHPLANNING_POLYGONS) && !defined(PATHPLANNING_ASTAR)
+    if (m_display)
+        m_display->DisplayPathFinder(&m_pathFinder);
+#endif
 }
 
 void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Interpreter::GameData& info)
@@ -352,56 +358,16 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
         Position *tgt = drivePath(posList);
         if (tgt)
         {
-            Position pos = m_coordCalib->NormalizePosition(GetPos());
-            Position ballPos;
+            Position ballPos, goalPos(info.our_side == LEFT_SIDE ? 1 : -1, 0);
             m_ballPm->GetBallPosition(&ballPos);
-            ballPos = m_coordCalib->NormalizePosition(ballPos);
-
-            bool kicked = false;
-            if (pos.DistanceTo(ballPos) <= 0.1)
-            {
-                double goalX = info.our_side == LEFT_SIDE ? +1 : -1;
-                double ballGoalAngle, robotGoalAngle;
-
-                ComputeLineAngle(ballPos.GetX(), ballPos.GetY(), goalX, 0, &ballGoalAngle);
-                ComputeLineAngle(pos.GetX(), pos.GetY(), goalX, 0, &robotGoalAngle);
-
-                double diff1 = fmod(ballGoalAngle - robotGoalAngle + 2*M_PI, 2*M_PI);
-                if (diff1 >= M_PI)
-                    diff1 -= 2*M_PI;
-
-                if (fabs(diff1) <= 10 * M_PI / 180)
-                {
-                    double roboBallAngle, roboAngle = GetPhi().Get();
-                    ComputeLineAngle(ballPos.GetX(), ballPos.GetY(), pos.GetX(), pos.GetY(), &roboBallAngle);
-
-                    double diff2 = fmod(roboAngle - roboBallAngle + 2*M_PI, 2*M_PI);
-                    if (diff2 >= M_PI)
-                        diff2 -= 2*M_PI;
-
-                    if (fabs(diff1 - diff2) <= 20 * M_PI / 180)
-                    {
-                        MoveMsBlocking(500, 500, 500, 0);
-                        kicked = true;
-                    }
-                    else
-                    {
-                        roboAngle = roboAngle<=0 ? roboAngle+M_PI : roboAngle-M_PI;
-                        diff2 = fmod(roboAngle - roboBallAngle + 2*M_PI, 2*M_PI);
-                        if (diff2 >= M_PI)
-                            diff2 -= 2*M_PI;
-
-                        if (fabs(diff1 - diff2) <= 20 * M_PI / 180)
-                        {
-                            MoveMsBlocking(-500, -500, 500, 0);
-                            kicked = true;
-                        }
-                    }
-                }
-            }
-
-            if (!kicked)
-                cruisetoBias(tgt->GetX(),tgt->GetY(), 600, -10, 30);
+            goalPos = m_coordCalib->UnnormalizePosition(goalPos);
+            int kick = ShouldKick(ballPos, goalPos);
+            if (kick > 0)
+                Kick(FORWARD);
+            else if (kick < 0)
+                Kick(BACKWARD);
+            else
+                cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
         }
         else
             RandomMove();

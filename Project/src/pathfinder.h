@@ -35,7 +35,7 @@ public:
     static const double INFINI_TY = 10e6;   //INFINITY does not compile. Don't ask me why.
     static Point CreatePoint(double x, double y);
     static Path CreatePath(Point start, Point end);
-    static std::vector<Position>* ConvertPathToReal(const Path path, CoordinatesCalibrer *calibrer = NULL);
+    static std::vector<Position>* ConvertPathToReal(const Path path, const CoordinatesCalibrer *calibrer = NULL);
     static void DestroyPolygonsList(PolygonsList list);
 
     PathFinder();
