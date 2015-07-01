@@ -5,6 +5,7 @@
  */
 
 #include "standardfsm.h"
+#include "log.h"
 
 using namespace std;
 
@@ -30,17 +31,17 @@ void StandardFSM(NewRoboControl *robots[], RawBall *ball, Referee *ref, eTeam t)
     while (1)
     {
         ePlayMode mode = ref->GetPlayMode();
-        cout << "Mode = " << mode << endl;
+        Log("Mode = " + ToString(mode), INFO);
 
         PlayFunc fn = playFunctions[mode];
 
         if (fn)
         {
-            cout << "Entering Play function" << endl;
+            Log("Entering Play function", DEBUG);
             fn(robots, ball, ref);
         }
 
-        cout << "Left mode function" << endl;
+        Log("Left mode function", DEBUG);
 
         while (ref->GetPlayMode() == mode)
         usleep(10000);
@@ -77,7 +78,7 @@ static void KickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
     {
         Position ballPos = ball->GetPos();
 
-        cout << "Kick off!" << endl;
+        Log("Kick off!", INFO);
         robots[1]->GotoXY(ballPos.GetX(), ballPos.GetY());
     }
 }
@@ -87,7 +88,7 @@ static void BeforePenalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
     eSide side = (team == BLUE_TEAM) ^(ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
     robots[2]->GotoXY(0.3, -0.5);
 
-    cout << "Before penalty side = " << ref->GetSide() << endl;
+    Log("Before penalty side = " + ToString(ref->GetSide()), INFO);
 
     if (ref->GetSide() == side)
     {
@@ -109,7 +110,7 @@ static void Penalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
     BeforePenalty(robots, ball, ref);
     usleep(5000000);
 
-    cout << "Penalty side = " << ref->GetSide() << endl;
+    Log("Penalty side = " + ToString(ref->GetSide()), INFO);
 
     if (ref->GetSide() == side)
     {
@@ -125,7 +126,7 @@ static void Penalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 
         double roboY = targetPos.GetY() - (deltaD + 0.15) * deltaY / deltaD;
 
-        cout << "Target Y = " << targetPos.GetY() << endl;
+        Log("Target Y = " + ToString(targetPos.GetY()), DEBUG);
 
         robots[1]->GotoXY(0, roboY);
         usleep(3000000);
@@ -172,7 +173,7 @@ static void* GoalKeeper(void* data)
 
     eSide side = (team == BLUE_TEAM) ^(roboBall->ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
 
-    cout << "Goal keeper started" << endl;
+    Log("Goal keeper started", INFO);
 
     while ((mode = roboBall->ref->GetPlayMode()) == PLAY_ON || mode == PENALTY)
     {
@@ -198,7 +199,7 @@ static void* GoalKeeper(void* data)
         usleep(30000);
     }
 
-    cout << "End of Goal Keeper" << endl;
+    Log("End of Goal Keeper", INFO);
 
     return NULL;
 }

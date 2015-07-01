@@ -1,13 +1,28 @@
 TEMPLATE = app
 TARGET = robosoccer
 
-#include(/DIST/lehre/lab_roso/tech/usr/include/settings.pri)
-include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
+DEFINES += SIMULATION
 
+#DEFINES += PATHPLANNING_ASTAR
+DEFINES += PATHPLANNING_POLYGONS
+
+#DEFINES += STACK_LOG
+DEFINES += VERBOSE
+#DEFINES += VERY_VERBOSE
+
+contains(DEFINES, SIMULATION) {
+    include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)
+} else {
+    include(/DIST/lehre/lab_roso/tech/usr/include/settings.pri)
+}
+
+contains(DEFINES, VERY_VERBOSE) {
+    DEFINES += VERBOSE
+}
 
 DEPENDPATH += src
 INCLUDEPATH += src SDL/headers
-LIBS += -LSDL/static -lSDLmain -lSDL -ldl -lSDL_ttf
+LIBS += -LSDL/static -lstdc++ -lSDLmain -lSDL -ldl -lSDL_ttf
 OBJECTS += /usr/lib/libfreetype.so.6
 
 DESTDIR = bin
@@ -17,8 +32,6 @@ OBJECTS_DIR = .obj
 #QT -= gui
 CONFIG +=  debug
 
-#QMAKE_CXXFLAGS += -std=c++0x
-
 # Input
 
 HEADERS += \ 
@@ -26,7 +39,9 @@ HEADERS += \
     src/sdl_gfx/*.h
 SOURCES +=  \
     src/*.cpp \
-    src/sdl_gfx/SDL_rotozoom.c
+    src/sdl_gfx/SDL_rotozoom.c \
+    src/sdl_gfx/SDL_gfxBlitFunc.c \
+    src/sdl_gfx/SDL_gfxPrimitives.c
 		
 		
 ##############
@@ -39,6 +54,11 @@ dox.depends = FORCE
 
 # somewhere else in the *.pro file
 QMAKE_EXTRA_UNIX_TARGETS += dox
+QMAKE_CXXFLAGS += -rdynamic -g
+
+
+
+
 
 
 

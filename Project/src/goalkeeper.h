@@ -1,3 +1,4 @@
+
 #ifndef GOALKEEPER_H_
 #define GOALKEEPER_H_
 
@@ -6,26 +7,32 @@
 #include "referee.h"
 #include "teamrobot.h"
 #include "coordinates.h"
+#include "ballmonitor.h"
 
 
 class Goalkeeper : public TeamRobot
 {
 
-public:
+  public:
     enum ActionGk
     {
-        GO_TO_DEF_POS, PREVENT_GOAL, FOLLOWPATH
+        GO_TO_DEF_POS, PREVENT_GOAL, STOP
     };
 
-    Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall*);
+    Goalkeeper(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer* coordCalib, RawBall* ball, BallMonitor* ballgk);
 
-    void setNextCmd(Interpreter *info);
-    void setCmdParam(void);
-    void* performCmd(void);
+    void setNextCmd(const Interpreter::GameData& info);
+    void setCmdParam(const Interpreter& interpreter);
+    void performCmd(const Interpreter::GameData& info);
 
-private:
+
+  private:
     ActionGk m_nextCmd;
     Position m_preventGoalParam;
+    BallMonitor* m_ballgk;
+    
+    void AddObstacleForFormation(const Interpreter::GameData& info);
+
 
 };
 

@@ -21,9 +21,6 @@ public:
 
 private:
     const Interpreter::Map& m_map;
-    bool m_isDisplaying;
-    pthread_t m_displayThread;
-    bool m_keepGoing;
     int m_screenW;
     int m_screenH;
     SDL_Surface *m_bgSurf;

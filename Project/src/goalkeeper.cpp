@@ -7,20 +7,20 @@
 
 #include "goalkeeper.h"
 #include "interpreter.h"
+#include "newrobocontrol.h"
+#include "log.h"
 
 
-Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b) : TeamRobot(DBC, deviceNr, coordCalib, b)
+Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm)
 {
 }
 
-void Goalkeeper::setNextCmd(Interpreter *info)
+void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
 {
-    Interpreter::GameData mode = info->getMode();
-
-    switch(mode.mode)
+    switch(info.mode)
     {
         case PENALTY:
-            if (mode.turn != Interpreter::OUR_TURN)
+            if (info.turn != Interpreter::OUR_TURN)
                 m_nextCmd = PREVENT_GOAL;
             else
                 m_nextCmd = GO_TO_DEF_POS;
@@ -30,75 +30,87 @@ void Goalkeeper::setNextCmd(Interpreter *info)
             m_nextCmd = PREVENT_GOAL;
             break;
 
-        default:
+        case BEFORE_KICK_OFF:
+        case BEFORE_PENALTY:
             m_nextCmd = GO_TO_DEF_POS;
+            break;
+
+        case REFEREE_INIT:
+        case KICK_OFF:
+        case PAUSE:
+        case TIME_OVER:
+            m_nextCmd = STOP;
             break;
     }
 
 }
 
-void Goalkeeper::setCmdParam(void)
+void Goalkeeper::setCmdParam(const Interpreter& interpreter)
 {
     switch(m_nextCmd)
     {
         case PREVENT_GOAL:
         {
-            Position ballPos = m_ball->GetPos();
-            double y = ballPos.GetY();
+            eSide side = interpreter.getMode().our_side;
+            double x = side == LEFT_SIDE ? -1 : +1;
 
-            if (y > 0.15)
-            y = 0.15;
-            else if (y < -0.15)
-            y = -0.15;
+            BallMonitor::Direction dir;
+            m_ballPm->GetBallDirection(&dir);
 
-            double deltaY = fabs(GetY() - y);
-
-            if (deltaY >= 0.05)
+            bool success = false;
+            if ((dir.x >= 0) != (side == LEFT_SIDE))
             {
-                cout << "Goal keeper moving to y = " << y << std::endl;
-                m_preventGoalParam.SetX(m_defaultPos.GetX());
-                m_preventGoalParam.SetY(y);
+                double a, b;
+                if (m_ballPm->PredictBallPosition(&a, &b, 4) && a < PathFinder::INFINI_TY)
+                {
+                    double y = std::max(-0.25, std::min(0.25, a * x + b));
+                    m_preventGoalParam = m_coordCalib->UnnormalizePosition(Position(x,y));
+                    success = true;
+                }
             }
-            else
+
+            if (!success)
             {
-                m_preventGoalParam.SetX(m_defaultPos.GetX());
-                m_preventGoalParam.SetY(m_defaultPos.GetY());
+                Position ballPos;
+                m_ballPm->GetBallPosition(&ballPos);
+                ballPos = m_coordCalib->NormalizePosition(ballPos);
+                double y = std::max(-0.25, std::min(0.25, ballPos.GetY()));
+                m_preventGoalParam = m_coordCalib->UnnormalizePosition(Position(x, y));
             }
 
             break;
         }
 
         case GO_TO_DEF_POS:
-            std::cout << "Goal keeper moving to Position = " << m_defaultPos <<std::endl;
+            m_defaultPos = interpreter.getGKDefaultPos();
+            Log("Goal keeper moving to Position = " + ToString(m_defaultPos), DEBUG);
             break;
 
-        default :
+        case STOP:
             break;
     }
 }
 
-void* Goalkeeper::performCmd(void)
+void Goalkeeper::performCmd(const Interpreter::GameData& info)
 {
 
     switch(m_nextCmd)
     {
-        case Goalkeeper::PREVENT_GOAL:
-            std::cout << "Next command Prevent Goal Position: " << m_preventGoalParam.GetPos()<< std::endl;
-            GotoXY(m_defaultPos.GetX(),m_preventGoalParam.GetY());
+        case PREVENT_GOAL:
+            cruisetoBias(m_preventGoalParam.GetX(), m_preventGoalParam.GetY(), 650, -10, 30);
             break;
 
-        case Goalkeeper::GO_TO_DEF_POS:
-            GotoXY(m_defaultPos.GetX(),m_defaultPos.GetY());
-            while(GetPos().DistanceTo(m_defaultPos)> 0.1)
-            {
-                usleep(10000000);
-            }
+        case GO_TO_DEF_POS:
+            cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650, -10, 30);
             break;
 
-        default:
+        case STOP:
             break;
     }
+}
 
-    return 0;
+void Goalkeeper::AddObstacleForFormation(const Interpreter::GameData& info)
+{
+    m_areaObstacle = NULL;
 }
 

@@ -13,7 +13,7 @@
 #include "types.h"
 #include "vector3d.h"
 #include "robo_control.h"
-
+#include <vector>
 
 class NewRoboControl : public RoboControl
 {
@@ -31,21 +31,27 @@ public:
     static double getSpeedPt(double nominal, double actual, int geschw); // Drehgeschwindigkeit bei der Fahrt
     static double getSpeedT(double diff);
     static double degToRad(double deg); // regelt Vorwärtsgeschwindigkeit
+    static bool IsOnTarget(Position current, Position target);
 
     NewRoboControl(RTDBConn& DBC, const int deviceNr);
     virtual ~NewRoboControl() = 0;  //Prevents instantiation of NewRoboControl
 
+    bool IsOnTarget(Position target) const;
     bool cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir);
+    void RandomMove();
+    Position* drivePath(std::vector<Position>* path);
+    void Kick(eDirection dir);
+    void GoalKick(Position ballPos);
+    int ShouldKick(Position ballPos, Position goalPos);
+    bool ShouldGoalKick(Position ballPos, eSide ourSide);
     void setSpeed(double translation, double rotation, eDirection dir);
-    void driveBack();
-    bool robotNotOnTargetPos();
-    static void* Checkspeed(void *data);
 
 private:
-    pthread_t m_thread;
-    Position m_targetPos;
-    bool m_checkSpeedFinishNow;
-    double m_targetSpeed;
+    static double AngleDiff(double angle1, double angle2);
+
+    bool m_stopCruisingNow;
+    bool m_isCruising;
+    pthread_t m_cruiseThread;
 
 };
 

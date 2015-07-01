@@ -15,6 +15,9 @@
 #include "node.h"
 #include "coordinates.h"
 #include "playertwo.h"
+#include "matrix.h"
+#include "sdlutilities.h"
+#include "log.h"
 
 //include the libs from sample code
 
@@ -183,7 +186,7 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
                     // mark its parent node direction
                     dir_map[xdx][ydy] = (i + DIR/2) % DIR;
                 }
-                else if(open_nodes_map[xdx][ydy]>m0->getPriority())
+                else if(open_nodes_map[xdx][ydy]>(Uint32)m0->getPriority())
                 {
                     // update the priority info
                     open_nodes_map[xdx][ydy]=m0->getPriority();
@@ -222,8 +225,8 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
 
 void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
 {
-    Map map;
-    memcpy(&(map[0][0]), &(map0[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
+#ifdef VERY_VERBOSE
+    Map map(map0);
 
     //show planned path
     cout << "path planned:" << path << endl;
@@ -264,9 +267,10 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
             cout << endl;
         }
     }
+#endif
 }
 
-void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
+void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
 {
     CoordinatesCalibrer *m_coordCalibrer = coordCalibrer;
     //Normalize coordinates of our robot
@@ -281,7 +285,7 @@ void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRo
     int obstacle_r = 1.5 * MAP_BORDERSIZE;
 
     //clear map
-    memset(&(map[0][0]), 0, sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
+    map.Fill(0);
 
     //get all positions of the robots
     for (int k=0 ; k < 5 ; k++)
@@ -322,8 +326,6 @@ void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRo
         }
     }
 
-    map[i1][j1] = 2; // affect 2 to the position of our robot in the matrix
-
     //Normalize coordinates of the ball
     pos1 = m_coordCalibrer->NormalizePosition(ball->GetPos());
 
@@ -333,17 +335,28 @@ void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRo
     map[i][j]=3; // affect 3 to the position of the ball in the matrix
 
     //generate the obstacles around the ball depending on the side in which our team plays
-    map[i-1][j-1]=1;
-    map[i-1][j]=1;
-    map[i-1][j+1]=1;
-    map[i+1][j-1]=1;
-    map[i+1][j]=1;
-    map[i+1][j+1]=1;
+    double bx = coord2mapX(pos1.GetX()), by = coord2mapY(pos1.GetY());
+    double goalX = coord2mapX(our_side == LEFT_SIDE ? 1 : -1);
+    double cosAngle, sinAngle;
+    ComputeLineAngle(bx, by, goalX, coord2mapY(0), &cosAngle, &sinAngle);
 
-    if (our_side == LEFT_SIDE)
-        map[i][j+1]=1;
-    else
-        map[i][j-1]=1;
+    double x, y;
+    ComputeVectorEnd(bx, by, cosAngle, sinAngle, 5, &x, &y);
+
+    double x1, y1;
+    ComputeVectorEnd(x, y, sinAngle, -cosAngle, 5, &x1, &y1);
+
+    double x2, y2;
+    ComputeVectorEnd(x, y, -sinAngle, cosAngle, 5, &x2, &y2);
+    map.DrawThickLine(Map::CreatePoint(x1,y1), Map::CreatePoint(x2,y2), 2, 1);
+
+    ComputeVectorEnd(x1, y1, -cosAngle, -sinAngle, 10, &x, &y);
+    map.DrawThickLine(Map::CreatePoint(x1,y1), Map::CreatePoint(x,y), 3, 1);
+
+    ComputeVectorEnd(x2, y2, -cosAngle, -sinAngle, 10, &x, &y);
+    map.DrawThickLine(Map::CreatePoint(x2,y2), Map::CreatePoint(x,y), 3, 1);
+
+    map[i1][j1] = 2; // affect 2 to the position of our robot in the matrix
 
     /*
     //indices of the robot's position in the matrix
@@ -361,7 +374,7 @@ void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRo
 }
 
 
-Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,NewRoboControl *a,NewRoboControl *b,NewRoboControl *c,RawBall *d,CoordinatesCalibrer *e)
+Interpreter::Interpreter(eTeam x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,OpponentRobot *a,OpponentRobot *b,OpponentRobot *c,RawBall *d,CoordinatesCalibrer *e)
 {
     m_ref  = y;
     m_gk = z;
@@ -378,22 +391,30 @@ Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo 
     m_mode.team = x;
 
     if (x== 0)
-        cout << "We are team blue!" << endl;
+        Log("We are team blue!", INFO);
     else
-        cout << "We are team red!" << endl;
-
+        Log("We are team red!", INFO);
 
     //set gk,p1,p2 map to zero and place penalty area
-    for(int i=0 ; i<MAP_WIDTH ; i++)
-    {
-        for(int j=0 ; j<MAP_HEIGHT ; j++)
-        {
-            m_p1->setMapValue(i, j, 0);
-        }
-    }
-    //setObstacles(p1->map);
+    m_p1Map.Fill(0);
+    m_p2Map.Fill(0);
 
-    cout << "Interpreter initialized" << endl;
+    pthread_mutex_init(&m_p1MapMutex, NULL);
+    pthread_mutex_init(&m_p2MapMutex, NULL);
+
+    pthread_mutex_init(&m_mutex, NULL);
+    pthread_cond_init(&m_cond, NULL);
+
+    Log("Interpreter initialized", INFO);
+}
+
+Interpreter::~Interpreter()
+{
+    pthread_cond_destroy(&m_cond);
+    pthread_mutex_destroy(&m_mutex);
+
+    pthread_mutex_destroy(&m_p1MapMutex);
+    pthread_mutex_destroy(&m_p2MapMutex);
 }
 
 Interpreter::GameData Interpreter::getMode() const
@@ -401,12 +422,71 @@ Interpreter::GameData Interpreter::getMode() const
     return m_mode;
 }
 
+void Interpreter::SetP1MapToRobot(TeamRobot *p1) const
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_p1MapMutex);
+    p1->setMap(m_p1Map);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_p1MapMutex);
+}
+
+void Interpreter::SetP2MapToRobot(TeamRobot *p2) const
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_p2MapMutex);
+    p2->setMap(m_p2Map);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_p2MapMutex);
+}
+
+Position Interpreter::getGKDefaultPos() const
+{
+    return m_gkDefaultPosition;
+}
+
+Position Interpreter::getP1DefaultPos() const
+{
+    return m_p1DefaultPosition;
+}
+
+Position Interpreter::getP2DefaultPos() const
+{
+    return m_p2DefaultPosition;
+}
+
+const Goalkeeper* Interpreter::getGK() const
+{
+    return m_gk;
+}
+
+const PlayerMain* Interpreter::getP1() const
+{
+    return m_p1;
+}
+
+const PlayerTwo* Interpreter::getP2() const
+{
+    return m_p2;
+}
+
+const OpponentRobot* Interpreter::getE1() const
+{
+    return m_e1;
+}
+
+const OpponentRobot* Interpreter::getE2() const
+{
+    return m_e2;
+}
+
+const OpponentRobot* Interpreter::getE3() const
+{
+    return m_e3;
+}
+
 bool Interpreter::verifyPos()
 {
     //check if all robots are on their default position and orientation
-    return (m_gk->GetPos().DistanceTo(m_gk->getDefaultPosition())< 0.01)
-            && (m_p1->GetPos().DistanceTo(m_p1->getDefaultPosition())< 0.01)
-            && (m_p2->GetPos().DistanceTo(m_p2->getDefaultPosition())< 0.01);
+    return m_gk->IsOnTarget(m_gk->getDefaultPosition())
+            && m_p1->IsOnTarget(m_p1->getDefaultPosition())
+            && m_p2->IsOnTarget(m_p2->getDefaultPosition());
 }
 
 void Interpreter::setDefaultPos()
@@ -418,21 +498,21 @@ void Interpreter::setDefaultPos()
         case BEFORE_PENALTY:
             if((m_mode.turn == Interpreter::OUR_TURN))
             {
-                m_gk->setDefaultPosition(Position(-0.3, 0.4));
-                m_p1->setDefaultPosition(Position(0.0, 0.0));
-                m_p2->setDefaultPosition(Position(-1.0, -0.5));
+                m_gkDefaultPosition = Position(-0.3, 0.4);
+                m_p1DefaultPosition = Position(0.0, 0.0);
+                m_p2DefaultPosition = Position(-1.0, -0.5);
             }
             else if ((m_mode.turn == Interpreter::THEIR_TURN))
             {
-                m_gk->setDefaultPosition(Position(1.2, 0.0));
-                m_p1->setDefaultPosition(Position(-0.5, -0.5));
-                m_p2->setDefaultPosition(Position(-1.0, -0.5));
+                m_gkDefaultPosition = Position(1.2, 0.0);
+                m_p1DefaultPosition = Position(-0.5, -0.5);
+                m_p2DefaultPosition = Position(-1.0, -0.5);
             }
             else
             {
-                m_gk->setDefaultPosition(Position(-0.3, 0.4));
-                m_p1->setDefaultPosition(Position(0.0, 0.4));
-                m_p2->setDefaultPosition(Position(-1.0, -0.5));
+                m_gkDefaultPosition = Position(-0.3, 0.4);
+                m_p1DefaultPosition = Position(0.0, 0.4);
+                m_p2DefaultPosition = Position(-1.0, -0.5);
             }
             break;
 
@@ -441,21 +521,21 @@ void Interpreter::setDefaultPos()
 
             if(m_mode.our_side == LEFT_SIDE)
             {
-                m_gk->setDefaultPosition(Position(-1.1, 0.0));
-                m_p1->setDefaultPosition(Position(-0.3, -0.2));
-                m_p2->setDefaultPosition(Position(-0.3, 0.2));
+                m_gkDefaultPosition = Position(-1.1, 0.0);
+                m_p1DefaultPosition = Position(-0.3, -0.2);
+                m_p2DefaultPosition = Position(-0.3, 0.2);
             }
             else if(m_mode.our_side == RIGHT_SIDE)
             {
-                m_gk->setDefaultPosition(Position(1.1, 0.0));
-                m_p1->setDefaultPosition(Position(0.3, 0.2));
-                m_p2->setDefaultPosition(Position(0.3, -0.2));
+                m_gkDefaultPosition = Position(1.1, 0.0);
+                m_p1DefaultPosition = Position(0.3, 0.2);
+                m_p2DefaultPosition = Position(0.3, -0.2);
             }
             else
             {
-                m_gk->setDefaultPosition(Position(-1.0, 0.4));
-                m_p1->setDefaultPosition(Position(0.2, 0.4));
-                m_p2->setDefaultPosition(Position(-0.2, -0.4));
+                m_gkDefaultPosition = Position(-1.0, 0.4);
+                m_p1DefaultPosition = Position(0.2, 0.4);
+                m_p2DefaultPosition = Position(-0.2, -0.4);
             }
 
             break;
@@ -493,16 +573,16 @@ void Interpreter::setDefaultPos()
 
         case PENALTY:
             if (m_mode.turn == THEIR_TURN)
-                m_gk->setDefaultPositionX(1.1);
+                m_gkDefaultPosition.SetX(1.1);
             break;
 
         case KICK_OFF:
             break;
 
         default:
-            m_gk->setDefaultPosition(Position(1.1, 0.5));
-            m_p1->setDefaultPosition(Position(0.5, 0.2));
-            m_p2->setDefaultPosition(Position(-0.5, -0.2));
+            m_gkDefaultPosition = Position(1.1, 0.5);
+            m_p1DefaultPosition = Position(0.5, 0.2);
+            m_p2DefaultPosition = Position(-0.5, -0.2);
 
             //states such "as referee init, kick_off/penalty -> defpos doesnt change
             break;
@@ -575,14 +655,163 @@ void Interpreter::setTurn()
 
 void Interpreter::updateSituation()
 {
-    NewRoboControl *robots[5] = {m_gk, m_p2, m_e1, m_e2, m_e3};
-
-    Interpreter::Map map;
-    memcpy(&(map[0][0]), &(m_p1->getMap()[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
-    matrixupdate(map,m_p1,robots,m_ball,m_cal,m_mode.our_side);
-    m_p1->setMap(map);
+    m_situationId = rand();
 
     setPlayMode();
     setDefaultPos();
+
+    #ifdef PATHPLANNING_ASTAR
+    const NewRoboControl *robots1[5] = {m_gk, m_p2, m_e1, m_e2, m_e3};
+    pthread_mutex_lock((pthread_mutex_t*)&m_p1MapMutex);
+    matrixupdate(m_p1Map, m_p1, robots1, m_ball, m_cal, m_mode.our_side);
+    formationUpdateP1();
+    pthread_mutex_unlock((pthread_mutex_t*)&m_p1MapMutex);
+
+    const NewRoboControl *robots2[5] = {m_gk, m_p1, m_e1, m_e2, m_e3};
+    pthread_mutex_lock((pthread_mutex_t*)&m_p2MapMutex);
+    matrixupdate(m_p2Map, m_p2, robots2, m_ball, m_cal, m_mode.our_side);
+    formationUpdateP2();
+    pthread_mutex_unlock((pthread_mutex_t*)&m_p2MapMutex);
+    #endif
+
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    pthread_cond_broadcast(&m_cond);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
 }
+
+int Interpreter::waitForUpdate(int id)
+{
+    if (m_situationId != id)
+        return m_situationId;
+
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    pthread_cond_wait(&m_cond, &m_mutex);
+    id = m_situationId;
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+
+    return id;
+}
+
+void Interpreter::maskUpperLeft(Map &map)
+{
+    Map::Point ul = {MAP_BORDERSIZE-1, MAP_BORDERSIZE-1};
+    Map::Point lr = {MAP_WIDTH/2, MAP_HEIGHT/2};
+    map.DrawRectangle(ul, lr, 1);
+}
+
+void Interpreter::maskOmitUpperLeft(Map &map)
+{
+    maskRight(map);
+    maskLowerLeft(map);
+}
+
+void Interpreter::maskUpperRight(Map &map)
+{
+    Map::Point ul = {MAP_WIDTH/2, MAP_BORDERSIZE-1};
+    Map::Point lr = {MAP_WIDTH-MAP_BORDERSIZE-1, MAP_HEIGHT/2};
+    map.DrawRectangle(ul, lr, 1);
+}
+
+void Interpreter::maskOmitUpperRight(Map &map)
+{
+    maskLeft(map);
+    maskLowerRight(map);
+}
+
+void Interpreter::maskLowerLeft(Map &map)
+{
+    Map::Point ul = {MAP_BORDERSIZE-1, MAP_HEIGHT/2};
+    Map::Point lr = {MAP_WIDTH/2, MAP_HEIGHT-MAP_BORDERSIZE-1};
+    map.DrawRectangle(ul, lr, 1);
+}
+
+void Interpreter::maskOmitLowerLeft(Map &map)
+{
+    maskRight(map);
+    maskUpperLeft(map);
+}
+
+void Interpreter::maskLowerRight(Map &map)
+{
+    Map::Point ul = {MAP_WIDTH/2, MAP_HEIGHT/2};
+    Map::Point lr = {MAP_WIDTH-MAP_BORDERSIZE-1, MAP_HEIGHT-MAP_BORDERSIZE-1};
+    map.DrawRectangle(ul, lr, 1);
+}
+
+void Interpreter::maskOmitLowerRight(Map &map)
+{
+    maskUpperRight(map);
+    maskLeft(map);
+}
+
+void Interpreter::maskLeft(Map &map)
+{
+    maskUpperLeft(map);
+    maskLowerLeft(map);
+}
+
+void Interpreter::maskRight(Map &map)
+{
+    maskUpperRight(map);
+    maskLowerRight(map);
+}
+
+
+
+void Interpreter::formationUpdateP1()
+{
+    //Player1 plays on the left side for ATK/DEF,for MIXED Player1 is in ATK, form goalie point of view, if formation is unknown -> ATK
+
+    GameData info = this->getMode();
+
+    switch(info.formation)
+    {
+        case Interpreter::DEF:
+            (info.our_side== LEFT_SIDE) ? maskOmitUpperLeft(m_p1Map) : maskOmitLowerRight(m_p1Map);
+            break;
+
+        case Interpreter::MIX:
+            (info.our_side== LEFT_SIDE) ? maskLeft(m_p1Map) : maskRight(m_p1Map);
+            break;
+
+        default:
+            //ATK case
+            (info.our_side== LEFT_SIDE) ? maskOmitUpperRight(m_p1Map) : maskOmitLowerLeft(m_p1Map);
+            break;
+
+    }
+
+}
+void Interpreter::formationUpdateP2()
+{
+    //Player2 plays on the right side for ATK/DEF,for MIXED Player2 is in DEF, form goalie point of view, if formation is unknown -> DEF
+    GameData info = this->getMode();
+
+    switch(info.formation)
+    {
+        case Interpreter::ATK:
+            (info.our_side== LEFT_SIDE) ? maskOmitLowerRight(m_p2Map) : maskOmitUpperLeft(m_p2Map);
+            break;
+
+
+        case Interpreter::MIX:
+            (info.our_side== LEFT_SIDE) ? maskRight(m_p2Map) : maskLeft(m_p2Map);
+            break;
+
+        default:
+            //DEF case
+            (info.our_side== LEFT_SIDE) ? maskOmitLowerLeft(m_p2Map) : maskOmitUpperRight(m_p2Map);
+            break;
+    }
+
+
+}
+
+
+
+
+
+
+
+
 
