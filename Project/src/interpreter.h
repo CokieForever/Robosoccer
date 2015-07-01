@@ -81,6 +81,8 @@ public:
     Interpreter(eTeam x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, OpponentRobot* a, OpponentRobot* b, OpponentRobot* c, RawBall* d, CoordinatesCalibrer* e);
     ~Interpreter();
 
+    void End();
+
     GameData getMode() const;
 
     void SetP1MapToRobot(TeamRobot *p1) const;
