@@ -358,16 +358,27 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
         Position *tgt = drivePath(posList);
         if (tgt)
         {
-            Position ballPos, goalPos(info.our_side == LEFT_SIDE ? 1 : -1, 0);
+            Position ballPos;
             m_ballPm->GetBallPosition(&ballPos);
-            goalPos = m_coordCalib->UnnormalizePosition(goalPos);
-            int kick = ShouldKick(ballPos, goalPos);
-            if (kick > 0)
-                Kick(FORWARD);
-            else if (kick < 0)
-                Kick(BACKWARD);
+            if (info.formation == Interpreter::DEF)
+            {
+                if (ShouldGoalKick(ballPos, info.our_side))
+                    GoalKick(ballPos);
+                else
+                    cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
+            }
             else
-                cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
+            {
+                Position goalPos(info.our_side == LEFT_SIDE ? 1 : -1, 0);
+                goalPos = m_coordCalib->UnnormalizePosition(goalPos);
+                int kick = ShouldKick(ballPos, goalPos);
+                if (kick > 0)
+                    Kick(FORWARD);
+                else if (kick < 0)
+                    Kick(BACKWARD);
+                else
+                    cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
+            }
         }
         else
             RandomMove();

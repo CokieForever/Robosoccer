@@ -330,12 +330,13 @@ void NewRoboControl::GoalKick(Position ballPos)
     double a = forward ? robotBallAngle : robotBallAngle2;
     double diff3 = AngleDiff(a, phi);
 
-    while (fabs(diff3) >= 10 * M_PI / 180)
+    int i;
+    for (i=0 ; i < 1000 && fabs(diff3) >= 10 * M_PI / 180 ; i++)
     {
         if (diff3 > 0)
-            MoveMs(-50, 50, 200);
-        else if (diff3 < 0)
             MoveMs(50, -50, 200);
+        else if (diff3 < 0)
+            MoveMs(-50, 50, 200);
 
         usleep(1000);
 
@@ -343,7 +344,8 @@ void NewRoboControl::GoalKick(Position ballPos)
         diff3 = AngleDiff(a, phi);
     }
 
-    Kick(forward ? FORWARD : BACKWARD);
+    if (i < 1000)
+        Kick(forward ? FORWARD : BACKWARD);
 }
 
 int NewRoboControl::ShouldKick(Position ballPos, Position goalPos)

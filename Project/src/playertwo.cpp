@@ -63,30 +63,38 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
         case DEFENSE:
         {
             eSide side = interpreter.getMode().our_side;
-            double x = side == LEFT_SIDE ? -0.8 : +0.8;
+            Position ballPos;
+            m_ballPm->GetBallPosition(&ballPos);
 
-            BallMonitor::Direction dir;
-            m_ballPm->GetBallDirection(&dir);
-
-            bool success = false;
-            if ((dir.x >= 0) != (side == LEFT_SIDE))
+            if (ShouldGoalKick(ballPos, side))
+                GoalKick(ballPos);
+            else
             {
-                double a, b;
-                if (m_ballPm->PredictBallPosition(&a, &b, 4) && a < PathFinder::INFINI_TY)
+                double x = side == LEFT_SIDE ? -0.8 : +0.8;
+
+                BallMonitor::Direction dir;
+                m_ballPm->GetBallDirection(&dir);
+
+                bool success = false;
+                if ((dir.x >= 0) != (side == LEFT_SIDE))
                 {
-                    double y = std::max(-0.5, std::min(0.5, a * x + b));
-                    m_defendpm = m_coordCalib->UnnormalizePosition(Position(x,y));
-                    success = true;
+                    double a, b;
+                    if (m_ballPm->PredictBallPosition(&a, &b, 4) && a < PathFinder::INFINI_TY)
+                    {
+                        double y = std::max(-0.5, std::min(0.5, a * x + b));
+                        m_defendpm = m_coordCalib->UnnormalizePosition(Position(x,y));
+                        success = true;
+                    }
                 }
-            }
 
-            if (!success)
-            {
-                Position ballPos;
-                m_ballPm->GetBallPosition(&ballPos);
-                ballPos = m_coordCalib->NormalizePosition(ballPos);
-                double y = std::max(-0.5, std::min(0.5, ballPos.GetY()));
-                m_defendpm = m_coordCalib->UnnormalizePosition(Position(x, y));
+                if (!success)
+                {
+                    Position ballPos;
+                    m_ballPm->GetBallPosition(&ballPos);
+                    ballPos = m_coordCalib->NormalizePosition(ballPos);
+                    double y = std::max(-0.5, std::min(0.5, ballPos.GetY()));
+                    m_defendpm = m_coordCalib->UnnormalizePosition(Position(x, y));
+                }
             }
 
             break;
