@@ -17,6 +17,7 @@
 #include "playertwo.h"
 #include "matrix.h"
 #include "sdlutilities.h"
+#include "log.h"
 
 //include the libs from sample code
 
@@ -224,6 +225,7 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
 
 void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
 {
+#ifdef VERY_VERBOSE
     Map map(map0);
 
     //show planned path
@@ -265,6 +267,7 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
             cout << endl;
         }
     }
+#endif
 }
 
 void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
@@ -371,7 +374,7 @@ void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref,
 }
 
 
-Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,OpponentRobot *a,OpponentRobot *b,OpponentRobot *c,RawBall *d,CoordinatesCalibrer *e)
+Interpreter::Interpreter(eTeam x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,OpponentRobot *a,OpponentRobot *b,OpponentRobot *c,RawBall *d,CoordinatesCalibrer *e)
 {
     m_ref  = y;
     m_gk = z;
@@ -388,9 +391,9 @@ Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo 
     m_mode.team = x;
 
     if (x== 0)
-        cout << "We are team blue!" << endl;
+        Log("We are team blue!", INFO);
     else
-        cout << "We are team red!" << endl;
+        Log("We are team red!", INFO);
 
     //set gk,p1,p2 map to zero and place penalty area
     m_p1Map.Fill(0);
@@ -402,7 +405,7 @@ Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo 
     pthread_mutex_init(&m_mutex, NULL);
     pthread_cond_init(&m_cond, NULL);
 
-    cout << "Interpreter initialized" << endl;
+    Log("Interpreter initialized", INFO);
 }
 
 Interpreter::~Interpreter()
@@ -412,6 +415,13 @@ Interpreter::~Interpreter()
 
     pthread_mutex_destroy(&m_p1MapMutex);
     pthread_mutex_destroy(&m_p2MapMutex);
+}
+
+void Interpreter::End()
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    pthread_cond_broadcast(&m_cond);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
 }
 
 Interpreter::GameData Interpreter::getMode() const
@@ -481,9 +491,9 @@ const OpponentRobot* Interpreter::getE3() const
 bool Interpreter::verifyPos()
 {
     //check if all robots are on their default position and orientation
-    return (m_gk->GetPos().DistanceTo(m_gk->getDefaultPosition())< 0.05)
-            && (m_p1->GetPos().DistanceTo(m_p1->getDefaultPosition())< 0.05)
-            && (m_p2->GetPos().DistanceTo(m_p2->getDefaultPosition())< 0.05);
+    return m_gk->IsOnTarget(m_gk->getDefaultPosition())
+            && m_p1->IsOnTarget(m_p1->getDefaultPosition())
+            && m_p2->IsOnTarget(m_p2->getDefaultPosition());
 }
 
 void Interpreter::setDefaultPos()

@@ -5,6 +5,7 @@
 #include "playertwo.h"
 #include "refereedisplay.h"
 #include "playermain.h"
+#include "log.h"
 
 
 bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
@@ -16,7 +17,7 @@ bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
     return last.x == tgt.x && last.y == tgt.y;
 }
 
-TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
+TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
 {
     m_coordCalib = coordCalib;
     m_ball = ball;
@@ -48,10 +49,7 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coo
 
     AddBorderObstaclesToPathFinder();
 
-#if defined(PATHPLANNING_POLYGONS) && !defined(PATHPLANNING_ASTAR)
-    if (m_display)
-        m_display->DisplayPathFinder(&m_pathFinder);
-#endif
+    GiveDisplay(display);
 }
 
 void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
@@ -103,7 +101,7 @@ void TeamRobot::setDefaultPosition(Position pos)
     m_defaultPos = pos;
 }
 
-CoordinatesCalibrer* TeamRobot::getCoordinatesCalibrer() const
+const CoordinatesCalibrer* TeamRobot::getCoordinatesCalibrer() const
 {
     return m_coordCalib;
 }
@@ -136,6 +134,15 @@ bool TeamRobot::setMapValue(int i, int j, int val)
 void TeamRobot::setMap(const Interpreter::Map &map)
 {
     m_map = map;
+}
+
+void TeamRobot::GiveDisplay(RefereeDisplay *display)
+{
+    m_display = display;
+#if defined(PATHPLANNING_POLYGONS) && !defined(PATHPLANNING_ASTAR)
+    if (m_display)
+        m_display->DisplayPathFinder(&m_pathFinder);
+#endif
 }
 
 void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Interpreter::GameData& info)
@@ -305,10 +312,10 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
                 {
                     m_pathFinderPath = m_pathFinder.ComputePath(start, pt);
                     if (!m_pathFinderPath)
-                        MoveMs(rand() % 100, rand() % 100, 250, 0);
+                        RandomMove();
                 }
                 else
-                    MoveMs(rand() % 100, rand() % 100, 250, 0);
+                    RandomMove();
             }
             m_ballObstaclePos = Position(-10, -10); //Update request
         }
@@ -326,7 +333,7 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
 {
 #ifdef PATHPLANNING_ASTAR
 
-    cout << "Player1 Perform Followpath (queue size): " << m_q.size() << endl;
+    Log("Player1 Perform Followpath (queue size): " + ToString(m_q.size()), DEBUG);
 
     Position pos = m_coordCalib->NormalizePosition(GetPos());
     int mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
@@ -351,35 +358,31 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
         Position *tgt = drivePath(posList);
         if (tgt)
         {
-            Position pos = m_coordCalib->NormalizePosition(GetPos());
             Position ballPos;
             m_ballPm->GetBallPosition(&ballPos);
-            ballPos = m_coordCalib->NormalizePosition(ballPos);
-            double goalX = info.our_side == LEFT_SIDE ? +1 : -1;
-            double ballAngle, robotAngle;
-            double speed = 600;
-
-            ComputeLineAngle(ballPos.GetX(), ballPos.GetY(), goalX, 0, &ballAngle);
-            ComputeLineAngle(pos.GetX(), pos.GetY(), goalX, 0, &robotAngle);
-
-            double roboDir = GetPhi().Get();
-            double ballDir;
-            ComputeLineAngle(pos.GetX(), pos.GetY(), ballPos.GetX(), ballPos.GetY(), &ballDir);
-
-            eDirection dir = (GetSpeedLeft() + GetSpeedRight()) / 2 <= 0 ? FORWARD : BACKWARD;
-            if (dir == FORWARD)
-                roboDir = roboDir<=0 ? roboDir+M_PI : roboDir-M_PI;
-
-            if (fabs(ballAngle - robotAngle) <= 10 * M_PI / 180 && pos.DistanceTo(ballPos) <= 0.1 && fabs(roboDir-ballDir) <= 10 * M_PI / 180)
+            if (info.formation == Interpreter::DEF)
             {
-                int m = BACKWARD ? -500 : 500;
-                MoveMs(m, m, 500, 0);
+                if (ShouldGoalKick(ballPos, info.our_side))
+                    GoalKick(ballPos);
+                else
+                    cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
             }
             else
-                cruisetoBias(tgt->GetX(),tgt->GetY(), speed, -10, 30);
+            {
+                Position goalPos(info.our_side == LEFT_SIDE ? 1 : -1, 0);
+                goalPos = m_coordCalib->UnnormalizePosition(goalPos);
+                int kick = ShouldKick(ballPos, goalPos);
+                if (kick > 0)
+                    Kick(FORWARD);
+                else if (kick < 0)
+                    Kick(BACKWARD);
+                else
+                    cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
+            }
         }
         else
-            MoveMs(rand() % 100, rand() % 100, 250, 0);
+            RandomMove();
+
         delete posList;
     }
 

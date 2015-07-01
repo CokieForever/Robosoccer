@@ -15,7 +15,7 @@ class TeamRobot : public NewRoboControl
 {
 
 public:
-    TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display=NULL);
+    TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display=NULL);
     virtual ~TeamRobot();
 
     Position getDefaultPosition() const;
@@ -23,13 +23,15 @@ public:
     void setDefaultPositionY(double y);
     void setDefaultPosition(Position pos);
 
-    CoordinatesCalibrer* getCoordinatesCalibrer() const;
+    const CoordinatesCalibrer* getCoordinatesCalibrer() const;
     RawBall* getBall() const;
 
     int getMapValue(int i, int j) const;
     const Interpreter::Map& getMap() const;
     bool setMapValue(int i, int j, int val);
     void setMap(const Interpreter::Map &map);
+
+    void GiveDisplay(RefereeDisplay *display);
 
     virtual void setNextCmd(const Interpreter::GameData& info) = 0;
     virtual void setCmdParam(const Interpreter& interpreter) = 0;
@@ -39,7 +41,7 @@ protected:
     static bool IsPathOK(PathFinder::Path path, PathFinder::Point& tgt);
 
     Position m_defaultPos;
-    CoordinatesCalibrer *m_coordCalib;
+    const CoordinatesCalibrer *m_coordCalib;
     Interpreter::Map m_map;
     RawBall *m_ball;
     PathFinder m_pathFinder;

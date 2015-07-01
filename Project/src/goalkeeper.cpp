@@ -8,9 +8,10 @@
 #include "goalkeeper.h"
 #include "interpreter.h"
 #include "newrobocontrol.h"
+#include "log.h"
 
 
-Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm)
+Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm)
 {
 }
 
@@ -82,7 +83,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
 
         case GO_TO_DEF_POS:
             m_defaultPos = interpreter.getGKDefaultPos();
-            std::cout << "Goal keeper moving to Position = " << m_defaultPos <<std::endl;
+            Log("Goal keeper moving to Position = " + ToString(m_defaultPos), DEBUG);
             break;
 
         case STOP:
