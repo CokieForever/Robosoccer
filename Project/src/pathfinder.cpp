@@ -27,7 +27,7 @@ PathFinder::Path PathFinder::CreatePath(Point start, Point end)
     return path;
 }
 
-vector<Position>* PathFinder::ConvertPathToReal(const Path path, const CoordinatesCalibrer *calibrer)
+vector<Position>* PathFinder::ConvertPathToReal(const Path path, CoordinatesCalibrer *calibrer)
 {
     vector<Position>* posList = new vector<Position>;
     for (vector<Point>::const_iterator it = path->begin() ; it != path->end() ; it++)

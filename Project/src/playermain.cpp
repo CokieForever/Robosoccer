@@ -15,11 +15,10 @@
 #include "refereedisplay.h"
 #include "goalkeeper.h"
 #include "playertwo.h"
-#include "log.h"
 
 using namespace std;
 
-PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, ballPm, display)
+PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, ballPm, display)
 {
 }
 
@@ -83,6 +82,8 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
 
 void PlayerMain::performCmd(const Interpreter::GameData& info)
 {
+    cout << "Player 1 next command is:" << m_nextCmd << endl << "1: GO_TO_DEF_POS,KICK_PENALTY 2: KICK_OFF 3: STOP 4: FOLLOWPATH" << endl;
+
     switch(m_nextCmd)
     {
         case KICK_PENALTY:
@@ -92,7 +93,7 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
 
             if (m_kickPenaltyParam.action1Performed == 0)
             {
-                Log("Player1 Perform Kick Penalty", INFO);
+                cout << "Player1 Perform Kick Penalty: " <<  endl;
                 GotoXY(m_kickPenaltyParam.pos.GetX(), m_kickPenaltyParam.pos.GetY());
 
                 while (GetPos().DistanceTo(m_kickPenaltyParam.pos) > 0.05)
@@ -110,12 +111,12 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
             break;
 
         case GO_TO_DEF_POS:
-            Log("Player1 Perform Go To Default Pos", DEBUG);
+            cout << "Player1 Perform Go To Default Pos:" <<endl;
             cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650, -10, 30);
             break;
 
         case KICK_OFF:
-            Log("Player1 Perform Kick Off", INFO);
+            cout << "Player1 Perform Kick Off:" << endl;
             cruisetoBias(m_ball->GetX(),m_ball->GetY(), 650, -10, 30);
             break;
 
@@ -132,12 +133,12 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
     {
-        Log("ATTAAAAAAACK", INFO);
+        std::cout << "ATTAAAAAAACK" << std::endl;
         m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, 0), PathFinder::CreatePoint(2, 2));
     }
     else if (info.formation == Interpreter::DEF)
     {
-        Log("DEFEEEEEEENSE", INFO);
+        std::cout << "DEFEEEEEEENSE" << std::endl;
         if (info.our_side == LEFT_SIDE)
             m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.75, 2));
         else
@@ -145,7 +146,7 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
     }
     else if (info.formation == Interpreter::MIX)
     {
-        Log("MIIIIIIIX", INFO);
+        std::cout << "MIIIIIIIX" << std::endl;
         if (info.our_side == LEFT_SIDE)
             m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
         else

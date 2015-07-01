@@ -1,9 +1,9 @@
 #ifndef MUTEXDEBUG_H
 #define MUTEXDEBUG_H
 
-#include "log.h"
+#include <iostream>
 
-#define pthread_mutex_lock(m) do { Log("Trying to lock mutex", DEBUG); pthread_mutex_lock(m); Log("Locked mutex", DEBUG); } while (0)
-#define pthread_mutex_unlock(m) do { pthread_mutex_unlock(m); Log("Unlocked mutex", DEBUG); } while (0)
+#define pthread_mutex_lock(m) do { std::cout << "Trying to lock at line " << __LINE__ << std::endl; pthread_mutex_lock(m); std::cout << "Locked at line " << __LINE__ << std::endl; } while (0)
+#define pthread_mutex_unlock(m) do { pthread_mutex_unlock(m); std::cout << "Unlocked at line " << __LINE__ << std::endl; } while (0)
 
 #endif // MUTEXDEBUG_H

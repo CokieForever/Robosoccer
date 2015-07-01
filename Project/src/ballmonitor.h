@@ -29,10 +29,10 @@ public:
 
     bool StartMonitoring(RawBall *ball = NULL);
     bool StopMonitoring();
-    bool GetBallPosition(Position *pos) const;
-    bool GetBallDirection(Direction *dir) const;
+    bool GetBallPosition(Position *pos);
+    bool GetBallDirection(Direction *dir);
     bool PredictBallPosition(double *a, double *b, int precision);
-    bool IsBallMoving() const;
+    bool IsBallMoving();
 
 private:
 
@@ -54,7 +54,7 @@ private:
     CoordinatesCalibrer *m_coordCalibrer;
 
     void ResetPosTimeList();
-    bool ComputeLinearRegression(double *a, double *b, int precision = 2) const;
+    bool ComputeLinearRegression(double *a, double *b, int precision = 2);
 
 };
 

@@ -17,7 +17,6 @@
 #include "playertwo.h"
 #include "matrix.h"
 #include "sdlutilities.h"
-#include "log.h"
 
 //include the libs from sample code
 
@@ -225,7 +224,6 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
 
 void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
 {
-#ifdef VERY_VERBOSE
     Map map(map0);
 
     //show planned path
@@ -267,7 +265,6 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
             cout << endl;
         }
     }
-#endif
 }
 
 void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
@@ -374,7 +371,7 @@ void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref,
 }
 
 
-Interpreter::Interpreter(eTeam x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,OpponentRobot *a,OpponentRobot *b,OpponentRobot *c,RawBall *d,CoordinatesCalibrer *e)
+Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,OpponentRobot *a,OpponentRobot *b,OpponentRobot *c,RawBall *d,CoordinatesCalibrer *e)
 {
     m_ref  = y;
     m_gk = z;
@@ -391,9 +388,9 @@ Interpreter::Interpreter(eTeam x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTw
     m_mode.team = x;
 
     if (x== 0)
-        Log("We are team blue!", INFO);
+        cout << "We are team blue!" << endl;
     else
-        Log("We are team red!", INFO);
+        cout << "We are team red!" << endl;
 
     //set gk,p1,p2 map to zero and place penalty area
     m_p1Map.Fill(0);
@@ -405,7 +402,7 @@ Interpreter::Interpreter(eTeam x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTw
     pthread_mutex_init(&m_mutex, NULL);
     pthread_cond_init(&m_cond, NULL);
 
-    Log("Interpreter initialized", INFO);
+    cout << "Interpreter initialized" << endl;
 }
 
 Interpreter::~Interpreter()
@@ -484,9 +481,9 @@ const OpponentRobot* Interpreter::getE3() const
 bool Interpreter::verifyPos()
 {
     //check if all robots are on their default position and orientation
-    return m_gk->IsOnTarget(m_gk->getDefaultPosition())
-            && m_p1->IsOnTarget(m_p1->getDefaultPosition())
-            && m_p2->IsOnTarget(m_p2->getDefaultPosition());
+    return (m_gk->GetPos().DistanceTo(m_gk->getDefaultPosition())< 0.05)
+            && (m_p1->GetPos().DistanceTo(m_p1->getDefaultPosition())< 0.05)
+            && (m_p2->GetPos().DistanceTo(m_p2->getDefaultPosition())< 0.05);
 }
 
 void Interpreter::setDefaultPos()
