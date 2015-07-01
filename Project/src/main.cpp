@@ -76,16 +76,16 @@ int main(void)
 
 #ifdef STACK_LOG
     struct sigaction sa;
-    StackFd = open ("stack_trace.log", O_WRONLY|O_CREAT, S_IRWXU);
+    StackFd = open("stack_trace.log", O_WRONLY|O_CREAT, S_IRWXU);
     sa.sa_sigaction = exitHandler;
     sigemptyset (&sa.sa_mask);
     sa.sa_flags = SA_RESTART|SA_SIGINFO;
 
-    sigaction (SIGINT, &sa, NULL);
-    sigaction (SIGTERM, &sa, NULL);
-    sigaction (SIGILL, &sa, NULL);
-    sigaction (SIGSEGV, &sa, NULL);
-    sigaction (SIGABRT, &sa, NULL);
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
+    sigaction(SIGILL, &sa, NULL);
+    sigaction(SIGSEGV, &sa, NULL);
+    sigaction(SIGABRT, &sa, NULL);
 #endif
 
     //--------------------------------- Init ---------------------------------
@@ -101,9 +101,9 @@ int main(void)
 
     CoordinatesCalibrer coordCalibrer;
     #ifdef SIMULATION
-    coordCalibrer.SetManualCoordCalibration(Position(0, -0.867), Position(1.367, 0), Position(0, 0.867), Position(-1.367, 0));              //Calibration settings for the simulation
+    coordCalibrer.SetManualCoordCalibration(Position(0, -0.867), Position(1.367, 0), Position(0, 0.867), Position(-1.367, 0));                  //Calibration settings for the simulation
     #else
-    coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));   //Calibration settings for the real field
+    coordCalibrer.SetManualCoordCalibration(Position(-0.011,-0.871), Position(1.43,0.012), Position(-0.009,0.863), Position(-1.423,0.007));     //Calibration settings for the real field
     #endif
 
     BallMonitor ballMonitor(&coordCalibrer);
@@ -159,6 +159,7 @@ int main(void)
             if (SDL_GetTicks() - t0 <= refreshWait)
                 usleep((refreshWait - (SDL_GetTicks() - t0)) * 1000);
         }
+        info.End();
 
         pthread_join(gkThread, NULL);
         pthread_join(p1Thread, NULL);

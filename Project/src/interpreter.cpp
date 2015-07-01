@@ -417,6 +417,13 @@ Interpreter::~Interpreter()
     pthread_mutex_destroy(&m_p2MapMutex);
 }
 
+void Interpreter::End()
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    pthread_cond_broadcast(&m_cond);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+}
+
 Interpreter::GameData Interpreter::getMode() const
 {
     return m_mode;
