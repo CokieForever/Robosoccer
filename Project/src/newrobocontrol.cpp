@@ -189,12 +189,71 @@ NewRoboControl::NewRoboControl(RTDBConn &DBC, const int deviceNr) : RoboControl(
 {
     m_stopCruisingNow = false;
     m_isCruising = false;
+    pthread_create(&m_thread, NULL, Checkspeed, this);
 }
 
 //The destructor is empty but is there only to prevent class instantation (see newrobocontrol.h)
 NewRoboControl::~NewRoboControl()
 {
+    m_checkSpeedFinishNow = true;
+    pthread_join(m_thread, NULL);
 }
+
+void* NewRoboControl::Checkspeed(void *data)
+{
+    NewRoboControl *robo = (NewRoboControl*)data;
+    robo->m_checkSpeedFinishNow = false;
+    /*
+    double speed_current;
+    bool speed_check;
+    while (!robo->m_checkSpeedFinishNow)
+    {
+        speed_current = sqrt(robo->GetSpeedLeft()*robo->GetSpeedLeft()+robo->GetSpeedRight()*robo->GetSpeedRight());
+        speed_check=(abs(speed_current-robo->m_targetSpeed)>0.1);
+        cout<<"current speed is "<<speed_current<<endl<<endl;
+        cout<<"check speed is "<<speed_check<<endl<<endl;
+        cout<<"collision detection"<<endl<<endl;
+
+        if (speed_check)
+        {
+            robo->RandomMove();
+        }
+    }
+    */
+    /*
+    Position previous;
+    Position current;
+    while(!robo->m_checkSpeedFinishNow)
+    {
+        previous = robo->GetPos();
+        usleep(100000);
+        current = robo->GetPos();
+        cout<<"Collision detection."<<endl<<endl;
+        if(((abs(previous.GetX()-current.GetX())+abs(previous.GetY()-current.GetY()))<0.01) && (robo->m_targetSpeed!=0))
+        {
+            robo->RandomMove();
+            cout<<"Robot is random moving."<<endl<<endl;
+        }
+    }
+    */
+    Position current;
+    while(!robo->m_checkSpeedFinishNow)
+    {
+        current = robo->GetPos();
+        usleep(5000000);
+        cout<<"Collision detection."<<endl<<endl;
+        if(!robo->IsOnTarget(robo->m_targetPos))
+        //if(((abs(robo->m_targetPos.GetX()-current.GetX())+abs(robo->m_targetPos.GetY()-current.GetY()))>0.2) && (robo->m_targetSpeed!=0))
+        {
+            robo->RandomMove();
+            cout<<"Robot is random moving."<<endl<<endl;
+        }
+    }
+    return 0;
+}
+
+
+
 
 bool NewRoboControl::IsOnTarget(Position target) const
 {

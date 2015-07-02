@@ -45,7 +45,11 @@ public:
 private:
     bool m_stopCruisingNow;
     bool m_isCruising;
-    pthread_t m_cruiseThread;
+    pthread_t m_cruiseThread; 
+    pthread_t m_thread;
+    Position m_targetPos;
+    bool m_checkSpeedFinishNow;
+    double m_targetSpeed;
 
 };
 
