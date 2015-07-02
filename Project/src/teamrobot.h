@@ -33,12 +33,18 @@ public:
 
     void GiveDisplay(RefereeDisplay *display);
 
+    void KickBall(Position ballPos);
+    bool ShouldKick(Position ballPos, Position goalPos);
+    bool ShouldGoalKick(Position ballPos, eSide ourSide);
+
+
     virtual void setNextCmd(const Interpreter::GameData& info) = 0;
     virtual void setCmdParam(const Interpreter& interpreter) = 0;
     virtual void performCmd(const Interpreter::GameData& info) = 0;
 
 protected:
     static bool IsPathOK(PathFinder::Path path, PathFinder::Point& tgt);
+    static double AngleDiff(double angle1, double angle2);
 
     Position m_defaultPos;
     const CoordinatesCalibrer *m_coordCalib;

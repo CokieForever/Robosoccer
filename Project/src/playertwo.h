@@ -34,6 +34,8 @@ class PlayerTwo : public TeamRobot
     void defend_p2 (void);
 
   private:
+    static const double DEFENSE_LINE = 0.75;
+
     BallMonitor* m_ballpt;
     queue<int> m_q;
     string m_path;

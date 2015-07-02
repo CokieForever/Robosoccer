@@ -2,7 +2,7 @@
 #include "interpreter.h"
 #include "sdl_gfx/SDL_gfxPrimitives.h"
 #include "log.h"
-
+#include "teamrobot.h"
 
 RefereeDisplay::RefereeDisplay(const BallMonitor *ballMonitor, const CoordinatesCalibrer *coordCalibrer,
                                int screenW, int screenH, NewRoboControl **robots, const Interpreter *interpreter)
@@ -246,8 +246,9 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
                 for (int i=0 ; i < n ; i++)
                 {
-                    vx[i] = std::max(0., std::min((double)display->m_screenW-1, (display->m_screenW-1) * (polygon->points[i]->x + 1) / 2));
-                    vy[i] = std::max(0., std::min((double)display->m_screenH-1, (display->m_screenH-1) * (polygon->points[i]->y + 1) / 2));
+                    SDL_Rect r = display->PosToRect(Position(polygon->points[i]->x, polygon->points[i]->y));
+                    vx[i] = std::max(0, std::min(display->m_screenW-1, (int)r.x));
+                    vy[i] = std::max(0, std::min(display->m_screenH-1, (int)r.y));
                 }
 
                 filledPolygonRGBA(screen, vx, vy, n, 255, 0, 0, 255);
@@ -264,18 +265,15 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         if (n > 1)
         {
             PathFinder::Point *point = &(display->m_path[0]);
-            double x = display->m_screenW * (point->x + 1) / 2;
-            double y = display->m_screenH * (point->y + 1) / 2;
+            SDL_Rect r1 = display->PosToRect(Position(point->x, point->y));
             for (int i=1 ; i < n ; i++)
             {
                 PathFinder::Point *next = &(display->m_path[i]);
-                double nx = display->m_screenW * (next->x + 1) / 2;
-                double ny = display->m_screenH * (next->y + 1) / 2;
+                SDL_Rect r2 = display->PosToRect(Position(next->x, next->y));
 
-                DrawLine(screen, x, y, nx, ny, CreateColor(255,0,0));
+                DrawLine(screen, r1.x, r1.y, r2.x, r2.y, CreateColor(255,0,0));
 
-                x = nx;
-                y = ny;
+                r1 = r2;
             }
         }
         pthread_mutex_unlock(&(display->m_pathMutex));
@@ -283,10 +281,29 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         #endif
 
         Position ballPos = display->GetBallPos();
+        Position ballPos_n = display->m_coordCalibrer->NormalizePosition(ballPos);
         if (ballSurfTr)
         {
-            rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(ballPos), ballSurfTr->w, ballSurfTr->h);
+            rect = display->PosToRect(ballPos_n, ballSurfTr->w, ballSurfTr->h);
             SDL_BlitSurface(ballSurfTr, NULL, screen, &rect);
+        }
+
+        //Display visibility map for the ball
+        eSide ourSide = display->m_interpreter->getMode().our_side;
+        std::vector<double> map = display->m_ballMonitor->ComputeVisibilityMap((const NewRoboControl**)display->m_robots, ourSide, display->m_coordCalibrer);
+        n = map.size();
+        for (int i=0 ; i < n ; i += 2)
+        {
+            SDL_Rect r1 = display->PosToRect(ballPos_n);
+
+            double x, y;
+            ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), map[i], 4, &x, &y);
+            SDL_Rect r2 = display->PosToRect(Position(x, y));
+
+            ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), map[i+1], 4, &x, &y);
+            SDL_Rect r3 = display->PosToRect(Position(x, y));
+
+            filledTrigonRGBA(screen, r1.x, r1.y, r2.x, r2.y, r3.x, r3.y, 255, 255, 0, 100);
         }
 
         //TODO reactivate this
@@ -298,7 +315,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
             DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
         }*/
 
-        Position goalPos_n(display->m_interpreter->getMode().our_side == LEFT_SIDE ? +1 : -1, 0);
+        Position goalPos_n(ourSide == LEFT_SIDE ? +1 : -1, 0);
         Position goalPos = display->m_coordCalibrer->UnnormalizePosition(goalPos_n);
 
         for (int i=0 ; i < 6 ; i++)
@@ -314,7 +331,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
                 SDL_Color color = CreateColor(0,0,0);
                 SDL_Rect robotR = display->PosToRect(robotPos_n);
-                if (i < 3 && display->m_robots[i]->ShouldKick(ballPos, goalPos))
+                if (i < 3 && ((TeamRobot*)(display->m_robots[i]))->ShouldKick(ballPos, goalPos))
                 {
                     color = CreateColor(255, 255, 255);
                     SDL_Rect goalR = display->PosToRect(goalPos_n);

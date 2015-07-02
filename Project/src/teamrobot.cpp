@@ -228,7 +228,9 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
 
         //get string with motion commands
         m_path = Interpreter::pathFind(m_map,A,B);
+        #ifdef VERY_VERBOSE
         Interpreter::showMap(m_map,m_path,A);
+        #endif
 
         for (unsigned int i= 0 ; i<m_path.length() ; i++)
         {
@@ -331,61 +333,171 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
 
 void TeamRobot::FollowPath(const Interpreter::GameData& info)
 {
-#ifdef PATHPLANNING_ASTAR
+    Position ballPos;
+    m_ballPm->GetBallPosition(&ballPos);
 
-    Log("Player1 Perform Followpath (queue size): " + ToString(m_q.size()), DEBUG);
-
-    Position pos = m_coordCalib->NormalizePosition(GetPos());
-    int mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
-    int mapy = Interpreter::coord2mapY(pos.GetY())+ m_go_y;
-
-    pos.SetX(Interpreter::map2coordX(mapx));
-    pos.SetY(Interpreter::map2coordY(mapy));
-    pos = m_coordCalib->UnnormalizePosition(pos.GetPos());
-
-    cruisetoBias(pos.GetX(), pos.GetY(), 600, -10, 30);
-
-    #ifdef SIMULATION
-    //wait until movement is done
-    usleep(0.5e6);
-    #endif
-
-#elif defined(PATHPLANNING_POLYGONS)
-
-    if (m_pathFinderPath)
+    bool kicked = true;
+    if (info.formation == Interpreter::DEF)
     {
-        std::vector<Position>* posList = PathFinder::ConvertPathToReal(m_pathFinderPath, m_coordCalib);
-        Position *tgt = drivePath(posList);
-        if (tgt)
-        {
-            Position ballPos;
-            m_ballPm->GetBallPosition(&ballPos);
-            if (info.formation == Interpreter::DEF)
-            {
-                if (ShouldGoalKick(ballPos, info.our_side))
-                    GoalKick(ballPos);
-                else
-                    cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
-            }
-            else
-            {
-                Position goalPos(info.our_side == LEFT_SIDE ? 1 : -1, 0);
-                goalPos = m_coordCalib->UnnormalizePosition(goalPos);
-                int kick = ShouldKick(ballPos, goalPos);
-                if (kick > 0)
-                    Kick(FORWARD);
-                else if (kick < 0)
-                    Kick(BACKWARD);
-                else
-                    cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
-            }
-        }
+        if (ShouldGoalKick(ballPos, info.our_side))
+            KickBall(ballPos);
         else
-            RandomMove();
-
-        delete posList;
+            kicked = false;
+    }
+    else
+    {
+        Position goalPos(info.our_side == LEFT_SIDE ? 1 : -1, 0);
+        goalPos = m_coordCalib->UnnormalizePosition(goalPos);
+        if (ShouldKick(ballPos, goalPos))
+            KickBall(ballPos);
+        else
+            kicked = false;
     }
 
-#endif
+    if (!kicked)
+    {
+    #ifdef PATHPLANNING_ASTAR
+
+        Log("Player1 Perform Followpath (queue size): " + ToString(m_q.size()), DEBUG);
+
+        Position pos = m_coordCalib->NormalizePosition(GetPos());
+        int mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
+        int mapy = Interpreter::coord2mapY(pos.GetY())+ m_go_y;
+
+        pos.SetX(Interpreter::map2coordX(mapx));
+        pos.SetY(Interpreter::map2coordY(mapy));
+        pos = m_coordCalib->UnnormalizePosition(pos.GetPos());
+
+        cruisetoBias(pos.GetX(), pos.GetY(), 600, -10, 30);
+
+    #elif defined(PATHPLANNING_POLYGONS)
+
+        if (m_pathFinderPath)
+        {
+            std::vector<Position>* posList = PathFinder::ConvertPathToReal(m_pathFinderPath, m_coordCalib);
+            Position *tgt = drivePath(posList);
+            if (tgt)
+                cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
+            else
+                RandomMove();
+
+            delete posList;
+        }
+
+    #endif
+    }
 }
 
+
+//TODO finish
+/*void TeamRobot::KickOff(Position ballPos, const OpponentRobot* robots[3], eSide ourSide)
+{
+    const double diameter = 0.15;
+    Position goalUp(ourSide == LEFT_SIDE ? 1 : -1, 0.2);
+    Position goalDown(ourSide == LEFT_SIDE ? 1 : -1, -0.2);
+    Position pos = m_coordCalib->NormalizePosition(GetPos());
+
+    double angles[6];
+    for (int i=0 ; i < 3 ; i++)
+    {
+        Position robotPos = m_coordCalib->NormalizePosition(robots[i]->GetPos());
+        double d1 = pos.DistanceTo(robotPos);
+        double d2 = sqrt(d1*d1 + diameter*diameter);
+
+        double angle;
+        ComputeLineAngle(pos.GetX(), pos.GetY(), robotPos.GetX(), robotPos.GetY(), &angle);
+
+        double c = acos(d1 / d2);
+        angles[i*2] = angle - c;
+        angles[i*2+1] = angle + c;
+
+        if (angles[i*2] < -M_PI)
+            angles[i*2] += 2*M_PI;
+        if (angles[i*2+1] > M_PI)
+            angles[i*2+1] -= 2*M_PI;
+    }
+
+
+}*/
+
+void TeamRobot::KickBall(Position ballPos)
+{
+    double phi = GetPhi().Get();
+
+    double robotBallAngle;
+    Position pos = GetPos();
+    ComputeLineAngle(pos.GetX(), pos.GetY(), ballPos.GetX(), ballPos.GetY(), &robotBallAngle);
+
+    double diff1 = AngleDiff(robotBallAngle, phi);
+
+    double robotBallAngle2 = robotBallAngle<=0 ? robotBallAngle+M_PI : robotBallAngle-M_PI;
+    double diff2 = AngleDiff(robotBallAngle2, phi);
+
+    bool forward = fabs(diff1) < fabs(diff2);
+    double a = forward ? robotBallAngle : robotBallAngle2;
+    double diff3 = AngleDiff(a, phi);
+
+    int i;
+    for (i=0 ; i < 1000 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
+    {
+        if (diff3 > 0)
+            MoveMs(50, -50, 200);
+        else if (diff3 < 0)
+            MoveMs(-50, 50, 200);
+
+        usleep(1000);
+
+        phi = GetPhi().Get();
+        diff3 = AngleDiff(a, phi);
+    }
+
+    if (i < 1000)
+    {
+        if (forward)
+            MoveMsBlocking(200, 200, 500);
+        else
+            MoveMsBlocking(-200, -200, 500);
+    }
+}
+
+bool TeamRobot::ShouldKick(Position ballPos, Position goalPos)
+{
+    Position pos = GetPos();
+    if (pos.DistanceTo(ballPos) <= 0.2)
+    {
+        double robotGoalAngle, robotBallAngle;
+
+        ComputeLineAngle(pos.GetX(), pos.GetY(), goalPos.GetX(), goalPos.GetY(), &robotGoalAngle);
+        ComputeLineAngle(pos.GetX(), pos.GetY(), ballPos.GetX(), ballPos.GetY(), &robotBallAngle);
+        double diff1 = AngleDiff(robotBallAngle, robotGoalAngle );
+
+        return fabs(diff1) <= 10 * M_PI / 180;
+    }
+
+    return false;
+}
+
+bool TeamRobot::ShouldGoalKick(Position ballPos, eSide ourSide)
+{
+    double robotBallAngle;
+    Position pos = GetPos();
+
+    if (pos.DistanceTo(ballPos) <= 0.2)
+    {
+        ComputeLineAngle(pos.GetX(), pos.GetY(), ballPos.GetX(), ballPos.GetY(), &robotBallAngle);
+        if (ourSide == RIGHT_SIDE)
+            robotBallAngle = robotBallAngle<=0 ? robotBallAngle+M_PI : robotBallAngle-M_PI;
+
+        return fabs(robotBallAngle) <= 45 * M_PI / 180;
+    }
+
+    return false;
+}
+
+double TeamRobot::AngleDiff(double angle1, double angle2)
+{
+    double diff = fmod(angle1 - angle2 + 2*M_PI, 2*M_PI);
+    if (diff >= M_PI)
+        diff -= 2*M_PI;
+    return diff;
+}

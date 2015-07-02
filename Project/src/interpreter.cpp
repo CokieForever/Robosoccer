@@ -225,7 +225,6 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
 
 void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
 {
-#ifdef VERY_VERBOSE
     Map map(map0);
 
     //show planned path
@@ -267,7 +266,6 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
             cout << endl;
         }
     }
-#endif
 }
 
 void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
@@ -599,14 +597,20 @@ void Interpreter::setDefaultPos()
 void Interpreter::setPlayMode()
 {
     m_mode.mode = m_ref->GetPlayMode();
+    static bool sent = false;
 
     if (m_mode.mode==BEFORE_KICK_OFF || m_mode.mode==BEFORE_PENALTY)
     {
         setSide();
         setTurn();
-        if (verifyPos())
+        if (!sent && verifyPos())
+        {
             m_ref->SetReady(m_mode.team);
+            sent = true;
+        }
     }
+    else
+        sent = false;
 
     /*else if (playmode==BEFORE_PENALTY)
     {
