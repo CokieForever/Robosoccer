@@ -6,6 +6,8 @@
 #include "kogmo_rtdb.hxx"
 #include "referee.h"
 #include "coordinates.h"
+#include <vector>
+#include <queue>
 
 class BallMonitor
 {
@@ -25,6 +27,9 @@ public:
         clock_t time;
     } PosTime;
 
+    static std::vector<double> ComputeVisibilityMap(int maxLevel, Position pos, Position robotPos[6], eSide ourSide);
+    static std::vector<double> ComputeVisibilityMap(Position pos, Position robotPos[6], eSide ourSide);
+
     BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball = NULL);
 
     bool StartMonitoring(RawBall *ball = NULL);
@@ -34,10 +39,26 @@ public:
     bool PredictBallPosition(double *a, double *b, int precision);
     bool IsBallMoving() const;
 
+    std::vector<double> ComputeVisibilityMap(int maxLevel, const NewRoboControl* robot[6], eSide ourSide, const CoordinatesCalibrer *coordCalib) const;
+    std::vector<double> ComputeVisibilityMap(const NewRoboControl* robot[6], eSide ourSide, const CoordinatesCalibrer *coordCalib) const;
+
 private:
+    struct Angle
+    {
+        double val;
+        int id;
+    };
 
     static void* BallMonitoringFn(void *data);
     static void* BallFollowingFn(void *data);
+
+    typedef bool (*CompareFn)(const Angle&, const Angle&);
+
+    static bool CompareAngles(const Angle& a1, const Angle& a2);
+    static Angle CreateAngle(double val, int id);
+    static double AngleVertMirror(double angle);
+    static std::vector<double> MergeVisibilityMaps(std::vector<double>& map1, std::vector<double>& map2);
+    static std::vector<double> AnglesToMap(std::priority_queue<Angle, std::vector<Angle>, CompareFn> angles, double minAngle, double maxAngle);
 
     RawBall *m_mainBall;
     bool m_stopBallMonitoring;

@@ -132,12 +132,10 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
     {
-        Log("ATTAAAAAAACK", INFO);
         m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, 0), PathFinder::CreatePoint(2, 2));
     }
     else if (info.formation == Interpreter::DEF)
     {
-        Log("DEFEEEEEEENSE", INFO);
         if (info.our_side == LEFT_SIDE)
             m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.75, 2));
         else
@@ -145,7 +143,6 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
     }
     else if (info.formation == Interpreter::MIX)
     {
-        Log("MIIIIIIIX", INFO);
         if (info.our_side == LEFT_SIDE)
             m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
         else
