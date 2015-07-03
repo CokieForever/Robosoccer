@@ -146,17 +146,17 @@ bool BallMonitor::IsBallMoving() const
 
 std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, const NewRoboControl* robot[6], eSide ourSide, const CoordinatesCalibrer *coordCalib) const
 {
-    Position pos[6];
+    Position robotPos[6];
     for (int i=0 ; i < 6 ; i++)
-        pos[i] = coordCalib->NormalizePosition(robot[i]->GetPos());
+        robotPos[i] = coordCalib->NormalizePosition(robot[i]->GetPos());
 
     Position ballPos;
     GetBallPosition(&ballPos);
     ballPos = coordCalib->NormalizePosition(ballPos);
-    return ComputeVisibilityMap(maxLevel, ballPos, pos, ourSide);
+    return ComputeVisibilityMap(maxLevel, ballPos, &(robotPos[0]), 6, ourSide);
 }
 
-std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos, Position robotPos[6], eSide ourSide)
+std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos, const Position *robotPos, int nbPos, eSide ourSide)
 {
     double minAngle, maxAngle;
     double goalPosX = ourSide == LEFT_SIDE ? 1 : -1;
@@ -165,26 +165,37 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos
     if (pos.GetX() < goalPosX)
         std::swap(minAngle, maxAngle);
 
-    std::vector<double> baseMap = ComputeVisibilityMap(pos, robotPos, ourSide);
+    std::vector<double> baseMap = ComputeVisibilityMap(pos, robotPos, nbPos, ourSide);
     if (maxLevel <= 0)
         return baseMap;
 
-    double xMin = floor((fabs(pos.GetX())+1) / 2) - 1, xMax = xMin + 2;
-    double yMin = floor((fabs(pos.GetY())+1) / 2) - 1, yMax = yMin + 2;
+    double xMin = 2*floor((fabs(pos.GetY())+1) / 2) - 1, xMax = xMin + 2;
+    double yMin = 2*floor((fabs(pos.GetY())+1) / 2) - 1, yMax = yMin + 2;
+    if (pos.GetX() < -1)
+    {
+        double x = xMin;
+        xMin = -xMax;
+        xMax = -x;
+    }
+    if (pos.GetY() < -1)
+    {
+        double y = yMin;
+        yMin = -yMax;
+        yMax = -y;
+    }
 
     Position pos2;
-    Position robotPos2[12];
+    Position *robotPos2 = new Position[nbPos*2];
+    memcpy(robotPos2, robotPos, sizeof(Position)*nbPos);
     int n;
     std::vector<double> map;
 
     //Rebounce on North side
     pos2 = Position(pos.GetX(), 2*yMin-pos.GetY());
-    for (int i=0 ; i < 6 ; i++)
-        robotPos2[i] = robotPos[i];
-    for (int i=6 ; i < 12 ; i++)
-        robotPos2[i] = Position(robotPos[i].GetX(), 2*yMin-robotPos[i].GetY());
+    for (int i=0 ; i < nbPos ; i++)
+        robotPos2[i+nbPos] = Position(robotPos[i].GetX(), 2*yMin-robotPos[i].GetY());
 
-    map = ComputeVisibilityMap(maxLevel-1, pos2, robotPos2, ourSide);
+    map = ComputeVisibilityMap(maxLevel-1, pos2, robotPos2, nbPos*2, ourSide);
     n = map.size();
     for (int i=0 ; i < n ; i++)
         map[i] = -map[i];
@@ -193,12 +204,10 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos
 
     //Rebounce on South side
     pos2 = Position(pos.GetX(), 2*yMax-pos.GetY());
-    for (int i=0 ; i < 6 ; i++)
-        robotPos2[i] = robotPos[i];
-    for (int i=6 ; i < 12 ; i++)
-        robotPos2[i] = Position(robotPos[i].GetX(), 2*yMax-robotPos[i].GetY());
+    for (int i=0 ; i < nbPos ; i++)
+        robotPos2[i+nbPos] = Position(robotPos[i].GetX(), 2*yMax-robotPos[i].GetY());
 
-    map = ComputeVisibilityMap(maxLevel-1, pos2, robotPos2, ourSide);
+    map = ComputeVisibilityMap(maxLevel-1, pos2, robotPos2, nbPos*2, ourSide);
     n = map.size();
     for (int i=0 ; i < n ; i++)
         map[i] = -map[i];
@@ -207,12 +216,10 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos
 
     //Rebounce on East side
     pos2 = Position(2*xMax-pos.GetX(), pos.GetY());
-    for (int i=0 ; i < 6 ; i++)
-        robotPos2[i] = robotPos[i];
-    for (int i=6 ; i < 12 ; i++)
-        robotPos2[i] = Position(2*xMax-robotPos[i].GetX(), robotPos[i].GetY());
+    for (int i=0 ; i < nbPos ; i++)
+        robotPos2[i+nbPos] = Position(2*xMax-robotPos[i].GetX(), robotPos[i].GetY());
 
-    map = ComputeVisibilityMap(maxLevel-1, pos2, robotPos2, ourSide);
+    map = ComputeVisibilityMap(maxLevel-1, pos2, robotPos2, nbPos*2, ourSide);
     n = map.size();
     for (int i=0 ; i < n ; i++)
         map[i] = AngleVertMirror(map[i]);
@@ -221,47 +228,46 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos
 
     //Rebounce on West side
     pos2 = Position(2*xMin-pos.GetX(), pos.GetY());
-    for (int i=0 ; i < 6 ; i++)
-        robotPos2[i] = robotPos[i];
-    for (int i=6 ; i < 12 ; i++)
-        robotPos2[i] = Position(2*xMin-robotPos[i].GetX(), robotPos[i].GetY());
+    for (int i=0 ; i < nbPos ; i++)
+        robotPos2[i+nbPos] = Position(2*xMin-robotPos[i].GetX(), robotPos[i].GetY());
 
-    map = ComputeVisibilityMap(maxLevel-1, pos2, robotPos2, ourSide);
+    map = ComputeVisibilityMap(maxLevel-1, pos2, robotPos2, nbPos*2, ourSide);
     n = map.size();
     for (int i=0 ; i < n ; i++)
         map[i] = AngleVertMirror(map[i]);
     std::reverse(map.begin(), map.end());
     baseMap = MergeVisibilityMaps(baseMap, map);
 
+    delete robotPos2;
     return baseMap;
 }
 
 std::vector<double> BallMonitor::ComputeVisibilityMap(const NewRoboControl* robot[6], eSide ourSide, const CoordinatesCalibrer *coordCalib) const
 {
-    Position pos[6];
+    Position robotPos[6];
     for (int i=0 ; i < 6 ; i++)
-        pos[i] = coordCalib->NormalizePosition(robot[i]->GetPos());
+        robotPos[i] = coordCalib->NormalizePosition(robot[i]->GetPos());
 
     Position ballPos;
     GetBallPosition(&ballPos);
     ballPos = coordCalib->NormalizePosition(ballPos);
-    return ComputeVisibilityMap(ballPos, pos, ourSide);
+    return ComputeVisibilityMap(ballPos, &(robotPos[0]), 6, ourSide);
 }
 
-std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, Position robotPos[6], eSide ourSide)
+std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, const Position *robotPos, int nbPos, eSide ourSide)
 {
     double minAngle, maxAngle;
     double goalPosX = ourSide == LEFT_SIDE ? 1 : -1;
     ComputeLineAngle(pos.GetX(), pos.GetY(), goalPosX, -0.2, &minAngle);
     ComputeLineAngle(pos.GetX(), pos.GetY(), goalPosX, +0.2, &maxAngle);
-    if (pos.GetX() < goalPosX)
+    if (pos.GetX() > goalPosX)
         std::swap(minAngle, maxAngle);
 
-    const double diameter = 0.15;
+    const double diameter = 0.075;
     priority_queue<Angle, std::vector<Angle>, CompareFn> angles(CompareAngles);
 
     int id = 0;
-    for (int i=0 ; i < 3 ; i++)
+    for (int i=0 ; i < nbPos ; i++)
     {
         double d1 = pos.DistanceTo(robotPos[i]);
         double d2 = sqrt(d1*d1 + diameter*diameter);
@@ -274,6 +280,7 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, Position rob
         if (angle - c < -M_PI)
         {
             angles.push(CreateAngle(-M_PI, id));
+            angles.push(CreateAngle(M_PI, id));
             angles.push(CreateAngle(angle-c + 2*M_PI, id));
         }
         else
@@ -282,6 +289,7 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, Position rob
         if (angle + c > M_PI)
         {
             angles.push(CreateAngle(M_PI, id));
+            angles.push(CreateAngle(-M_PI, id));
             angles.push(CreateAngle(angle+c - 2*M_PI, id));
         }
         else
@@ -302,10 +310,9 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, Position rob
 
 std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<Angle>, CompareFn> angles, double minAngle, double maxAngle)
 {
-    double currentAngle = minAngle;
     std::vector<int> currentIds;
     std::vector<double> map;
-    map.push_back(currentAngle);
+    map.push_back(minAngle);
 
     while (!angles.empty())
     {
@@ -329,6 +336,8 @@ std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<A
         }
     }
 
+    map.push_back(maxAngle);
+
     //Remove doubles
     for (int i = map.size()-1 ; i >= 0 ; i -= 2)
     {
@@ -341,7 +350,7 @@ std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<A
 
 bool BallMonitor::CompareAngles(const Angle& a1, const Angle& a2)
 {
-    return a1.val < a2.val;
+    return a1.val > a2.val;
 }
 
 BallMonitor::Angle BallMonitor::CreateAngle(double val, int id)

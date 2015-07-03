@@ -290,7 +290,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
         //Display visibility map for the ball
         eSide ourSide = display->m_interpreter->getMode().our_side;
-        std::vector<double> map = display->m_ballMonitor->ComputeVisibilityMap((const NewRoboControl**)display->m_robots, ourSide, display->m_coordCalibrer);
+        std::vector<double> map = display->m_ballMonitor->ComputeVisibilityMap(2, (const NewRoboControl**)display->m_robots, ourSide, display->m_coordCalibrer);
         n = map.size();
         for (int i=0 ; i < n ; i += 2)
         {
