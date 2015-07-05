@@ -36,6 +36,7 @@ class PlayerMain : public TeamRobot
     BallMonitor* m_ballpm;
     KickParam m_kickPenaltyParam;
     Position m_kickOffParam;
+    const NewRoboControl* m_otherRobots[5];
 
     void AddObstacleForFormation(const Interpreter::GameData& info);
 

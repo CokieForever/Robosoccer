@@ -16,7 +16,7 @@
 #include "coordinates.h"
 #include "playertwo.h"
 #include "matrix.h"
-#include "sdlutilities.h"
+#include "geometry.h"
 #include "log.h"
 
 //include the libs from sample code

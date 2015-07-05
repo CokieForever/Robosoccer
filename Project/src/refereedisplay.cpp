@@ -3,8 +3,9 @@
 #include "sdl_gfx/SDL_gfxPrimitives.h"
 #include "log.h"
 #include "teamrobot.h"
+#include "geometry.h"
 
-RefereeDisplay::RefereeDisplay(const BallMonitor *ballMonitor, const CoordinatesCalibrer *coordCalibrer,
+RefereeDisplay::RefereeDisplay(BallMonitor *ballMonitor, const CoordinatesCalibrer *coordCalibrer,
                                int screenW, int screenH, NewRoboControl **robots, const Interpreter *interpreter)
 {
     m_keepGoing = true;
@@ -221,6 +222,8 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         if (event.type == SDL_QUIT)
             break;
 
+        int n;
+
         #ifdef PATHPLANNING_ASTAR
         SDL_Surface *bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
         if (bgSurf)
@@ -261,7 +264,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
         //Display current path
         pthread_mutex_lock(&(display->m_pathMutex));
-        int n = display->m_path.size();
+        n = display->m_path.size();
         if (n > 1)
         {
             PathFinder::Point *point = &(display->m_path[0]);
@@ -290,12 +293,11 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
         //Display visibility map for the ball
         eSide ourSide = display->m_interpreter->getMode().our_side;
-        std::vector<double> map = display->m_ballMonitor->ComputeVisibilityMap((const NewRoboControl**)display->m_robots, ourSide, display->m_coordCalibrer);
+        std::vector<double> map = display->m_ballMonitor->ComputeVisibilityMap(2, (const NewRoboControl**)display->m_robots, ourSide, display->m_coordCalibrer);
         n = map.size();
+        SDL_Rect ballPosR = display->PosToRect(ballPos_n);
         for (int i=0 ; i < n ; i += 2)
         {
-            SDL_Rect r1 = display->PosToRect(ballPos_n);
-
             double x, y;
             ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), map[i], 4, &x, &y);
             SDL_Rect r2 = display->PosToRect(Position(x, y));
@@ -303,17 +305,29 @@ void* RefereeDisplay::RefDisplayFn(void *data)
             ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), map[i+1], 4, &x, &y);
             SDL_Rect r3 = display->PosToRect(Position(x, y));
 
-            filledTrigonRGBA(screen, r1.x, r1.y, r2.x, r2.y, r3.x, r3.y, 255, 255, 0, 100);
+            filledTrigonRGBA(screen, ballPosR.x, ballPosR.y, r2.x, r2.y, r3.x, r3.y, 255, 255, 0, 100);
         }
 
-        //TODO reactivate this
-        /*double a, b;
+        //Display optimal ball direction
+        double x, y;
+        double dir = BallMonitor::GetBestDirection(map, ourSide);
+        ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 4, &x, &y);
+        SDL_Rect r = display->PosToRect(Position(x, y));
+        DrawLine(screen, ballPosR.x, ballPosR.y, r.x, r.y, CreateColor(255,255,255));
+
+        //Display ball trajectory prevision
+        double a, b;
         if (display->m_ballMonitor->PredictBallPosition(&a, &b, 5))
         {
-            rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_ball->GetPos()));
-            SDL_Rect rect2 = display->PosToRect(display->m_coordCalibrer->NormalizePosition(pos));
-            DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
-        }*/
+            double isectX[2], isectY[2];
+            Log("a = " + ToString(a), INFO);
+            if (GetLineRectIntersections(-0.95, -0.95, 0.95, 0.95, a, b, isectX, isectY))
+            {
+                r = display->PosToRect(Position(isectX[0], isectY[0]));
+                SDL_Rect r2 = display->PosToRect(Position(isectX[1], isectY[1]));
+                DrawLine(screen, r.x, r.y, r2.x, r2.y, CreateColor(255,0,0));
+            }
+        }
 
         Position goalPos_n(ourSide == LEFT_SIDE ? +1 : -1, 0);
         Position goalPos = display->m_coordCalibrer->UnnormalizePosition(goalPos_n);
