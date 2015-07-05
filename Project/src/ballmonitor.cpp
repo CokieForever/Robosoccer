@@ -512,7 +512,7 @@ bool BallMonitor::ComputeLinearRegression(double *a, double *b, int precision) c
     }
 
     double k = n * sumXi2 - sumXi * sumXi;
-    if (fabs(k) <= 1e-4)
+    if (fabs(k) <= 1e-7)
         return false;
 
     if (b)

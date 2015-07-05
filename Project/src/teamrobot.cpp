@@ -419,7 +419,7 @@ void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide)
     ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 0.15, &endX, &endY);
 
     Position end = m_coordCalib->UnnormalizePosition(Position(endX, endY));
-    while (!cruisetoBias(end.GetX(), end.GetY(), 100))
+    while (!cruisetoBias(end.GetX(), end.GetY(), 400))
         usleep(1000);
 
     KickBall(ballPos);
@@ -442,27 +442,16 @@ void TeamRobot::KickBall(Position ballPos)
     double a = forward ? robotBallAngle : robotBallAngle2;
     double diff3 = AngleDiff(a, phi);
 
-    int i;
-    for (i=0 ; i < 50 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
-    {
-        if (diff3 > 0)
-            MoveMs(50, -50, 200, 0);
-        else if (diff3 < 0)
-            MoveMs(-50, 50, 200, 0);
+    double time = fabs(diff3) * 2710 / (2 * M_PI);
+    if (diff3 > 0)
+        MoveMsBlocking(-30, 30, time, 0);
+    else if (diff3 < 0)
+        MoveMsBlocking(30, -30, time, 0);
 
-        usleep(20000);
-
-        phi = GetPhi().Get();
-        diff3 = AngleDiff(a, phi);
-    }
-
-    if (i < 50)
-    {
-        if (forward)
-            MoveMsBlocking(200, 200, 500, 0);
-        else
-            MoveMsBlocking(-200, -200, 500, 0);
-    }
+    if (forward)
+        MoveMsBlocking(200, 200, 500, 0);
+    else
+        MoveMsBlocking(-200, -200, 500, 0);
 }
 
 bool TeamRobot::ShouldKick(Position ballPos, Position goalPos)

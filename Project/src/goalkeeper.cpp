@@ -52,7 +52,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
         case PREVENT_GOAL:
         {
             eSide side = interpreter.getMode().our_side;
-            double x = side == LEFT_SIDE ? -1 : +1;
+            double x = side == LEFT_SIDE ? -0.9 : +0.9;
 
             BallMonitor::Direction dir;
             m_ballPm->GetBallDirection(&dir);
@@ -97,7 +97,7 @@ void Goalkeeper::performCmd(const Interpreter::GameData& info)
     switch(m_nextCmd)
     {
         case PREVENT_GOAL:
-            cruisetoBias(m_preventGoalParam.GetX(), m_preventGoalParam.GetY(), 650);
+            cruisetoBias(m_preventGoalParam.GetX(), m_preventGoalParam.GetY(), 400);
             break;
 
         case GO_TO_DEF_POS:

@@ -320,7 +320,6 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         if (display->m_ballMonitor->PredictBallPosition(&a, &b, 5))
         {
             double isectX[2], isectY[2];
-            Log("a = " + ToString(a), INFO);
             if (GetLineRectIntersections(-0.95, -0.95, 0.95, 0.95, a, b, isectX, isectY))
             {
                 r = display->PosToRect(Position(isectX[0], isectY[0]));
