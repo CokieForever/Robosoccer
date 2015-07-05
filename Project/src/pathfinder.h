@@ -32,11 +32,17 @@ public:
         PointsList points;
     };
 
+    struct Segment
+    {
+        const Point &start, &end;
+    };
+
     static const double INFINI_TY = 10e6;   //INFINITY does not compile. Don't ask me why.
     static Point CreatePoint(double x, double y);
     static Path CreatePath(Point start, Point end);
     static std::vector<Position>* ConvertPathToReal(const Path path, const CoordinatesCalibrer *calibrer = NULL);
     static void DestroyPolygonsList(PolygonsList list);
+    static bool DoSegmentsIntersect(Segment seg1, Segment seg2);
 
     PathFinder();
     ~PathFinder();
@@ -56,11 +62,6 @@ public:
     Point ComputeClosestAccessiblePoint(const Point &start, const Point &end);
 
 private:
-    struct Segment
-    {
-        const Point &start, &end;
-    };
-
     struct Rectangle
     {
         Point ul, lr;
@@ -70,7 +71,6 @@ private:
     static Rectangle getBoundingBox(Segment seg);
     static bool doRectanglesIntersect(PathFinder::Rectangle a, PathFinder::Rectangle b);
     static int orientation(Segment seg, const Point& pt);
-    static bool doSegmentsIntersect(Segment seg1, Segment seg2);
     static double sqDistBetweenPoints(const Point &a, const Point &b);
     static bool isPointInsidePolygon(const Point& point, const ConvexPolygon& polygon);
     static double sqDistToSegment(const Point &a, Segment seg, Point *isect);

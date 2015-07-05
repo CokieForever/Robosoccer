@@ -97,11 +97,11 @@ void Goalkeeper::performCmd(const Interpreter::GameData& info)
     switch(m_nextCmd)
     {
         case PREVENT_GOAL:
-            cruisetoBias(m_preventGoalParam.GetX(), m_preventGoalParam.GetY(), 650, -10, 30);
+            cruisetoBias(m_preventGoalParam.GetX(), m_preventGoalParam.GetY(), 650);
             break;
 
         case GO_TO_DEF_POS:
-            cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650, -10, 30);
+            cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650);
             break;
 
         case STOP:

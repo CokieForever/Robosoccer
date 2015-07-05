@@ -1,12 +1,11 @@
 #include "teamrobot.h"
-#include "sdlutilities.h"
 #include "matrix.h"
 #include "goalkeeper.h"
 #include "playertwo.h"
 #include "refereedisplay.h"
 #include "playermain.h"
 #include "log.h"
-
+#include "geometry.h"
 
 bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
 {
@@ -183,10 +182,10 @@ void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Inter
         ComputeVectorEnd(x, y, -sinAngle, cosAngle, 0.1, &x2, &y2);
         m_ballObstacles[0] = m_pathFinder.AddThickLine(PathFinder::CreatePoint(x1,y1), PathFinder::CreatePoint(x2,y2), 0.1);
 
-        ComputeVectorEnd(x1, y1, -cosAngle, -sinAngle, 0.2, &x, &y);
+        ComputeVectorEnd(x1, y1, -cosAngle, -sinAngle, 0.15, &x, &y);
         m_ballObstacles[1] = m_pathFinder.AddThickLine(PathFinder::CreatePoint(x1,y1), PathFinder::CreatePoint(x,y), 0.05);
 
-        ComputeVectorEnd(x2, y2, -cosAngle, -sinAngle, 0.2, &x, &y);
+        ComputeVectorEnd(x2, y2, -cosAngle, -sinAngle, 0.15, &x, &y);
         m_ballObstacles[2] = m_pathFinder.AddThickLine(PathFinder::CreatePoint(x2,y2), PathFinder::CreatePoint(x,y), 0.05);
 
         m_ballObstaclePos = ballPos;
@@ -270,7 +269,7 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
     if (m_pathFinderPath)
         delete m_pathFinderPath;
 
-    //TODO Implement child method for this
+    //TODO Dirty - Implement child method for this
     const NewRoboControl *p1 = interpreter.getP1();
     const NewRoboControl *p2 = interpreter.getP2();
     const NewRoboControl *gk = interpreter.getGK();
@@ -288,7 +287,29 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
     Position robo_n = m_coordCalib->NormalizePosition(GetPos());
     Position ball_n = m_coordCalib->NormalizePosition(m_ball->GetPos());
     PathFinder::Point start = PathFinder::CreatePoint(robo_n.GetX(), robo_n.GetY());
-    PathFinder::Point end = PathFinder::CreatePoint(ball_n.GetX(), ball_n.GetY());
+
+    eSide side = interpreter.getMode().our_side;
+    Position goalPos(side == LEFT_SIDE ? 1 : -1, 0);
+    double endX, endY, cosAngle, sinAngle;
+    ComputeLineAngle(goalPos.GetX(), goalPos.GetY(), ball_n.GetX(), ball_n.GetY(), &cosAngle, &sinAngle);
+    ComputeVectorEnd(ball_n.GetX(), ball_n.GetY(), cosAngle, sinAngle, 0.1, &endX, &endY);
+
+    if (fabs(endX) >= 1 || fabs(endY) >= 1)
+    {
+        double isectX[2], isectY[2];
+        if (GetSegmentRectIntersections(-0.98, -0.98, 0.98, 0.98, ball_n.GetX(), ball_n.GetY(), endX, endY, isectX, isectY) > 0)
+        {
+            endX = isectX[0];
+            endY = isectY[0];
+        }
+        else
+        {
+            endX = ball_n.GetX();
+            endY = ball_n.GetY();
+        }
+    }
+
+    PathFinder::Point end = PathFinder::CreatePoint(endX, endY);
 
     m_pathFinderPath = m_pathFinder.ComputePath(start, end);
     if (!IsPathOK(m_pathFinderPath, end))
@@ -311,13 +332,7 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
             {
                 PathFinder::Point pt = m_pathFinder.ComputeClosestAccessiblePoint(start, end);
                 if (pt.x != start.x || pt.y != start.y)
-                {
                     m_pathFinderPath = m_pathFinder.ComputePath(start, pt);
-                    if (!m_pathFinderPath)
-                        RandomMove();
-                }
-                else
-                    RandomMove();
             }
             m_ballObstaclePos = Position(-10, -10); //Update request
         }
@@ -375,50 +390,40 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
         if (m_pathFinderPath)
         {
             std::vector<Position>* posList = PathFinder::ConvertPathToReal(m_pathFinderPath, m_coordCalib);
-            Position *tgt = drivePath(posList);
-            if (tgt)
-                cruisetoBias(tgt->GetX(),tgt->GetY(), 800, -10, 30);
-            else
-                RandomMove();
-
+            drivePath(posList);
             delete posList;
         }
+        else
+            RandomMove();
 
     #endif
     }
 }
 
 
-//TODO finish
-/*void TeamRobot::KickOff(Position ballPos, const OpponentRobot* robots[3], eSide ourSide)
+void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide)
 {
-    const double diameter = 0.15;
-    Position goalUp(ourSide == LEFT_SIDE ? 1 : -1, 0.2);
-    Position goalDown(ourSide == LEFT_SIDE ? 1 : -1, -0.2);
-    Position pos = m_coordCalib->NormalizePosition(GetPos());
+    NewRoboControl *robots[6];
+    memcpy(robots, otherRobots, sizeof(NewRoboControl*)*5);
+    robots[5] = this;
 
-    double angles[6];
-    for (int i=0 ; i < 3 ; i++)
-    {
-        Position robotPos = m_coordCalib->NormalizePosition(robots[i]->GetPos());
-        double d1 = pos.DistanceTo(robotPos);
-        double d2 = sqrt(d1*d1 + diameter*diameter);
+    std::vector<double> map = m_ballPm->ComputeVisibilityMap(1, (const NewRoboControl**)robots, ourSide, m_coordCalib);
+    double dir = BallMonitor::GetBestDirection(map, ourSide);
 
-        double angle;
-        ComputeLineAngle(pos.GetX(), pos.GetY(), robotPos.GetX(), robotPos.GetY(), &angle);
+    Position ballPos;
+    m_ballPm->GetBallPosition(&ballPos);
+    Position ballPos_n = m_coordCalib->NormalizePosition(ballPos);
 
-        double c = acos(d1 / d2);
-        angles[i*2] = angle - c;
-        angles[i*2+1] = angle + c;
+    double endX, endY;
+    dir = dir<=0 ? dir+M_PI : dir-M_PI;
+    ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 0.15, &endX, &endY);
 
-        if (angles[i*2] < -M_PI)
-            angles[i*2] += 2*M_PI;
-        if (angles[i*2+1] > M_PI)
-            angles[i*2+1] -= 2*M_PI;
-    }
+    Position end = m_coordCalib->UnnormalizePosition(Position(endX, endY));
+    while (!cruisetoBias(end.GetX(), end.GetY(), 100))
+        usleep(1000);
 
-
-}*/
+    KickBall(ballPos);
+}
 
 void TeamRobot::KickBall(Position ballPos)
 {
@@ -438,25 +443,25 @@ void TeamRobot::KickBall(Position ballPos)
     double diff3 = AngleDiff(a, phi);
 
     int i;
-    for (i=0 ; i < 1000 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
+    for (i=0 ; i < 50 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
     {
         if (diff3 > 0)
-            MoveMs(50, -50, 200);
+            MoveMs(50, -50, 200, 0);
         else if (diff3 < 0)
-            MoveMs(-50, 50, 200);
+            MoveMs(-50, 50, 200, 0);
 
-        usleep(1000);
+        usleep(20000);
 
         phi = GetPhi().Get();
         diff3 = AngleDiff(a, phi);
     }
 
-    if (i < 1000)
+    if (i < 50)
     {
         if (forward)
-            MoveMsBlocking(200, 200, 500);
+            MoveMsBlocking(200, 200, 500, 0);
         else
-            MoveMsBlocking(-200, -200, 500);
+            MoveMsBlocking(-200, -200, 500, 0);
     }
 }
 

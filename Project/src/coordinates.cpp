@@ -31,62 +31,108 @@ void CoordinatesCalibrer::Init()
 
 bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Position c, Position d)
 {
-	/*
-	********** A **********
-	*                     *
-	D          O          B
-	*                     *
-	********** C **********
-	*/
-	
-        m_tx = -(a.GetX() + c.GetX()) / 2;
-        m_ty = -(a.GetY() + c.GetY()) / 2;
-        double dist = d.DistanceTo(b);
-        m_cosTheta = (b.GetX() - d.GetX()) / dist;
-        m_sinTheta = (d.GetY() - b.GetY()) / dist;
-        m_kx = 2 / dist;
-        m_ky = 2 / a.DistanceTo(c);
-	
-        m_calibrationSuccessful = true;
-	return true;
+    /*
+    ********** A **********
+    *                     *
+    D          O          B
+    *                     *
+    ********** C **********
+    */
+
+    m_tx = -(a.GetX() + c.GetX()) / 2;
+    m_ty = -(a.GetY() + c.GetY()) / 2;
+    double dist = d.DistanceTo(b);
+    m_cosTheta = (b.GetX() - d.GetX()) / dist;
+    m_sinTheta = (d.GetY() - b.GetY()) / dist;
+    m_kx = 2 / dist;
+    m_ky = 2 / a.DistanceTo(c);
+
+    m_theta = acos(m_cosTheta);
+    if (m_sinTheta < 0)
+        m_theta = -m_theta;
+
+    m_calibrationSuccessful = true;
+    return true;
 }
 
 Position CoordinatesCalibrer::NormalizePosition(Position pos) const
 {
-	double x = pos.GetX(), y = pos.GetY();
-	
-	//Translation
-        x += m_tx;
-        y += m_ty;
-	
-	//Rotation
-        x = x * m_cosTheta - y * m_sinTheta;
-        y = x * m_sinTheta + y * m_cosTheta;
-	
-	//Dilatation
-        x *= m_kx;
-        y *= m_ky;
-	
-	return Position(x, y);
+    double x = pos.GetX(), y = pos.GetY();
+
+    //Translation
+    x += m_tx;
+    y += m_ty;
+
+    //Rotation
+    x = x * m_cosTheta - y * m_sinTheta;
+    y = x * m_sinTheta + y * m_cosTheta;
+
+    //Dilatation
+    x *= m_kx;
+    y *= m_ky;
+
+    return Position(x, y);
 }
 
 Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
 {
-	double x = pos.GetX(), y = pos.GetY();
-	
-	//Dilatation
-        x /= m_kx;
-        y /= m_ky;
-	
-	//Rotation
-        x = x * m_cosTheta + y * m_sinTheta;
-        y = -x * m_sinTheta + y * m_cosTheta;
-	
-	//Translation
-        x -= m_tx;
-        y -= m_ty;
-	
-	return Position(x, y);
+    double x = pos.GetX(), y = pos.GetY();
+
+    //Dilatation
+    x /= m_kx;
+    y /= m_ky;
+
+    //Rotation
+    x = x * m_cosTheta + y * m_sinTheta;
+    y = -x * m_sinTheta + y * m_cosTheta;
+
+    //Translation
+    x -= m_tx;
+    y -= m_ty;
+
+    return Position(x, y);
+}
+
+double CoordinatesCalibrer::NormalizeAngle(double angle) const
+{
+    //Rotation
+    angle -= m_theta;
+    if (angle < -M_PI)
+        angle += 2*M_PI;
+    else if (angle > M_PI)
+        angle -= 2*M_PI;
+
+    //Dilatation
+    double c = cos(angle);
+    double y = 1 / (c*c) - 1;
+    double c2 = 1 / sqrt(1 + (m_ky/m_kx)*y * (m_ky/m_kx)*y);
+    double s2 = y / sqrt((m_kx/m_ky)*(m_kx/m_ky) + y*y);
+    angle = acos(c2);
+    if (s2 < 0)
+        angle = -angle;
+
+    return angle;
+}
+
+double CoordinatesCalibrer::UnnormalizeAngle(double angle) const
+{
+    //Dilatation
+    double c = cos(angle);
+    double y = 1 / (c*c) - 1;
+    double c2 = 1 / sqrt(1 + (m_kx/m_ky)*y * (m_kx/m_ky)*y);
+    double s2 = y / sqrt((m_ky/m_kx)*(m_ky/m_kx) + y*y);
+    angle = acos(c2);
+    if (s2 < 0)
+        angle = -angle;
+
+    //Rotation
+    angle += m_theta;
+    if (angle < -M_PI)
+        angle += 2*M_PI;
+    else if (angle > M_PI)
+        angle -= 2*M_PI;
+
+    return angle;
 }
 
 bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboControl *robot2)

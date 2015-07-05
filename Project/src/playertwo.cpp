@@ -108,7 +108,7 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
     {
         case GO_TO_DEF_POS:
             Log("Player2 Perform Go To Default Pos", DEBUG);
-            cruisetoBias(m_defaultPos.GetX(), m_defaultPos.GetY(), 650, -10, 30);
+            cruisetoBias(m_defaultPos.GetX(), m_defaultPos.GetY(), 650);
             break;
 
         case FOLLOWPATH:
@@ -124,7 +124,7 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
             if (ShouldGoalKick(ballPos, info.our_side))
                 KickBall(ballPos);
             else
-                cruisetoBias(m_defendpm.GetX(), m_defendpm.GetY(), 650, -10, 30);
+                cruisetoBias(m_defendpm.GetX(), m_defendpm.GetY(), 650);
             break;
     }
 }

@@ -33,10 +33,10 @@ public:
 
     void GiveDisplay(RefereeDisplay *display);
 
+    void KickOff(const NewRoboControl* otherRobots[5], eSide ourSide);
     void KickBall(Position ballPos);
     bool ShouldKick(Position ballPos, Position goalPos);
     bool ShouldGoalKick(Position ballPos, eSide ourSide);
-
 
     virtual void setNextCmd(const Interpreter::GameData& info) = 0;
     virtual void setCmdParam(const Interpreter& interpreter) = 0;

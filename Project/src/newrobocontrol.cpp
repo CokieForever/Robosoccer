@@ -4,7 +4,7 @@
 #include "newrobocontrol.h"
 #include "pathfinder.h"
 #include "log.h"
-#include "sdlutilities.h"
+#include "geometry.h"
 
 //Berechnung in welcher Richtung Roboter fahren soll
 /**
@@ -179,9 +179,10 @@ double NewRoboControl::degToRad(double deg)
     return deg * M_PI / 180.0;
 }
 
-bool NewRoboControl::IsOnTarget(Position current, Position target)
+bool NewRoboControl::IsOnTarget(Position current, Position target, bool precise)
 {
-    return fabs(current.GetX()-target.GetX()) < 0.05 && fabs(current.GetY()-target.GetY()) < 0.05;
+    double margin = precise ? 0.05 : 0.2;
+    return fabs(current.GetX()-target.GetX()) < margin && fabs(current.GetY()-target.GetY()) < margin;
 }
 
 
@@ -196,9 +197,9 @@ NewRoboControl::~NewRoboControl()
 {
 }
 
-bool NewRoboControl::IsOnTarget(Position target) const
+bool NewRoboControl::IsOnTarget(Position target, bool precise) const
 {
-    return IsOnTarget(GetPos(), target);
+    return IsOnTarget(GetPos(), target, precise);
 }
 
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
@@ -291,18 +292,37 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
 
 void NewRoboControl::RandomMove()
 {
-    MoveMs((rand() % 11 - 5) * 50, (rand() % 11 -5) * 50, 250);
+    MoveMs((rand() % 11 - 5) * 50, (rand() % 11 -5) * 50, 250, 0);
 }
 
-Position* NewRoboControl::drivePath(std::vector<Position>* path)
+bool NewRoboControl::drivePath(std::vector<Position>* path)
 {
+    Position *target = NULL;
     for (std::vector<Position>::iterator it = path->begin() ; it != path->end() ; it++)
     {
-        Position *pos = &(*it);
-        if (!IsOnTarget(*pos))
-            return pos;
+        target = &(*it);
+        if (!IsOnTarget(*target, false))
+        {
+            double d = 0;
+            Position prevPos = GetPos();
+            for (; it != path->end() ; it++)
+            {
+                Position pos = *it;
+                d += pos.DistanceTo(prevPos);
+                prevPos = pos;
+            }
+
+            return cruisetoBias(target->GetX(), target->GetY(), 500 + 1000*d);
+        }
     }
-    return NULL;
+
+    if (!target || IsOnTarget(*target))
+    {
+        RandomMove();
+        return true;
+    }
+
+    return cruisetoBias(target->GetX(), target->GetY(), 600);
 }
 
 

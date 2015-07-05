@@ -21,6 +21,7 @@ using namespace std;
 
 PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, ballPm, display)
 {
+    memset(m_otherRobots, 0, sizeof(NewRoboControl*) * 5);
 }
 
 void PlayerMain::setNextCmd(const Interpreter::GameData& info)
@@ -74,8 +75,15 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
             m_defaultPos = interpreter.getP1DefaultPos();
             break;
 
-        case KICK_PENALTY:
         case KICK_OFF:
+            m_otherRobots[0] = interpreter.getGK();
+            m_otherRobots[1] = interpreter.getP2();
+            m_otherRobots[2] = interpreter.getE1();
+            m_otherRobots[3] = interpreter.getE2();
+            m_otherRobots[4] = interpreter.getE3();
+            break;
+
+        case KICK_PENALTY:
         case STOP:
             break;
     }
@@ -111,12 +119,12 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
 
         case GO_TO_DEF_POS:
             Log("Player1 Perform Go To Default Pos", DEBUG);
-            cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650, -10, 30);
+            cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650);
             break;
 
         case KICK_OFF:
             Log("Player1 Perform Kick Off", INFO);
-            cruisetoBias(m_ball->GetX(),m_ball->GetY(), 650, -10, 30);
+            KickOff((const NewRoboControl**)m_otherRobots, info.our_side);
             break;
 
         case FOLLOWPATH:

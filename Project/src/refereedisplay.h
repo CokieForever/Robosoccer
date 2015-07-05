@@ -18,7 +18,7 @@ class RefereeDisplay
 {
 
 public:
-    RefereeDisplay(const BallMonitor *ballMonitor, const CoordinatesCalibrer *coordCalibrer,
+    RefereeDisplay(BallMonitor *ballMonitor, const CoordinatesCalibrer *coordCalibrer,
                    int screenW = 800, int screenH = 600, NewRoboControl **robots=NULL, const Interpreter *interpreter = NULL);
     ~RefereeDisplay();
 
@@ -39,7 +39,7 @@ private:
     NewRoboControl *m_robots[6];
     const Interpreter *m_interpreter;
     eTeam m_team;
-    const BallMonitor *m_ballMonitor;
+    BallMonitor *m_ballMonitor;
     const CoordinatesCalibrer *m_coordCalibrer;
     MapDisplay *m_mapDisplay;
     std::vector<PathFinder::Point> m_path;

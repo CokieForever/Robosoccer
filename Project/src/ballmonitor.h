@@ -29,6 +29,7 @@ public:
 
     static std::vector<double> ComputeVisibilityMap(int maxLevel, Position pos, const Position *robotPos, int nbPos, eSide ourSide);
     static std::vector<double> ComputeVisibilityMap(Position pos, const Position *robotPos, int nbPos, eSide ourSide);
+    static double GetBestDirection(std::vector<double> visibilityMap, eSide ourSide);
 
     BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball = NULL);
 
