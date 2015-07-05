@@ -18,6 +18,10 @@ bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
 
 TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
 {
+    //collision detection starts
+    pthread_create(&m_thread, NULL, Checkspeed, this);
+    //collision detection ends
+
     m_coordCalib = coordCalib;
     m_ball = ball;
     m_display = display;
@@ -76,6 +80,8 @@ void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
 
 TeamRobot::~TeamRobot()
 {
+    m_checkSpeedFinishNow = true;
+    pthread_join(m_thread, NULL);
     if (m_pathFinderPath)
         delete m_pathFinderPath;
 }
@@ -446,9 +452,9 @@ void TeamRobot::KickBall(Position ballPos)
     for (i=0 ; i < 50 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
     {
         if (diff3 > 0)
-            MoveMs(50, -50, 200, 0);
+            MoveMs(-30, 30, 200, 0);
         else if (diff3 < 0)
-            MoveMs(-50, 50, 200, 0);
+            MoveMs(30, -30, 200, 0);
 
         usleep(20000);
 
@@ -506,3 +512,29 @@ double TeamRobot::AngleDiff(double angle1, double angle2)
         diff -= 2*M_PI;
     return diff;
 }
+
+
+
+void* TeamRobot::Checkspeed(void *data)
+{
+    TeamRobot *robo = (TeamRobot*)data;
+    robo->m_checkSpeedFinishNow = false;
+
+    Position current;
+    while(!robo->m_checkSpeedFinishNow)
+    {
+        current = robo->GetPos();
+        usleep(5000000);
+        Log("Collision detection.",INFO);
+        //cout<<"Collision detection."<<endl<<endl;
+        if(!robo->IsOnTarget(robo->m_targetPos))
+        //if(((abs(robo->m_targetPos.GetX()-current.GetX())+abs(robo->m_targetPos.GetY()-current.GetY()))>0.2) && (robo->m_targetSpeed!=0))
+        {
+            robo->RandomMove();
+            Log("Robot is random moving.", INFO);
+            //cout<<"Robot is random moving."<<endl<<endl;
+        }
+    }
+    return 0;
+}
+
