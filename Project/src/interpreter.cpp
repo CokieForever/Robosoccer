@@ -388,7 +388,10 @@ Interpreter::Interpreter(eTeam x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTw
     m_mode.formation = DEF;
     m_mode.team = x;
 
-    if (x== 0)
+    setSide();
+    setScores();
+
+    if (x == BLUE_TEAM)
         Log("We are team blue!", INFO);
     else
         Log("We are team red!", INFO);
@@ -501,17 +504,17 @@ void Interpreter::setDefaultPos()
     {
 
         case BEFORE_PENALTY:
-            if((m_mode.turn == Interpreter::OUR_TURN))
+            if((m_mode.turn == OUR_TURN))
             {
-                m_gkDefaultPosition = Position(-0.3, 0.4);
-                m_p1DefaultPosition = Position(0.0, 0.0);
-                m_p2DefaultPosition = Position(-1.0, -0.5);
+                m_gkDefaultPosition = Position(0.5, 0.5);
+                m_p1DefaultPosition = m_cal->UnnormalizePosition(Position(0.0, 0.0));
+                m_p2DefaultPosition = Position(0.5, -0.5);
             }
-            else if ((m_mode.turn == Interpreter::THEIR_TURN))
+            else if ((m_mode.turn == THEIR_TURN))
             {
-                m_gkDefaultPosition = Position(1.2, 0.0);
-                m_p1DefaultPosition = Position(-0.5, -0.5);
-                m_p2DefaultPosition = Position(-1.0, -0.5);
+                m_gkDefaultPosition = m_cal->UnnormalizePosition(Position(-0.9, 0.0));
+                m_p1DefaultPosition = Position(0.5, -0.5);
+                m_p2DefaultPosition = Position(0.5, 0.5);
             }
             else
             {

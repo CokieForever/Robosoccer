@@ -16,15 +16,6 @@ class PlayerMain : public TeamRobot
         GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH
     };
 
-
-    struct KickParam
-    {
-      double  turnAngle;
-      int  force;
-      bool action1Performed, action2Performed;
-      Position ball, pos;
-    };
-
     PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display = NULL);
 
     void setNextCmd(const Interpreter::GameData& info);
@@ -34,8 +25,6 @@ class PlayerMain : public TeamRobot
   private:
     ActionPlayerMain m_nextCmd;
     BallMonitor* m_ballpm;
-    KickParam m_kickPenaltyParam;
-    Position m_kickOffParam;
     const NewRoboControl* m_otherRobots[5];
 
     void AddObstacleForFormation(const Interpreter::GameData& info);

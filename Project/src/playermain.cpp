@@ -37,8 +37,6 @@ void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 
         case BEFORE_PENALTY:
             m_nextCmd = GO_TO_DEF_POS;
-            m_kickPenaltyParam.action1Performed = 0;
-            m_kickPenaltyParam.action2Performed = 0;
             break;
 
         case PLAY_ON:
@@ -75,6 +73,7 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
             m_defaultPos = interpreter.getP1DefaultPos();
             break;
 
+        case KICK_PENALTY:
         case KICK_OFF:
             m_otherRobots[0] = interpreter.getGK();
             m_otherRobots[1] = interpreter.getP2();
@@ -83,7 +82,6 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
             m_otherRobots[4] = interpreter.getE3();
             break;
 
-        case KICK_PENALTY:
         case STOP:
             break;
     }
@@ -94,27 +92,7 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
     switch(m_nextCmd)
     {
         case KICK_PENALTY:
-
-            //at first go to an predefined position then kick the ball
-            // approach to define multiple commands in one command : define checkpoints in action structure
-
-            if (m_kickPenaltyParam.action1Performed == 0)
-            {
-                Log("Player1 Perform Kick Penalty", INFO);
-                GotoXY(m_kickPenaltyParam.pos.GetX(), m_kickPenaltyParam.pos.GetY());
-
-                while (GetPos().DistanceTo(m_kickPenaltyParam.pos) > 0.05)
-                {
-                    usleep(100000);
-                }
-                m_kickPenaltyParam.action1Performed = 1;
-            }
-
-            if (m_kickPenaltyParam.action1Performed == 1 && m_kickPenaltyParam.action2Performed == 0)
-            {
-                GotoXY(m_kickPenaltyParam.ball.GetX(), m_kickPenaltyParam.ball.GetY());
-                m_kickPenaltyParam.action2Performed = 1;
-            }
+            KickPenalty((const NewRoboControl**)m_otherRobots);
             break;
 
         case GO_TO_DEF_POS:
@@ -124,7 +102,7 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
 
         case KICK_OFF:
             Log("Player1 Perform Kick Off", INFO);
-            KickOff((const NewRoboControl**)m_otherRobots, info.our_side);
+            KickOff((const NewRoboControl**)m_otherRobots, info.our_side, true);
             break;
 
         case FOLLOWPATH:

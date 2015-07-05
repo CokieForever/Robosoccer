@@ -63,7 +63,7 @@ typedef struct
 
 static void* MainLoop(void* data);
 
-const eTeam team = BLUE_TEAM;
+const eTeam team = RED_TEAM;
 
 #ifdef SIMULATION
 const unsigned int refreshWait = 500;
@@ -142,13 +142,13 @@ int main(void)
 
         //-------------------------------------- Ende Init ---------------------------------
         MainLoopDataStruct s1 = {&refereeDisplay, &info, &gk};
-        //MainLoopDataStruct s2 = {&refereeDisplay, &info, &p1};
-        //MainLoopDataStruct s3 = {&refereeDisplay, &info, &p2};
+        MainLoopDataStruct s2 = {&refereeDisplay, &info, &p1};
+        MainLoopDataStruct s3 = {&refereeDisplay, &info, &p2};
 
-        pthread_t gkThread/*, p1Thread, p2Thread*/;
+        pthread_t gkThread, p1Thread, p2Thread;
         pthread_create(&gkThread, NULL, MainLoop, &s1);
-        //pthread_create(&p1Thread, NULL, MainLoop, &s2);
-        //pthread_create(&p2Thread, NULL, MainLoop, &s3);
+        pthread_create(&p1Thread, NULL, MainLoop, &s2);
+        pthread_create(&p2Thread, NULL, MainLoop, &s3);
 
         while (refereeDisplay.IsActive())
         {
@@ -163,8 +163,8 @@ int main(void)
         info.End();
 
         pthread_join(gkThread, NULL);
-        //pthread_join(p1Thread, NULL);
-        //pthread_join(p2Thread, NULL);
+        pthread_join(p1Thread, NULL);
+        pthread_join(p2Thread, NULL);
     }
 
     catch (DBError err)

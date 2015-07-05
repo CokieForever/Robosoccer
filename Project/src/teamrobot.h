@@ -33,8 +33,9 @@ public:
 
     void GiveDisplay(RefereeDisplay *display);
 
-    void KickOff(const NewRoboControl* otherRobots[5], eSide ourSide);
-    void KickBall(Position ballPos);
+    void KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, bool likePenalty = false);
+    void KickPenalty(const NewRoboControl* otherRobots[5]);
+    void KickBall(Position ballPos, bool precise=false);
     bool ShouldKick(Position ballPos, Position goalPos);
     bool ShouldGoalKick(Position ballPos, eSide ourSide);
 

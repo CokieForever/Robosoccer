@@ -401,7 +401,7 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
 }
 
 
-void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide)
+void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, bool likePenalty)
 {
     NewRoboControl *robots[6];
     memcpy(robots, otherRobots, sizeof(NewRoboControl*)*5);
@@ -416,16 +416,70 @@ void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide)
 
     double endX, endY;
     dir = dir<=0 ? dir+M_PI : dir-M_PI;
-    ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 0.15, &endX, &endY);
+    ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 0.075, &endX, &endY);
 
-    Position end = m_coordCalib->UnnormalizePosition(Position(endX, endY));
-    while (!cruisetoBias(end.GetX(), end.GetY(), 400))
-        usleep(1000);
+    if (likePenalty)
+    {
+        Position currentPos = m_coordCalib->NormalizePosition(GetPos());
+        double cosAngle, sinAngle;
+        double l = currentPos.DistanceTo(Position(endX, endY));
+        ComputeLineAngle(currentPos.GetX(), currentPos.GetY(), endX, endY, &cosAngle, &sinAngle);
+        ComputeVectorEnd(currentPos.GetX(), currentPos.GetY(), cosAngle, sinAngle, l+0.05, &endX, &endY);
 
-    KickBall(ballPos);
+        Position end = m_coordCalib->UnnormalizePosition(Position(endX, endY));
+        for (int j=0 ; GetPos().DistanceTo(end) >= 0.05 && j < 10 ; j++)
+        {
+            GotoXY(end.GetX(), end.GetY(), 50);
+            for (int i=0 ; i < 50 && GetPos().DistanceTo(end) >= 0.05 ; i++)
+                usleep(20000);
+        }
+    }
+    else
+    {
+        Position end = m_coordCalib->UnnormalizePosition(Position(endX, endY));
+        while (!cruisetoBias(end.GetX(), end.GetY(), 400))
+            usleep(1000);
+    }
+
+    KickBall(ballPos, likePenalty);
 }
 
-void TeamRobot::KickBall(Position ballPos)
+void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
+{
+    Position ballPos;
+    m_ballPm->GetBallPosition(&ballPos);
+    Position ballPos_n = m_coordCalib->NormalizePosition(ballPos);
+
+    Position ePos[3];
+    ePos[0] = m_coordCalib->NormalizePosition(otherRobots[2]->GetPos());
+    ePos[1] = m_coordCalib->NormalizePosition(otherRobots[3]->GetPos());
+    ePos[2] = m_coordCalib->NormalizePosition(otherRobots[4]->GetPos());
+
+    std::vector<double> map = m_ballPm->ComputeVisibilityMap(1, ballPos, &(ePos[0]), 3, RIGHT_SIDE);
+    double dir = BallMonitor::GetBestDirection(map, RIGHT_SIDE);
+
+    double endX, endY;
+    dir = dir<=0 ? dir+M_PI : dir-M_PI;
+    ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 0.1, &endX, &endY);
+
+    Position currentPos = m_coordCalib->NormalizePosition(GetPos());
+    double cosAngle, sinAngle;
+    double l = currentPos.DistanceTo(Position(endX, endY));
+    ComputeLineAngle(currentPos.GetX(), currentPos.GetY(), endX, endY, &cosAngle, &sinAngle);
+    ComputeVectorEnd(currentPos.GetX(), currentPos.GetY(), cosAngle, sinAngle, l+0.05, &endX, &endY);
+
+    Position end = m_coordCalib->UnnormalizePosition(Position(endX, endY));
+    for (int j=0 ; GetPos().DistanceTo(end) >= 0.05 && j < 10 ; j++)
+    {
+        GotoXY(end.GetX(), end.GetY(), 50);
+        for (int i=0 ; i < 50 && GetPos().DistanceTo(end) >= 0.05 ; i++)
+            usleep(20000);
+    }
+
+    KickBall(ballPos, true);
+}
+
+void TeamRobot::KickBall(Position ballPos, bool precise)
 {
     double phi = GetPhi().Get();
 
@@ -442,11 +496,33 @@ void TeamRobot::KickBall(Position ballPos)
     double a = forward ? robotBallAngle : robotBallAngle2;
     double diff3 = AngleDiff(a, phi);
 
-    double time = fabs(diff3) * 2710 / (2 * M_PI);
-    if (diff3 > 0)
-        MoveMsBlocking(-30, 30, time, 0);
-    else if (diff3 < 0)
-        MoveMsBlocking(30, -30, time, 0);
+    if (!precise)
+    {
+        double time = fabs(diff3) * 2710 / (2 * M_PI);
+        if (diff3 > 0)
+            MoveMs(-30, 30, 200, 0);
+        else if (diff3 < 0)
+            MoveMs(30, -30, 200, 0);
+
+        usleep(time);
+    }
+    else
+    {
+        for (int i=0 ; i < 200 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
+        {
+            if (diff3 > 0)
+                MoveMs(-20, 20, 200, 0);
+            else if (diff3 < 0)
+                MoveMs(20, -20, 200, 0);
+
+            usleep(20000);
+
+            phi = GetPhi().Get();
+            diff3 = AngleDiff(a, phi);
+        }
+    }
+
+    MoveMs(0,0,0,0);
 
     if (forward)
         MoveMsBlocking(200, 200, 500, 0);
