@@ -30,6 +30,7 @@
 #include "playertwo.h"
 #include "opponentrobot.h"
 #include "pathfinder.h"
+#include "penaltyschooter.h"
 
 #ifdef STACK_LOG
 static int StackFd;
@@ -60,7 +61,7 @@ typedef struct
   TeamRobot* robo;
 } MainLoopDataStruct;
 
-static void* MainLoop(void* data);
+//static void* MainLoop(void* data);
 
 const eTeam team = BLUE_TEAM;
 
@@ -117,14 +118,16 @@ int main(void)
 
         RawBall ball(DBC);
 
+
         Goalkeeper gk = Goalkeeper(DBC, rfcomm_nr[0], &coordCalibrer, &ball, &ballMonitor);
         PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball, &ballMonitor, &refereeDisplay);
         PlayerTwo p2 = PlayerTwo(DBC, rfcomm_nr[2], &coordCalibrer, &ball, &ballMonitor);
         OpponentRobot robo4 = OpponentRobot(DBC, rfcomm_nr_2[0]);
         OpponentRobot robo5 = OpponentRobot(DBC, rfcomm_nr_2[1]);
         OpponentRobot robo6 = OpponentRobot(DBC, rfcomm_nr_2[2]);
+        penaltyschooter(p1,ball);
 
-        NewRoboControl* robots[] = {&gk, &p1, &p2, &robo4, &robo5, &robo6};
+       /* NewRoboControl* robots[] = {&gk, &p1, &p2, &robo4, &robo5, &robo6};
 
         Referee ref(DBC);
         ref.Init();
@@ -158,7 +161,7 @@ int main(void)
 
         pthread_join(gkThread, NULL);
         pthread_join(p1Thread, NULL);
-        pthread_join(p2Thread, NULL);
+        pthread_join(p2Thread, NULL);*/
     }
 
     catch (DBError err)
@@ -175,7 +178,7 @@ int main(void)
 }
 
 
-static void* MainLoop(void* data)
+/*static void* MainLoop(void* data)
 {
     MainLoopDataStruct* s = (MainLoopDataStruct*)data;
     int id = -1;
@@ -190,4 +193,4 @@ static void* MainLoop(void* data)
     }
 
     return NULL;
-}
+}*/
