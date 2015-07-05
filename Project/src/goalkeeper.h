@@ -19,7 +19,7 @@ class Goalkeeper : public TeamRobot
         GO_TO_DEF_POS, PREVENT_GOAL, STOP
     };
 
-    Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer* coordCalib, RawBall*, BallMonitor* ballgk);
+    Goalkeeper(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer* coordCalib, RawBall* ball, BallMonitor* ballgk);
 
     void setNextCmd(const Interpreter::GameData& info);
     void setCmdParam(const Interpreter& interpreter);

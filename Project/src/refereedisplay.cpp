@@ -1,10 +1,12 @@
 #include "refereedisplay.h"
 #include "interpreter.h"
 #include "sdl_gfx/SDL_gfxPrimitives.h"
+#include "log.h"
+#include "teamrobot.h"
+#include "geometry.h"
 
-
-RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, CoordinatesCalibrer *coordCalibrer,
-                               int screenW, int screenH, NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
+RefereeDisplay::RefereeDisplay(BallMonitor *ballMonitor, const CoordinatesCalibrer *coordCalibrer,
+                               int screenW, int screenH, NewRoboControl **robots, const Interpreter *interpreter)
 {
     m_keepGoing = true;
     m_isDisplaying = false;
@@ -17,15 +19,16 @@ RefereeDisplay::RefereeDisplay(eTeam team, BallMonitor *ballMonitor, Coordinates
     else
         memset(m_robots, 0, sizeof(NewRoboControl*) * 6);
 
-    m_ball = ball;
-    m_team = team;
+    m_interpreter = interpreter;
     m_ballMonitor = ballMonitor;
     m_coordCalibrer = coordCalibrer;
     m_mapDisplay = NULL;
     m_pathFinder = NULL;
-    pthread_mutex_init(&m_pathMutex, NULL);
 
-    CreateMapDisplay(map);
+    if (interpreter)
+        m_team = interpreter->getMode().team;
+
+    pthread_mutex_init(&m_pathMutex, NULL);
 }
 
 RefereeDisplay::~RefereeDisplay()
@@ -35,20 +38,24 @@ RefereeDisplay::~RefereeDisplay()
     pthread_mutex_destroy(&m_pathMutex);
 }
 
-bool RefereeDisplay::StartDisplay(NewRoboControl **robots, RawBall *ball, const Interpreter::Map *map)
+bool RefereeDisplay::StartDisplay(NewRoboControl **robots, const Interpreter *interpreter, const Interpreter::Map *map)
 {
     if (m_isDisplaying || !m_ballMonitor || !m_coordCalibrer)
         return false;
 
     if (robots)
         memcpy(m_robots, robots, sizeof(NewRoboControl*) * 6);
-    if (ball)
-        m_ball = ball;
-    if (map)
-        CreateMapDisplay(map);
+    if (interpreter)
+    {
+        m_interpreter = interpreter;
+        m_team = interpreter->getMode().team;
+    }
+
+    CreateMapDisplay(map);
 
     pthread_create(&m_displayThread, NULL, RefDisplayFn, this);
-    usleep(0.1e6);return StartDisplay(robots, ball);
+    usleep(0.1e6);
+    return true;
 }
 
 bool RefereeDisplay::StopDisplay()
@@ -125,7 +132,7 @@ void RefereeDisplay::DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Su
                 DrawLine(screen, x1, y1, x3, y3, CreateColor(255, 255, 0));
             }
 
-            pos = m_coordCalibrer->NormalizePosition(m_ball->GetPos());
+            pos = m_coordCalibrer->NormalizePosition(GetBallPos());
             pt3 = PathFinder::CreatePoint(pos.GetX(), pos.GetY());
             if (m_pathFinder->CheckPointsVisibility(pt1, &pt3))
             {
@@ -149,7 +156,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
     SDL_Surface *ballSurf = SDL_LoadBMP("../data/ball.bmp"), *ballSurfTr = NULL;
     if (!ballSurf)
-        cout << "Unable to load ball bmp: " << SDL_GetError() << endl;
+        Log(string("Unable to load ball bmp: ") + SDL_GetError(), WARNING);
     else
     {
         double zoom = display->m_screenW/50 / (double)ballSurf->w;
@@ -165,7 +172,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
     SDL_Surface *redRobotSurf = SDL_LoadBMP("../data/red_robot.bmp"), *redRobotSurfTr = NULL;
     if (!redRobotSurf)
-        cout << "Unable to load red robot bmp: " << SDL_GetError() << endl;
+        Log(string("Unable to load red robot bmp: ") + SDL_GetError(), WARNING);
     else
     {
         double zoom = display->m_screenW/25 / (double)redRobotSurf->w;
@@ -181,7 +188,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
     SDL_Surface *blueRobotSurf = SDL_LoadBMP("../data/blue_robot.bmp"), *blueRobotSurfTr = NULL;
     if (!blueRobotSurf)
-        cout << "Unable to load blue robot bmp: " << SDL_GetError() << endl;
+        Log(string("Unable to load blue robot bmp: ") + SDL_GetError(), WARNING);
     else
     {
         double zoom = display->m_screenW/25 / (double)blueRobotSurf->w;
@@ -215,6 +222,8 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         if (event.type == SDL_QUIT)
             break;
 
+        int n;
+
         #ifdef PATHPLANNING_ASTAR
         SDL_Surface *bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
         if (bgSurf)
@@ -227,8 +236,9 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
         #if defined(PATHPLANNING_POLYGONS) && !defined(PATHPLANNING_ASTAR)
 
+        //Display path finder polygons
         if (display->m_pathFinder)
-        {;
+        {
             PathFinder::PolygonsList polygons = display->m_pathFinder->GetPolygonsCopy();
             for (PathFinder::PolygonsList::iterator it = polygons.begin() ; it != polygons.end() ; it++)
             {
@@ -239,8 +249,9 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
                 for (int i=0 ; i < n ; i++)
                 {
-                    vx[i] = std::max(0., std::min((double)display->m_screenW-1, (display->m_screenW-1) * (polygon->points[i]->x + 1) / 2));
-                    vy[i] = std::max(0., std::min((double)display->m_screenH-1, (display->m_screenH-1) * (polygon->points[i]->y + 1) / 2));
+                    SDL_Rect r = display->PosToRect(Position(polygon->points[i]->x, polygon->points[i]->y));
+                    vx[i] = std::max(0, std::min(display->m_screenW-1, (int)r.x));
+                    vy[i] = std::max(0, std::min(display->m_screenH-1, (int)r.y));
                 }
 
                 filledPolygonRGBA(screen, vx, vy, n, 255, 0, 0, 255);
@@ -251,51 +262,100 @@ void* RefereeDisplay::RefDisplayFn(void *data)
             }
         }
 
+        //Display current path
         pthread_mutex_lock(&(display->m_pathMutex));
-        int n = display->m_path.size();
+        n = display->m_path.size();
         if (n > 1)
         {
             PathFinder::Point *point = &(display->m_path[0]);
-            double x = display->m_screenW * (point->x + 1) / 2;
-            double y = display->m_screenH * (point->y + 1) / 2;
+            SDL_Rect r1 = display->PosToRect(Position(point->x, point->y));
             for (int i=1 ; i < n ; i++)
             {
                 PathFinder::Point *next = &(display->m_path[i]);
-                double nx = display->m_screenW * (next->x + 1) / 2;
-                double ny = display->m_screenH * (next->y + 1) / 2;
+                SDL_Rect r2 = display->PosToRect(Position(next->x, next->y));
 
-                DrawLine(screen, x, y, nx, ny, CreateColor(255,0,0));
+                DrawLine(screen, r1.x, r1.y, r2.x, r2.y, CreateColor(255,0,0));
 
-                x = nx;
-                y = ny;
+                r1 = r2;
             }
         }
         pthread_mutex_unlock(&(display->m_pathMutex));
 
         #endif
 
+        Position ballPos = display->GetBallPos();
+        Position ballPos_n = display->m_coordCalibrer->NormalizePosition(ballPos);
         if (ballSurfTr)
         {
-            rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_ball->GetPos()), ballSurfTr->w, ballSurfTr->h);
+            rect = display->PosToRect(ballPos_n, ballSurfTr->w, ballSurfTr->h);
             SDL_BlitSurface(ballSurfTr, NULL, screen, &rect);
         }
 
-        /*double a, b;
+        //Display visibility map for the ball
+        eSide ourSide = display->m_interpreter->getMode().our_side;
+        std::vector<double> map = display->m_ballMonitor->ComputeVisibilityMap(2, (const NewRoboControl**)display->m_robots, ourSide, display->m_coordCalibrer);
+        n = map.size();
+        SDL_Rect ballPosR = display->PosToRect(ballPos_n);
+        for (int i=0 ; i < n ; i += 2)
+        {
+            double x, y;
+            ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), map[i], 4, &x, &y);
+            SDL_Rect r2 = display->PosToRect(Position(x, y));
+
+            ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), map[i+1], 4, &x, &y);
+            SDL_Rect r3 = display->PosToRect(Position(x, y));
+
+            filledTrigonRGBA(screen, ballPosR.x, ballPosR.y, r2.x, r2.y, r3.x, r3.y, 255, 255, 0, 100);
+        }
+
+        //Display optimal ball direction
+        double x, y;
+        double dir = BallMonitor::GetBestDirection(map, ourSide);
+        ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 4, &x, &y);
+        SDL_Rect r = display->PosToRect(Position(x, y));
+        DrawLine(screen, ballPosR.x, ballPosR.y, r.x, r.y, CreateColor(255,255,255));
+
+        //Display ball trajectory prevision
+        double a, b;
         if (display->m_ballMonitor->PredictBallPosition(&a, &b, 5))
         {
-            rect = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_ball->GetPos()));
-            SDL_Rect rect2 = display->PosToRect(display->m_coordCalibrer->NormalizePosition(pos));
-            DrawLine(screen, rect.x, rect.y, rect2.x, rect2.y, CreateColor(255,0,0));
-        }*/
+            double isectX[2], isectY[2];
+            if (GetLineRectIntersections(-0.95, -0.95, 0.95, 0.95, a, b, isectX, isectY))
+            {
+                r = display->PosToRect(Position(isectX[0], isectY[0]));
+                SDL_Rect r2 = display->PosToRect(Position(isectX[1], isectY[1]));
+                DrawLine(screen, r.x, r.y, r2.x, r2.y, CreateColor(255,0,0));
+            }
+        }
+
+        Position goalPos_n(ourSide == LEFT_SIDE ? +1 : -1, 0);
+        Position goalPos = display->m_coordCalibrer->UnnormalizePosition(goalPos_n);
 
         for (int i=0 ; i < 6 ; i++)
         {
             SDL_Surface *robotSurf = ((display->m_team == BLUE_TEAM) ^ (i < 3)) ? redRobotSurfTr : blueRobotSurfTr;
             if (robotSurf)
             {
-                robotsDD[i].area = display->PosToRect(display->m_coordCalibrer->NormalizePosition(display->m_robots[i]->GetPos()), robotSurf->w, robotSurf->h);
+                Position robotPos = display->m_robots[i]->GetPos();
+                Position robotPos_n = display->m_coordCalibrer->NormalizePosition(robotPos);
+                robotsDD[i].area = display->PosToRect(robotPos_n, robotSurf->w, robotSurf->h);
                 rect = robotsDD[i].area;
                 SDL_BlitSurface(robotSurf, NULL, screen, &rect);
+
+                SDL_Color color = CreateColor(0,0,0);
+                SDL_Rect robotR = display->PosToRect(robotPos_n);
+                if (i < 3 && ((TeamRobot*)(display->m_robots[i]))->ShouldKick(ballPos, goalPos))
+                {
+                    color = CreateColor(255, 255, 255);
+                    SDL_Rect goalR = display->PosToRect(goalPos_n);
+                    DrawLine(screen, robotR.x, robotR.y, goalR.x, goalR.y, color);
+                }
+
+                double phi = display->m_robots[i]->GetPhi().Get();
+                double endX, endY;
+                ComputeVectorEnd(robotPos.GetX(), robotPos.GetY(), phi, 0.15, &endX, &endY);
+                SDL_Rect r = display->PosToRect(display->m_coordCalibrer->NormalizePosition(Position(endX, endY)));
+                DrawLine(screen, robotR.x, robotR.y, r.x, r.y, color);
 
                 DragDropStatus status = ManageDragDrop(&(robotsDD[i]), event);
 
@@ -355,4 +415,11 @@ SDL_Rect RefereeDisplay::PosToRect(Position pos, int w, int h)
 Position RefereeDisplay::RectToPos(SDL_Rect rect)
 {
     return Position(2 * rect.x / (double)(m_screenW-1) - 1, 2 * rect.y / (double)(m_screenH-1) - 1);
+}
+
+Position RefereeDisplay::GetBallPos()
+{
+    Position ballPos;
+    m_ballMonitor->GetBallPosition(&ballPos);
+    return ballPos;
 }

@@ -30,6 +30,7 @@
 #include "playertwo.h"
 #include "opponentrobot.h"
 #include "pathfinder.h"
+#include "log.h"
 
 #ifdef STACK_LOG
 static int StackFd;
@@ -62,12 +63,12 @@ typedef struct
 
 static void* MainLoop(void* data);
 
-const eTeam team = BLUE_TEAM;
+const eTeam team = RED_TEAM;
 
 #ifdef SIMULATION
 const unsigned int refreshWait = 500;
 #else
-const unsigned int refreshWait = 50;
+const unsigned int refreshWait = 20;
 #endif
 
 int main(void)
@@ -75,16 +76,16 @@ int main(void)
 
 #ifdef STACK_LOG
     struct sigaction sa;
-    StackFd = open ("stack_trace.log", O_WRONLY|O_CREAT, S_IRWXU);
+    StackFd = open("stack_trace.log", O_WRONLY|O_CREAT, S_IRWXU);
     sa.sa_sigaction = exitHandler;
     sigemptyset (&sa.sa_mask);
     sa.sa_flags = SA_RESTART|SA_SIGINFO;
 
-    sigaction (SIGINT, &sa, NULL);
-    sigaction (SIGTERM, &sa, NULL);
-    sigaction (SIGILL, &sa, NULL);
-    sigaction (SIGSEGV, &sa, NULL);
-    sigaction (SIGABRT, &sa, NULL);
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGTERM, &sa, NULL);
+    sigaction(SIGILL, &sa, NULL);
+    sigaction(SIGSEGV, &sa, NULL);
+    sigaction(SIGABRT, &sa, NULL);
 #endif
 
     //--------------------------------- Init ---------------------------------
@@ -100,17 +101,19 @@ int main(void)
 
     CoordinatesCalibrer coordCalibrer;
     #ifdef SIMULATION
-    coordCalibrer.SetManualCoordCalibration(Position(0, -0.867), Position(1.367, 0), Position(0, 0.867), Position(-1.367, 0));              //Calibration settings for the simulation
+    coordCalibrer.SetManualCoordCalibration(Position(0, -0.867), Position(1.367, 0), Position(0, 0.867), Position(-1.367, 0));                  //Calibration settings for the simulation
     #else
-    coordCalibrer.SetManualCoordCalibration(Position(-0.03,-0.826), Position(1.395,0.08), Position(-0.027,0.908), Position(-1.44,0.036));   //Calibration settings for the real field
+    coordCalibrer.SetManualCoordCalibration(Position(-0.011,-0.871), Position(1.43,0.012), Position(-0.009,0.863), Position(-1.423,0.007));     //Calibration settings for the real field
     #endif
 
     BallMonitor ballMonitor(&coordCalibrer);
-    RefereeDisplay refereeDisplay(team, &ballMonitor, &coordCalibrer);
+    RefereeDisplay refereeDisplay(&ballMonitor, &coordCalibrer);
 
     try
     {
-        cout << endl << "Connecting to RTDB..." << endl;
+        cout << endl;
+        Log("Connecting to RTDB...", INFO);
+
         string client_name = "pololu_client_";
         client_name.push_back((char)(client_nr + '0'));
         RTDBConn DBC(client_name.data(), 0.1, "");
@@ -118,23 +121,24 @@ int main(void)
         RawBall ball(DBC);
 
         Goalkeeper gk = Goalkeeper(DBC, rfcomm_nr[0], &coordCalibrer, &ball, &ballMonitor);
-        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball, &ballMonitor, &refereeDisplay);
+        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball, &ballMonitor);
         PlayerTwo p2 = PlayerTwo(DBC, rfcomm_nr[2], &coordCalibrer, &ball, &ballMonitor);
         OpponentRobot robo4 = OpponentRobot(DBC, rfcomm_nr_2[0]);
         OpponentRobot robo5 = OpponentRobot(DBC, rfcomm_nr_2[1]);
         OpponentRobot robo6 = OpponentRobot(DBC, rfcomm_nr_2[2]);
 
-        NewRoboControl* robots[] = {&gk, &p1, &p2, &robo4, &robo5, &robo6};
 
         Referee ref(DBC);
         ref.Init();
-        cout << ref.GetSide() << endl;
+        Log("Side: " + ToString(ref.GetSide()), INFO);
 
         ballMonitor.StartMonitoring(&ball);
-        refereeDisplay.StartDisplay(robots, &ball, &(p1.getMap()));
 
         Interpreter info(team, &ref, &gk, &p1, &p2, &robo4, &robo5, &robo6, &ball, &coordCalibrer);
 
+        NewRoboControl* robots[] = {&gk, &p1, &p2, &robo4, &robo5, &robo6};
+        refereeDisplay.StartDisplay(robots, &info, &(p1.getMap()));
+        p1.GiveDisplay(&refereeDisplay);
 
         //-------------------------------------- Ende Init ---------------------------------
         MainLoopDataStruct s1 = {&refereeDisplay, &info, &gk};
@@ -150,11 +154,13 @@ int main(void)
         {
             Uint32 t0 = SDL_GetTicks();
 
+            //p1.MoveMs(-30, 30, 200, 0);
             info.updateSituation();
 
             if (SDL_GetTicks() - t0 <= refreshWait)
                 usleep((refreshWait - (SDL_GetTicks() - t0)) * 1000);
         }
+        info.End();
 
         pthread_join(gkThread, NULL);
         pthread_join(p1Thread, NULL);
@@ -163,13 +169,13 @@ int main(void)
 
     catch (DBError err)
     {
-        cout << "Client died on Error: " << err.what() << endl;
+        Log(string("Client died on Error: ") + err.what(), ERROR);
     }
 
     refereeDisplay.StopDisplay();
     ballMonitor.StopMonitoring();
 
-    cout << "End" << endl;
+    Log("End", INFO);
     pthread_exit(NULL);
     return 0;
 }

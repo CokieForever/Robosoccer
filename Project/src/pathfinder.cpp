@@ -6,8 +6,8 @@
 #include <iostream>
 #include <math.h>
 #include "coordinates.h"
-#include "sdlutilities.h"
 #include "matrix.h"
+#include "geometry.h"
 //#include "mutexdebug.h"
 
 using namespace std;
@@ -27,7 +27,7 @@ PathFinder::Path PathFinder::CreatePath(Point start, Point end)
     return path;
 }
 
-vector<Position>* PathFinder::ConvertPathToReal(const Path path, CoordinatesCalibrer *calibrer)
+vector<Position>* PathFinder::ConvertPathToReal(const Path path, const CoordinatesCalibrer *calibrer)
 {
     vector<Position>* posList = new vector<Position>;
     for (vector<Point>::const_iterator it = path->begin() ; it != path->end() ; it++)
@@ -499,7 +499,7 @@ bool PathFinder::CheckPointsVisibility_p(const Point *p1, const Point *p2)
 
             if (point != p1 && point != p2 && next != p1 && next != p2)
             {
-                if (doSegmentsIntersect(segment, seg))
+                if (DoSegmentsIntersect(segment, seg))
                     return false;
             }
 
@@ -590,7 +590,7 @@ int PathFinder::orientation(Segment seg, const Point& pt)
         return p > 0 ? 1 : -1;
 }
 
-bool PathFinder::doSegmentsIntersect(Segment seg1, Segment seg2)
+bool PathFinder::DoSegmentsIntersect(Segment seg1, Segment seg2)
 {
     if (!doRectanglesIntersect(getBoundingBox(seg1), getBoundingBox(seg2)))
         return false;
@@ -619,7 +619,7 @@ bool PathFinder::isPointInsidePolygon(const Point& point, const ConvexPolygon& p
     {
         Point *pt2 = polygon.points[(i+1)%n];
         Segment seg = {*pt1, *pt2};
-        if (doSegmentsIntersect(segment, seg))
+        if (DoSegmentsIntersect(segment, seg))
             nbIsects++;
         pt1 = pt2;
     }

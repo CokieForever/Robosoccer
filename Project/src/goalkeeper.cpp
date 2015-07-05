@@ -8,9 +8,10 @@
 #include "goalkeeper.h"
 #include "interpreter.h"
 #include "newrobocontrol.h"
+#include "log.h"
 
 
-Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm)
+Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm)
 {
 }
 
@@ -51,7 +52,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
         case PREVENT_GOAL:
         {
             eSide side = interpreter.getMode().our_side;
-            double x = side == LEFT_SIDE ? -1 : +1;
+            double x = side == LEFT_SIDE ? -0.9 : +0.9;
 
             BallMonitor::Direction dir;
             m_ballPm->GetBallDirection(&dir);
@@ -82,7 +83,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
 
         case GO_TO_DEF_POS:
             m_defaultPos = interpreter.getGKDefaultPos();
-            std::cout << "Goal keeper moving to Position = " << m_defaultPos <<std::endl;
+            Log("Goal keeper moving to Position = " + ToString(m_defaultPos), DEBUG);
             break;
 
         case STOP:
@@ -96,11 +97,11 @@ void Goalkeeper::performCmd(const Interpreter::GameData& info)
     switch(m_nextCmd)
     {
         case PREVENT_GOAL:
-            cruisetoBias(m_preventGoalParam.GetX(), m_preventGoalParam.GetY(), 650, -10, 30);
+            cruisetoBias(m_preventGoalParam.GetX(), m_preventGoalParam.GetY(), 400);
             break;
 
         case GO_TO_DEF_POS:
-            cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650, -10, 30);
+            cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650);
             break;
 
         case STOP:

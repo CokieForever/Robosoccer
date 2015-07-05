@@ -5,7 +5,6 @@
 #include <pthread.h>
 #include <unistd.h>
 #include <iostream>
-#include "sdlutilities.h"
 #include <math.h>
 #include "interpreter.h"
 

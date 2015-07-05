@@ -13,8 +13,11 @@ public:
     CoordinatesCalibrer(Position a, Position b, Position c, Position d);
 
     bool SetManualCoordCalibration(Position a, Position b, Position c, Position d);
+
     Position NormalizePosition(Position pos) const;
     Position UnnormalizePosition(Position pos) const;
+    double NormalizeAngle(double angle) const;
+    double UnnormalizeAngle(double angle) const;
 
     bool StartCoordCalibration(NewRoboControl *robot1, NewRoboControl *robot2);
     bool WaitForCoordCalibrationEnd(bool stopNow = false);
@@ -25,7 +28,7 @@ public:
 private:
     static void* CalibrationFn(void *data);
 
-    double m_tx, m_ty, m_cosTheta, m_sinTheta, m_kx, m_ky;
+    double m_tx, m_ty, m_cosTheta, m_sinTheta, m_theta, m_kx, m_ky;
     bool m_isCalibrating;
     bool m_calibrationSuccessful;
     bool m_stopCalibrating;

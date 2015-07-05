@@ -1,6 +1,7 @@
 #include "mapdisplay.h"
 #include "interpreter.h"
 #include "matrix.h"
+#include "sdlutilities.h"
 
 using namespace std;
 

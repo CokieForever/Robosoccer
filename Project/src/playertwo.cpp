@@ -11,8 +11,9 @@
 #include "kogmo_rtdb.hxx"
 #include "playertwo.h"
 #include "newrobocontrol.h"
+#include "log.h"
 
-PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm, display)
+PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm, display)
 {
 }
 
@@ -22,7 +23,16 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
     {
         case PLAY_ON:
             if (info.formation == Interpreter::DEF)
-                m_nextCmd = DEFENSE;
+            {
+                Position ballPos;
+                m_ballPm->GetBallPosition(&ballPos);
+                ballPos = m_coordCalib->NormalizePosition(ballPos);
+
+                if ((ballPos.GetX() <= -DEFENSE_LINE && info.our_side == LEFT_SIDE) || (ballPos.GetX() >= DEFENSE_LINE && info.our_side == RIGHT_SIDE))
+                    m_nextCmd = FOLLOWPATH;
+                else
+                    m_nextCmd = DEFENSE;
+            }
             else
                 m_nextCmd = FOLLOWPATH;
             break;
@@ -58,33 +68,32 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
         case STOP:
             break;
             
-        //PlayerTwo in Defense Mode follows y-coordinates of ball
         case DEFENSE:
         {
             eSide side = interpreter.getMode().our_side;
-            double x = side == LEFT_SIDE ? -0.8 : +0.8;
+            double x = side == LEFT_SIDE ? -DEFENSE_LINE : +DEFENSE_LINE;
 
             BallMonitor::Direction dir;
             m_ballPm->GetBallDirection(&dir);
 
-            bool success = false;
-            if ((dir.x >= 0) != (side == LEFT_SIDE))
+            bool predicted = false;
+            if ((dir.x > 0 && side == RIGHT_SIDE) || (dir.x < 0 && side == LEFT_SIDE))
             {
                 double a, b;
                 if (m_ballPm->PredictBallPosition(&a, &b, 4) && a < PathFinder::INFINI_TY)
                 {
-                    double y = std::max(-0.5, std::min(0.5, a * x + b));
+                    double y = std::max(-0.9, std::min(0.9, a * x + b));
                     m_defendpm = m_coordCalib->UnnormalizePosition(Position(x,y));
-                    success = true;
+                    predicted = true;
                 }
             }
 
-            if (!success)
+            if (!predicted)
             {
                 Position ballPos;
                 m_ballPm->GetBallPosition(&ballPos);
                 ballPos = m_coordCalib->NormalizePosition(ballPos);
-                double y = std::max(-0.5, std::min(0.5, ballPos.GetY()));
+                double y = std::max(-0.9, std::min(0.9, ballPos.GetY()));
                 m_defendpm = m_coordCalib->UnnormalizePosition(Position(x, y));
             }
 
@@ -98,8 +107,8 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
     switch(m_nextCmd)
     {
         case GO_TO_DEF_POS:
-            //std::cout << "Player2 Perform Go To Default Pos:" <<std::endl;
-            cruisetoBias(m_defaultPos.GetX(), m_defaultPos.GetY(), 650, -10, 30);
+            Log("Player2 Perform Go To Default Pos", DEBUG);
+            cruisetoBias(m_defaultPos.GetX(), m_defaultPos.GetY(), 650);
             break;
 
         case FOLLOWPATH:
@@ -110,7 +119,12 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
             break;
 			
         case DEFENSE:
-            cruisetoBias(m_defendpm.GetX(), m_defendpm.GetY(), 650, -10, 30);
+            Position ballPos;
+            m_ballPm->GetBallPosition(&ballPos);
+            if (ShouldGoalKick(ballPos, info.our_side))
+                KickBall(ballPos);
+            else
+                cruisetoBias(m_defendpm.GetX(), m_defendpm.GetY(), 650);
             break;
     }
 }

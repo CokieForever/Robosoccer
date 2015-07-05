@@ -15,7 +15,7 @@ class TeamRobot : public NewRoboControl
 {
 
 public:
-    TeamRobot(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display=NULL);
+    TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display=NULL);
     virtual ~TeamRobot();
 
     Position getDefaultPosition() const;
@@ -23,7 +23,7 @@ public:
     void setDefaultPositionY(double y);
     void setDefaultPosition(Position pos);
 
-    CoordinatesCalibrer* getCoordinatesCalibrer() const;
+    const CoordinatesCalibrer* getCoordinatesCalibrer() const;
     RawBall* getBall() const;
 
     int getMapValue(int i, int j) const;
@@ -31,15 +31,24 @@ public:
     bool setMapValue(int i, int j, int val);
     void setMap(const Interpreter::Map &map);
 
+    void GiveDisplay(RefereeDisplay *display);
+
+    void KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, bool likePenalty = false);
+    void KickPenalty(const NewRoboControl* otherRobots[5]);
+    void KickBall(Position ballPos, bool precise=false);
+    bool ShouldKick(Position ballPos, Position goalPos);
+    bool ShouldGoalKick(Position ballPos, eSide ourSide);
+
     virtual void setNextCmd(const Interpreter::GameData& info) = 0;
     virtual void setCmdParam(const Interpreter& interpreter) = 0;
     virtual void performCmd(const Interpreter::GameData& info) = 0;
 
 protected:
     static bool IsPathOK(PathFinder::Path path, PathFinder::Point& tgt);
+    static double AngleDiff(double angle1, double angle2);
 
     Position m_defaultPos;
-    CoordinatesCalibrer *m_coordCalib;
+    const CoordinatesCalibrer *m_coordCalib;
     Interpreter::Map m_map;
     RawBall *m_ball;
     PathFinder m_pathFinder;

@@ -3,6 +3,8 @@
 //----------------------------------------------------------------------------------------------------------
 #include "newrobocontrol.h"
 #include "pathfinder.h"
+#include "log.h"
+#include "geometry.h"
 
 //Berechnung in welcher Richtung Roboter fahren soll
 /**
@@ -96,7 +98,7 @@ double NewRoboControl::getSpeedPt(double nominal, double actual, int geschw) // 
 {
     double diff = getDiffAngle(nominal, actual);
     double korr = (geschw / 400) * (geschw / 400) * 1.2;
-    cout << "Differenz: " << diff << endl;
+    Log("Differenz: " + ToString(diff), DEBUG);
 
     // TODO Create Table
 
@@ -177,9 +179,10 @@ double NewRoboControl::degToRad(double deg)
     return deg * M_PI / 180.0;
 }
 
-bool NewRoboControl::IsOnTarget(Position current, Position target)
+bool NewRoboControl::IsOnTarget(Position current, Position target, bool precise)
 {
-    return fabs(current.GetX()-target.GetX()) < 0.05 && fabs(current.GetY()-target.GetY()) < 0.05;
+    double margin = precise ? 0.05 : 0.2;
+    return fabs(current.GetX()-target.GetX()) < margin && fabs(current.GetY()-target.GetY()) < margin;
 }
 
 
@@ -194,13 +197,22 @@ NewRoboControl::~NewRoboControl()
 {
 }
 
-bool NewRoboControl::IsOnTarget(Position target)
+bool NewRoboControl::IsOnTarget(Position target, bool precise) const
 {
-    return IsOnTarget(GetPos(), target);
+    return IsOnTarget(GetPos(), target, precise);
 }
 
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
 {
+#ifdef SIMULATION   //The cruisetoBias() does not work in simulation
+
+    if (IsOnTarget(Position(tarX, tarY)))
+        return true;
+    GotoXY(tarX, tarY);
+    return false;
+
+#else
+
     /*   returniert true, wenn Roboter am Ziel angekommen ist. returniert false, wenn Roboter noch unterwegs ist
     **   Ablauf:
     **     1.  Anfahren zur Zielposition
@@ -240,7 +252,7 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
         diffAngle = getDiffAngle(diffP, posP);
         speedAngle = getSpeedP(diffP, posP);
         speedAngleDrive = getSpeedPt(diffP, posP, speed);
-        cout << "Diff2: " << speedAngleDrive << endl;
+        Log("Diff2: " + ToString(speedAngleDrive), DEBUG);
         if ((fabs(diffAngle) > variationDirec) && (fabs(diffAngle) < degToRad(90)))  // pi/2 = 1,57079633     Schritt 1.1
         {
             //Roboter rotieren
@@ -274,18 +286,45 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
     }
 
     return false;
+
+#endif
 }
 
-Position* NewRoboControl::drivePath(std::vector<Position>* path)
+void NewRoboControl::RandomMove()
 {
+    MoveMs((rand() % 11 - 5) * 50, (rand() % 11 -5) * 50, 250, 0);
+}
+
+bool NewRoboControl::drivePath(std::vector<Position>* path)
+{
+    Position *target = NULL;
     for (std::vector<Position>::iterator it = path->begin() ; it != path->end() ; it++)
     {
-        Position *pos = &(*it);
-        if (!IsOnTarget(*pos))
-            return pos;
+        target = &(*it);
+        if (!IsOnTarget(*target, false))
+        {
+            double d = 0;
+            Position prevPos = GetPos();
+            for (; it != path->end() ; it++)
+            {
+                Position pos = *it;
+                d += pos.DistanceTo(prevPos);
+                prevPos = pos;
+            }
+
+            return cruisetoBias(target->GetX(), target->GetY(), 500 + 1000*d);
+        }
     }
-    return NULL;
+
+    if (!target || IsOnTarget(*target))
+    {
+        RandomMove();
+        return true;
+    }
+
+    return cruisetoBias(target->GetX(), target->GetY(), 600);
 }
+
 
 
 //Motorgeschwindigkeit der einzelnen Räder festlegen
@@ -308,7 +347,7 @@ void NewRoboControl::setSpeed(double translation, double rotation, eDirection di
     {
         wheelL = wheelR = -translation;
     }
-    cout << wheelL << "und" << wheelR << endl;
+    Log(ToString(wheelL) + " und " + ToString(wheelR), DEBUG);
     wheelL = wheelL - rotation * 800.0 / 3.14159265358965;
     wheelR = wheelR + rotation * 800.0 / 3.14159265358965;
 
