@@ -13,10 +13,25 @@
 #include "newrobocontrol.h"
 #include "log.h"
 
+/**
+ * @brief
+ *
+ * @param DBC
+ * @param deviceNr
+ * @param coordCalib
+ * @param b
+ * @param ballPm
+ * @param display
+ */
 PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm, display)
 {
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
 {
     switch(info.mode)
@@ -53,6 +68,11 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
 
 }
 
+/**
+ * @brief
+ *
+ * @param interpreter
+ */
 void PlayerTwo::setCmdParam(const Interpreter& interpreter)
 {
     switch(m_nextCmd)
@@ -102,6 +122,11 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void PlayerTwo::performCmd(const Interpreter::GameData& info)
 {
     switch(m_nextCmd)
@@ -129,6 +154,11 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void PlayerTwo::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)

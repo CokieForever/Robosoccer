@@ -19,11 +19,26 @@
 
 using namespace std;
 
+/**
+ * @brief
+ *
+ * @param DBC
+ * @param deviceNr
+ * @param c
+ * @param b
+ * @param ballPm
+ * @param display
+ */
 PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, ballPm, display)
 {
     memset(m_otherRobots, 0, sizeof(NewRoboControl*) * 5);
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 {
     switch(info.mode)
@@ -62,6 +77,11 @@ void PlayerMain::setNextCmd(const Interpreter::GameData& info)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param interpreter
+ */
 void PlayerMain::setCmdParam(const Interpreter& interpreter)
 {
     switch(m_nextCmd)
@@ -87,6 +107,11 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void PlayerMain::performCmd(const Interpreter::GameData& info)
 {
     switch(m_nextCmd)
@@ -114,6 +139,11 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)

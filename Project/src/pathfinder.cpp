@@ -13,12 +13,26 @@
 using namespace std;
 
 
+/**
+ * @brief
+ *
+ * @param x
+ * @param y
+ * @return PathFinder::Point
+ */
 PathFinder::Point PathFinder::CreatePoint(double x, double y)
 {
     Point pt = {x, y, vector<Point*>(), INFINI_TY, NULL};
     return pt;
 }
 
+/**
+ * @brief
+ *
+ * @param start
+ * @param end
+ * @return PathFinder::Path
+ */
 PathFinder::Path PathFinder::CreatePath(Point start, Point end)
 {
     Path path = new vector<Point>;
@@ -27,6 +41,13 @@ PathFinder::Path PathFinder::CreatePath(Point start, Point end)
     return path;
 }
 
+/**
+ * @brief
+ *
+ * @param path
+ * @param calibrer
+ * @return vector<Position>
+ */
 vector<Position>* PathFinder::ConvertPathToReal(const Path path, const CoordinatesCalibrer *calibrer)
 {
     vector<Position>* posList = new vector<Position>;
@@ -43,6 +64,11 @@ vector<Position>* PathFinder::ConvertPathToReal(const Path path, const Coordinat
     return posList;
 }
 
+/**
+ * @brief
+ *
+ * @param list
+ */
 void PathFinder::DestroyPolygonsList(PolygonsList list)
 {
     for (PolygonsList::iterator it = list.begin() ; it != list.end() ; it++)
@@ -58,17 +84,31 @@ void PathFinder::DestroyPolygonsList(PolygonsList list)
 }
 
 
+/**
+ * @brief
+ *
+ */
 PathFinder::PathFinder()
 {
     pthread_mutex_init(&m_mutex, NULL);
 }
 
+/**
+ * @brief
+ *
+ */
 PathFinder::~PathFinder()
 {
     pthread_mutex_destroy(&m_mutex);
 }
 
 
+/**
+ * @brief
+ *
+ * @param poly
+ * @return bool
+ */
 bool PathFinder::IsPolygonRegistered(const ConvexPolygon* poly) const
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
@@ -77,6 +117,12 @@ bool PathFinder::IsPolygonRegistered(const ConvexPolygon* poly) const
     return result;
 }
 
+/**
+ * @brief
+ *
+ * @param pt
+ * @return bool
+ */
 bool PathFinder::IsPointRegistered(const Point* pt) const
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
@@ -85,11 +131,21 @@ bool PathFinder::IsPointRegistered(const Point* pt) const
     return result;
 }
 
+/**
+ * @brief
+ *
+ * @return const PathFinder::PolygonsList &
+ */
 const PathFinder::PolygonsList& PathFinder::GetPolygons() const
 {
     return m_polygons;
 }
 
+/**
+ * @brief
+ *
+ * @return PathFinder::PolygonsList
+ */
 PathFinder::PolygonsList PathFinder::GetPolygonsCopy() const
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
@@ -112,6 +168,13 @@ PathFinder::PolygonsList PathFinder::GetPolygonsCopy() const
 }
 
 
+/**
+ * @brief
+ *
+ * @param ul0
+ * @param lr0
+ * @return const PathFinder::ConvexPolygon *
+ */
 const PathFinder::ConvexPolygon* PathFinder::AddRectangle(const Point& ul0, const Point& lr0)
 {
     ConvexPolygon polygon;
@@ -128,6 +191,14 @@ const PathFinder::ConvexPolygon* PathFinder::AddRectangle(const Point& ul0, cons
     return AddPolygon(polygon);
 }
 
+/**
+ * @brief
+ *
+ * @param ul0
+ * @param ur0
+ * @param ll0
+ * @return const PathFinder::ConvexPolygon *
+ */
 const PathFinder::ConvexPolygon* PathFinder::AddParallelogram(const Point& ul0, const Point& ur0, const Point& ll0)
 {
     ConvexPolygon polygon;
@@ -144,6 +215,14 @@ const PathFinder::ConvexPolygon* PathFinder::AddParallelogram(const Point& ul0, 
     return AddPolygon(polygon);
 }
 
+/**
+ * @brief
+ *
+ * @param pt1
+ * @param pt2
+ * @param thickness
+ * @return const PathFinder::ConvexPolygon *
+ */
 const PathFinder::ConvexPolygon* PathFinder::AddThickLine(const Point& pt1, const Point& pt2, double thickness)
 {
     double rectX[4], rectY[4];
@@ -163,6 +242,12 @@ const PathFinder::ConvexPolygon* PathFinder::AddThickLine(const Point& pt1, cons
     return AddPolygon(polygon);
 }
 
+/**
+ * @brief
+ *
+ * @param p
+ * @return const PathFinder::ConvexPolygon *
+ */
 const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
@@ -201,6 +286,12 @@ const PathFinder::ConvexPolygon* PathFinder::AddPolygon(const ConvexPolygon& p)
     return polygon;
 }
 
+/**
+ * @brief
+ *
+ * @param poly
+ * @return bool
+ */
 bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
 {
     if (!poly)
@@ -267,6 +358,13 @@ bool PathFinder::RemovePolygon(const ConvexPolygon* poly)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param polys[]
+ * @param n
+ * @return bool
+ */
 bool PathFinder::RemovePolygons(const ConvexPolygon* polys[], int n)
 {
     bool success = true;
@@ -275,6 +373,13 @@ bool PathFinder::RemovePolygons(const ConvexPolygon* polys[], int n)
     return success;
 }
 
+/**
+ * @brief
+ *
+ * @param start
+ * @param end
+ * @return PathFinder::Path
+ */
 PathFinder::Path PathFinder::ComputePath(Point start, Point end)
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
@@ -393,6 +498,13 @@ PathFinder::Path PathFinder::ComputePath(Point start, Point end)
     return path;
 }
 
+/**
+ * @brief
+ *
+ * @param p1
+ * @param p2
+ * @return bool
+ */
 bool PathFinder::CheckPointsVisibility(const Point *p1, const Point *p2)
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
@@ -401,6 +513,13 @@ bool PathFinder::CheckPointsVisibility(const Point *p1, const Point *p2)
     return result;
 }
 
+/**
+ * @brief
+ *
+ * @param start
+ * @param end
+ * @return PathFinder::Point
+ */
 PathFinder::Point PathFinder::ComputeClosestAccessiblePoint(const Point &start, const Point &end)
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
@@ -468,17 +587,38 @@ PathFinder::Point PathFinder::ComputeClosestAccessiblePoint(const Point &start, 
     return CreatePoint(2 * (bestX / (double)(width-1) - 0.5), 2 * (bestY / (double)(height-1) - 0.5));
 }
 
+/**
+ * @brief
+ *
+ * @param pt1
+ * @param pt2
+ * @return bool
+ */
 bool PathFinder::ComparePoints(Point *pt1, Point *pt2)
 {
     return pt1->score > pt2->score;
 }
 
 
+/**
+ * @brief
+ *
+ * @param p1
+ * @param p2
+ * @return bool
+ */
 bool PathFinder::ReadPointsVisibility(const Point* p1, const Point* p2)
 {
     return find(p1->visMap.begin(), p1->visMap.end(), p2) != p1->visMap.end();
 }
 
+/**
+ * @brief
+ *
+ * @param p1
+ * @param p2
+ * @return bool
+ */
 bool PathFinder::CheckPointsVisibility_p(const Point *p1, const Point *p2)
 {
     Segment segment = {*p1, *p2};
@@ -509,6 +649,11 @@ bool PathFinder::CheckPointsVisibility_p(const Point *p1, const Point *p2)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param point
+ */
 void PathFinder::ComputeVisibilityMap(Point *point)
 {
     for (PolygonsList::iterator it = m_polygons.begin() ; it != m_polygons.end() ; it++)
@@ -548,12 +693,25 @@ void PathFinder::ComputeVisibilityMap(Point *point)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param point
+ * @param polygon
+ * @return int
+ */
 int PathFinder::DoesPointBelongToPolygon(const Point *point, const ConvexPolygon *polygon)
 {
     PointsList::iterator it = find(((ConvexPolygon*)polygon)->points.begin(), ((ConvexPolygon*)polygon)->points.end(), point);
     return it == polygon->points.end() ? (-1) : (it - polygon->points.begin());
 }
 
+/**
+ * @brief
+ *
+ * @param point
+ * @return const PathFinder::ConvexPolygon *
+ */
 const PathFinder::ConvexPolygon* PathFinder::IsPointInsideSomePolygon(const Point &point)
 {
     for (PolygonsList::iterator it = m_polygons.begin() ; it != m_polygons.end() ; it++)
@@ -565,6 +723,12 @@ const PathFinder::ConvexPolygon* PathFinder::IsPointInsideSomePolygon(const Poin
     return NULL;
 }
 
+/**
+ * @brief
+ *
+ * @param seg
+ * @return PathFinder::Rectangle
+ */
 PathFinder::Rectangle PathFinder::getBoundingBox(Segment seg)
 {
     Point ul = CreatePoint(std::min(seg.start.x, seg.end.x), std::min(seg.start.y, seg.end.y));
@@ -573,6 +737,13 @@ PathFinder::Rectangle PathFinder::getBoundingBox(Segment seg)
     return bb;
 }
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param b
+ * @return bool
+ */
 bool PathFinder::doRectanglesIntersect(PathFinder::Rectangle a, PathFinder::Rectangle b)
 {
     return a.ul.x <= b.lr.x
@@ -581,6 +752,13 @@ bool PathFinder::doRectanglesIntersect(PathFinder::Rectangle a, PathFinder::Rect
         && a.lr.y >= b.ul.y;
 }
 
+/**
+ * @brief
+ *
+ * @param seg
+ * @param pt
+ * @return int
+ */
 int PathFinder::orientation(Segment seg, const Point& pt)
 {
     double p = (seg.end.x - seg.start.x) * (pt.y - seg.end.y) - (seg.end.y - seg.start.y) * (pt.x - seg.end.x);
@@ -590,6 +768,13 @@ int PathFinder::orientation(Segment seg, const Point& pt)
         return p > 0 ? 1 : -1;
 }
 
+/**
+ * @brief
+ *
+ * @param seg1
+ * @param seg2
+ * @return bool
+ */
 bool PathFinder::DoSegmentsIntersect(Segment seg1, Segment seg2)
 {
     if (!doRectanglesIntersect(getBoundingBox(seg1), getBoundingBox(seg2)))
@@ -603,11 +788,25 @@ bool PathFinder::DoSegmentsIntersect(Segment seg1, Segment seg2)
     return (o1 == 0 || o2 == 0 || o1 != o2) && (o3 == 0 || o4 == 0 || o3 != o4);
 }
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param b
+ * @return double
+ */
 double PathFinder::sqDistBetweenPoints(const Point &a, const Point &b)
 {
     return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
 }
 
+/**
+ * @brief
+ *
+ * @param point
+ * @param polygon
+ * @return bool
+ */
 bool PathFinder::isPointInsidePolygon(const Point& point, const ConvexPolygon& polygon)
 {
     int nbIsects = 0;
@@ -627,6 +826,14 @@ bool PathFinder::isPointInsidePolygon(const Point& point, const ConvexPolygon& p
     return nbIsects == 1;   //Should be nbIsects%2 == 1 but this does not deal good with special cases, and as we only have convex polygons...
 }
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param seg
+ * @param isect
+ * @return double
+ */
 double PathFinder::sqDistToSegment(const Point &a, Segment seg, Point *isect)
 {
     double p = (seg.end.x - seg.start.x) * (a.x - seg.start.x) + (seg.end.y - seg.start.y) * (a.y - seg.start.y);
@@ -656,6 +863,14 @@ double PathFinder::sqDistToSegment(const Point &a, Segment seg, Point *isect)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param polygon
+ * @param isect
+ * @return double
+ */
 double PathFinder::sqDistToPolygon(const Point &a, const ConvexPolygon &polygon, Point *isect)
 {
     int n = polygon.points.size();

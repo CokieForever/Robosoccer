@@ -54,23 +54,37 @@ void exitHandler(int signal, siginfo_t* info, void* sigcontext)
 
 using namespace std;
 
+/**
+ * @brief
+ *
+ */
 typedef struct
 {
-  RefereeDisplay* refereeDisplay;
-  Interpreter* info;
-  TeamRobot* robo;
+    RefereeDisplay* refereeDisplay; /**< TODO */
+    Interpreter* info; /**< TODO */
+    TeamRobot* robo; /**< TODO */
 } MainLoopDataStruct;
 
+/**
+ * @brief
+ *
+ * @param data
+ */
 static void* MainLoop(void* data);
 
-const eTeam team = RED_TEAM;
+const eTeam team = RED_TEAM; /**< TODO */
 
 #ifdef SIMULATION
 const unsigned int refreshWait = 500;
 #else
-const unsigned int refreshWait = 20;
+const unsigned int refreshWait = 20; /**< TODO */
 #endif
 
+/**
+ * @brief
+ *
+ * @return int
+ */
 int main(void)
 {
 
@@ -154,7 +168,6 @@ int main(void)
         {
             Uint32 t0 = SDL_GetTicks();
 
-            //p1.MoveMs(-30, 30, 200, 0);
             info.updateSituation();
 
             if (SDL_GetTicks() - t0 <= refreshWait)
@@ -181,6 +194,11 @@ int main(void)
 }
 
 
+/**
+ * @brief
+ *
+ * @param data
+ */
 static void* MainLoop(void* data)
 {
     MainLoopDataStruct* s = (MainLoopDataStruct*)data;

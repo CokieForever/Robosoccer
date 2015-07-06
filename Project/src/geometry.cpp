@@ -1,17 +1,47 @@
 #include "geometry.h"
 #include "pathfinder.h"
 
+/**
+ * @brief
+ *
+ * @param startX
+ * @param startY
+ * @param angle
+ * @param length
+ * @param endX
+ * @param endY
+ */
 void ComputeVectorEnd(double startX, double startY, double angle, double length, double *endX, double *endY)
 {
     ComputeVectorEnd(startX, startY, cos(angle), sin(angle), length, endX, endY);
 }
 
+/**
+ * @brief
+ *
+ * @param startX
+ * @param startY
+ * @param cosAngle
+ * @param sinAngle
+ * @param length
+ * @param endX
+ * @param endY
+ */
 void ComputeVectorEnd(double startX, double startY, double cosAngle, double sinAngle, double length, double *endX, double *endY)
 {
     *endX = startX + cosAngle * length;
     *endY = startY + sinAngle * length;
 }
 
+/**
+ * @brief
+ *
+ * @param startX
+ * @param startY
+ * @param endX
+ * @param endY
+ * @param angle
+ */
 void ComputeLineAngle(double startX, double startY, double endX, double endY, double *angle)
 {
     double cosAngle, sinAngle;
@@ -21,6 +51,16 @@ void ComputeLineAngle(double startX, double startY, double endX, double endY, do
         *angle = -(*angle);
 }
 
+/**
+ * @brief
+ *
+ * @param startX
+ * @param startY
+ * @param endX
+ * @param endY
+ * @param cosAngle
+ * @param sinAngle
+ */
 void ComputeLineAngle(double startX, double startY, double endX, double endY, double *cosAngle, double *sinAngle)
 {
     double d = sqrt((endX-startX)*(endX-startX) + (endY-startY)*(endY-startY));
@@ -28,6 +68,17 @@ void ComputeLineAngle(double startX, double startY, double endX, double endY, do
     *sinAngle = (endY - startY) / d;
 }
 
+/**
+ * @brief
+ *
+ * @param startX
+ * @param startY
+ * @param endX
+ * @param endY
+ * @param thickness
+ * @param (rectX)[]
+ * @param (rectY)[]
+ */
 void ComputeThickLineRect(double startX, double startY, double endX, double endY, double thickness, double (&rectX)[4], double (&rectY)[4])
 {
     double cosAngle, sinAngle;
@@ -38,6 +89,19 @@ void ComputeThickLineRect(double startX, double startY, double endX, double endY
     ComputeVectorEnd(endX, endY, -sinAngle, cosAngle, thickness/2, &(rectX[2]), &(rectY[2]));
 }
 
+/**
+ * @brief
+ *
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @param x3
+ * @param y3
+ * @param x4
+ * @param y4
+ * @return bool
+ */
 bool DoSegmentsIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
 {
     PathFinder::Segment seg1 = {PathFinder::CreatePoint(x1, y1), PathFinder::CreatePoint(x2, y2)};
@@ -45,6 +109,21 @@ bool DoSegmentsIntersect(double x1, double y1, double x2, double y2, double x3, 
     return PathFinder::DoSegmentsIntersect(seg1, seg2);
 }
 
+/**
+ * @brief
+ *
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @param x3
+ * @param y3
+ * @param x4
+ * @param y4
+ * @param isectX
+ * @param isectY
+ * @return bool
+ */
 bool ComputeLinesIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, double *isectX, double *isectY)
 {
     double d = (x1-x2)*(y3-y4) - (y1-y2)*(x3-x4);
@@ -56,6 +135,19 @@ bool ComputeLinesIntersection(double x1, double y1, double x2, double y2, double
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param xMin
+ * @param yMin
+ * @param xMax
+ * @param yMax
+ * @param a
+ * @param b
+ * @param (isectX)[]
+ * @param (isectY)[]
+ * @return bool
+ */
 bool GetLineRectIntersections(double xMin, double yMin, double xMax, double yMax, double a, double b, double (&isectX)[2], double (&isectY)[2])
 {
     if (a >= PathFinder::INFINI_TY || b >= PathFinder::INFINI_TY)
@@ -114,6 +206,21 @@ bool GetLineRectIntersections(double xMin, double yMin, double xMax, double yMax
     return k == 2;
 }
 
+/**
+ * @brief
+ *
+ * @param ulX
+ * @param ulY
+ * @param lrX
+ * @param lrY
+ * @param startX
+ * @param startY
+ * @param endX
+ * @param endY
+ * @param (isectX)[]
+ * @param (isectY)[]
+ * @return int
+ */
 int GetSegmentRectIntersections(double ulX, double ulY, double lrX, double lrY, double startX, double startY, double endX, double endY, double (&isectX)[2], double (&isectY)[2])
 {
     int k = 0;
