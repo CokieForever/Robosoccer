@@ -1,0 +1,86 @@
+\hypertarget{main_8cpp}{
+\section{src/main.cpp File Reference}
+\label{main_8cpp}\index{src/main.cpp@{src/main.cpp}}
+}
+{\ttfamily \#include $<$time.h$>$}\par
+{\ttfamily \#include $<$iostream$>$}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
+{\ttfamily \#include $<$unistd.h$>$}\par
+{\ttfamily \#include $<$signal.h$>$}\par
+{\ttfamily \#include $<$execinfo.h$>$}\par
+{\ttfamily \#include $<$sys/types.h$>$}\par
+{\ttfamily \#include $<$sys/stat.h$>$}\par
+{\ttfamily \#include $<$fcntl.h$>$}\par
+{\ttfamily \#include \char`\"{}kogmo\_\-rtdb.hxx\char`\"{}}\par
+{\ttfamily \#include \char`\"{}referee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}coordinates.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}ballmonitor.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}refereedisplay.h\char`\"{}}\par
+{\ttfamily \#include $<$SDL.h$>$}\par
+{\ttfamily \#include $<$SDL\_\-image.h$>$}\par
+{\ttfamily \#include $<$SDL\_\-ttf.h$>$}\par
+{\ttfamily \#include $<$sdl\_\-gfx/SDL\_\-rotozoom.h$>$}\par
+{\ttfamily \#include $<$math.h$>$}\par
+{\ttfamily \#include $<$algorithm$>$}\par
+{\ttfamily \#include \char`\"{}interpreter.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}pathfinder.h\char`\"{}}\par
+{\ttfamily \#include $<$vector$>$}\par
+{\ttfamily \#include \char`\"{}newrobocontrol.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}mapdisplay.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}goalkeeper.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}playermain.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}playertwo.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}opponentrobot.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}log.h\char`\"{}}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structMainLoopDataStruct}{MainLoopDataStruct}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void $\ast$ \hyperlink{main_8cpp_ac0306f3effc25621909ef1556ee70e9c}{MainLoop} (void $\ast$data)
+\item 
+int \hyperlink{main_8cpp_a840291bc02cba5474a4cb46a9b9566fe}{main} (void)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const eTeam \hyperlink{main_8cpp_aecb451e9fb0319481387340ad6c13bd7}{team} = RED\_\-TEAM
+\item 
+const unsigned int \hyperlink{main_8cpp_a3d93cd9d9299d6710eb0415a7868b3a1}{refreshWait} = 20
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{main_8cpp_a840291bc02cba5474a4cb46a9b9566fe}{
+\index{main.cpp@{main.cpp}!main@{main}}
+\index{main@{main}!main.cpp@{main.cpp}}
+\subsubsection[{main}]{\setlength{\rightskip}{0pt plus 5cm}int main (void)}}
+\label{main_8cpp_a840291bc02cba5474a4cb46a9b9566fe}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\hypertarget{main_8cpp_ac0306f3effc25621909ef1556ee70e9c}{
+\index{main.cpp@{main.cpp}!MainLoop@{MainLoop}}
+\index{MainLoop@{MainLoop}!main.cpp@{main.cpp}}
+\subsubsection[{MainLoop}]{\setlength{\rightskip}{0pt plus 5cm}static void $\ast$ MainLoop (void $\ast$ {\em data})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{main_8cpp_ac0306f3effc25621909ef1556ee70e9c}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em data}]\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\hypertarget{main_8cpp_a3d93cd9d9299d6710eb0415a7868b3a1}{
+\index{main.cpp@{main.cpp}!refreshWait@{refreshWait}}
+\index{refreshWait@{refreshWait}!main.cpp@{main.cpp}}
+\subsubsection[{refreshWait}]{\setlength{\rightskip}{0pt plus 5cm}const unsigned int {\bf refreshWait} = 20}}
+\label{main_8cpp_a3d93cd9d9299d6710eb0415a7868b3a1}
+TODO \hypertarget{main_8cpp_aecb451e9fb0319481387340ad6c13bd7}{
+\index{main.cpp@{main.cpp}!team@{team}}
+\index{team@{team}!main.cpp@{main.cpp}}
+\subsubsection[{team}]{\setlength{\rightskip}{0pt plus 5cm}const eTeam {\bf team} = RED\_\-TEAM}}
+\label{main_8cpp_aecb451e9fb0319481387340ad6c13bd7}
+TODO 

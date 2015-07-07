@@ -1,0 +1,304 @@
+\hypertarget{sdlutilities_8h}{
+\section{src/sdlutilities.h File Reference}
+\label{sdlutilities_8h}\index{src/sdlutilities.h@{src/sdlutilities.h}}
+}
+{\ttfamily \#include $<$SDL.h$>$}\par
+{\ttfamily \#include $<$math.h$>$}\par
+{\ttfamily \#include $<$algorithm$>$}\par
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structButton}{Button}
+\item 
+struct \hyperlink{structDragDrop}{DragDrop}
+\end{DoxyCompactItemize}
+\subsection*{Defines}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{sdlutilities_8h_aab5a923f83892ffc0e75a8f250ccc6d1}{IsPointInRect}(p, r)~((p).x $>$= (r).x \&\& (p).x $<$= (r).x+(r).w \&\& (p).y $>$= (r).y \&\& (p).y $<$= (r).y+(r).h)
+\item 
+\#define \hyperlink{sdlutilities_8h_a1b394b0c196526901408e0f66c1a3f52}{RED\_\-MASK}~0xFF000000
+\item 
+\#define \hyperlink{sdlutilities_8h_aaf1828eb85c4617f40c94551003aa9b3}{GREEN\_\-MASK}~0x00FF0000
+\item 
+\#define \hyperlink{sdlutilities_8h_a6ee3adbddfaf7aaebeb84e2578c67f02}{BLUE\_\-MASK}~0x0000FF00
+\item 
+\#define \hyperlink{sdlutilities_8h_aff495e864e5e2d0f4368c89ca2e6e5a6}{ALPHA\_\-MASK}~0x000000FF
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26e}{ButtonStatus} \{ \hyperlink{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea2d12b87b8f786ee643522fd75a569ee9}{BS\_\-NONE}, 
+\hyperlink{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea090f774c3b5b24a2bb51b9507a84833e}{BS\_\-HOVERED}, 
+\hyperlink{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea1db545ad9f166b65210575b11faced91}{BS\_\-PUSHED}, 
+\hyperlink{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea342dbf0443b0b507ad920db1b65ae5b9}{BS\_\-CLICKED}
+ \}
+\item 
+enum \hyperlink{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158}{DragDropStatus} \{ \hyperlink{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a6c70226ee9e30aae48eb8190c04928c9}{DDS\_\-NONE}, 
+\hyperlink{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a01c13e56c01ac586f525ffcf54a3d1b6}{DDS\_\-HOVERED}, 
+\hyperlink{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a2acb2109fc1afe61570909a9ae2b3a28}{DDS\_\-DRAGGED}, 
+\hyperlink{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a90fb39c1504f74ad344013d8ef78f164}{DDS\_\-DROPPED}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{sdlutilities_8h_ab604c81393ea6333d015ae0c1c1075a8}{DrawLine} (SDL\_\-Surface $\ast$surf, float x1, float y1, float x2, float y2, SDL\_\-Color color)
+\item 
+SDL\_\-Color \hyperlink{sdlutilities_8h_a786a9b7496a20e91df1553d7f79c3b3a}{CreateColor} (int r, int g, int b)
+\item 
+Uint32 \hyperlink{sdlutilities_8h_a699c4f67ee37b01814cf3551d956be18}{GetPixel} (SDL\_\-Surface $\ast$surface, int x, int y)
+\item 
+bool \hyperlink{sdlutilities_8h_a2cc0a8d028036f42805a47db21a200c9}{PutPixelCheck} (SDL\_\-Surface $\ast$surf, int x, int y, Uint32 pixel)
+\item 
+void \hyperlink{sdlutilities_8h_ac5a13add388bb77a96185c429c1de3ab}{PutPixel} (SDL\_\-Surface $\ast$surface, int x, int y, Uint32 pixel)
+\item 
+SDL\_\-Rect \hyperlink{sdlutilities_8h_abc22a51dfc872179f787dad9e77baaa9}{GetMousePos} ()
+\item 
+\hyperlink{structButton}{Button} \hyperlink{sdlutilities_8h_a7d8c26bda8b890d58bb106d28e0e448a}{CreateButton} (SDL\_\-Rect area, SDL\_\-Color colorHovered=CreateColor(255, 128, 0), SDL\_\-Color colorPushed=CreateColor(255, 0, 0))
+\item 
+\hyperlink{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26e}{ButtonStatus} \hyperlink{sdlutilities_8h_aeb2158707833303973276d21160abe3c}{ManageButton} (\hyperlink{structButton}{Button} $\ast$button, SDL\_\-Event event)
+\item 
+\hyperlink{structDragDrop}{DragDrop} \hyperlink{sdlutilities_8h_a1124418cf609bffdbf881c611d5e3140}{CreateDragDrop} (SDL\_\-Rect area, SDL\_\-Surface $\ast$ghostSurf=NULL, SDL\_\-Color colorHovered=CreateColor(255, 128, 0))
+\item 
+\hyperlink{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158}{DragDropStatus} \hyperlink{sdlutilities_8h_ad478d779cb62e93d23027391a3a7747e}{ManageDragDrop} (\hyperlink{structDragDrop}{DragDrop} $\ast$dd, SDL\_\-Event event)
+\item 
+void \hyperlink{sdlutilities_8h_aba8437a6ae72cc4d20a11ea64d0ecd1d}{ComputeVectorEnd} (double startX, double startY, double angle, double length, double $\ast$endX, double $\ast$endY)
+\item 
+void \hyperlink{sdlutilities_8h_a512d15babba853acb04a750ba53acabc}{ComputeVectorEnd} (double startX, double startY, double cosAngle, double sinAngle, double length, double $\ast$endX, double $\ast$endY)
+\item 
+void \hyperlink{sdlutilities_8h_a6b8202f8d9804b9022a48aacf37d0ca0}{ComputeLineAngle} (double startX, double startY, double endX, double endY, double $\ast$angle)
+\item 
+void \hyperlink{sdlutilities_8h_afe75a7c8895bb2eba05584de1f3ed44b}{ComputeLineAngle} (double startX, double startY, double endX, double endY, double $\ast$cosAngle, double $\ast$sinAngle)
+\item 
+void \hyperlink{sdlutilities_8h_a54faa5caaaed0bdbb910b05ab4d73b09}{ComputeThickLineRect} (double startX, double startY, double endX, double endY, double thickness, double(\&rectX)\mbox{[}4\mbox{]}, double(\&rectY)\mbox{[}4\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Define Documentation}
+\hypertarget{sdlutilities_8h_aff495e864e5e2d0f4368c89ca2e6e5a6}{
+\index{sdlutilities.h@{sdlutilities.h}!ALPHA\_\-MASK@{ALPHA\_\-MASK}}
+\index{ALPHA\_\-MASK@{ALPHA\_\-MASK}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{ALPHA\_\-MASK}]{\setlength{\rightskip}{0pt plus 5cm}\#define ALPHA\_\-MASK~0x000000FF}}
+\label{sdlutilities_8h_aff495e864e5e2d0f4368c89ca2e6e5a6}
+\hypertarget{sdlutilities_8h_a6ee3adbddfaf7aaebeb84e2578c67f02}{
+\index{sdlutilities.h@{sdlutilities.h}!BLUE\_\-MASK@{BLUE\_\-MASK}}
+\index{BLUE\_\-MASK@{BLUE\_\-MASK}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{BLUE\_\-MASK}]{\setlength{\rightskip}{0pt plus 5cm}\#define BLUE\_\-MASK~0x0000FF00}}
+\label{sdlutilities_8h_a6ee3adbddfaf7aaebeb84e2578c67f02}
+\hypertarget{sdlutilities_8h_aaf1828eb85c4617f40c94551003aa9b3}{
+\index{sdlutilities.h@{sdlutilities.h}!GREEN\_\-MASK@{GREEN\_\-MASK}}
+\index{GREEN\_\-MASK@{GREEN\_\-MASK}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{GREEN\_\-MASK}]{\setlength{\rightskip}{0pt plus 5cm}\#define GREEN\_\-MASK~0x00FF0000}}
+\label{sdlutilities_8h_aaf1828eb85c4617f40c94551003aa9b3}
+\hypertarget{sdlutilities_8h_aab5a923f83892ffc0e75a8f250ccc6d1}{
+\index{sdlutilities.h@{sdlutilities.h}!IsPointInRect@{IsPointInRect}}
+\index{IsPointInRect@{IsPointInRect}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{IsPointInRect}]{\setlength{\rightskip}{0pt plus 5cm}\#define IsPointInRect(p, \/  r)~((p).x $>$= (r).x \&\& (p).x $<$= (r).x+(r).w \&\& (p).y $>$= (r).y \&\& (p).y $<$= (r).y+(r).h)}}
+\label{sdlutilities_8h_aab5a923f83892ffc0e75a8f250ccc6d1}
+\hypertarget{sdlutilities_8h_a1b394b0c196526901408e0f66c1a3f52}{
+\index{sdlutilities.h@{sdlutilities.h}!RED\_\-MASK@{RED\_\-MASK}}
+\index{RED\_\-MASK@{RED\_\-MASK}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{RED\_\-MASK}]{\setlength{\rightskip}{0pt plus 5cm}\#define RED\_\-MASK~0xFF000000}}
+\label{sdlutilities_8h_a1b394b0c196526901408e0f66c1a3f52}
+
+
+\subsection{Enumeration Type Documentation}
+\hypertarget{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26e}{
+\index{sdlutilities.h@{sdlutilities.h}!ButtonStatus@{ButtonStatus}}
+\index{ButtonStatus@{ButtonStatus}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{ButtonStatus}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf ButtonStatus}}}
+\label{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26e}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{BS\_\-NONE@{BS\_\-NONE}!sdlutilities.h@{sdlutilities.h}}\index{sdlutilities.h@{sdlutilities.h}!BS\_\-NONE@{BS\_\-NONE}}\item[{\em 
+\hypertarget{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea2d12b87b8f786ee643522fd75a569ee9}{
+BS\_\-NONE}
+\label{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea2d12b87b8f786ee643522fd75a569ee9}
+}]TODO \index{BS\_\-HOVERED@{BS\_\-HOVERED}!sdlutilities.h@{sdlutilities.h}}\index{sdlutilities.h@{sdlutilities.h}!BS\_\-HOVERED@{BS\_\-HOVERED}}\item[{\em 
+\hypertarget{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea090f774c3b5b24a2bb51b9507a84833e}{
+BS\_\-HOVERED}
+\label{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea090f774c3b5b24a2bb51b9507a84833e}
+}]TODO \index{BS\_\-PUSHED@{BS\_\-PUSHED}!sdlutilities.h@{sdlutilities.h}}\index{sdlutilities.h@{sdlutilities.h}!BS\_\-PUSHED@{BS\_\-PUSHED}}\item[{\em 
+\hypertarget{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea1db545ad9f166b65210575b11faced91}{
+BS\_\-PUSHED}
+\label{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea1db545ad9f166b65210575b11faced91}
+}]TODO \index{BS\_\-CLICKED@{BS\_\-CLICKED}!sdlutilities.h@{sdlutilities.h}}\index{sdlutilities.h@{sdlutilities.h}!BS\_\-CLICKED@{BS\_\-CLICKED}}\item[{\em 
+\hypertarget{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea342dbf0443b0b507ad920db1b65ae5b9}{
+BS\_\-CLICKED}
+\label{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26ea342dbf0443b0b507ad920db1b65ae5b9}
+}]TODO \end{description}
+\end{Desc}
+
+\hypertarget{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158}{
+\index{sdlutilities.h@{sdlutilities.h}!DragDropStatus@{DragDropStatus}}
+\index{DragDropStatus@{DragDropStatus}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{DragDropStatus}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf DragDropStatus}}}
+\label{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{DDS\_\-NONE@{DDS\_\-NONE}!sdlutilities.h@{sdlutilities.h}}\index{sdlutilities.h@{sdlutilities.h}!DDS\_\-NONE@{DDS\_\-NONE}}\item[{\em 
+\hypertarget{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a6c70226ee9e30aae48eb8190c04928c9}{
+DDS\_\-NONE}
+\label{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a6c70226ee9e30aae48eb8190c04928c9}
+}]TODO \index{DDS\_\-HOVERED@{DDS\_\-HOVERED}!sdlutilities.h@{sdlutilities.h}}\index{sdlutilities.h@{sdlutilities.h}!DDS\_\-HOVERED@{DDS\_\-HOVERED}}\item[{\em 
+\hypertarget{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a01c13e56c01ac586f525ffcf54a3d1b6}{
+DDS\_\-HOVERED}
+\label{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a01c13e56c01ac586f525ffcf54a3d1b6}
+}]TODO \index{DDS\_\-DRAGGED@{DDS\_\-DRAGGED}!sdlutilities.h@{sdlutilities.h}}\index{sdlutilities.h@{sdlutilities.h}!DDS\_\-DRAGGED@{DDS\_\-DRAGGED}}\item[{\em 
+\hypertarget{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a2acb2109fc1afe61570909a9ae2b3a28}{
+DDS\_\-DRAGGED}
+\label{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a2acb2109fc1afe61570909a9ae2b3a28}
+}]TODO \index{DDS\_\-DROPPED@{DDS\_\-DROPPED}!sdlutilities.h@{sdlutilities.h}}\index{sdlutilities.h@{sdlutilities.h}!DDS\_\-DROPPED@{DDS\_\-DROPPED}}\item[{\em 
+\hypertarget{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a90fb39c1504f74ad344013d8ef78f164}{
+DDS\_\-DROPPED}
+\label{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158a90fb39c1504f74ad344013d8ef78f164}
+}]TODO \end{description}
+\end{Desc}
+
+
+
+\subsection{Function Documentation}
+\hypertarget{sdlutilities_8h_afe75a7c8895bb2eba05584de1f3ed44b}{
+\index{sdlutilities.h@{sdlutilities.h}!ComputeLineAngle@{ComputeLineAngle}}
+\index{ComputeLineAngle@{ComputeLineAngle}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{ComputeLineAngle}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeLineAngle (double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double $\ast$ {\em cosAngle}, \/  double $\ast$ {\em sinAngle})}}
+\label{sdlutilities_8h_afe75a7c8895bb2eba05584de1f3ed44b}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em cosAngle}]\item[{\em sinAngle}]\end{DoxyParams}
+\hypertarget{sdlutilities_8h_a6b8202f8d9804b9022a48aacf37d0ca0}{
+\index{sdlutilities.h@{sdlutilities.h}!ComputeLineAngle@{ComputeLineAngle}}
+\index{ComputeLineAngle@{ComputeLineAngle}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{ComputeLineAngle}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeLineAngle (double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double $\ast$ {\em angle})}}
+\label{sdlutilities_8h_a6b8202f8d9804b9022a48aacf37d0ca0}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em angle}]\end{DoxyParams}
+\hypertarget{sdlutilities_8h_a54faa5caaaed0bdbb910b05ab4d73b09}{
+\index{sdlutilities.h@{sdlutilities.h}!ComputeThickLineRect@{ComputeThickLineRect}}
+\index{ComputeThickLineRect@{ComputeThickLineRect}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{ComputeThickLineRect}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeThickLineRect (double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double {\em thickness}, \/  double(\&) {\em rectX}\mbox{[}4\mbox{]}, \/  double(\&) {\em rectY}\mbox{[}4\mbox{]})}}
+\label{sdlutilities_8h_a54faa5caaaed0bdbb910b05ab4d73b09}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em thickness}]\item[{\em (rectX)\mbox{[}$\,$\mbox{]}}]\item[{\em (rectY)\mbox{[}$\,$\mbox{]}}]\end{DoxyParams}
+\hypertarget{sdlutilities_8h_a512d15babba853acb04a750ba53acabc}{
+\index{sdlutilities.h@{sdlutilities.h}!ComputeVectorEnd@{ComputeVectorEnd}}
+\index{ComputeVectorEnd@{ComputeVectorEnd}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{ComputeVectorEnd}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeVectorEnd (double {\em startX}, \/  double {\em startY}, \/  double {\em cosAngle}, \/  double {\em sinAngle}, \/  double {\em length}, \/  double $\ast$ {\em endX}, \/  double $\ast$ {\em endY})}}
+\label{sdlutilities_8h_a512d15babba853acb04a750ba53acabc}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em cosAngle}]\item[{\em sinAngle}]\item[{\em length}]\item[{\em endX}]\item[{\em endY}]\end{DoxyParams}
+\hypertarget{sdlutilities_8h_aba8437a6ae72cc4d20a11ea64d0ecd1d}{
+\index{sdlutilities.h@{sdlutilities.h}!ComputeVectorEnd@{ComputeVectorEnd}}
+\index{ComputeVectorEnd@{ComputeVectorEnd}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{ComputeVectorEnd}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeVectorEnd (double {\em startX}, \/  double {\em startY}, \/  double {\em angle}, \/  double {\em length}, \/  double $\ast$ {\em endX}, \/  double $\ast$ {\em endY})}}
+\label{sdlutilities_8h_aba8437a6ae72cc4d20a11ea64d0ecd1d}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em angle}]\item[{\em length}]\item[{\em endX}]\item[{\em endY}]\end{DoxyParams}
+\hypertarget{sdlutilities_8h_a7d8c26bda8b890d58bb106d28e0e448a}{
+\index{sdlutilities.h@{sdlutilities.h}!CreateButton@{CreateButton}}
+\index{CreateButton@{CreateButton}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{CreateButton}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Button} CreateButton (SDL\_\-Rect {\em area}, \/  SDL\_\-Color {\em colorHovered}, \/  SDL\_\-Color {\em colorPushed})}}
+\label{sdlutilities_8h_a7d8c26bda8b890d58bb106d28e0e448a}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em area}]\item[{\em colorHovered}]\item[{\em colorPushed}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{structButton}{Button} 
+\end{DoxyReturn}
+\hypertarget{sdlutilities_8h_a786a9b7496a20e91df1553d7f79c3b3a}{
+\index{sdlutilities.h@{sdlutilities.h}!CreateColor@{CreateColor}}
+\index{CreateColor@{CreateColor}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{CreateColor}]{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Color CreateColor (int {\em r}, \/  int {\em g}, \/  int {\em b})}}
+\label{sdlutilities_8h_a786a9b7496a20e91df1553d7f79c3b3a}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em r}]\item[{\em g}]\item[{\em b}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SDL\_\-Color 
+\end{DoxyReturn}
+\hypertarget{sdlutilities_8h_a1124418cf609bffdbf881c611d5e3140}{
+\index{sdlutilities.h@{sdlutilities.h}!CreateDragDrop@{CreateDragDrop}}
+\index{CreateDragDrop@{CreateDragDrop}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{CreateDragDrop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DragDrop} CreateDragDrop (SDL\_\-Rect {\em area}, \/  SDL\_\-Surface $\ast$ {\em ghostSurf}, \/  SDL\_\-Color {\em colorHovered})}}
+\label{sdlutilities_8h_a1124418cf609bffdbf881c611d5e3140}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em area}]\item[{\em ghostSurf}]\item[{\em colorHovered}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{structDragDrop}{DragDrop} 
+\end{DoxyReturn}
+\hypertarget{sdlutilities_8h_ab604c81393ea6333d015ae0c1c1075a8}{
+\index{sdlutilities.h@{sdlutilities.h}!DrawLine@{DrawLine}}
+\index{DrawLine@{DrawLine}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{DrawLine}]{\setlength{\rightskip}{0pt plus 5cm}void DrawLine (SDL\_\-Surface $\ast$ {\em surf}, \/  float {\em x1}, \/  float {\em y1}, \/  float {\em x2}, \/  float {\em y2}, \/  SDL\_\-Color {\em color})}}
+\label{sdlutilities_8h_ab604c81393ea6333d015ae0c1c1075a8}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em surf}]\item[{\em x1}]\item[{\em y1}]\item[{\em x2}]\item[{\em y2}]\item[{\em color}]\end{DoxyParams}
+\hypertarget{sdlutilities_8h_abc22a51dfc872179f787dad9e77baaa9}{
+\index{sdlutilities.h@{sdlutilities.h}!GetMousePos@{GetMousePos}}
+\index{GetMousePos@{GetMousePos}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{GetMousePos}]{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Rect GetMousePos ()}}
+\label{sdlutilities_8h_abc22a51dfc872179f787dad9e77baaa9}
+\begin{DoxyReturn}{Returns}
+SDL\_\-Rect 
+\end{DoxyReturn}
+\hypertarget{sdlutilities_8h_a699c4f67ee37b01814cf3551d956be18}{
+\index{sdlutilities.h@{sdlutilities.h}!GetPixel@{GetPixel}}
+\index{GetPixel@{GetPixel}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{GetPixel}]{\setlength{\rightskip}{0pt plus 5cm}Uint32 GetPixel (SDL\_\-Surface $\ast$ {\em surface}, \/  int {\em x}, \/  int {\em y})}}
+\label{sdlutilities_8h_a699c4f67ee37b01814cf3551d956be18}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em surface}]\item[{\em x}]\item[{\em y}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Uint32 
+\end{DoxyReturn}
+\hypertarget{sdlutilities_8h_aeb2158707833303973276d21160abe3c}{
+\index{sdlutilities.h@{sdlutilities.h}!ManageButton@{ManageButton}}
+\index{ManageButton@{ManageButton}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{ManageButton}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ButtonStatus} ManageButton ({\bf Button} $\ast$ {\em button}, \/  SDL\_\-Event {\em event})}}
+\label{sdlutilities_8h_aeb2158707833303973276d21160abe3c}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em button}]\item[{\em event}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+ButtonStatus 
+\end{DoxyReturn}
+\hypertarget{sdlutilities_8h_ad478d779cb62e93d23027391a3a7747e}{
+\index{sdlutilities.h@{sdlutilities.h}!ManageDragDrop@{ManageDragDrop}}
+\index{ManageDragDrop@{ManageDragDrop}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{ManageDragDrop}]{\setlength{\rightskip}{0pt plus 5cm}{\bf DragDropStatus} ManageDragDrop ({\bf DragDrop} $\ast$ {\em dd}, \/  SDL\_\-Event {\em event})}}
+\label{sdlutilities_8h_ad478d779cb62e93d23027391a3a7747e}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em dd}]\item[{\em event}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+DragDropStatus 
+\end{DoxyReturn}
+\hypertarget{sdlutilities_8h_ac5a13add388bb77a96185c429c1de3ab}{
+\index{sdlutilities.h@{sdlutilities.h}!PutPixel@{PutPixel}}
+\index{PutPixel@{PutPixel}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{PutPixel}]{\setlength{\rightskip}{0pt plus 5cm}void PutPixel (SDL\_\-Surface $\ast$ {\em surface}, \/  int {\em x}, \/  int {\em y}, \/  Uint32 {\em pixel})}}
+\label{sdlutilities_8h_ac5a13add388bb77a96185c429c1de3ab}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em surface}]\item[{\em x}]\item[{\em y}]\item[{\em pixel}]\end{DoxyParams}
+\hypertarget{sdlutilities_8h_a2cc0a8d028036f42805a47db21a200c9}{
+\index{sdlutilities.h@{sdlutilities.h}!PutPixelCheck@{PutPixelCheck}}
+\index{PutPixelCheck@{PutPixelCheck}!sdlutilities.h@{sdlutilities.h}}
+\subsubsection[{PutPixelCheck}]{\setlength{\rightskip}{0pt plus 5cm}bool PutPixelCheck (SDL\_\-Surface $\ast$ {\em surf}, \/  int {\em x}, \/  int {\em y}, \/  Uint32 {\em pixel})}}
+\label{sdlutilities_8h_a2cc0a8d028036f42805a47db21a200c9}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em surf}]\item[{\em x}]\item[{\em y}]\item[{\em pixel}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}

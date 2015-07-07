@@ -7,13 +7,21 @@
 #include "referee.h"
 #include "newrobocontrol.h"
 
+/**
+ * @brief
+ *
+ */
 typedef struct
 {
-    NewRoboControl *robo;
-    RawBall *ball;
-    Referee *ref;
+    NewRoboControl *robo;   /**< TODO */
+    RawBall *ball;          /**< TODO */
+    Referee *ref;           /**< TODO */
 } RoboBall;
 
+/**
+ * @brief
+ *
+ */
 typedef void (*PlayFunc)(NewRoboControl**, RawBall*, Referee*);
 
 void StandardFSM(NewRoboControl *robots[], RawBall *ball, Referee *ref);

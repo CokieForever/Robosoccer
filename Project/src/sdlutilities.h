@@ -23,30 +23,52 @@
 
 #endif
 
+/**
+ * @brief
+ *
+ */
 typedef enum
 {
-    BS_NONE, BS_HOVERED, BS_PUSHED, BS_CLICKED
+    BS_NONE,        /**< TODO */
+    BS_HOVERED,     /**< TODO */
+    BS_PUSHED,      /**< TODO */
+    BS_CLICKED      /**< TODO */
 } ButtonStatus;
 
+/**
+ * @brief
+ *
+ */
 typedef struct
 {
-    SDL_Rect area;
-    SDL_Color colorHovered;
-    SDL_Color colorPushed;
+    SDL_Rect area;              /**< TODO */
+    SDL_Color colorHovered;     /**< TODO */
+    SDL_Color colorPushed;      /**< TODO */
 
-    bool pushed;
+    bool pushed;                /**< TODO */
 } Button;
 
+/**
+ * @brief
+ *
+ */
 typedef enum
 {
-    DDS_NONE, DDS_HOVERED, DDS_DRAGGED, DDS_DROPPED
+    DDS_NONE,       /**< TODO */
+    DDS_HOVERED,    /**< TODO */
+    DDS_DRAGGED,    /**< TODO */
+    DDS_DROPPED     /**< TODO */
 } DragDropStatus;
 
+/**
+ * @brief
+ *
+ */
 typedef struct
 {
-    SDL_Rect area;
-    SDL_Color colorHovered;
-    SDL_Surface *ghostSurf;
+    SDL_Rect area;              /**< TODO */
+    SDL_Color colorHovered;     /**< TODO */
+    SDL_Surface *ghostSurf;     /**< TODO */
 
     bool dragged;
 } DragDrop;
@@ -63,5 +85,11 @@ ButtonStatus ManageButton(Button *button, SDL_Event event);
 
 DragDrop CreateDragDrop(SDL_Rect area, SDL_Surface *ghostSurf = NULL, SDL_Color colorHovered = CreateColor(255,128,0));
 DragDropStatus ManageDragDrop(DragDrop *dd, SDL_Event event);
+
+void ComputeVectorEnd(double startX, double startY, double angle, double length, double *endX, double *endY);
+void ComputeVectorEnd(double startX, double startY, double cosAngle, double sinAngle, double length, double *endX, double *endY);
+void ComputeLineAngle(double startX, double startY, double endX, double endY, double *angle);
+void ComputeLineAngle(double startX, double startY, double endX, double endY, double *cosAngle, double *sinAngle);
+void ComputeThickLineRect(double startX, double startY, double endX, double endY, double thickness, double (&rectX)[4], double (&rectY)[4]);
 
 #endif // SDLUTILITIES_H
