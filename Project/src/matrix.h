@@ -6,36 +6,67 @@
 
 class Interpreter;
 
+/**
+ * @brief
+ *
+ */
 class Matrix
 {
 public:
     /*** [] operator overloading ***/
+    /**
+     * @brief
+     *
+     */
     class MatrixProxy
     {
     private:
-        const Matrix& m_matrix;
-        int m_i;
+        const Matrix& m_matrix;     /**< TODO */
+        int m_i;                    /**< TODO */
     public:
+        /**
+         * @brief
+         *
+         * @param m
+         * @param i
+         */
         MatrixProxy(const Matrix& m, int i) : m_matrix(m)
         {
-        m_i = i;
+            m_i = i;
         }
 
+        /**
+         * @brief
+         *
+         * @param j
+         * @return Uint8 & operator
+         */
         Uint8& operator[](int j)
         {
-        return m_matrix.Get(m_i, j);
+            return m_matrix.Get(m_i, j);
         }
     };
 
+    /**
+     * @brief
+     *
+     * @param i
+     * @return MatrixProxy operator
+     */
     MatrixProxy operator[](int i) const
     {
         return MatrixProxy(*this, i);
     }
     /*** End of overloading section ***/
 
+    /**
+     * @brief
+     *
+     */
     struct Point
     {
-        int x, y;
+        int x;  /**< TODO */
+        int y;  /**< TODO */
     };
 
     static Point CreatePoint(int x, int y);
@@ -54,16 +85,24 @@ public:
     void FloodFill(Point start, Uint8 number);
 
 private:
-    static Uint8 m_default;
+    static Uint8 m_default;     /**< TODO */
 
+    /**
+     * @brief
+     *
+     */
     struct FloodFillStruct
     {
-        int xMin, xMax, y, direction;
-        bool extendLeft, extendRight;
+        int xMin;           /**< TODO */
+        int xMax;           /**< TODO */
+        int y;              /**< TODO */
+        int direction;      /**< TODO */
+        bool extendLeft;    /**< TODO */
+        bool extendRight;   /**< TODO */
     };
 
-    SDL_Surface *m_surface;
-    pthread_mutex_t m_mutex;
+    SDL_Surface *m_surface;     /**< TODO */
+    pthread_mutex_t m_mutex;    /**< TODO */
 
     void flood_AddNextLine(int newY, bool isNext, bool downwards, int minX, int maxX, int i, int number, FloodFillStruct ffs, std::queue<FloodFillStruct>& ranges);
 

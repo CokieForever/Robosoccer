@@ -391,21 +391,8 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
     ComputeLineAngle(goalPos.GetX(), goalPos.GetY(), ball_n.GetX(), ball_n.GetY(), &cosAngle, &sinAngle);
     ComputeVectorEnd(ball_n.GetX(), ball_n.GetY(), cosAngle, sinAngle, 0.1, &endX, &endY);
 
-    if (fabs(endX) >= 1 || fabs(endY) >= 1)
-    {
-        double isectX[2], isectY[2];
-        if (GetSegmentRectIntersections(-0.98, -0.98, 0.98, 0.98, ball_n.GetX(), ball_n.GetY(), endX, endY, isectX, isectY) > 0)
-        {
-            endX = isectX[0];
-            endY = isectY[0];
-        }
-        else
-        {
-            endX = ball_n.GetX();
-            endY = ball_n.GetY();
-        }
-    }
-
+    endX = std::min(0.98, std::max(-0.98, endX));
+    endY = std::min(0.98, std::max(-0.98, endY));
     PathFinder::Point end = PathFinder::CreatePoint(endX, endY);
 
     m_pathFinderPath = m_pathFinder.ComputePath(start, end);

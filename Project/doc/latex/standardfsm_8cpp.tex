@@ -1,0 +1,121 @@
+\hypertarget{standardfsm_8cpp}{
+\section{src/standardfsm.cpp File Reference}
+\label{standardfsm_8cpp}\index{src/standardfsm.cpp@{src/standardfsm.cpp}}
+}
+{\ttfamily \#include \char`\"{}standardfsm.h\char`\"{}}\par
+{\ttfamily \#include $<$time.h$>$}\par
+{\ttfamily \#include $<$iostream$>$}\par
+{\ttfamily \#include $<$pthread.h$>$}\par
+{\ttfamily \#include \char`\"{}referee.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}newrobocontrol.h\char`\"{}}\par
+{\ttfamily \#include \char`\"{}log.h\char`\"{}}\par
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{standardfsm_8cpp_aabc10e01b1f15954fb7a64cfadd0eb15}{BeforeKickOff} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
+\item 
+static void \hyperlink{standardfsm_8cpp_a244f547c628ae50279426c0d5aa0b10e}{KickOff} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
+\item 
+static void \hyperlink{standardfsm_8cpp_aa711dffa4be05177521f7054b0ce5af7}{BeforePenalty} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
+\item 
+static void \hyperlink{standardfsm_8cpp_ab64b7f86c33b8adf1117747cff845034}{Penalty} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
+\item 
+static void \hyperlink{standardfsm_8cpp_ac8d4913c0406efc6379a7a9c017ac2e4}{PlayOn} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
+\item 
+static void \hyperlink{standardfsm_8cpp_a5cf153be23a7aa1db86fb921df183e7c}{Pause} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
+\item 
+static void \hyperlink{standardfsm_8cpp_a1ed03164f790cbd0b2136093a8613ff2}{TimeOver} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
+\item 
+static void $\ast$ \hyperlink{standardfsm_8cpp_afe4daed86cb8e1928c8eef10a3c551d3}{GoalKeeper} (void $\ast$data)
+\item 
+void \hyperlink{standardfsm_8cpp_a90016546b9265fcea25287e47f10cad1}{StandardFSM} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref, eTeam t)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+static eTeam \hyperlink{standardfsm_8cpp_a2934558116068729842abde1a3fc99ca}{team} = BLUE\_\-TEAM
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{standardfsm_8cpp_aabc10e01b1f15954fb7a64cfadd0eb15}{
+\index{standardfsm.cpp@{standardfsm.cpp}!BeforeKickOff@{BeforeKickOff}}
+\index{BeforeKickOff@{BeforeKickOff}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{BeforeKickOff}]{\setlength{\rightskip}{0pt plus 5cm}static void BeforeKickOff ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{standardfsm_8cpp_aabc10e01b1f15954fb7a64cfadd0eb15}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\hypertarget{standardfsm_8cpp_aa711dffa4be05177521f7054b0ce5af7}{
+\index{standardfsm.cpp@{standardfsm.cpp}!BeforePenalty@{BeforePenalty}}
+\index{BeforePenalty@{BeforePenalty}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{BeforePenalty}]{\setlength{\rightskip}{0pt plus 5cm}static void BeforePenalty ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{standardfsm_8cpp_aa711dffa4be05177521f7054b0ce5af7}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\hypertarget{standardfsm_8cpp_afe4daed86cb8e1928c8eef10a3c551d3}{
+\index{standardfsm.cpp@{standardfsm.cpp}!GoalKeeper@{GoalKeeper}}
+\index{GoalKeeper@{GoalKeeper}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{GoalKeeper}]{\setlength{\rightskip}{0pt plus 5cm}static void $\ast$ GoalKeeper (void $\ast$ {\em data})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{standardfsm_8cpp_afe4daed86cb8e1928c8eef10a3c551d3}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em data}]\end{DoxyParams}
+\hypertarget{standardfsm_8cpp_a244f547c628ae50279426c0d5aa0b10e}{
+\index{standardfsm.cpp@{standardfsm.cpp}!KickOff@{KickOff}}
+\index{KickOff@{KickOff}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{KickOff}]{\setlength{\rightskip}{0pt plus 5cm}static void KickOff ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{standardfsm_8cpp_a244f547c628ae50279426c0d5aa0b10e}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\hypertarget{standardfsm_8cpp_a5cf153be23a7aa1db86fb921df183e7c}{
+\index{standardfsm.cpp@{standardfsm.cpp}!Pause@{Pause}}
+\index{Pause@{Pause}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{Pause}]{\setlength{\rightskip}{0pt plus 5cm}static void Pause ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{standardfsm_8cpp_a5cf153be23a7aa1db86fb921df183e7c}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\hypertarget{standardfsm_8cpp_ab64b7f86c33b8adf1117747cff845034}{
+\index{standardfsm.cpp@{standardfsm.cpp}!Penalty@{Penalty}}
+\index{Penalty@{Penalty}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{Penalty}]{\setlength{\rightskip}{0pt plus 5cm}static void Penalty ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{standardfsm_8cpp_ab64b7f86c33b8adf1117747cff845034}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\hypertarget{standardfsm_8cpp_ac8d4913c0406efc6379a7a9c017ac2e4}{
+\index{standardfsm.cpp@{standardfsm.cpp}!PlayOn@{PlayOn}}
+\index{PlayOn@{PlayOn}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{PlayOn}]{\setlength{\rightskip}{0pt plus 5cm}static void PlayOn ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{standardfsm_8cpp_ac8d4913c0406efc6379a7a9c017ac2e4}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\hypertarget{standardfsm_8cpp_a90016546b9265fcea25287e47f10cad1}{
+\index{standardfsm.cpp@{standardfsm.cpp}!StandardFSM@{StandardFSM}}
+\index{StandardFSM@{StandardFSM}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{StandardFSM}]{\setlength{\rightskip}{0pt plus 5cm}void StandardFSM ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref}, \/  eTeam {\em t})}}
+\label{standardfsm_8cpp_a90016546b9265fcea25287e47f10cad1}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\item[{\em t}]\end{DoxyParams}
+\hypertarget{standardfsm_8cpp_a1ed03164f790cbd0b2136093a8613ff2}{
+\index{standardfsm.cpp@{standardfsm.cpp}!TimeOver@{TimeOver}}
+\index{TimeOver@{TimeOver}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{TimeOver}]{\setlength{\rightskip}{0pt plus 5cm}static void TimeOver ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{standardfsm_8cpp_a1ed03164f790cbd0b2136093a8613ff2}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+
+
+\subsection{Variable Documentation}
+\hypertarget{standardfsm_8cpp_a2934558116068729842abde1a3fc99ca}{
+\index{standardfsm.cpp@{standardfsm.cpp}!team@{team}}
+\index{team@{team}!standardfsm.cpp@{standardfsm.cpp}}
+\subsubsection[{team}]{\setlength{\rightskip}{0pt plus 5cm}eTeam {\bf team} = BLUE\_\-TEAM\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{standardfsm_8cpp_a2934558116068729842abde1a3fc99ca}
+TODO 

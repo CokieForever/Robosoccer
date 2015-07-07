@@ -1052,11 +1052,3 @@ void Interpreter::formationUpdateP2()
 
 }
 
-
-
-
-
-
-
-
-

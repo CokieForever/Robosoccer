@@ -179,6 +179,14 @@ double NewRoboControl::degToRad(double deg)
     return deg * M_PI / 180.0;
 }
 
+/**
+ * @brief
+ *
+ * @param current
+ * @param target
+ * @param precise
+ * @return bool
+ */
 bool NewRoboControl::IsOnTarget(Position current, Position target, bool precise)
 {
     double margin = precise ? 0.05 : 0.2;
@@ -186,6 +194,12 @@ bool NewRoboControl::IsOnTarget(Position current, Position target, bool precise)
 }
 
 
+/**
+ * @brief
+ *
+ * @param DBC
+ * @param deviceNr
+ */
 NewRoboControl::NewRoboControl(RTDBConn &DBC, const int deviceNr) : RoboControl(DBC, deviceNr)
 {
     m_stopCruisingNow = false;
@@ -193,15 +207,36 @@ NewRoboControl::NewRoboControl(RTDBConn &DBC, const int deviceNr) : RoboControl(
 }
 
 //The destructor is empty but is there only to prevent class instantation (see newrobocontrol.h)
+/**
+ * @brief
+ *
+ */
 NewRoboControl::~NewRoboControl()
 {
 }
 
+/**
+ * @brief
+ *
+ * @param target
+ * @param precise
+ * @return bool
+ */
 bool NewRoboControl::IsOnTarget(Position target, bool precise) const
 {
     return IsOnTarget(GetPos(), target, precise);
 }
 
+/**
+ * @brief
+ *
+ * @param tarX
+ * @param tarY
+ * @param speed
+ * @param tarP
+ * @param varDir
+ * @return bool
+ */
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
 {
 #ifdef SIMULATION   //The cruisetoBias() does not work in simulation
@@ -290,11 +325,21 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
 #endif
 }
 
+/**
+ * @brief
+ *
+ */
 void NewRoboControl::RandomMove()
 {
     MoveMs((rand() % 11 - 5) * 50, (rand() % 11 -5) * 50, 250, 0);
 }
 
+/**
+ * @brief
+ *
+ * @param path
+ * @return bool
+ */
 bool NewRoboControl::drivePath(std::vector<Position>* path)
 {
     Position *target = NULL;

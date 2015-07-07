@@ -8,6 +8,10 @@
 #include <math.h>
 #include "interpreter.h"
 
+/**
+ * @brief
+ *
+ */
 class MapDisplay
 {
 public:
@@ -19,10 +23,10 @@ public:
     SDL_Surface* UpdateDisplay();
 
 private:
-    const Interpreter::Map& m_map;
-    int m_screenW;
-    int m_screenH;
-    SDL_Surface *m_bgSurf;
+    const Interpreter::Map& m_map;  /**< TODO */
+    int m_screenW;                  /**< TODO */
+    int m_screenH;                  /**< TODO */
+    SDL_Surface *m_bgSurf;          /**< TODO */
 
     void ConvertScreenCoordToMatrixCoord(int x, int y, int *i, int *j);
 

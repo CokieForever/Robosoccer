@@ -1,6 +1,10 @@
 #ifndef NODE_H
 #define NODE_H
 
+/**
+ * @brief
+ *
+ */
 class node
 {
 
@@ -18,13 +22,10 @@ public:
     const int & estimate(const int & xDest, const int & yDest) const;
 
 private:
-    // current position
-    int m_xPos;
-    int m_yPos;
-    // total distance already travelled to reach the node
-    int m_level;
-    // priority=level+remaining distance estimate
-    int m_priority;  // smaller: higher priority
+    int m_xPos;         /**< Current position (x coordinate) */
+    int m_yPos;         /**< Current position (y coordinate) */
+    int m_level;        /**< Total distance already travelled to reach the node */
+    int m_priority;     /**< Level + remaining distance estimate (smaller: higher priority) */
 
 };
 

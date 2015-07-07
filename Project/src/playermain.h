@@ -7,13 +7,25 @@
 #include <ballmonitor.h>
 
 
+/**
+ * @brief
+ *
+ */
 class PlayerMain : public TeamRobot
 {
 
   public:
+    /**
+     * @brief
+     *
+     */
     enum ActionPlayerMain
     {
-        GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH
+        GO_TO_DEF_POS,  /**< TODO */
+        KICK_PENALTY,   /**< TODO */
+        KICK_OFF,       /**< TODO */
+        STOP,           /**< TODO */
+        FOLLOWPATH      /**< TODO */
     };
 
     PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display = NULL);
@@ -23,11 +35,13 @@ class PlayerMain : public TeamRobot
     void performCmd(const Interpreter::GameData& info);
 
   private:
-    ActionPlayerMain m_nextCmd;
-    BallMonitor* m_ballpm;
-    const NewRoboControl* m_otherRobots[5];
+    ActionPlayerMain m_nextCmd;             /**< TODO */
+    BallMonitor* m_ballpm;                  /**< TODO */
+    const NewRoboControl* m_otherRobots[5]; /**< TODO */
+    Position m_defendp2;                    /**< TODO */
 
     void AddObstacleForFormation(const Interpreter::GameData& info);
+    void defend_p2(void);
 
 };
 

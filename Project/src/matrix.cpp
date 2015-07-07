@@ -304,4 +304,4 @@ Uint8& Matrix::Get(int x, int y) const
     return *(p + 3);
 }
 
-Uint8 Matrix::m_default = 0; /**< TODO */
+Uint8 Matrix::m_default = 0;

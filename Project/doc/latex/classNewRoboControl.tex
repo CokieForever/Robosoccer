@@ -1,0 +1,252 @@
+\hypertarget{classNewRoboControl}{
+\section{NewRoboControl Class Reference}
+\label{classNewRoboControl}\index{NewRoboControl@{NewRoboControl}}
+}
+
+
+{\ttfamily \#include $<$newrobocontrol.h$>$}
+
+Inheritance diagram for NewRoboControl:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{classNewRoboControl}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18f}{eDirection} \{ \hyperlink{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18fac7af9b70b7504bd260f486172de934d9}{FORWARD}, 
+\hyperlink{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18faa55a679c9e8fbc7400c88ce3cab09c48}{BACKWARD}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classNewRoboControl_a81f7ad52f88ea8fb90eeff5650efa1c5}{NewRoboControl} (RTDBConn \&DBC, const int deviceNr)
+\item 
+virtual \hyperlink{classNewRoboControl_ae63cbd6c60d37882d176e9e7d60b11ba}{$\sim$NewRoboControl} ()=0
+\item 
+bool \hyperlink{classNewRoboControl_a77b0e86bef15f3b1fb6cf98d91c6a9b4}{IsOnTarget} (Position target, bool precise=true) const 
+\item 
+bool \hyperlink{classNewRoboControl_a89119d6af9d59b6e0279b39e23c35122}{cruisetoBias} (double tarX, double tarY, int speed, double tarP=-\/10, double varDir=30)
+\item 
+void \hyperlink{classNewRoboControl_ab3231acd7efd60677b4f48b094cb6dd3}{RandomMove} ()
+\item 
+bool \hyperlink{classNewRoboControl_a9816eae1b7c90dbb74a7e0365e2b57e9}{drivePath} (std::vector$<$ Position $>$ $\ast$path)
+\item 
+void \hyperlink{classNewRoboControl_ad2ddddb5f0272a733021524ebaaaeffd}{setSpeed} (double translation, double rotation, \hyperlink{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18f}{eDirection} dir)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18f}{eDirection} \hyperlink{classNewRoboControl_a9979ccfbc622d9082fb034caf36c514b}{getDirection} (double nominal, double actual)
+\item 
+static double \hyperlink{classNewRoboControl_a960c714f4f8828d16dc955c871affbb5}{getDiffAngle} (double nominal, double actual)
+\item 
+static double \hyperlink{classNewRoboControl_ab2f2407b40c535ed734049e8e1ed71e6}{getSpeedP} (double nominal, double actual)
+\item 
+static double \hyperlink{classNewRoboControl_ac1f5cb8932193d5e8315bb19aeddb3fa}{getSpeedPt} (double nominal, double actual, int geschw)
+\item 
+static double \hyperlink{classNewRoboControl_a0c5f29bb2dee1faf96725b80ddc64398}{getSpeedT} (double diff)
+\item 
+static double \hyperlink{classNewRoboControl_a44def2cefef0f6c41b180bda044dfdfb}{degToRad} (double deg)
+\item 
+static bool \hyperlink{classNewRoboControl_a106c7ccc03f05693a07da1235ab0b17f}{IsOnTarget} (Position current, Position target, bool precise=true)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classNewRoboControl_a2f7afe3fa8d85f8fedf05ba12ec21f32}{m\_\-stopCruisingNow}
+\item 
+bool \hyperlink{classNewRoboControl_aa83c55c4b75ef04c909038e2ad581e3b}{m\_\-isCruising}
+\item 
+pthread\_\-t \hyperlink{classNewRoboControl_a285a033aa3238a589d78243ce7cdb620}{m\_\-cruiseThread}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18f}{
+\index{NewRoboControl@{NewRoboControl}!eDirection@{eDirection}}
+\index{eDirection@{eDirection}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{eDirection}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf NewRoboControl::eDirection}}}
+\label{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18f}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{FORWARD@{FORWARD}!NewRoboControl@{NewRoboControl}}\index{NewRoboControl@{NewRoboControl}!FORWARD@{FORWARD}}\item[{\em 
+\hypertarget{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18fac7af9b70b7504bd260f486172de934d9}{
+FORWARD}
+\label{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18fac7af9b70b7504bd260f486172de934d9}
+}]TODO \index{BACKWARD@{BACKWARD}!NewRoboControl@{NewRoboControl}}\index{NewRoboControl@{NewRoboControl}!BACKWARD@{BACKWARD}}\item[{\em 
+\hypertarget{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18faa55a679c9e8fbc7400c88ce3cab09c48}{
+BACKWARD}
+\label{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18faa55a679c9e8fbc7400c88ce3cab09c48}
+}]TODO \end{description}
+\end{Desc}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classNewRoboControl_a81f7ad52f88ea8fb90eeff5650efa1c5}{
+\index{NewRoboControl@{NewRoboControl}!NewRoboControl@{NewRoboControl}}
+\index{NewRoboControl@{NewRoboControl}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{NewRoboControl}]{\setlength{\rightskip}{0pt plus 5cm}NewRoboControl::NewRoboControl (RTDBConn \& {\em DBC}, \/  const int {\em deviceNr})}}
+\label{classNewRoboControl_a81f7ad52f88ea8fb90eeff5650efa1c5}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em DBC}]\item[{\em deviceNr}]\end{DoxyParams}
+\hypertarget{classNewRoboControl_ae63cbd6c60d37882d176e9e7d60b11ba}{
+\index{NewRoboControl@{NewRoboControl}!$\sim$NewRoboControl@{$\sim$NewRoboControl}}
+\index{$\sim$NewRoboControl@{$\sim$NewRoboControl}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{$\sim$NewRoboControl}]{\setlength{\rightskip}{0pt plus 5cm}NewRoboControl::$\sim$NewRoboControl ()\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{classNewRoboControl_ae63cbd6c60d37882d176e9e7d60b11ba}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classNewRoboControl_a89119d6af9d59b6e0279b39e23c35122}{
+\index{NewRoboControl@{NewRoboControl}!cruisetoBias@{cruisetoBias}}
+\index{cruisetoBias@{cruisetoBias}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{cruisetoBias}]{\setlength{\rightskip}{0pt plus 5cm}bool NewRoboControl::cruisetoBias (double {\em tarX}, \/  double {\em tarY}, \/  int {\em speed}, \/  double {\em tarP} = {\ttfamily -\/10}, \/  double {\em varDir} = {\ttfamily 30})}}
+\label{classNewRoboControl_a89119d6af9d59b6e0279b39e23c35122}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em tarX}]\item[{\em tarY}]\item[{\em speed}]\item[{\em tarP}]\item[{\em varDir}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_a44def2cefef0f6c41b180bda044dfdfb}{
+\index{NewRoboControl@{NewRoboControl}!degToRad@{degToRad}}
+\index{degToRad@{degToRad}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{degToRad}]{\setlength{\rightskip}{0pt plus 5cm}double NewRoboControl::degToRad (double {\em deg})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classNewRoboControl_a44def2cefef0f6c41b180bda044dfdfb}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em deg}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_a9816eae1b7c90dbb74a7e0365e2b57e9}{
+\index{NewRoboControl@{NewRoboControl}!drivePath@{drivePath}}
+\index{drivePath@{drivePath}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{drivePath}]{\setlength{\rightskip}{0pt plus 5cm}bool NewRoboControl::drivePath (std::vector$<$ Position $>$ $\ast$ {\em path})}}
+\label{classNewRoboControl_a9816eae1b7c90dbb74a7e0365e2b57e9}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em path}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_a960c714f4f8828d16dc955c871affbb5}{
+\index{NewRoboControl@{NewRoboControl}!getDiffAngle@{getDiffAngle}}
+\index{getDiffAngle@{getDiffAngle}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{getDiffAngle}]{\setlength{\rightskip}{0pt plus 5cm}double NewRoboControl::getDiffAngle (double {\em nominal}, \/  double {\em actual})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classNewRoboControl_a960c714f4f8828d16dc955c871affbb5}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em nominal}]\item[{\em actual}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_a9979ccfbc622d9082fb034caf36c514b}{
+\index{NewRoboControl@{NewRoboControl}!getDirection@{getDirection}}
+\index{getDirection@{getDirection}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{getDirection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NewRoboControl::eDirection} NewRoboControl::getDirection (double {\em nominal}, \/  double {\em actual})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classNewRoboControl_a9979ccfbc622d9082fb034caf36c514b}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em nominal}]\item[{\em actual}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Controller::eDirection 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_ab2f2407b40c535ed734049e8e1ed71e6}{
+\index{NewRoboControl@{NewRoboControl}!getSpeedP@{getSpeedP}}
+\index{getSpeedP@{getSpeedP}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{getSpeedP}]{\setlength{\rightskip}{0pt plus 5cm}double NewRoboControl::getSpeedP (double {\em nominal}, \/  double {\em actual})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classNewRoboControl_ab2f2407b40c535ed734049e8e1ed71e6}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em nominal}]\item[{\em actual}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_ac1f5cb8932193d5e8315bb19aeddb3fa}{
+\index{NewRoboControl@{NewRoboControl}!getSpeedPt@{getSpeedPt}}
+\index{getSpeedPt@{getSpeedPt}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{getSpeedPt}]{\setlength{\rightskip}{0pt plus 5cm}double NewRoboControl::getSpeedPt (double {\em nominal}, \/  double {\em actual}, \/  int {\em geschw})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classNewRoboControl_ac1f5cb8932193d5e8315bb19aeddb3fa}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em nominal}]\item[{\em actual}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_a0c5f29bb2dee1faf96725b80ddc64398}{
+\index{NewRoboControl@{NewRoboControl}!getSpeedT@{getSpeedT}}
+\index{getSpeedT@{getSpeedT}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{getSpeedT}]{\setlength{\rightskip}{0pt plus 5cm}double NewRoboControl::getSpeedT (double {\em diff})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classNewRoboControl_a0c5f29bb2dee1faf96725b80ddc64398}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em diff}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_a77b0e86bef15f3b1fb6cf98d91c6a9b4}{
+\index{NewRoboControl@{NewRoboControl}!IsOnTarget@{IsOnTarget}}
+\index{IsOnTarget@{IsOnTarget}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{IsOnTarget}]{\setlength{\rightskip}{0pt plus 5cm}bool NewRoboControl::IsOnTarget (Position {\em target}, \/  bool {\em precise} = {\ttfamily true}) const}}
+\label{classNewRoboControl_a77b0e86bef15f3b1fb6cf98d91c6a9b4}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em target}]\item[{\em precise}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_a106c7ccc03f05693a07da1235ab0b17f}{
+\index{NewRoboControl@{NewRoboControl}!IsOnTarget@{IsOnTarget}}
+\index{IsOnTarget@{IsOnTarget}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{IsOnTarget}]{\setlength{\rightskip}{0pt plus 5cm}bool NewRoboControl::IsOnTarget (Position {\em current}, \/  Position {\em target}, \/  bool {\em precise} = {\ttfamily true})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classNewRoboControl_a106c7ccc03f05693a07da1235ab0b17f}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em current}]\item[{\em target}]\item[{\em precise}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classNewRoboControl_ab3231acd7efd60677b4f48b094cb6dd3}{
+\index{NewRoboControl@{NewRoboControl}!RandomMove@{RandomMove}}
+\index{RandomMove@{RandomMove}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{RandomMove}]{\setlength{\rightskip}{0pt plus 5cm}void NewRoboControl::RandomMove ()}}
+\label{classNewRoboControl_ab3231acd7efd60677b4f48b094cb6dd3}
+\hypertarget{classNewRoboControl_ad2ddddb5f0272a733021524ebaaaeffd}{
+\index{NewRoboControl@{NewRoboControl}!setSpeed@{setSpeed}}
+\index{setSpeed@{setSpeed}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{setSpeed}]{\setlength{\rightskip}{0pt plus 5cm}void NewRoboControl::setSpeed (double {\em translation}, \/  double {\em rotation}, \/  {\bf eDirection} {\em dir})}}
+\label{classNewRoboControl_ad2ddddb5f0272a733021524ebaaaeffd}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em translation}]\item[{\em rotation}]\item[{\em dir}]\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classNewRoboControl_a285a033aa3238a589d78243ce7cdb620}{
+\index{NewRoboControl@{NewRoboControl}!m\_\-cruiseThread@{m\_\-cruiseThread}}
+\index{m\_\-cruiseThread@{m\_\-cruiseThread}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{m\_\-cruiseThread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-t {\bf NewRoboControl::m\_\-cruiseThread}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classNewRoboControl_a285a033aa3238a589d78243ce7cdb620}
+TODO \hypertarget{classNewRoboControl_aa83c55c4b75ef04c909038e2ad581e3b}{
+\index{NewRoboControl@{NewRoboControl}!m\_\-isCruising@{m\_\-isCruising}}
+\index{m\_\-isCruising@{m\_\-isCruising}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{m\_\-isCruising}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf NewRoboControl::m\_\-isCruising}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classNewRoboControl_aa83c55c4b75ef04c909038e2ad581e3b}
+TODO \hypertarget{classNewRoboControl_a2f7afe3fa8d85f8fedf05ba12ec21f32}{
+\index{NewRoboControl@{NewRoboControl}!m\_\-stopCruisingNow@{m\_\-stopCruisingNow}}
+\index{m\_\-stopCruisingNow@{m\_\-stopCruisingNow}!NewRoboControl@{NewRoboControl}}
+\subsubsection[{m\_\-stopCruisingNow}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf NewRoboControl::m\_\-stopCruisingNow}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classNewRoboControl_a2f7afe3fa8d85f8fedf05ba12ec21f32}
+TODO 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{newrobocontrol_8h}{newrobocontrol.h}\item 
+src/\hyperlink{newrobocontrol_8cpp}{newrobocontrol.cpp}\end{DoxyCompactItemize}
