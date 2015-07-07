@@ -1,0 +1,112 @@
+\hypertarget{geometry_8h}{
+\section{src/geometry.h File Reference}
+\label{geometry_8h}\index{src/geometry.h@{src/geometry.h}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{geometry_8h_aba8437a6ae72cc4d20a11ea64d0ecd1d}{ComputeVectorEnd} (double startX, double startY, double angle, double length, double $\ast$endX, double $\ast$endY)
+\item 
+void \hyperlink{geometry_8h_a512d15babba853acb04a750ba53acabc}{ComputeVectorEnd} (double startX, double startY, double cosAngle, double sinAngle, double length, double $\ast$endX, double $\ast$endY)
+\item 
+void \hyperlink{geometry_8h_a6b8202f8d9804b9022a48aacf37d0ca0}{ComputeLineAngle} (double startX, double startY, double endX, double endY, double $\ast$angle)
+\item 
+void \hyperlink{geometry_8h_afe75a7c8895bb2eba05584de1f3ed44b}{ComputeLineAngle} (double startX, double startY, double endX, double endY, double $\ast$cosAngle, double $\ast$sinAngle)
+\item 
+void \hyperlink{geometry_8h_a54faa5caaaed0bdbb910b05ab4d73b09}{ComputeThickLineRect} (double startX, double startY, double endX, double endY, double thickness, double(\&rectX)\mbox{[}4\mbox{]}, double(\&rectY)\mbox{[}4\mbox{]})
+\item 
+bool \hyperlink{geometry_8h_ae65f60ceab6aa42ab861d2f6af36e422}{DoSegmentsIntersect} (double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
+\item 
+bool \hyperlink{geometry_8h_a7878a33e61fea07c6b4fe52e43080bb5}{ComputeLinesIntersection} (double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, double $\ast$isectX, double $\ast$isectY)
+\item 
+bool \hyperlink{geometry_8h_ab24247edc041b0fb264e2ab9997a0c55}{GetLineRectIntersections} (double xMin, double yMin, double xMax, double yMax, double a, double b, double(\&isectX)\mbox{[}2\mbox{]}, double(\&isectY)\mbox{[}2\mbox{]})
+\item 
+int \hyperlink{geometry_8h_a483709399e1a247906bf8c47315ceef8}{GetSegmentRectIntersections} (double ulX, double ulY, double lrX, double lrY, double startX, double startY, double endX, double endY, double(\&isectX)\mbox{[}2\mbox{]}, double(\&isectY)\mbox{[}2\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{geometry_8h_afe75a7c8895bb2eba05584de1f3ed44b}{
+\index{geometry.h@{geometry.h}!ComputeLineAngle@{ComputeLineAngle}}
+\index{ComputeLineAngle@{ComputeLineAngle}!geometry.h@{geometry.h}}
+\subsubsection[{ComputeLineAngle}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeLineAngle (double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double $\ast$ {\em cosAngle}, \/  double $\ast$ {\em sinAngle})}}
+\label{geometry_8h_afe75a7c8895bb2eba05584de1f3ed44b}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em cosAngle}]\item[{\em sinAngle}]\end{DoxyParams}
+\hypertarget{geometry_8h_a6b8202f8d9804b9022a48aacf37d0ca0}{
+\index{geometry.h@{geometry.h}!ComputeLineAngle@{ComputeLineAngle}}
+\index{ComputeLineAngle@{ComputeLineAngle}!geometry.h@{geometry.h}}
+\subsubsection[{ComputeLineAngle}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeLineAngle (double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double $\ast$ {\em angle})}}
+\label{geometry_8h_a6b8202f8d9804b9022a48aacf37d0ca0}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em angle}]\end{DoxyParams}
+\hypertarget{geometry_8h_a7878a33e61fea07c6b4fe52e43080bb5}{
+\index{geometry.h@{geometry.h}!ComputeLinesIntersection@{ComputeLinesIntersection}}
+\index{ComputeLinesIntersection@{ComputeLinesIntersection}!geometry.h@{geometry.h}}
+\subsubsection[{ComputeLinesIntersection}]{\setlength{\rightskip}{0pt plus 5cm}bool ComputeLinesIntersection (double {\em x1}, \/  double {\em y1}, \/  double {\em x2}, \/  double {\em y2}, \/  double {\em x3}, \/  double {\em y3}, \/  double {\em x4}, \/  double {\em y4}, \/  double $\ast$ {\em isectX}, \/  double $\ast$ {\em isectY})}}
+\label{geometry_8h_a7878a33e61fea07c6b4fe52e43080bb5}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em x1}]\item[{\em y1}]\item[{\em x2}]\item[{\em y2}]\item[{\em x3}]\item[{\em y3}]\item[{\em x4}]\item[{\em y4}]\item[{\em isectX}]\item[{\em isectY}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{geometry_8h_a54faa5caaaed0bdbb910b05ab4d73b09}{
+\index{geometry.h@{geometry.h}!ComputeThickLineRect@{ComputeThickLineRect}}
+\index{ComputeThickLineRect@{ComputeThickLineRect}!geometry.h@{geometry.h}}
+\subsubsection[{ComputeThickLineRect}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeThickLineRect (double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double {\em thickness}, \/  double(\&) {\em rectX}\mbox{[}4\mbox{]}, \/  double(\&) {\em rectY}\mbox{[}4\mbox{]})}}
+\label{geometry_8h_a54faa5caaaed0bdbb910b05ab4d73b09}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em thickness}]\item[{\em (rectX)\mbox{[}$\,$\mbox{]}}]\item[{\em (rectY)\mbox{[}$\,$\mbox{]}}]\end{DoxyParams}
+\hypertarget{geometry_8h_a512d15babba853acb04a750ba53acabc}{
+\index{geometry.h@{geometry.h}!ComputeVectorEnd@{ComputeVectorEnd}}
+\index{ComputeVectorEnd@{ComputeVectorEnd}!geometry.h@{geometry.h}}
+\subsubsection[{ComputeVectorEnd}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeVectorEnd (double {\em startX}, \/  double {\em startY}, \/  double {\em cosAngle}, \/  double {\em sinAngle}, \/  double {\em length}, \/  double $\ast$ {\em endX}, \/  double $\ast$ {\em endY})}}
+\label{geometry_8h_a512d15babba853acb04a750ba53acabc}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em cosAngle}]\item[{\em sinAngle}]\item[{\em length}]\item[{\em endX}]\item[{\em endY}]\end{DoxyParams}
+\hypertarget{geometry_8h_aba8437a6ae72cc4d20a11ea64d0ecd1d}{
+\index{geometry.h@{geometry.h}!ComputeVectorEnd@{ComputeVectorEnd}}
+\index{ComputeVectorEnd@{ComputeVectorEnd}!geometry.h@{geometry.h}}
+\subsubsection[{ComputeVectorEnd}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeVectorEnd (double {\em startX}, \/  double {\em startY}, \/  double {\em angle}, \/  double {\em length}, \/  double $\ast$ {\em endX}, \/  double $\ast$ {\em endY})}}
+\label{geometry_8h_aba8437a6ae72cc4d20a11ea64d0ecd1d}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em startX}]\item[{\em startY}]\item[{\em angle}]\item[{\em length}]\item[{\em endX}]\item[{\em endY}]\end{DoxyParams}
+\hypertarget{geometry_8h_ae65f60ceab6aa42ab861d2f6af36e422}{
+\index{geometry.h@{geometry.h}!DoSegmentsIntersect@{DoSegmentsIntersect}}
+\index{DoSegmentsIntersect@{DoSegmentsIntersect}!geometry.h@{geometry.h}}
+\subsubsection[{DoSegmentsIntersect}]{\setlength{\rightskip}{0pt plus 5cm}bool DoSegmentsIntersect (double {\em x1}, \/  double {\em y1}, \/  double {\em x2}, \/  double {\em y2}, \/  double {\em x3}, \/  double {\em y3}, \/  double {\em x4}, \/  double {\em y4})}}
+\label{geometry_8h_ae65f60ceab6aa42ab861d2f6af36e422}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em x1}]\item[{\em y1}]\item[{\em x2}]\item[{\em y2}]\item[{\em x3}]\item[{\em y3}]\item[{\em x4}]\item[{\em y4}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{geometry_8h_ab24247edc041b0fb264e2ab9997a0c55}{
+\index{geometry.h@{geometry.h}!GetLineRectIntersections@{GetLineRectIntersections}}
+\index{GetLineRectIntersections@{GetLineRectIntersections}!geometry.h@{geometry.h}}
+\subsubsection[{GetLineRectIntersections}]{\setlength{\rightskip}{0pt plus 5cm}bool GetLineRectIntersections (double {\em xMin}, \/  double {\em yMin}, \/  double {\em xMax}, \/  double {\em yMax}, \/  double {\em a}, \/  double {\em b}, \/  double(\&) {\em isectX}\mbox{[}2\mbox{]}, \/  double(\&) {\em isectY}\mbox{[}2\mbox{]})}}
+\label{geometry_8h_ab24247edc041b0fb264e2ab9997a0c55}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em xMin}]\item[{\em yMin}]\item[{\em xMax}]\item[{\em yMax}]\item[{\em a}]\item[{\em b}]\item[{\em (isectX)\mbox{[}$\,$\mbox{]}}]\item[{\em (isectY)\mbox{[}$\,$\mbox{]}}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{geometry_8h_a483709399e1a247906bf8c47315ceef8}{
+\index{geometry.h@{geometry.h}!GetSegmentRectIntersections@{GetSegmentRectIntersections}}
+\index{GetSegmentRectIntersections@{GetSegmentRectIntersections}!geometry.h@{geometry.h}}
+\subsubsection[{GetSegmentRectIntersections}]{\setlength{\rightskip}{0pt plus 5cm}int GetSegmentRectIntersections (double {\em ulX}, \/  double {\em ulY}, \/  double {\em lrX}, \/  double {\em lrY}, \/  double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double(\&) {\em isectX}\mbox{[}2\mbox{]}, \/  double(\&) {\em isectY}\mbox{[}2\mbox{]})}}
+\label{geometry_8h_a483709399e1a247906bf8c47315ceef8}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ulX}]\item[{\em ulY}]\item[{\em lrX}]\item[{\em lrY}]\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em (isectX)\mbox{[}$\,$\mbox{]}}]\item[{\em (isectY)\mbox{[}$\,$\mbox{]}}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}

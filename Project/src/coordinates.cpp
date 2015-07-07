@@ -1,17 +1,33 @@
 #include "coordinates.h"
 
 
+/**
+ * @brief
+ *
+ */
 CoordinatesCalibrer::CoordinatesCalibrer()
 {
     Init();
 }
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ */
 CoordinatesCalibrer::CoordinatesCalibrer(Position a, Position b, Position c, Position d)
 {
     Init();
     SetManualCoordCalibration(a, b, c, d);
 }
 
+/**
+ * @brief
+ *
+ */
 void CoordinatesCalibrer::Init()
 {
     m_tx = 0;
@@ -29,6 +45,15 @@ void CoordinatesCalibrer::Init()
     memset(m_robots, 0, sizeof(NewRoboControl*)*2);
 }
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ * @return bool
+ */
 bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Position c, Position d)
 {
     /*
@@ -55,6 +80,12 @@ bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Posi
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param pos
+ * @return Position
+ */
 Position CoordinatesCalibrer::NormalizePosition(Position pos) const
 {
     double x = pos.GetX(), y = pos.GetY();
@@ -74,6 +105,12 @@ Position CoordinatesCalibrer::NormalizePosition(Position pos) const
     return Position(x, y);
 }
 
+/**
+ * @brief
+ *
+ * @param pos
+ * @return Position
+ */
 Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
 {
     double x = pos.GetX(), y = pos.GetY();
@@ -93,6 +130,12 @@ Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
     return Position(x, y);
 }
 
+/**
+ * @brief
+ *
+ * @param angle
+ * @return double
+ */
 double CoordinatesCalibrer::NormalizeAngle(double angle) const
 {
     //Rotation
@@ -114,6 +157,12 @@ double CoordinatesCalibrer::NormalizeAngle(double angle) const
     return angle;
 }
 
+/**
+ * @brief
+ *
+ * @param angle
+ * @return double
+ */
 double CoordinatesCalibrer::UnnormalizeAngle(double angle) const
 {
     //Dilatation
@@ -135,6 +184,13 @@ double CoordinatesCalibrer::UnnormalizeAngle(double angle) const
     return angle;
 }
 
+/**
+ * @brief
+ *
+ * @param robot1
+ * @param robot2
+ * @return bool
+ */
 bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboControl *robot2)
 {
     if (robot1)
@@ -147,6 +203,12 @@ bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboC
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param stopNow
+ * @return bool
+ */
 bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
 {
     if (!m_isCalibrating)
@@ -157,6 +219,16 @@ bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param tx
+ * @param ty
+ * @param theta
+ * @param kx
+ * @param ky
+ * @return bool
+ */
 bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *kx, double *ky) const
 {
     if (!m_calibrationSuccessful)
@@ -176,6 +248,15 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, dou
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param xMax
+ * @param xMin
+ * @param yMax
+ * @param yMin
+ * @return bool
+ */
 bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin) const
 {
     if (!m_calibrationSuccessful)
@@ -199,6 +280,11 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin,
 
 #define exit_cal() do {calibrer->m_calibrationSuccessful = !calibrer->m_stopCalibrating; calibrer->m_isCalibrating = false; return NULL;} while (0)
 #define usleep_cal(t) do { if (calibrer->m_stopCalibrating) exit_cal(); usleep(t); if (calibrer->m_stopCalibrating) exit_cal(); } while (0)
+/**
+ * @brief
+ *
+ * @param data
+ */
 void* CoordinatesCalibrer::CalibrationFn(void *data)
 {
     CoordinatesCalibrer *calibrer = (CoordinatesCalibrer*)data;

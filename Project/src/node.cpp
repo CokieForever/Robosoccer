@@ -1,6 +1,14 @@
 #include "node.h"
 #include "math.h"
 
+/**
+ * @brief
+ *
+ * @param xp
+ * @param yp
+ * @param d
+ * @param p
+ */
 node::node(int xp, int yp, int d, int p)
 {
     m_xPos=xp;
@@ -9,32 +17,63 @@ node::node(int xp, int yp, int d, int p)
     m_priority=p;
 }
 
+/**
+ * @brief
+ *
+ * @return int
+ */
 int node::getxPos() const
 {
     return m_xPos;
 }
 
+/**
+ * @brief
+ *
+ * @return int
+ */
 int node::getyPos() const
 {
     return m_yPos;
 }
 
+/**
+ * @brief
+ *
+ * @return int
+ */
 int node::getLevel() const
 {
     return m_level;
 }
 
+/**
+ * @brief
+ *
+ * @return int
+ */
 int node::getPriority() const
 {
     return m_priority;
 }
 
+/**
+ * @brief
+ *
+ * @param xDest
+ * @param yDest
+ */
 void node::updatePriority(const int & xDest, const int & yDest)
 {
      m_priority = m_level+estimate(xDest, yDest)*10; //A*
 }
 
 // give better priority to going strait instead of diagonally
+/**
+ * @brief
+ *
+ * @param i
+ */
 void node::nextLevel(const int & i) // i: direction
 {
     //assume 8 directions
@@ -42,6 +81,13 @@ void node::nextLevel(const int & i) // i: direction
 }
 
 // Estimation function for the remaining distance to the goal.
+/**
+ * @brief
+ *
+ * @param xDest
+ * @param yDest
+ * @return const int &
+ */
 const int & node::estimate(const int & xDest, const int & yDest) const
 {
     static int xd, yd, d;
@@ -62,6 +108,13 @@ const int & node::estimate(const int & xDest, const int & yDest) const
 
 
 // Determine priority (in the priority queue)
+/**
+ * @brief
+ *
+ * @param a
+ * @param b
+ * @return bool operator
+ */
 bool operator<(const node & a, const node & b)
 {
     return a.getPriority() > b.getPriority();

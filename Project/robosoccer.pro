@@ -34,7 +34,7 @@ CONFIG +=  debug
 
 # Input
 
-HEADERS += \ 
+HEADERS += \
     src/*.h \
     src/sdl_gfx/*.h
 SOURCES +=  \

@@ -3,6 +3,10 @@
 
 #include "newrobocontrol.h"
 
+/**
+ * @brief
+ *
+ */
 class OpponentRobot : public NewRoboControl
 {
 

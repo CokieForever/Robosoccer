@@ -3,6 +3,12 @@
 #include <queue>
 #include "geometry.h"
 
+/**
+ * @brief
+ *
+ * @param coordCalibrer
+ * @param ball
+ */
 BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball)
 {
     m_mainBall = ball;
@@ -18,6 +24,12 @@ BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball)
     m_coordCalibrer = coordCalibrer;
 }
 
+/**
+ * @brief
+ *
+ * @param ball
+ * @return bool
+ */
 bool BallMonitor::StartMonitoring(RawBall *ball)
 {
     if (m_ballMonitoring || !m_coordCalibrer)
@@ -36,6 +48,11 @@ bool BallMonitor::StartMonitoring(RawBall *ball)
     }
 }
 
+/**
+ * @brief
+ *
+ * @return bool
+ */
 bool BallMonitor::StopMonitoring()
 {
     if (!m_ballMonitoring)
@@ -49,6 +66,12 @@ bool BallMonitor::StopMonitoring()
     }
 }
 
+/**
+ * @brief
+ *
+ * @param pos
+ * @return bool
+ */
 bool BallMonitor::GetBallPosition(Position *pos) const
 {
     if (!m_ballMonitoring)
@@ -67,6 +90,12 @@ bool BallMonitor::GetBallPosition(Position *pos) const
     }
 }
 
+/**
+ * @brief
+ *
+ * @param dir
+ * @return bool
+ */
 bool BallMonitor::GetBallDirection(Direction *dir) const
 {
     if (!m_ballMonitoring)
@@ -91,6 +120,14 @@ bool BallMonitor::GetBallDirection(Direction *dir) const
     }
 }
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param b
+ * @param precision
+ * @return bool
+ */
 bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
 {
     if (!m_ballMonitoring)
@@ -127,6 +164,11 @@ bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
     }
 }
 
+/**
+ * @brief
+ *
+ * @return bool
+ */
 bool BallMonitor::IsBallMoving() const
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_ballMonitoringMtx);
@@ -144,6 +186,13 @@ bool BallMonitor::IsBallMoving() const
     return moving;
 }
 
+/**
+ * @brief
+ *
+ * @param visibilityMap
+ * @param ourSide
+ * @return double
+ */
 double BallMonitor::GetBestDirection(std::vector<double> visibilityMap, eSide ourSide)
 {
     int n = visibilityMap.size();
@@ -195,6 +244,15 @@ double BallMonitor::GetBestDirection(std::vector<double> visibilityMap, eSide ou
         return ourSide == LEFT_SIDE ? 0 : M_PI;
 }
 
+/**
+ * @brief
+ *
+ * @param maxLevel
+ * @param robot[]
+ * @param ourSide
+ * @param coordCalib
+ * @return std::vector<double>
+ */
 std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, const NewRoboControl* robot[6], eSide ourSide, const CoordinatesCalibrer *coordCalib) const
 {
     Position robotPos[6];
@@ -207,6 +265,16 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, const NewRob
     return ComputeVisibilityMap(maxLevel, ballPos, &(robotPos[0]), 6, ourSide);
 }
 
+/**
+ * @brief
+ *
+ * @param maxLevel
+ * @param pos
+ * @param robotPos
+ * @param nbPos
+ * @param ourSide
+ * @return std::vector<double>
+ */
 std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos, const Position *robotPos, int nbPos, eSide ourSide)
 {
     double minAngle, maxAngle;
@@ -324,6 +392,14 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos
     return baseMap;
 }
 
+/**
+ * @brief
+ *
+ * @param robot[]
+ * @param ourSide
+ * @param coordCalib
+ * @return std::vector<double>
+ */
 std::vector<double> BallMonitor::ComputeVisibilityMap(const NewRoboControl* robot[6], eSide ourSide, const CoordinatesCalibrer *coordCalib) const
 {
     Position robotPos[6];
@@ -336,6 +412,15 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(const NewRoboControl* robo
     return ComputeVisibilityMap(ballPos, &(robotPos[0]), 6, ourSide);
 }
 
+/**
+ * @brief
+ *
+ * @param pos
+ * @param robotPos
+ * @param nbPos
+ * @param ourSide
+ * @return std::vector<double>
+ */
 std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, const Position *robotPos, int nbPos, eSide ourSide)
 {
     double minAngle, maxAngle;
@@ -390,6 +475,16 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, const Positi
     }
 }
 
+/**
+ * @brief
+ *
+ * @param priority_queue<Angle
+ * @param std::vector<Angle>
+ * @param angles
+ * @param minAngle
+ * @param maxAngle
+ * @return std::vector<double>
+ */
 std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<Angle>, CompareFn> angles, double minAngle, double maxAngle)
 {
     std::vector<int> currentIds;
@@ -430,22 +525,49 @@ std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<A
     return map;
 }
 
+/**
+ * @brief
+ *
+ * @param a1
+ * @param a2
+ * @return bool
+ */
 bool BallMonitor::CompareAngles(const Angle& a1, const Angle& a2)
 {
     return a1.val > a2.val;
 }
 
+/**
+ * @brief
+ *
+ * @param val
+ * @param id
+ * @return BallMonitor::Angle
+ */
 BallMonitor::Angle BallMonitor::CreateAngle(double val, int id)
 {
     Angle a = {val, id};
     return a;
 }
 
+/**
+ * @brief
+ *
+ * @param angle
+ * @return double
+ */
 double BallMonitor::AngleVertMirror(double angle)
 {
     return angle >= 0 ? M_PI-angle : -M_PI-angle;
 }
 
+/**
+ * @brief
+ *
+ * @param map1
+ * @param map2
+ * @return std::vector<double>
+ */
 std::vector<double> BallMonitor::MergeVisibilityMaps(std::vector<double>& map1, std::vector<double>& map2)
 {
     int i1 = 0, i2 = 0;
@@ -487,6 +609,14 @@ std::vector<double> BallMonitor::MergeVisibilityMaps(std::vector<double>& map1, 
 }
 
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param b
+ * @param precision
+ * @return bool
+ */
 bool BallMonitor::ComputeLinearRegression(double *a, double *b, int precision) const
 {
     PosTime tab[NB_POSTIME];
@@ -523,6 +653,10 @@ bool BallMonitor::ComputeLinearRegression(double *a, double *b, int precision) c
     return true;
 }
 
+/**
+ * @brief
+ *
+ */
 void BallMonitor::ResetPosTimeList()
 {
     pthread_mutex_lock(&m_ballMonitoringMtx);
@@ -530,6 +664,11 @@ void BallMonitor::ResetPosTimeList()
     pthread_mutex_unlock(&m_ballMonitoringMtx);
 }
 
+/**
+ * @brief
+ *
+ * @param data
+ */
 void* BallMonitor::BallMonitoringFn(void *data)
 {
     BallMonitor *monitor = (BallMonitor*)data;

@@ -7,6 +7,13 @@
 #include "log.h"
 #include "geometry.h"
 
+/**
+ * @brief
+ *
+ * @param path
+ * @param tgt
+ * @return bool
+ */
 bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
 {
     if (!path)
@@ -16,6 +23,16 @@ bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
     return last.x == tgt.x && last.y == tgt.y;
 }
 
+/**
+ * @brief
+ *
+ * @param DBC
+ * @param deviceNr
+ * @param coordCalib
+ * @param ball
+ * @param ballPm
+ * @param display
+ */
 TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
 {
     m_coordCalib = coordCalib;
@@ -51,6 +68,11 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibre
     GiveDisplay(display);
 }
 
+/**
+ * @brief
+ *
+ * @param small
+ */
 void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
 {
     //Upper border
@@ -74,52 +96,106 @@ void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
     m_borderObstacles[3] = m_pathFinder.AddRectangle(ul, lr);
 }
 
+/**
+ * @brief
+ *
+ */
 TeamRobot::~TeamRobot()
 {
     if (m_pathFinderPath)
         delete m_pathFinderPath;
 }
 
+/**
+ * @brief
+ *
+ * @return Position
+ */
 Position TeamRobot::getDefaultPosition() const
 {
     return m_defaultPos;
 }
 
+/**
+ * @brief
+ *
+ * @param x
+ */
 void TeamRobot::setDefaultPositionX(double x)
 {
     m_defaultPos.SetX(x);
 }
 
+/**
+ * @brief
+ *
+ * @param y
+ */
 void TeamRobot::setDefaultPositionY(double y)
 {
     m_defaultPos.SetY(y);
 }
 
+/**
+ * @brief
+ *
+ * @param pos
+ */
 void TeamRobot::setDefaultPosition(Position pos)
 {
     m_defaultPos = pos;
 }
 
+/**
+ * @brief
+ *
+ * @return const CoordinatesCalibrer *
+ */
 const CoordinatesCalibrer* TeamRobot::getCoordinatesCalibrer() const
 {
     return m_coordCalib;
 }
 
+/**
+ * @brief
+ *
+ * @return RawBall *
+ */
 RawBall* TeamRobot::getBall() const
 {
     return m_ball;
 }
 
+/**
+ * @brief
+ *
+ * @param i
+ * @param j
+ * @return int
+ */
 int TeamRobot::getMapValue(int i, int j) const
 {
     return (i<Interpreter::MAP_WIDTH && j<Interpreter::MAP_HEIGHT && i>0 && j>0) ? m_map[i][j] : 0;
 }
 
+/**
+ * @brief
+ *
+ * @return const Interpreter::Map &
+ */
 const Interpreter::Map& TeamRobot::getMap() const
 {
     return m_map;
 }
 
+/**
+ * @brief
+ *
+ * @param i
+ * @param j
+ * @param val
+ * @return bool
+ */
 bool TeamRobot::setMapValue(int i, int j, int val)
 {
     if (i<Interpreter::MAP_WIDTH && j<Interpreter::MAP_HEIGHT && i>0 && j>0)
@@ -130,11 +206,21 @@ bool TeamRobot::setMapValue(int i, int j, int val)
     return false;
 }
 
+/**
+ * @brief
+ *
+ * @param map
+ */
 void TeamRobot::setMap(const Interpreter::Map &map)
 {
     m_map = map;
 }
 
+/**
+ * @brief
+ *
+ * @param display
+ */
 void TeamRobot::GiveDisplay(RefereeDisplay *display)
 {
     m_display = display;
@@ -144,6 +230,12 @@ void TeamRobot::GiveDisplay(RefereeDisplay *display)
 #endif
 }
 
+/**
+ * @brief
+ *
+ * @param obstacles[]
+ * @param info
+ */
 void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Interpreter::GameData& info)
 {
     //Add obstacles around robots
@@ -200,6 +292,11 @@ void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Inter
     }
 }
 
+/**
+ * @brief
+ *
+ * @param interpreter
+ */
 void TeamRobot::ComputePath(const Interpreter& interpreter)
 {
 #ifdef PATHPLANNING_ASTAR
@@ -294,21 +391,8 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
     ComputeLineAngle(goalPos.GetX(), goalPos.GetY(), ball_n.GetX(), ball_n.GetY(), &cosAngle, &sinAngle);
     ComputeVectorEnd(ball_n.GetX(), ball_n.GetY(), cosAngle, sinAngle, 0.1, &endX, &endY);
 
-    if (fabs(endX) >= 1 || fabs(endY) >= 1)
-    {
-        double isectX[2], isectY[2];
-        if (GetSegmentRectIntersections(-0.98, -0.98, 0.98, 0.98, ball_n.GetX(), ball_n.GetY(), endX, endY, isectX, isectY) > 0)
-        {
-            endX = isectX[0];
-            endY = isectY[0];
-        }
-        else
-        {
-            endX = ball_n.GetX();
-            endY = ball_n.GetY();
-        }
-    }
-
+    endX = std::min(0.98, std::max(-0.98, endX));
+    endY = std::min(0.98, std::max(-0.98, endY));
     PathFinder::Point end = PathFinder::CreatePoint(endX, endY);
 
     m_pathFinderPath = m_pathFinder.ComputePath(start, end);
@@ -346,6 +430,11 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
 #endif
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void TeamRobot::FollowPath(const Interpreter::GameData& info)
 {
     Position ballPos;
@@ -401,6 +490,13 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
 }
 
 
+/**
+ * @brief
+ *
+ * @param otherRobots[]
+ * @param ourSide
+ * @param likePenalty
+ */
 void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, bool likePenalty)
 {
     NewRoboControl *robots[6];
@@ -441,9 +537,17 @@ void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, boo
             usleep(1000);
     }
 
-    KickBall(ballPos, likePenalty);
+    if (likePenalty)
+        KickBall(m_ball->GetPos());
+    else
+        KickMovingBall(m_ball);
 }
 
+/**
+ * @brief
+ *
+ * @param otherRobots[]
+ */
 void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
 {
     Position ballPos;
@@ -464,9 +568,8 @@ void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
 
     Position currentPos = m_coordCalib->NormalizePosition(GetPos());
     double cosAngle, sinAngle;
-    double l = currentPos.DistanceTo(Position(endX, endY));
     ComputeLineAngle(currentPos.GetX(), currentPos.GetY(), endX, endY, &cosAngle, &sinAngle);
-    ComputeVectorEnd(currentPos.GetX(), currentPos.GetY(), cosAngle, sinAngle, l+0.05, &endX, &endY);
+    ComputeVectorEnd(endX, endY, cosAngle, sinAngle, 0.05, &endX, &endY);
 
     Position end = m_coordCalib->UnnormalizePosition(Position(endX, endY));
     for (int j=0 ; GetPos().DistanceTo(end) >= 0.05 && j < 10 ; j++)
@@ -476,10 +579,15 @@ void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
             usleep(20000);
     }
 
-    KickBall(ballPos, true);
+    KickBall(ballPos);
 }
 
-void TeamRobot::KickBall(Position ballPos, bool precise)
+/**
+ * @brief
+ *
+ * @param ballPos
+ */
+void TeamRobot::KickBall(Position ballPos)
 {
     double phi = GetPhi().Get();
 
@@ -496,30 +604,17 @@ void TeamRobot::KickBall(Position ballPos, bool precise)
     double a = forward ? robotBallAngle : robotBallAngle2;
     double diff3 = AngleDiff(a, phi);
 
-    if (!precise)
+    for (int i=0 ; i < 200 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
     {
-        double time = fabs(diff3) * 2710 / (2 * M_PI);
         if (diff3 > 0)
-            MoveMs(-30, 30, 200, 0);
+            MoveMs(-20, 20, 200, 0);
         else if (diff3 < 0)
-            MoveMs(30, -30, 200, 0);
+            MoveMs(20, -20, 200, 0);
 
-        usleep(time);
-    }
-    else
-    {
-        for (int i=0 ; i < 200 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
-        {
-            if (diff3 > 0)
-                MoveMs(-20, 20, 200, 0);
-            else if (diff3 < 0)
-                MoveMs(20, -20, 200, 0);
+        usleep(20000);
 
-            usleep(20000);
-
-            phi = GetPhi().Get();
-            diff3 = AngleDiff(a, phi);
-        }
+        phi = GetPhi().Get();
+        diff3 = AngleDiff(a, phi);
     }
 
     MoveMs(0,0,0,0);
@@ -530,6 +625,58 @@ void TeamRobot::KickBall(Position ballPos, bool precise)
         MoveMsBlocking(-200, -200, 500, 0);
 }
 
+/**
+ * @brief
+ *
+ * @param ball
+ */
+void TeamRobot::KickMovingBall(RawBall *ball)
+{
+    double diff3 = PathFinder::INFINI_TY;
+    bool forward;
+
+    for (int i=0 ; i < 10 && fabs(diff3) > 10 * M_PI / 180 ; i++)
+    {
+        double phi = GetPhi().Get();
+        Position ballPos = ball->GetPos();
+
+        double robotBallAngle;
+        Position pos = GetPos();
+        ComputeLineAngle(pos.GetX(), pos.GetY(), ballPos.GetX(), ballPos.GetY(), &robotBallAngle);
+
+        double diff1 = AngleDiff(robotBallAngle, phi);
+
+        double robotBallAngle2 = robotBallAngle<=0 ? robotBallAngle+M_PI : robotBallAngle-M_PI;
+        double diff2 = AngleDiff(robotBallAngle2, phi);
+
+        forward = fabs(diff1) < fabs(diff2);
+        double a = forward ? robotBallAngle : robotBallAngle2;
+        double diff3 = AngleDiff(a, phi);
+
+        double time = fabs(diff3) * 2710 / (2 * M_PI);
+        if (diff3 > 0)
+            MoveMs(-30, 30, 200, 0);
+        else if (diff3 < 0)
+            MoveMs(30, -30, 200, 0);
+
+        usleep(time);
+    }
+
+    MoveMs(0,0,0,0);
+
+    if (forward)
+        MoveMsBlocking(200, 200, 500, 0);
+    else
+        MoveMsBlocking(-200, -200, 500, 0);
+}
+
+/**
+ * @brief
+ *
+ * @param ballPos
+ * @param goalPos
+ * @return bool
+ */
 bool TeamRobot::ShouldKick(Position ballPos, Position goalPos)
 {
     Position pos = GetPos();
@@ -547,6 +694,13 @@ bool TeamRobot::ShouldKick(Position ballPos, Position goalPos)
     return false;
 }
 
+/**
+ * @brief
+ *
+ * @param ballPos
+ * @param ourSide
+ * @return bool
+ */
 bool TeamRobot::ShouldGoalKick(Position ballPos, eSide ourSide)
 {
     double robotBallAngle;
@@ -564,6 +718,13 @@ bool TeamRobot::ShouldGoalKick(Position ballPos, eSide ourSide)
     return false;
 }
 
+/**
+ * @brief
+ *
+ * @param angle1
+ * @param angle2
+ * @return double
+ */
 double TeamRobot::AngleDiff(double angle1, double angle2)
 {
     double diff = fmod(angle1 - angle2 + 2*M_PI, 2*M_PI);

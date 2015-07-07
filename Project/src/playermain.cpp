@@ -19,11 +19,26 @@
 
 using namespace std;
 
+/**
+ * @brief
+ *
+ * @param DBC
+ * @param deviceNr
+ * @param c
+ * @param b
+ * @param ballPm
+ * @param display
+ */
 PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *c, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, c, b, ballPm, display)
 {
     memset(m_otherRobots, 0, sizeof(NewRoboControl*) * 5);
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 {
     switch(info.mode)
@@ -62,6 +77,11 @@ void PlayerMain::setNextCmd(const Interpreter::GameData& info)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param interpreter
+ */
 void PlayerMain::setCmdParam(const Interpreter& interpreter)
 {
     switch(m_nextCmd)
@@ -87,6 +107,11 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void PlayerMain::performCmd(const Interpreter::GameData& info)
 {
     switch(m_nextCmd)
@@ -114,6 +139,11 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
@@ -141,41 +171,45 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 
 //Player main defend the goal corners
 //could be used in Defend Mode for P2
-/*void defend_p2(void)
+/**
+ * @brief
+ *
+ */
+void PlayerMain::defend_p2(void)
 {
     static int counter = 0;
     double y;
     if (counter >= 10)        //Counter for Cruisetobias function
     {
-      m_ballpt->GetBallPosition(&m_defendp2);
-      y = defendp2.GetY();
+        m_ballpm->GetBallPosition(&m_defendp2);
+        y = m_defendp2.GetY();
 
-      //define Goal borders
-      if (y > 0.35)
-      {
-        y = 0.5;
-        m_defendp2.SetX(-1.4);
-      }
+        //define Goal borders
+        if (y > 0.35)
+        {
+            y = 0.5;
+            m_defendp2.SetX(-1.4);
+        }
 
-      else if (y < -0.25)
-      {
-        y = -0.5;
-        m_defendp2.SetX(-1.4);
-      }
+        else if (y < -0.25)
+        {
+            y = -0.5;
+            m_defendp2.SetX(-1.4);
+        }
 
-      else if (y < 0.3 && 0 < y)
-      {
-        y = 0.5;
-        m_defendp2.SetX(-0.5);
-      }
-      else if (-0.2 < y && y < 0)
-      {
-        y = -0.5;
-        m_defendp2.SetX(-0.5);
-      }
-      m_defendp2.SetY(y);
-      counter = 0;
+        else if (y < 0.3 && 0 < y)
+        {
+            y = 0.5;
+            m_defendp2.SetX(-0.5);
+        }
+        else if (-0.2 < y && y < 0)
+        {
+            y = -0.5;
+            m_defendp2.SetX(-0.5);
+        }
+        m_defendp2.SetY(y);
+        counter = 0;
     }
     counter++;
-}*/
+}
 

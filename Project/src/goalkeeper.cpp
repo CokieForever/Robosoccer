@@ -11,10 +11,24 @@
 #include "log.h"
 
 
+/**
+ * @brief
+ *
+ * @param DBC
+ * @param deviceNr
+ * @param coordCalib
+ * @param b
+ * @param ballPm
+ */
 Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm)
 {
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
 {
     switch(info.mode)
@@ -45,6 +59,11 @@ void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
 
 }
 
+/**
+ * @brief
+ *
+ * @param interpreter
+ */
 void Goalkeeper::setCmdParam(const Interpreter& interpreter)
 {
     switch(m_nextCmd)
@@ -91,6 +110,11 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void Goalkeeper::performCmd(const Interpreter::GameData& info)
 {
 
@@ -109,6 +133,11 @@ void Goalkeeper::performCmd(const Interpreter::GameData& info)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param info
+ */
 void Goalkeeper::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     m_areaObstacle = NULL;
