@@ -4,12 +4,25 @@
 #include "sdlutilities.h"
 #include <queue>
 
+/**
+ * @brief
+ *
+ * @param x
+ * @param y
+ * @return Matrix::Point
+ */
 Matrix::Point Matrix::CreatePoint(int x, int y)
 {
     Point pt = {x, y};
     return pt;
 }
 
+/**
+ * @brief
+ *
+ * @param height
+ * @param width
+ */
 Matrix::Matrix(int height, int width)
 {
     if (height <= 0)
@@ -24,6 +37,11 @@ Matrix::Matrix(int height, int width)
     pthread_mutex_init(&m_mutex, NULL);
 }
 
+/**
+ * @brief
+ *
+ * @param matrix
+ */
 Matrix::Matrix(const Matrix& matrix)
 {
     pthread_mutex_lock((pthread_mutex_t*)&(matrix.m_mutex));
@@ -36,6 +54,10 @@ Matrix::Matrix(const Matrix& matrix)
     pthread_mutex_init(&m_mutex, NULL);
 }
 
+/**
+ * @brief
+ *
+ */
 Matrix::~Matrix()
 {
     SDL_UnlockSurface(m_surface);
@@ -43,6 +65,12 @@ Matrix::~Matrix()
     pthread_mutex_destroy(&m_mutex);
 }
 
+/**
+ * @brief
+ *
+ * @param matrix
+ * @return Matrix & Matrix::operator
+ */
 Matrix& Matrix::operator=(const Matrix& matrix)
 {
     if (&matrix == this)
@@ -67,6 +95,11 @@ Matrix& Matrix::operator=(const Matrix& matrix)
     return *this;
 }
 
+/**
+ * @brief
+ *
+ * @param number
+ */
 void Matrix::Fill(Uint8 number)
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
@@ -76,6 +109,13 @@ void Matrix::Fill(Uint8 number)
     pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
 }
 
+/**
+ * @brief
+ *
+ * @param ul
+ * @param lr
+ * @param number
+ */
 void Matrix::DrawRectangle(Point ul, Point lr, Uint8 number)
 {
     SDL_Rect rect = {ul.x, ul.y, lr.x - ul.x + 1, lr.y - ul.y + 1};
@@ -86,6 +126,14 @@ void Matrix::DrawRectangle(Point ul, Point lr, Uint8 number)
     pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
 }
 
+/**
+ * @brief
+ *
+ * @param start
+ * @param end
+ * @param thickness
+ * @param number
+ */
 void Matrix::DrawThickLine(Point start, Point end, int thickness, Uint8 number)
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
@@ -93,12 +141,26 @@ void Matrix::DrawThickLine(Point start, Point end, int thickness, Uint8 number)
     pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
 }
 
+/**
+ * @brief
+ *
+ * @param center
+ * @param radius
+ * @param number
+ */
 void Matrix::DrawCircle(Point center, int radius, Uint8 number)
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
     filledCircleColor(m_surface, center.x, center.y, radius, number << 24 | 0xFF);
 }
 
+/**
+ * @brief
+ *
+ * @param points
+ * @param n
+ * @param number
+ */
 void Matrix::DrawPolygon(Point *points, int n, Uint8 number)
 {
     Sint16 *vx = new Sint16[n];
@@ -116,6 +178,12 @@ void Matrix::DrawPolygon(Point *points, int n, Uint8 number)
 }
 
 //From http://will.thimbleby.net/scanline-flood-fill/
+/**
+ * @brief
+ *
+ * @param start
+ * @param number
+ */
 void Matrix::FloodFill(Point start, Uint8 number)
 {
     Uint8 i = Get(start.x, start.y);
@@ -169,6 +237,19 @@ void Matrix::FloodFill(Point start, Uint8 number)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param newY
+ * @param isNext
+ * @param downwards
+ * @param minX
+ * @param maxX
+ * @param i
+ * @param number
+ * @param ffs
+ * @param ranges
+ */
 void Matrix::flood_AddNextLine(int newY, bool isNext, bool downwards, int minX, int maxX, int i, int number, FloodFillStruct ffs, queue<FloodFillStruct>& ranges)
 {
     int rMinX = minX;
@@ -206,6 +287,13 @@ void Matrix::flood_AddNextLine(int newY, bool isNext, bool downwards, int minX, 
     }
 }
 
+/**
+ * @brief
+ *
+ * @param x
+ * @param y
+ * @return Uint8 &
+ */
 Uint8& Matrix::Get(int x, int y) const
 {
     if (x >= m_surface->w || x < 0  || y >= m_surface->h || y < 0)

@@ -1,0 +1,269 @@
+\hypertarget{classRefereeDisplay}{
+\section{RefereeDisplay Class Reference}
+\label{classRefereeDisplay}\index{RefereeDisplay@{RefereeDisplay}}
+}
+
+
+{\ttfamily \#include $<$refereedisplay.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classRefereeDisplay_a8f7d4872a24b44b96a36a5bbf991f5d2}{RefereeDisplay} (\hyperlink{classBallMonitor}{BallMonitor} $\ast$ballMonitor, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalibrer, int screenW=800, int screenH=600, \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$$\ast$robots=NULL, const \hyperlink{classInterpreter}{Interpreter} $\ast$interpreter=NULL)
+\item 
+\hyperlink{classRefereeDisplay_a5a9191c0d7f937df62ea9544d9e38f3b}{$\sim$RefereeDisplay} ()
+\item 
+bool \hyperlink{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}{StartDisplay} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$$\ast$robots=NULL, const \hyperlink{classInterpreter}{Interpreter} $\ast$interpreter=NULL, const \hyperlink{classMatrix}{Interpreter::Map} $\ast$map=NULL)
+\item 
+bool \hyperlink{classRefereeDisplay_aafa710132ce88c4e6cb4d430baf26173}{StopDisplay} ()
+\item 
+bool \hyperlink{classRefereeDisplay_a216bbade42b7c7694f69d73c35620fc6}{IsActive} () const 
+\item 
+void \hyperlink{classRefereeDisplay_a0ef334a53e0fde02da30460ed2fcbe06}{DisplayPathFinder} (\hyperlink{classPathFinder}{PathFinder} $\ast$pathFinder)
+\item 
+void \hyperlink{classRefereeDisplay_ad7f07077e92fd46956bf1aa25715e414}{DisplayPath} (const \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{PathFinder::Path} path)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classRefereeDisplay_a9c18f26c62f9507f903ec9b29c1bfea8}{CreateMapDisplay} (const \hyperlink{classMatrix}{Interpreter::Map} $\ast$map)
+\item 
+void \hyperlink{classRefereeDisplay_ae40cc8040d1fe441a8f38fe2fc0b8974}{DisplayWeb} (const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} \&polygon, SDL\_\-Surface $\ast$screen)
+\item 
+SDL\_\-Rect \hyperlink{classRefereeDisplay_a56d7e17a5fb16cbe64fb7ef3e4f28af0}{PosToRect} (Position pos, int w=0, int h=0)
+\item 
+Position \hyperlink{classRefereeDisplay_a4abb9b85d92cbdd30fe6fd29a17c3767}{RectToPos} (SDL\_\-Rect rect)
+\item 
+Position \hyperlink{classRefereeDisplay_afa7601bcd5b6361398f48f2fb1d6ead4}{GetBallPos} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void $\ast$ \hyperlink{classRefereeDisplay_a0aecfa7e27f573859a1bb037aca9693a}{RefDisplayFn} (void $\ast$data)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classRefereeDisplay_af3bb14682e53eef2d7d9e664f84e6ba1}{m\_\-keepGoing}
+\item 
+bool \hyperlink{classRefereeDisplay_a12bdb098bcf59351f55bc7beb922ac62}{m\_\-isDisplaying}
+\item 
+pthread\_\-t \hyperlink{classRefereeDisplay_aded3908927ad3726777ece4d52cf3ca2}{m\_\-displayThread}
+\item 
+int \hyperlink{classRefereeDisplay_aed7aa88d65bc9b4f79fe8dd2598a92e5}{m\_\-screenW}
+\item 
+int \hyperlink{classRefereeDisplay_a136af0a18d0eadffbcaa755fdf76e328}{m\_\-screenH}
+\item 
+\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$ \hyperlink{classRefereeDisplay_a4a777a38327f96fe1e5c9051b6c3c38f}{m\_\-robots} \mbox{[}6\mbox{]}
+\item 
+const \hyperlink{classInterpreter}{Interpreter} $\ast$ \hyperlink{classRefereeDisplay_a510383c894f917032aadc71f1f31074f}{m\_\-interpreter}
+\item 
+eTeam \hyperlink{classRefereeDisplay_a02ec6cdc79904b4727553f6802c36d9e}{m\_\-team}
+\item 
+\hyperlink{classBallMonitor}{BallMonitor} $\ast$ \hyperlink{classRefereeDisplay_ab3a1d764a476c413ed1f19be2c9a1215}{m\_\-ballMonitor}
+\item 
+const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ \hyperlink{classRefereeDisplay_a7be832637684b08b915a2ff3c6c0d9f2}{m\_\-coordCalibrer}
+\item 
+\hyperlink{classMapDisplay}{MapDisplay} $\ast$ \hyperlink{classRefereeDisplay_a07fda892af04771c6484160fb0e5585f}{m\_\-mapDisplay}
+\item 
+std::vector$<$ \hyperlink{structPathFinder_1_1Point}{PathFinder::Point} $>$ \hyperlink{classRefereeDisplay_a582b6bcc0204a2876b629e8ceebc8abd}{m\_\-path}
+\item 
+\hyperlink{classPathFinder}{PathFinder} $\ast$ \hyperlink{classRefereeDisplay_a0ccee8231a72e1a906dff856e072d5a0}{m\_\-pathFinder}
+\item 
+pthread\_\-mutex\_\-t \hyperlink{classRefereeDisplay_a2ec44bb3c993cb8e518a730153116da7}{m\_\-pathMutex}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classRefereeDisplay_a8f7d4872a24b44b96a36a5bbf991f5d2}{
+\index{RefereeDisplay@{RefereeDisplay}!RefereeDisplay@{RefereeDisplay}}
+\index{RefereeDisplay@{RefereeDisplay}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{RefereeDisplay}]{\setlength{\rightskip}{0pt plus 5cm}RefereeDisplay::RefereeDisplay ({\bf BallMonitor} $\ast$ {\em ballMonitor}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em coordCalibrer}, \/  int {\em screenW} = {\ttfamily 800}, \/  int {\em screenH} = {\ttfamily 600}, \/  {\bf NewRoboControl} $\ast$$\ast$ {\em robots} = {\ttfamily NULL}, \/  const {\bf Interpreter} $\ast$ {\em interpreter} = {\ttfamily NULL})}}
+\label{classRefereeDisplay_a8f7d4872a24b44b96a36a5bbf991f5d2}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ballMonitor}]\item[{\em coordCalibrer}]\item[{\em screenW}]\item[{\em screenH}]\item[{\em robots}]\item[{\em interpreter}]\end{DoxyParams}
+\hypertarget{classRefereeDisplay_a5a9191c0d7f937df62ea9544d9e38f3b}{
+\index{RefereeDisplay@{RefereeDisplay}!$\sim$RefereeDisplay@{$\sim$RefereeDisplay}}
+\index{$\sim$RefereeDisplay@{$\sim$RefereeDisplay}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{$\sim$RefereeDisplay}]{\setlength{\rightskip}{0pt plus 5cm}RefereeDisplay::$\sim$RefereeDisplay ()}}
+\label{classRefereeDisplay_a5a9191c0d7f937df62ea9544d9e38f3b}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classRefereeDisplay_a9c18f26c62f9507f903ec9b29c1bfea8}{
+\index{RefereeDisplay@{RefereeDisplay}!CreateMapDisplay@{CreateMapDisplay}}
+\index{CreateMapDisplay@{CreateMapDisplay}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{CreateMapDisplay}]{\setlength{\rightskip}{0pt plus 5cm}void RefereeDisplay::CreateMapDisplay (const {\bf Interpreter::Map} $\ast$ {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a9c18f26c62f9507f903ec9b29c1bfea8}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classRefereeDisplay_ad7f07077e92fd46956bf1aa25715e414}{
+\index{RefereeDisplay@{RefereeDisplay}!DisplayPath@{DisplayPath}}
+\index{DisplayPath@{DisplayPath}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{DisplayPath}]{\setlength{\rightskip}{0pt plus 5cm}void RefereeDisplay::DisplayPath (const {\bf PathFinder::Path} {\em path})}}
+\label{classRefereeDisplay_ad7f07077e92fd46956bf1aa25715e414}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em path}]\end{DoxyParams}
+\hypertarget{classRefereeDisplay_a0ef334a53e0fde02da30460ed2fcbe06}{
+\index{RefereeDisplay@{RefereeDisplay}!DisplayPathFinder@{DisplayPathFinder}}
+\index{DisplayPathFinder@{DisplayPathFinder}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{DisplayPathFinder}]{\setlength{\rightskip}{0pt plus 5cm}void RefereeDisplay::DisplayPathFinder ({\bf PathFinder} $\ast$ {\em pathFinder})}}
+\label{classRefereeDisplay_a0ef334a53e0fde02da30460ed2fcbe06}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pathFinder}]\end{DoxyParams}
+\hypertarget{classRefereeDisplay_ae40cc8040d1fe441a8f38fe2fc0b8974}{
+\index{RefereeDisplay@{RefereeDisplay}!DisplayWeb@{DisplayWeb}}
+\index{DisplayWeb@{DisplayWeb}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{DisplayWeb}]{\setlength{\rightskip}{0pt plus 5cm}void RefereeDisplay::DisplayWeb (const {\bf PathFinder::ConvexPolygon} \& {\em polygon}, \/  SDL\_\-Surface $\ast$ {\em screen})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_ae40cc8040d1fe441a8f38fe2fc0b8974}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em polygon}]\item[{\em screen}]\end{DoxyParams}
+\hypertarget{classRefereeDisplay_afa7601bcd5b6361398f48f2fb1d6ead4}{
+\index{RefereeDisplay@{RefereeDisplay}!GetBallPos@{GetBallPos}}
+\index{GetBallPos@{GetBallPos}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{GetBallPos}]{\setlength{\rightskip}{0pt plus 5cm}Position RefereeDisplay::GetBallPos ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_afa7601bcd5b6361398f48f2fb1d6ead4}
+\begin{DoxyReturn}{Returns}
+Position 
+\end{DoxyReturn}
+\hypertarget{classRefereeDisplay_a216bbade42b7c7694f69d73c35620fc6}{
+\index{RefereeDisplay@{RefereeDisplay}!IsActive@{IsActive}}
+\index{IsActive@{IsActive}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{IsActive}]{\setlength{\rightskip}{0pt plus 5cm}bool RefereeDisplay::IsActive () const}}
+\label{classRefereeDisplay_a216bbade42b7c7694f69d73c35620fc6}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classRefereeDisplay_a56d7e17a5fb16cbe64fb7ef3e4f28af0}{
+\index{RefereeDisplay@{RefereeDisplay}!PosToRect@{PosToRect}}
+\index{PosToRect@{PosToRect}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{PosToRect}]{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Rect RefereeDisplay::PosToRect (Position {\em pos}, \/  int {\em w} = {\ttfamily 0}, \/  int {\em h} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a56d7e17a5fb16cbe64fb7ef3e4f28af0}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pos}]\item[{\em w}]\item[{\em h}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+SDL\_\-Rect 
+\end{DoxyReturn}
+\hypertarget{classRefereeDisplay_a4abb9b85d92cbdd30fe6fd29a17c3767}{
+\index{RefereeDisplay@{RefereeDisplay}!RectToPos@{RectToPos}}
+\index{RectToPos@{RectToPos}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{RectToPos}]{\setlength{\rightskip}{0pt plus 5cm}Position RefereeDisplay::RectToPos (SDL\_\-Rect {\em rect})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a4abb9b85d92cbdd30fe6fd29a17c3767}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em rect}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Position 
+\end{DoxyReturn}
+\hypertarget{classRefereeDisplay_a0aecfa7e27f573859a1bb037aca9693a}{
+\index{RefereeDisplay@{RefereeDisplay}!RefDisplayFn@{RefDisplayFn}}
+\index{RefDisplayFn@{RefDisplayFn}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{RefDisplayFn}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ RefereeDisplay::RefDisplayFn (void $\ast$ {\em data})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classRefereeDisplay_a0aecfa7e27f573859a1bb037aca9693a}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em data}]\end{DoxyParams}
+\hypertarget{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}{
+\index{RefereeDisplay@{RefereeDisplay}!StartDisplay@{StartDisplay}}
+\index{StartDisplay@{StartDisplay}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{StartDisplay}]{\setlength{\rightskip}{0pt plus 5cm}bool RefereeDisplay::StartDisplay ({\bf NewRoboControl} $\ast$$\ast$ {\em robots} = {\ttfamily NULL}, \/  const {\bf Interpreter} $\ast$ {\em interpreter} = {\ttfamily NULL}, \/  const {\bf Interpreter::Map} $\ast$ {\em map} = {\ttfamily NULL})}}
+\label{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robots}]\item[{\em interpreter}]\item[{\em map}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classRefereeDisplay_aafa710132ce88c4e6cb4d430baf26173}{
+\index{RefereeDisplay@{RefereeDisplay}!StopDisplay@{StopDisplay}}
+\index{StopDisplay@{StopDisplay}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{StopDisplay}]{\setlength{\rightskip}{0pt plus 5cm}bool RefereeDisplay::StopDisplay ()}}
+\label{classRefereeDisplay_aafa710132ce88c4e6cb4d430baf26173}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classRefereeDisplay_ab3a1d764a476c413ed1f19be2c9a1215}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-ballMonitor@{m\_\-ballMonitor}}
+\index{m\_\-ballMonitor@{m\_\-ballMonitor}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-ballMonitor}]{\setlength{\rightskip}{0pt plus 5cm}{\bf BallMonitor}$\ast$ {\bf RefereeDisplay::m\_\-ballMonitor}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_ab3a1d764a476c413ed1f19be2c9a1215}
+TODO \hypertarget{classRefereeDisplay_a7be832637684b08b915a2ff3c6c0d9f2}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-coordCalibrer@{m\_\-coordCalibrer}}
+\index{m\_\-coordCalibrer@{m\_\-coordCalibrer}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-coordCalibrer}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf CoordinatesCalibrer}$\ast$ {\bf RefereeDisplay::m\_\-coordCalibrer}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a7be832637684b08b915a2ff3c6c0d9f2}
+TODO \hypertarget{classRefereeDisplay_aded3908927ad3726777ece4d52cf3ca2}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-displayThread@{m\_\-displayThread}}
+\index{m\_\-displayThread@{m\_\-displayThread}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-displayThread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-t {\bf RefereeDisplay::m\_\-displayThread}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_aded3908927ad3726777ece4d52cf3ca2}
+TODO \hypertarget{classRefereeDisplay_a510383c894f917032aadc71f1f31074f}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-interpreter@{m\_\-interpreter}}
+\index{m\_\-interpreter@{m\_\-interpreter}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-interpreter}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Interpreter}$\ast$ {\bf RefereeDisplay::m\_\-interpreter}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a510383c894f917032aadc71f1f31074f}
+TODO \hypertarget{classRefereeDisplay_a12bdb098bcf59351f55bc7beb922ac62}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-isDisplaying@{m\_\-isDisplaying}}
+\index{m\_\-isDisplaying@{m\_\-isDisplaying}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-isDisplaying}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf RefereeDisplay::m\_\-isDisplaying}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a12bdb098bcf59351f55bc7beb922ac62}
+TODO \hypertarget{classRefereeDisplay_af3bb14682e53eef2d7d9e664f84e6ba1}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-keepGoing@{m\_\-keepGoing}}
+\index{m\_\-keepGoing@{m\_\-keepGoing}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-keepGoing}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf RefereeDisplay::m\_\-keepGoing}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_af3bb14682e53eef2d7d9e664f84e6ba1}
+TODO \hypertarget{classRefereeDisplay_a07fda892af04771c6484160fb0e5585f}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-mapDisplay@{m\_\-mapDisplay}}
+\index{m\_\-mapDisplay@{m\_\-mapDisplay}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-mapDisplay}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MapDisplay}$\ast$ {\bf RefereeDisplay::m\_\-mapDisplay}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a07fda892af04771c6484160fb0e5585f}
+TODO \hypertarget{classRefereeDisplay_a582b6bcc0204a2876b629e8ceebc8abd}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-path@{m\_\-path}}
+\index{m\_\-path@{m\_\-path}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<${\bf PathFinder::Point}$>$ {\bf RefereeDisplay::m\_\-path}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a582b6bcc0204a2876b629e8ceebc8abd}
+TODO \hypertarget{classRefereeDisplay_a0ccee8231a72e1a906dff856e072d5a0}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-pathFinder@{m\_\-pathFinder}}
+\index{m\_\-pathFinder@{m\_\-pathFinder}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-pathFinder}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PathFinder}$\ast$ {\bf RefereeDisplay::m\_\-pathFinder}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a0ccee8231a72e1a906dff856e072d5a0}
+TODO \hypertarget{classRefereeDisplay_a2ec44bb3c993cb8e518a730153116da7}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-pathMutex@{m\_\-pathMutex}}
+\index{m\_\-pathMutex@{m\_\-pathMutex}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-pathMutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-mutex\_\-t {\bf RefereeDisplay::m\_\-pathMutex}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a2ec44bb3c993cb8e518a730153116da7}
+TODO \hypertarget{classRefereeDisplay_a4a777a38327f96fe1e5c9051b6c3c38f}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-robots@{m\_\-robots}}
+\index{m\_\-robots@{m\_\-robots}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-robots}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NewRoboControl}$\ast$ {\bf RefereeDisplay::m\_\-robots}\mbox{[}6\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a4a777a38327f96fe1e5c9051b6c3c38f}
+TODO \hypertarget{classRefereeDisplay_a136af0a18d0eadffbcaa755fdf76e328}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-screenH@{m\_\-screenH}}
+\index{m\_\-screenH@{m\_\-screenH}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-screenH}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf RefereeDisplay::m\_\-screenH}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a136af0a18d0eadffbcaa755fdf76e328}
+TODO \hypertarget{classRefereeDisplay_aed7aa88d65bc9b4f79fe8dd2598a92e5}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-screenW@{m\_\-screenW}}
+\index{m\_\-screenW@{m\_\-screenW}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-screenW}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf RefereeDisplay::m\_\-screenW}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_aed7aa88d65bc9b4f79fe8dd2598a92e5}
+\hypertarget{classRefereeDisplay_a02ec6cdc79904b4727553f6802c36d9e}{
+\index{RefereeDisplay@{RefereeDisplay}!m\_\-team@{m\_\-team}}
+\index{m\_\-team@{m\_\-team}!RefereeDisplay@{RefereeDisplay}}
+\subsubsection[{m\_\-team}]{\setlength{\rightskip}{0pt plus 5cm}eTeam {\bf RefereeDisplay::m\_\-team}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classRefereeDisplay_a02ec6cdc79904b4727553f6802c36d9e}
+TODO 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{refereedisplay_8h}{refereedisplay.h}\item 
+src/\hyperlink{refereedisplay_8cpp}{refereedisplay.cpp}\end{DoxyCompactItemize}

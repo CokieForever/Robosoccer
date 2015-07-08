@@ -15,14 +15,22 @@
 #include "robo_control.h"
 #include <vector>
 
+/**
+ * @brief
+ *
+ */
 class NewRoboControl : public RoboControl
 {
 
 public:
+    /**
+     * @brief
+     *
+     */
     enum eDirection
     {
-        FORWARD,
-        BACKWARD
+        FORWARD,    /**< TODO */
+        BACKWARD    /**< TODO */
     };
 
     static eDirection getDirection(double nominal, double actual);
@@ -45,9 +53,9 @@ public:
     pthread_t m_thread;
 
 private:
-    bool m_stopCruisingNow;
-    bool m_isCruising;
-    pthread_t m_cruiseThread;
+    bool m_stopCruisingNow;     /**< TODO */
+    bool m_isCruising;          /**< TODO */
+    pthread_t m_cruiseThread;   /**< TODO */
     /*
     Position m_targetPos;
     bool m_checkSpeedFinishNow;

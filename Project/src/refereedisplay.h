@@ -14,6 +14,10 @@
 #include "pathfinder.h"
 #include <vector>
 
+/**
+ * @brief
+ *
+ */
 class RefereeDisplay
 {
 
@@ -32,19 +36,19 @@ public:
 private:
     static void* RefDisplayFn(void *data);
 
-    bool m_keepGoing;
-    bool m_isDisplaying;
-    pthread_t m_displayThread;
-    int m_screenW, m_screenH;
-    NewRoboControl *m_robots[6];
-    const Interpreter *m_interpreter;
-    eTeam m_team;
-    BallMonitor *m_ballMonitor;
-    const CoordinatesCalibrer *m_coordCalibrer;
-    MapDisplay *m_mapDisplay;
-    std::vector<PathFinder::Point> m_path;
-    PathFinder *m_pathFinder;
-    pthread_mutex_t m_pathMutex;
+    bool m_keepGoing;                               /**< TODO */
+    bool m_isDisplaying;                            /**< TODO */
+    pthread_t m_displayThread;                      /**< TODO */
+    int m_screenW, m_screenH;                       /**< TODO */
+    NewRoboControl *m_robots[6];                    /**< TODO */
+    const Interpreter *m_interpreter;               /**< TODO */
+    eTeam m_team;                                   /**< TODO */
+    BallMonitor *m_ballMonitor;                     /**< TODO */
+    const CoordinatesCalibrer *m_coordCalibrer;     /**< TODO */
+    MapDisplay *m_mapDisplay;                       /**< TODO */
+    std::vector<PathFinder::Point> m_path;          /**< TODO */
+    PathFinder *m_pathFinder;                       /**< TODO */
+    pthread_mutex_t m_pathMutex;                    /**< TODO */
 
     void CreateMapDisplay(const Interpreter::Map *map);
     void DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Surface *screen);

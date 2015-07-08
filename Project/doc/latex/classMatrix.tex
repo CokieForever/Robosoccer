@@ -1,0 +1,214 @@
+\hypertarget{classMatrix}{
+\section{Matrix Class Reference}
+\label{classMatrix}\index{Matrix@{Matrix}}
+}
+
+
+{\ttfamily \#include $<$matrix.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structMatrix_1_1FloodFillStruct}{FloodFillStruct}
+\item 
+class \hyperlink{classMatrix_1_1MatrixProxy}{MatrixProxy}
+\item 
+struct \hyperlink{structMatrix_1_1Point}{Point}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classMatrix_1_1MatrixProxy}{MatrixProxy} \hyperlink{classMatrix_ab54bf109f85ced0472a7e0c03d16471c}{operator\mbox{[}$\,$\mbox{]}} (int i) const 
+\item 
+\hyperlink{classMatrix_a1cf5bd8134711df6f63e1dbef1912b86}{Matrix} (int height=0, int width=0)
+\item 
+\hyperlink{classMatrix_a9b1c3627f573d78a2f08623fdfef990f}{$\sim$Matrix} ()
+\item 
+\hyperlink{classMatrix_a2b1fedfb1b076d4ae504d2c61019871f}{Matrix} (const \hyperlink{classMatrix}{Matrix} \&matrix)
+\item 
+\hyperlink{classMatrix}{Matrix} \& \hyperlink{classMatrix_a45e4814b752129bed1f1316632f8543a}{operator=} (const \hyperlink{classMatrix}{Matrix} \&matrix)
+\item 
+Uint8 \& \hyperlink{classMatrix_a06fc8df480cd88daf69eaa05867cb7bd}{Get} (int i, int j) const 
+\item 
+void \hyperlink{classMatrix_a4a7c3875be94e94786db920c441973e6}{Fill} (Uint8 number)
+\item 
+void \hyperlink{classMatrix_a55977ba3ee91f352759f446a5092ea23}{DrawRectangle} (\hyperlink{structMatrix_1_1Point}{Point} ul, \hyperlink{structMatrix_1_1Point}{Point} lr, Uint8 number)
+\item 
+void \hyperlink{classMatrix_a8aecf2d42e65b27f051c8af79aeeb467}{DrawThickLine} (\hyperlink{structMatrix_1_1Point}{Point} start, \hyperlink{structMatrix_1_1Point}{Point} end, int thickness, Uint8 number)
+\item 
+void \hyperlink{classMatrix_a9dd7af97fcc825ca07a64b28050cb44f}{DrawCircle} (\hyperlink{structMatrix_1_1Point}{Point} center, int radius, Uint8 number)
+\item 
+void \hyperlink{classMatrix_a3b2f9c59a4cc8da933de12f4ccb867f6}{DrawPolygon} (\hyperlink{structMatrix_1_1Point}{Point} $\ast$points, int n, Uint8 number)
+\item 
+void \hyperlink{classMatrix_a7209ed0123ff3686f0d0f7f4e6ac7094}{FloodFill} (\hyperlink{structMatrix_1_1Point}{Point} start, Uint8 number)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structMatrix_1_1Point}{Point} \hyperlink{classMatrix_a39929c70aea7926beaf183b374239558}{CreatePoint} (int x, int y)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classMatrix_aaa3962d9bf27f654bd6771a8d5bfaeac}{flood\_\-AddNextLine} (int newY, bool isNext, bool downwards, int minX, int maxX, int i, int number, \hyperlink{structMatrix_1_1FloodFillStruct}{FloodFillStruct} ffs, std::queue$<$ \hyperlink{structMatrix_1_1FloodFillStruct}{FloodFillStruct} $>$ \&ranges)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+SDL\_\-Surface $\ast$ \hyperlink{classMatrix_a76ecc20ed053f699bcf299958be9f4a1}{m\_\-surface}
+\item 
+pthread\_\-mutex\_\-t \hyperlink{classMatrix_aba01078d3f7abfceae9f6ce1913bbdc3}{m\_\-mutex}
+\end{DoxyCompactItemize}
+\subsection*{Static Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static Uint8 \hyperlink{classMatrix_a128eca9782b86bae0eed3d1d0967249e}{m\_\-default} = 0
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classMatrix_a1cf5bd8134711df6f63e1dbef1912b86}{
+\index{Matrix@{Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Matrix@{Matrix}}
+\subsubsection[{Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Matrix::Matrix (int {\em height} = {\ttfamily 0}, \/  int {\em width} = {\ttfamily 0})}}
+\label{classMatrix_a1cf5bd8134711df6f63e1dbef1912b86}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em height}]\item[{\em width}]\end{DoxyParams}
+\hypertarget{classMatrix_a9b1c3627f573d78a2f08623fdfef990f}{
+\index{Matrix@{Matrix}!$\sim$Matrix@{$\sim$Matrix}}
+\index{$\sim$Matrix@{$\sim$Matrix}!Matrix@{Matrix}}
+\subsubsection[{$\sim$Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Matrix::$\sim$Matrix ()}}
+\label{classMatrix_a9b1c3627f573d78a2f08623fdfef990f}
+\hypertarget{classMatrix_a2b1fedfb1b076d4ae504d2c61019871f}{
+\index{Matrix@{Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Matrix@{Matrix}}
+\subsubsection[{Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Matrix::Matrix (const {\bf Matrix} \& {\em matrix})}}
+\label{classMatrix_a2b1fedfb1b076d4ae504d2c61019871f}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em matrix}]\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classMatrix_a39929c70aea7926beaf183b374239558}{
+\index{Matrix@{Matrix}!CreatePoint@{CreatePoint}}
+\index{CreatePoint@{CreatePoint}!Matrix@{Matrix}}
+\subsubsection[{CreatePoint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix::Point} Matrix::CreatePoint (int {\em x}, \/  int {\em y})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classMatrix_a39929c70aea7926beaf183b374239558}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em x}]\item[{\em y}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{structMatrix_1_1Point}{Matrix::Point} 
+\end{DoxyReturn}
+\hypertarget{classMatrix_a9dd7af97fcc825ca07a64b28050cb44f}{
+\index{Matrix@{Matrix}!DrawCircle@{DrawCircle}}
+\index{DrawCircle@{DrawCircle}!Matrix@{Matrix}}
+\subsubsection[{DrawCircle}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::DrawCircle ({\bf Point} {\em center}, \/  int {\em radius}, \/  Uint8 {\em number})}}
+\label{classMatrix_a9dd7af97fcc825ca07a64b28050cb44f}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em center}]\item[{\em radius}]\item[{\em number}]\end{DoxyParams}
+\hypertarget{classMatrix_a3b2f9c59a4cc8da933de12f4ccb867f6}{
+\index{Matrix@{Matrix}!DrawPolygon@{DrawPolygon}}
+\index{DrawPolygon@{DrawPolygon}!Matrix@{Matrix}}
+\subsubsection[{DrawPolygon}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::DrawPolygon ({\bf Point} $\ast$ {\em points}, \/  int {\em n}, \/  Uint8 {\em number})}}
+\label{classMatrix_a3b2f9c59a4cc8da933de12f4ccb867f6}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em points}]\item[{\em n}]\item[{\em number}]\end{DoxyParams}
+\hypertarget{classMatrix_a55977ba3ee91f352759f446a5092ea23}{
+\index{Matrix@{Matrix}!DrawRectangle@{DrawRectangle}}
+\index{DrawRectangle@{DrawRectangle}!Matrix@{Matrix}}
+\subsubsection[{DrawRectangle}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::DrawRectangle ({\bf Point} {\em ul}, \/  {\bf Point} {\em lr}, \/  Uint8 {\em number})}}
+\label{classMatrix_a55977ba3ee91f352759f446a5092ea23}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ul}]\item[{\em lr}]\item[{\em number}]\end{DoxyParams}
+\hypertarget{classMatrix_a8aecf2d42e65b27f051c8af79aeeb467}{
+\index{Matrix@{Matrix}!DrawThickLine@{DrawThickLine}}
+\index{DrawThickLine@{DrawThickLine}!Matrix@{Matrix}}
+\subsubsection[{DrawThickLine}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::DrawThickLine ({\bf Point} {\em start}, \/  {\bf Point} {\em end}, \/  int {\em thickness}, \/  Uint8 {\em number})}}
+\label{classMatrix_a8aecf2d42e65b27f051c8af79aeeb467}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em start}]\item[{\em end}]\item[{\em thickness}]\item[{\em number}]\end{DoxyParams}
+\hypertarget{classMatrix_a4a7c3875be94e94786db920c441973e6}{
+\index{Matrix@{Matrix}!Fill@{Fill}}
+\index{Fill@{Fill}!Matrix@{Matrix}}
+\subsubsection[{Fill}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::Fill (Uint8 {\em number})}}
+\label{classMatrix_a4a7c3875be94e94786db920c441973e6}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em number}]\end{DoxyParams}
+\hypertarget{classMatrix_aaa3962d9bf27f654bd6771a8d5bfaeac}{
+\index{Matrix@{Matrix}!flood\_\-AddNextLine@{flood\_\-AddNextLine}}
+\index{flood\_\-AddNextLine@{flood\_\-AddNextLine}!Matrix@{Matrix}}
+\subsubsection[{flood\_\-AddNextLine}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::flood\_\-AddNextLine (int {\em newY}, \/  bool {\em isNext}, \/  bool {\em downwards}, \/  int {\em minX}, \/  int {\em maxX}, \/  int {\em i}, \/  int {\em number}, \/  {\bf FloodFillStruct} {\em ffs}, \/  std::queue$<$ {\bf FloodFillStruct} $>$ \& {\em ranges})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classMatrix_aaa3962d9bf27f654bd6771a8d5bfaeac}
+\hypertarget{classMatrix_a7209ed0123ff3686f0d0f7f4e6ac7094}{
+\index{Matrix@{Matrix}!FloodFill@{FloodFill}}
+\index{FloodFill@{FloodFill}!Matrix@{Matrix}}
+\subsubsection[{FloodFill}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::FloodFill ({\bf Point} {\em start}, \/  Uint8 {\em number})}}
+\label{classMatrix_a7209ed0123ff3686f0d0f7f4e6ac7094}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em start}]\item[{\em number}]\end{DoxyParams}
+\hypertarget{classMatrix_a06fc8df480cd88daf69eaa05867cb7bd}{
+\index{Matrix@{Matrix}!Get@{Get}}
+\index{Get@{Get}!Matrix@{Matrix}}
+\subsubsection[{Get}]{\setlength{\rightskip}{0pt plus 5cm}Uint8 \& Matrix::Get (int {\em x}, \/  int {\em y}) const}}
+\label{classMatrix_a06fc8df480cd88daf69eaa05867cb7bd}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em x}]\item[{\em y}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Uint8 \& 
+\end{DoxyReturn}
+\hypertarget{classMatrix_a45e4814b752129bed1f1316632f8543a}{
+\index{Matrix@{Matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!Matrix@{Matrix}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix} \& Matrix::operator= (const {\bf Matrix} \& {\em matrix})}}
+\label{classMatrix_a45e4814b752129bed1f1316632f8543a}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em matrix}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classMatrix}{Matrix} \& Matrix::operator 
+\end{DoxyReturn}
+\hypertarget{classMatrix_ab54bf109f85ced0472a7e0c03d16471c}{
+\index{Matrix@{Matrix}!operator\mbox{[}\mbox{]}@{operator[]}}
+\index{operator\mbox{[}\mbox{]}@{operator[]}!Matrix@{Matrix}}
+\subsubsection[{operator[]}]{\setlength{\rightskip}{0pt plus 5cm}{\bf MatrixProxy} Matrix::operator\mbox{[}$\,$\mbox{]} (int {\em i}) const\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
+\label{classMatrix_ab54bf109f85ced0472a7e0c03d16471c}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em i}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classMatrix_1_1MatrixProxy}{MatrixProxy} operator 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classMatrix_a128eca9782b86bae0eed3d1d0967249e}{
+\index{Matrix@{Matrix}!m\_\-default@{m\_\-default}}
+\index{m\_\-default@{m\_\-default}!Matrix@{Matrix}}
+\subsubsection[{m\_\-default}]{\setlength{\rightskip}{0pt plus 5cm}Uint8 {\bf Matrix::m\_\-default} = 0\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classMatrix_a128eca9782b86bae0eed3d1d0967249e}
+TODO \hypertarget{classMatrix_aba01078d3f7abfceae9f6ce1913bbdc3}{
+\index{Matrix@{Matrix}!m\_\-mutex@{m\_\-mutex}}
+\index{m\_\-mutex@{m\_\-mutex}!Matrix@{Matrix}}
+\subsubsection[{m\_\-mutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-mutex\_\-t {\bf Matrix::m\_\-mutex}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classMatrix_aba01078d3f7abfceae9f6ce1913bbdc3}
+TODO \hypertarget{classMatrix_a76ecc20ed053f699bcf299958be9f4a1}{
+\index{Matrix@{Matrix}!m\_\-surface@{m\_\-surface}}
+\index{m\_\-surface@{m\_\-surface}!Matrix@{Matrix}}
+\subsubsection[{m\_\-surface}]{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Surface$\ast$ {\bf Matrix::m\_\-surface}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classMatrix_a76ecc20ed053f699bcf299958be9f4a1}
+TODO 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{matrix_8h}{matrix.h}\item 
+src/\hyperlink{matrix_8cpp}{matrix.cpp}\end{DoxyCompactItemize}

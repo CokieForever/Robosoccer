@@ -3,6 +3,7 @@ TARGET = robosoccer
 
 DEFINES += SIMULATION
 
+
 #DEFINES += PATHPLANNING_ASTAR
 DEFINES += PATHPLANNING_POLYGONS
 
@@ -34,7 +35,7 @@ CONFIG +=  debug
 
 # Input
 
-HEADERS += \ 
+HEADERS += \
     src/*.h \
     src/sdl_gfx/*.h
 SOURCES +=  \

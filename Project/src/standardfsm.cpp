@@ -10,7 +10,7 @@
 using namespace std;
 
 
-static eTeam team = BLUE_TEAM;
+static eTeam team = BLUE_TEAM; /**< TODO */
 
 static void BeforeKickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref);
 static void KickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref);
@@ -23,6 +23,14 @@ static void TimeOver(NewRoboControl *robots[], RawBall *ball, Referee *ref);
 static void* GoalKeeper(void* data);
 
 
+/**
+ * @brief
+ *
+ * @param robots[]
+ * @param ball
+ * @param ref
+ * @param t
+ */
 void StandardFSM(NewRoboControl *robots[], RawBall *ball, Referee *ref, eTeam t)
 {
     const PlayFunc playFunctions[] = {NULL, BeforeKickOff, KickOff, BeforePenalty, Penalty, PlayOn, Pause, TimeOver};
@@ -44,11 +52,18 @@ void StandardFSM(NewRoboControl *robots[], RawBall *ball, Referee *ref, eTeam t)
         Log("Left mode function", DEBUG);
 
         while (ref->GetPlayMode() == mode)
-        usleep(10000);
+            usleep(10000);
     }
 }
 
 
+/**
+ * @brief
+ *
+ * @param robots[]
+ * @param ball
+ * @param ref
+ */
 static void BeforeKickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     eSide side = (team == BLUE_TEAM) ^(ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
@@ -70,6 +85,13 @@ static void BeforeKickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
     ref->SetReady(team);
 }
 
+/**
+ * @brief
+ *
+ * @param robots[]
+ * @param ball
+ * @param ref
+ */
 static void KickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     eSide side = (team == BLUE_TEAM) ^(ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
@@ -83,6 +105,13 @@ static void KickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param robots[]
+ * @param ball
+ * @param ref
+ */
 static void BeforePenalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     eSide side = (team == BLUE_TEAM) ^(ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
@@ -102,6 +131,13 @@ static void BeforePenalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param robots[]
+ * @param ball
+ * @param ref
+ */
 static void Penalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     eSide side = (team == BLUE_TEAM) ^(ref->GetBlueSide() == LEFT_SIDE) ? RIGHT_SIDE : LEFT_SIDE;
@@ -139,6 +175,13 @@ static void Penalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param robots[]
+ * @param ball
+ * @param ref
+ */
 static void PlayOn(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     pthread_t thread1;
@@ -155,17 +198,36 @@ static void PlayOn(NewRoboControl *robots[], RawBall *ball, Referee *ref)
     pthread_join(thread1, NULL);
 }
 
+/**
+ * @brief
+ *
+ * @param robots[]
+ * @param ball
+ * @param ref
+ */
 static void Pause(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     //Well, nothing to do, just wait...
 }
 
+/**
+ * @brief
+ *
+ * @param robots[]
+ * @param ball
+ * @param ref
+ */
 static void TimeOver(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
     //Well, nothing to do, just stop.
 }
 
 
+/**
+ * @brief
+ *
+ * @param data
+ */
 static void* GoalKeeper(void* data)
 {
     RoboBall* roboBall = (RoboBall*)data;

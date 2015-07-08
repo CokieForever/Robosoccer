@@ -6,6 +6,13 @@
 using namespace std;
 
 
+/**
+ * @brief
+ *
+ * @param map
+ * @param screenW
+ * @param screenH
+ */
 MapDisplay::MapDisplay(const Interpreter::Map& map, int screenW, int screenH) : m_map(map)
 {
     m_screenW = screenW;
@@ -13,17 +20,31 @@ MapDisplay::MapDisplay(const Interpreter::Map& map, int screenW, int screenH) : 
     m_bgSurf = NULL;
 }
 
+/**
+ * @brief
+ *
+ */
 MapDisplay::~MapDisplay()
 {
     if (m_bgSurf)
         SDL_FreeSurface(m_bgSurf);
 }
 
+/**
+ * @brief
+ *
+ * @return SDL_Surface *
+ */
 SDL_Surface* MapDisplay::GetDisplay() const
 {
     return m_bgSurf;
 }
 
+/**
+ * @brief
+ *
+ * @return SDL_Surface *
+ */
 SDL_Surface* MapDisplay::UpdateDisplay()
 {
     if (!m_bgSurf)
@@ -58,6 +79,14 @@ SDL_Surface* MapDisplay::UpdateDisplay()
     return m_bgSurf;
 }
 
+/**
+ * @brief
+ *
+ * @param x
+ * @param y
+ * @param i
+ * @param j
+ */
 void MapDisplay::ConvertScreenCoordToMatrixCoord(int x, int y, int *i, int *j)
 {
     double dx = 2 * (x / (double)(m_screenW-1) - 0.5);

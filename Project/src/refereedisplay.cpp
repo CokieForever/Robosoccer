@@ -5,6 +5,16 @@
 #include "teamrobot.h"
 #include "geometry.h"
 
+/**
+ * @brief
+ *
+ * @param ballMonitor
+ * @param coordCalibrer
+ * @param screenW
+ * @param screenH
+ * @param robots
+ * @param interpreter
+ */
 RefereeDisplay::RefereeDisplay(BallMonitor *ballMonitor, const CoordinatesCalibrer *coordCalibrer,
                                int screenW, int screenH, NewRoboControl **robots, const Interpreter *interpreter)
 {
@@ -31,6 +41,10 @@ RefereeDisplay::RefereeDisplay(BallMonitor *ballMonitor, const CoordinatesCalibr
     pthread_mutex_init(&m_pathMutex, NULL);
 }
 
+/**
+ * @brief
+ *
+ */
 RefereeDisplay::~RefereeDisplay()
 {
     if (m_mapDisplay)
@@ -38,6 +52,14 @@ RefereeDisplay::~RefereeDisplay()
     pthread_mutex_destroy(&m_pathMutex);
 }
 
+/**
+ * @brief
+ *
+ * @param robots
+ * @param interpreter
+ * @param map
+ * @return bool
+ */
 bool RefereeDisplay::StartDisplay(NewRoboControl **robots, const Interpreter *interpreter, const Interpreter::Map *map)
 {
     if (m_isDisplaying || !m_ballMonitor || !m_coordCalibrer)
@@ -58,6 +80,11 @@ bool RefereeDisplay::StartDisplay(NewRoboControl **robots, const Interpreter *in
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @return bool
+ */
 bool RefereeDisplay::StopDisplay()
 {
     if (!m_isDisplaying)
@@ -67,16 +94,31 @@ bool RefereeDisplay::StopDisplay()
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @return bool
+ */
 bool RefereeDisplay::IsActive() const
 {
     return m_isDisplaying;
 }
 
+/**
+ * @brief
+ *
+ * @param pathFinder
+ */
 void RefereeDisplay::DisplayPathFinder(PathFinder *pathFinder)
 {
     m_pathFinder = pathFinder;
 }
 
+/**
+ * @brief
+ *
+ * @param path
+ */
 void RefereeDisplay::DisplayPath(const PathFinder::Path path)
 {
     pthread_mutex_lock((pthread_mutex_t*)&m_pathMutex);
@@ -95,6 +137,11 @@ void RefereeDisplay::DisplayPath(const PathFinder::Path path)
 }
 
 
+/**
+ * @brief
+ *
+ * @param map
+ */
 void RefereeDisplay::CreateMapDisplay(const Interpreter::Map *map)
 {
     if (m_mapDisplay)
@@ -106,6 +153,12 @@ void RefereeDisplay::CreateMapDisplay(const Interpreter::Map *map)
     m_mapDisplay = new MapDisplay(*map, m_screenW, m_screenH);
 }
 
+/**
+ * @brief
+ *
+ * @param polygon
+ * @param screen
+ */
 void RefereeDisplay::DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Surface *screen)
 {
     for (PathFinder::PointsList::iterator it2 = ((PathFinder::ConvexPolygon&)polygon).points.begin() ; it2 != ((PathFinder::ConvexPolygon&)polygon).points.end() ; it2++)
@@ -144,6 +197,11 @@ void RefereeDisplay::DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Su
     }
 }
 
+/**
+ * @brief
+ *
+ * @param data
+ */
 void* RefereeDisplay::RefDisplayFn(void *data)
 {
     RefereeDisplay *display = (RefereeDisplay*)data;
@@ -320,7 +378,6 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         if (display->m_ballMonitor->PredictBallPosition(&a, &b, 5))
         {
             double isectX[2], isectY[2];
-            Log("a = " + ToString(a), INFO);
             if (GetLineRectIntersections(-0.95, -0.95, 0.95, 0.95, a, b, isectX, isectY))
             {
                 r = display->PosToRect(Position(isectX[0], isectY[0]));
@@ -407,17 +464,36 @@ void* RefereeDisplay::RefDisplayFn(void *data)
     return NULL;
 }
 
+/**
+ * @brief
+ *
+ * @param pos
+ * @param w
+ * @param h
+ * @return SDL_Rect
+ */
 SDL_Rect RefereeDisplay::PosToRect(Position pos, int w, int h)
 {
     SDL_Rect rect = {(pos.GetX()+1)/2 * (m_screenW-1) - w/2, (pos.GetY()+1)/2 * (m_screenH-1) - h/2, w, h};
     return rect;
 }
 
+/**
+ * @brief
+ *
+ * @param rect
+ * @return Position
+ */
 Position RefereeDisplay::RectToPos(SDL_Rect rect)
 {
     return Position(2 * rect.x / (double)(m_screenW-1) - 1, 2 * rect.y / (double)(m_screenH-1) - 1);
 }
 
+/**
+ * @brief
+ *
+ * @return Position
+ */
 Position RefereeDisplay::GetBallPos()
 {
     Position ballPos;
