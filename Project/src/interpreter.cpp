@@ -15,17 +15,26 @@
 #include "node.h"
 #include "coordinates.h"
 #include "playertwo.h"
+#include "matrix.h"
+#include "geometry.h"
+#include "log.h"
 
 //include the libs from sample code
 
 using namespace std;
 
 /*** if dir==8 ***/
-const int Interpreter::DX[Interpreter::DIR] = {1, 1, 0, -1, -1, -1, 0, 1};
-const int Interpreter::DY[Interpreter::DIR] = {0, 1, 1, 1, 0, -1, -1, -1};
+const int Interpreter::DX[Interpreter::DIR] = {1, 1, 0, -1, -1, -1, 0, 1}; /**< TODO */
+const int Interpreter::DY[Interpreter::DIR] = {0, 1, 1, 1, 0, -1, -1, -1}; /**< TODO */
 /*** end if ***/
 
 
+/**
+ * @brief
+ *
+ * @param x
+ * @return int
+ */
 int Interpreter::coord2mapX(double x)
 {
     //coordinate from -1 to +1
@@ -37,6 +46,12 @@ int Interpreter::coord2mapX(double x)
     return mapX;
 }
 
+/**
+ * @brief
+ *
+ * @param y
+ * @return int
+ */
 int Interpreter::coord2mapY(double y)
 {
     //coordinate from -1 to +1
@@ -48,6 +63,12 @@ int Interpreter::coord2mapY(double y)
     return mapY;
 }
 
+/**
+ * @brief
+ *
+ * @param mapX
+ * @return double
+ */
 double Interpreter::map2coordX(int mapX)
 {
     double coordX;
@@ -57,6 +78,12 @@ double Interpreter::map2coordX(int mapX)
     return coordX;
 }
 
+/**
+ * @brief
+ *
+ * @param mapY
+ * @return double
+ */
 double Interpreter::map2coordY(int mapY)
 {
     double coordY;
@@ -66,6 +93,13 @@ double Interpreter::map2coordY(int mapY)
     return coordY;
 }
 
+/**
+ * @brief
+ *
+ * @param start
+ * @param path
+ * @return Interpreter::Point *
+ */
 Interpreter::Point* Interpreter::getCheckPoints(Interpreter::Point start, string path)
 {
 
@@ -93,6 +127,14 @@ Interpreter::Point* Interpreter::getCheckPoints(Interpreter::Point start, string
     return ptr;
 }
 
+/**
+ * @brief
+ *
+ * @param map
+ * @param start
+ * @param finish
+ * @return string
+ */
 string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Interpreter::Point finish)
 {
     static priority_queue<node> pq[2]; // list of open (not-yet-tried) nodes
@@ -183,7 +225,7 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
                     // mark its parent node direction
                     dir_map[xdx][ydy] = (i + DIR/2) % DIR;
                 }
-                else if(open_nodes_map[xdx][ydy]>m0->getPriority())
+                else if(open_nodes_map[xdx][ydy]>(Uint32)m0->getPriority())
                 {
                     // update the priority info
                     open_nodes_map[xdx][ydy]=m0->getPriority();
@@ -220,10 +262,16 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
     return ""; // no route found
 }
 
+/**
+ * @brief
+ *
+ * @param map0
+ * @param path
+ * @param start
+ */
 void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
 {
-    Map map;
-    memcpy(&(map[0][0]), &(map0[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
+    Map map(map0);
 
     //show planned path
     cout << "path planned:" << path << endl;
@@ -266,7 +314,17 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
     }
 }
 
-void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
+/**
+ * @brief
+ *
+ * @param map
+ * @param ref
+ * @param obstacles[]
+ * @param ball
+ * @param coordCalibrer
+ * @param our_side
+ */
+void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
 {
     CoordinatesCalibrer *m_coordCalibrer = coordCalibrer;
     //Normalize coordinates of our robot
@@ -281,7 +339,7 @@ void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRo
     int obstacle_r = 1.5 * MAP_BORDERSIZE;
 
     //clear map
-    memset(&(map[0][0]), 0, sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
+    map.Fill(0);
 
     //get all positions of the robots
     for (int k=0 ; k < 5 ; k++)
@@ -322,8 +380,6 @@ void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRo
         }
     }
 
-    map[i1][j1] = 2; // affect 2 to the position of our robot in the matrix
-
     //Normalize coordinates of the ball
     pos1 = m_coordCalibrer->NormalizePosition(ball->GetPos());
 
@@ -333,17 +389,28 @@ void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRo
     map[i][j]=3; // affect 3 to the position of the ball in the matrix
 
     //generate the obstacles around the ball depending on the side in which our team plays
-    map[i-1][j-1]=1;
-    map[i-1][j]=1;
-    map[i-1][j+1]=1;
-    map[i+1][j-1]=1;
-    map[i+1][j]=1;
-    map[i+1][j+1]=1;
+    double bx = coord2mapX(pos1.GetX()), by = coord2mapY(pos1.GetY());
+    double goalX = coord2mapX(our_side == LEFT_SIDE ? 1 : -1);
+    double cosAngle, sinAngle;
+    ComputeLineAngle(bx, by, goalX, coord2mapY(0), &cosAngle, &sinAngle);
 
-    if (our_side == LEFT_SIDE)
-        map[i][j+1]=1;
-    else
-        map[i][j-1]=1;
+    double x, y;
+    ComputeVectorEnd(bx, by, cosAngle, sinAngle, 5, &x, &y);
+
+    double x1, y1;
+    ComputeVectorEnd(x, y, sinAngle, -cosAngle, 5, &x1, &y1);
+
+    double x2, y2;
+    ComputeVectorEnd(x, y, -sinAngle, cosAngle, 5, &x2, &y2);
+    map.DrawThickLine(Map::CreatePoint(x1,y1), Map::CreatePoint(x2,y2), 2, 1);
+
+    ComputeVectorEnd(x1, y1, -cosAngle, -sinAngle, 10, &x, &y);
+    map.DrawThickLine(Map::CreatePoint(x1,y1), Map::CreatePoint(x,y), 3, 1);
+
+    ComputeVectorEnd(x2, y2, -cosAngle, -sinAngle, 10, &x, &y);
+    map.DrawThickLine(Map::CreatePoint(x2,y2), Map::CreatePoint(x,y), 3, 1);
+
+    map[i1][j1] = 2; // affect 2 to the position of our robot in the matrix
 
     /*
     //indices of the robot's position in the matrix
@@ -361,7 +428,21 @@ void Interpreter::matrixupdate(Interpreter::Map& map, NewRoboControl* ref, NewRo
 }
 
 
-Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,NewRoboControl *a,NewRoboControl *b,NewRoboControl *c,RawBall *d,CoordinatesCalibrer *e)
+/**
+ * @brief
+ *
+ * @param x
+ * @param y
+ * @param z
+ * @param p
+ * @param t
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ * @param e
+ */
+Interpreter::Interpreter(eTeam x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,OpponentRobot *a,OpponentRobot *b,OpponentRobot *c,RawBall *d,CoordinatesCalibrer *e)
 {
     m_ref  = y;
     m_gk = z;
@@ -377,38 +458,192 @@ Interpreter::Interpreter(int x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo 
     m_mode.formation = DEF;
     m_mode.team = x;
 
-    if (x== 0)
-        cout << "We are team blue!" << endl;
-    else
-        cout << "We are team red!" << endl;
+    setSide();
+    setScores();
 
+    if (x == BLUE_TEAM)
+        Log("We are team blue!", INFO);
+    else
+        Log("We are team red!", INFO);
 
     //set gk,p1,p2 map to zero and place penalty area
-    for(int i=0 ; i<MAP_WIDTH ; i++)
-    {
-        for(int j=0 ; j<MAP_HEIGHT ; j++)
-        {
-            m_p1->setMapValue(i, j, 0);
-        }
-    }
-    //setObstacles(p1->map);
+    m_p1Map.Fill(0);
+    m_p2Map.Fill(0);
 
-    cout << "Interpreter initialized" << endl;
+    pthread_mutex_init(&m_p1MapMutex, NULL);
+    pthread_mutex_init(&m_p2MapMutex, NULL);
+
+    pthread_mutex_init(&m_mutex, NULL);
+    pthread_cond_init(&m_cond, NULL);
+
+    Log("Interpreter initialized", INFO);
 }
 
+/**
+ * @brief
+ *
+ */
+Interpreter::~Interpreter()
+{
+    pthread_cond_destroy(&m_cond);
+    pthread_mutex_destroy(&m_mutex);
+
+    pthread_mutex_destroy(&m_p1MapMutex);
+    pthread_mutex_destroy(&m_p2MapMutex);
+}
+
+/**
+ * @brief
+ *
+ */
+void Interpreter::End()
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    pthread_cond_broadcast(&m_cond);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+}
+
+/**
+ * @brief
+ *
+ * @return Interpreter::GameData
+ */
 Interpreter::GameData Interpreter::getMode() const
 {
     return m_mode;
 }
 
+/**
+ * @brief
+ *
+ * @param p1
+ */
+void Interpreter::SetP1MapToRobot(TeamRobot *p1) const
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_p1MapMutex);
+    p1->setMap(m_p1Map);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_p1MapMutex);
+}
+
+/**
+ * @brief
+ *
+ * @param p2
+ */
+void Interpreter::SetP2MapToRobot(TeamRobot *p2) const
+{
+    pthread_mutex_lock((pthread_mutex_t*)&m_p2MapMutex);
+    p2->setMap(m_p2Map);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_p2MapMutex);
+}
+
+/**
+ * @brief
+ *
+ * @return Position
+ */
+Position Interpreter::getGKDefaultPos() const
+{
+    return m_gkDefaultPosition;
+}
+
+/**
+ * @brief
+ *
+ * @return Position
+ */
+Position Interpreter::getP1DefaultPos() const
+{
+    return m_p1DefaultPosition;
+}
+
+/**
+ * @brief
+ *
+ * @return Position
+ */
+Position Interpreter::getP2DefaultPos() const
+{
+    return m_p2DefaultPosition;
+}
+
+/**
+ * @brief
+ *
+ * @return const Goalkeeper *
+ */
+const Goalkeeper* Interpreter::getGK() const
+{
+    return m_gk;
+}
+
+/**
+ * @brief
+ *
+ * @return const PlayerMain *
+ */
+const PlayerMain* Interpreter::getP1() const
+{
+    return m_p1;
+}
+
+/**
+ * @brief
+ *
+ * @return const PlayerTwo *
+ */
+const PlayerTwo* Interpreter::getP2() const
+{
+    return m_p2;
+}
+
+/**
+ * @brief
+ *
+ * @return const OpponentRobot *
+ */
+const OpponentRobot* Interpreter::getE1() const
+{
+    return m_e1;
+}
+
+/**
+ * @brief
+ *
+ * @return const OpponentRobot *
+ */
+const OpponentRobot* Interpreter::getE2() const
+{
+    return m_e2;
+}
+
+/**
+ * @brief
+ *
+ * @return const OpponentRobot *
+ */
+const OpponentRobot* Interpreter::getE3() const
+{
+    return m_e3;
+}
+
+/**
+ * @brief
+ *
+ * @return bool
+ */
 bool Interpreter::verifyPos()
 {
     //check if all robots are on their default position and orientation
-    return (m_gk->GetPos().DistanceTo(m_gk->getDefaultPosition())< 0.01)
-            && (m_p1->GetPos().DistanceTo(m_p1->getDefaultPosition())< 0.01)
-            && (m_p2->GetPos().DistanceTo(m_p2->getDefaultPosition())< 0.01);
+    return m_gk->IsOnTarget(m_gk->getDefaultPosition())
+            && m_p1->IsOnTarget(m_p1->getDefaultPosition())
+            && m_p2->IsOnTarget(m_p2->getDefaultPosition());
 }
 
+/**
+ * @brief
+ *
+ */
 void Interpreter::setDefaultPos()
 {
     //sets default position struct depending on game mode of all robots to predefined values
@@ -416,23 +651,23 @@ void Interpreter::setDefaultPos()
     {
 
         case BEFORE_PENALTY:
-            if((m_mode.turn == Interpreter::OUR_TURN))
+            if((m_mode.turn == OUR_TURN))
             {
-                m_gk->setDefaultPosition(Position(-0.3, 0.4));
-                m_p1->setDefaultPosition(Position(0.0, 0.0));
-                m_p2->setDefaultPosition(Position(-1.0, -0.5));
+                m_gkDefaultPosition = Position(0.5, 0.5);
+                m_p1DefaultPosition = m_cal->UnnormalizePosition(Position(0.0, 0.0));
+                m_p2DefaultPosition = Position(0.5, -0.5);
             }
-            else if ((m_mode.turn == Interpreter::THEIR_TURN))
+            else if ((m_mode.turn == THEIR_TURN))
             {
-                m_gk->setDefaultPosition(Position(1.2, 0.0));
-                m_p1->setDefaultPosition(Position(-0.5, -0.5));
-                m_p2->setDefaultPosition(Position(-1.0, -0.5));
+                m_gkDefaultPosition = m_cal->UnnormalizePosition(Position(-0.9, 0.0));
+                m_p1DefaultPosition = Position(0.5, -0.5);
+                m_p2DefaultPosition = Position(0.5, 0.5);
             }
             else
             {
-                m_gk->setDefaultPosition(Position(-0.3, 0.4));
-                m_p1->setDefaultPosition(Position(0.0, 0.4));
-                m_p2->setDefaultPosition(Position(-1.0, -0.5));
+                m_gkDefaultPosition = Position(-0.3, 0.4);
+                m_p1DefaultPosition = Position(0.0, 0.4);
+                m_p2DefaultPosition = Position(-1.0, -0.5);
             }
             break;
 
@@ -441,21 +676,21 @@ void Interpreter::setDefaultPos()
 
             if(m_mode.our_side == LEFT_SIDE)
             {
-                m_gk->setDefaultPosition(Position(-1.1, 0.0));
-                m_p1->setDefaultPosition(Position(-0.3, -0.2));
-                m_p2->setDefaultPosition(Position(-0.3, 0.2));
+                m_gkDefaultPosition = Position(-1.1, 0.0);
+                m_p1DefaultPosition = Position(-0.3, -0.2);
+                m_p2DefaultPosition = Position(-0.3, 0.2);
             }
             else if(m_mode.our_side == RIGHT_SIDE)
             {
-                m_gk->setDefaultPosition(Position(1.1, 0.0));
-                m_p1->setDefaultPosition(Position(0.3, 0.2));
-                m_p2->setDefaultPosition(Position(0.3, -0.2));
+                m_gkDefaultPosition = Position(1.1, 0.0);
+                m_p1DefaultPosition = Position(0.3, 0.2);
+                m_p2DefaultPosition = Position(0.3, -0.2);
             }
             else
             {
-                m_gk->setDefaultPosition(Position(-1.0, 0.4));
-                m_p1->setDefaultPosition(Position(0.2, 0.4));
-                m_p2->setDefaultPosition(Position(-0.2, -0.4));
+                m_gkDefaultPosition = Position(-1.0, 0.4);
+                m_p1DefaultPosition = Position(0.2, 0.4);
+                m_p2DefaultPosition = Position(-0.2, -0.4);
             }
 
             break;
@@ -493,33 +728,43 @@ void Interpreter::setDefaultPos()
 
         case PENALTY:
             if (m_mode.turn == THEIR_TURN)
-                m_gk->setDefaultPositionX(1.1);
+                m_gkDefaultPosition.SetX(1.1);
             break;
 
         case KICK_OFF:
             break;
 
         default:
-            m_gk->setDefaultPosition(Position(1.1, 0.5));
-            m_p1->setDefaultPosition(Position(0.5, 0.2));
-            m_p2->setDefaultPosition(Position(-0.5, -0.2));
+            m_gkDefaultPosition = Position(1.1, 0.5);
+            m_p1DefaultPosition = Position(0.5, 0.2);
+            m_p2DefaultPosition = Position(-0.5, -0.2);
 
             //states such "as referee init, kick_off/penalty -> defpos doesnt change
             break;
     }
 }
 
+/**
+ * @brief
+ *
+ */
 void Interpreter::setPlayMode()
 {
     m_mode.mode = m_ref->GetPlayMode();
+    static bool sent = false;
 
     if (m_mode.mode==BEFORE_KICK_OFF || m_mode.mode==BEFORE_PENALTY)
     {
         setSide();
         setTurn();
-        if (verifyPos())
+        if (!sent && verifyPos())
+        {
             m_ref->SetReady(m_mode.team);
+            sent = true;
+        }
     }
+    else
+        sent = false;
 
     /*else if (playmode==BEFORE_PENALTY)
     {
@@ -535,6 +780,10 @@ void Interpreter::setPlayMode()
 
 }
 
+/**
+ * @brief
+ *
+ */
 void Interpreter::setScores()
 {
     if (m_mode.our_side==LEFT_SIDE)
@@ -549,6 +798,10 @@ void Interpreter::setScores()
     }
 }
 
+/**
+ * @brief
+ *
+ */
 void Interpreter::setSide()
 {
 
@@ -561,6 +814,10 @@ void Interpreter::setSide()
 
 }
 
+/**
+ * @brief
+ *
+ */
 void Interpreter::setTurn()
 {
     if (m_mode.our_side==m_ref->GetSide())
@@ -573,118 +830,176 @@ void Interpreter::setTurn()
     }
 }
 
+/**
+ * @brief
+ *
+ */
 void Interpreter::updateSituation()
 {
-    NewRoboControl *robots[5] = {m_gk, m_p2, m_e1, m_e2, m_e3};
-
-    Interpreter::Map map;
-    memcpy(&(map[0][0]), &(m_p1->getMap()[0][0]), sizeof(int)*MAP_WIDTH*MAP_HEIGHT);
-    matrixupdate(map,m_p1,robots,m_ball,m_cal,m_mode.our_side);
-
-    formationUpdateP1(map);
-    m_p1->setMap(map);
+    m_situationId = rand();
 
     setPlayMode();
     setDefaultPos();
+
+    #ifdef PATHPLANNING_ASTAR
+    const NewRoboControl *robots1[5] = {m_gk, m_p2, m_e1, m_e2, m_e3};
+    pthread_mutex_lock((pthread_mutex_t*)&m_p1MapMutex);
+    matrixupdate(m_p1Map, m_p1, robots1, m_ball, m_cal, m_mode.our_side);
+    formationUpdateP1();
+    pthread_mutex_unlock((pthread_mutex_t*)&m_p1MapMutex);
+
+    const NewRoboControl *robots2[5] = {m_gk, m_p1, m_e1, m_e2, m_e3};
+    pthread_mutex_lock((pthread_mutex_t*)&m_p2MapMutex);
+    matrixupdate(m_p2Map, m_p2, robots2, m_ball, m_cal, m_mode.our_side);
+    formationUpdateP2();
+    pthread_mutex_unlock((pthread_mutex_t*)&m_p2MapMutex);
+    #endif
+
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    pthread_cond_broadcast(&m_cond);
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
 }
 
+/**
+ * @brief
+ *
+ * @param id
+ * @return int
+ */
+int Interpreter::waitForUpdate(int id)
+{
+    if (m_situationId != id)
+        return m_situationId;
+
+    pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
+    pthread_cond_wait(&m_cond, &m_mutex);
+    id = m_situationId;
+    pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
+
+    return id;
+}
+
+/**
+ * @brief
+ *
+ * @param map
+ */
+void Interpreter::maskUpperLeft(Map &map)
+{
+    Map::Point ul = {MAP_BORDERSIZE-1, MAP_BORDERSIZE-1};
+    Map::Point lr = {MAP_WIDTH/2, MAP_HEIGHT/2};
+    map.DrawRectangle(ul, lr, 1);
+}
+
+/**
+ * @brief
+ *
+ * @param map
+ */
 void Interpreter::maskOmitUpperLeft(Map &map)
 {
-    int i,j;
-    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
-    {
-        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
-        {
-            if(i >= floor(MAP_WIDTH/2)  || j >= floor(MAP_HEIGHT/2))
-                map[i][j] = 1;
-
-        }
-
-    }
-
+    maskRight(map);
+    maskLowerLeft(map);
 }
+
+/**
+ * @brief
+ *
+ * @param map
+ */
+void Interpreter::maskUpperRight(Map &map)
+{
+    Map::Point ul = {MAP_WIDTH/2, MAP_BORDERSIZE-1};
+    Map::Point lr = {MAP_WIDTH-MAP_BORDERSIZE-1, MAP_HEIGHT/2};
+    map.DrawRectangle(ul, lr, 1);
+}
+
+/**
+ * @brief
+ *
+ * @param map
+ */
 void Interpreter::maskOmitUpperRight(Map &map)
 {
-    int i,j;
-    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
-    {
-        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
-        {
-            if(i <= floor(MAP_WIDTH/2) || j >= floor(MAP_HEIGHT/2))
-                map[i][j] = 1;
-
-        }
-
-    }
-
+    maskLeft(map);
+    maskLowerRight(map);
 }
 
+/**
+ * @brief
+ *
+ * @param map
+ */
+void Interpreter::maskLowerLeft(Map &map)
+{
+    Map::Point ul = {MAP_BORDERSIZE-1, MAP_HEIGHT/2};
+    Map::Point lr = {MAP_WIDTH/2, MAP_HEIGHT-MAP_BORDERSIZE-1};
+    map.DrawRectangle(ul, lr, 1);
+}
+
+/**
+ * @brief
+ *
+ * @param map
+ */
 void Interpreter::maskOmitLowerLeft(Map &map)
 {
-    int i,j;
-    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
-    {
-        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
-        {
-            if(i >= floor(MAP_WIDTH/2) || j <= floor(MAP_HEIGHT/2))
-                map[i][j] = 1;
-
-        }
-
-    }
-
+    maskRight(map);
+    maskUpperLeft(map);
 }
 
+/**
+ * @brief
+ *
+ * @param map
+ */
+void Interpreter::maskLowerRight(Map &map)
+{
+    Map::Point ul = {MAP_WIDTH/2, MAP_HEIGHT/2};
+    Map::Point lr = {MAP_WIDTH-MAP_BORDERSIZE-1, MAP_HEIGHT-MAP_BORDERSIZE-1};
+    map.DrawRectangle(ul, lr, 1);
+}
+
+/**
+ * @brief
+ *
+ * @param map
+ */
 void Interpreter::maskOmitLowerRight(Map &map)
 {
-    int i,j;
-    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
-    {
-        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
-        {
-            if(i <= floor(MAP_WIDTH/2) || j <= floor(MAP_HEIGHT/2))
-                map[i][j] = 1;
-
-        }
-
-    }
-
+    maskUpperRight(map);
+    maskLeft(map);
 }
 
-void Interpreter::maskOmitLeft(Map &map)
+/**
+ * @brief
+ *
+ * @param map
+ */
+void Interpreter::maskLeft(Map &map)
 {
-    int i,j;
-    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
-    {
-        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
-        {
-            if(i >= floor(MAP_WIDTH/2))
-                map[i][j] = 1;
-
-        }
-
-    }
-
+    maskUpperLeft(map);
+    maskLowerLeft(map);
 }
-void Interpreter::maskOmitRight(Map &map)
+
+/**
+ * @brief
+ *
+ * @param map
+ */
+void Interpreter::maskRight(Map &map)
 {
-    int i,j;
-    for (i = MAP_BORDERSIZE-1; i< (MAP_WIDTH-MAP_BORDERSIZE) ; i++)
-    {
-        for(j = MAP_BORDERSIZE-1; j < (MAP_HEIGHT -MAP_BORDERSIZE); j++)
-        {
-            if(i <= floor(MAP_WIDTH/2))
-                map[i][j] = 1;
-
-        }
-
-    }
-
+    maskUpperRight(map);
+    maskLowerRight(map);
 }
 
 
 
-void Interpreter::formationUpdateP1(Map& map)
+/**
+ * @brief
+ *
+ */
+void Interpreter::formationUpdateP1()
 {
     //Player1 plays on the left side for ATK/DEF,for MIXED Player1 is in ATK, form goalie point of view, if formation is unknown -> ATK
 
@@ -693,22 +1008,26 @@ void Interpreter::formationUpdateP1(Map& map)
     switch(info.formation)
     {
         case Interpreter::DEF:
-            (info.our_side== LEFT_SIDE)?maskOmitUpperLeft(map):maskOmitLowerRight(map);
+            (info.our_side== LEFT_SIDE) ? maskOmitUpperLeft(m_p1Map) : maskOmitLowerRight(m_p1Map);
             break;
 
         case Interpreter::MIX:
-            (info.our_side== LEFT_SIDE)?maskOmitRight(map):maskOmitLeft(map);
+            (info.our_side== LEFT_SIDE) ? maskLeft(m_p1Map) : maskRight(m_p1Map);
             break;
 
         default:
             //ATK case
-            (info.our_side== LEFT_SIDE)?maskOmitUpperRight(map):maskOmitLowerLeft(map);
+            (info.our_side== LEFT_SIDE) ? maskOmitUpperRight(m_p1Map) : maskOmitLowerLeft(m_p1Map);
             break;
 
     }
 
 }
-void Interpreter::formationUpdateP2(Map &map)
+/**
+ * @brief
+ *
+ */
+void Interpreter::formationUpdateP2()
 {
     //Player2 plays on the right side for ATK/DEF,for MIXED Player2 is in DEF, form goalie point of view, if formation is unknown -> DEF
     GameData info = this->getMode();
@@ -716,28 +1035,20 @@ void Interpreter::formationUpdateP2(Map &map)
     switch(info.formation)
     {
         case Interpreter::ATK:
-            (info.our_side== LEFT_SIDE)?maskOmitLowerRight(map):maskOmitUpperLeft(map);
+            (info.our_side== LEFT_SIDE) ? maskOmitLowerRight(m_p2Map) : maskOmitUpperLeft(m_p2Map);
             break;
 
 
         case Interpreter::MIX:
-            (info.our_side== LEFT_SIDE)?maskOmitLeft(map):maskOmitRight(map);
+            (info.our_side== LEFT_SIDE) ? maskRight(m_p2Map) : maskLeft(m_p2Map);
             break;
 
         default:
             //DEF case
-            (info.our_side== LEFT_SIDE)?maskOmitLowerLeft(map):maskOmitUpperRight(map);
+            (info.our_side== LEFT_SIDE) ? maskOmitLowerLeft(m_p2Map) : maskOmitUpperRight(m_p2Map);
             break;
     }
 
 
 }
-
-
-
-
-
-
-
-
 

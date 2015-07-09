@@ -1,17 +1,33 @@
 #include "coordinates.h"
 
 
+/**
+ * @brief
+ *
+ */
 CoordinatesCalibrer::CoordinatesCalibrer()
 {
     Init();
 }
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ */
 CoordinatesCalibrer::CoordinatesCalibrer(Position a, Position b, Position c, Position d)
 {
     Init();
     SetManualCoordCalibration(a, b, c, d);
 }
 
+/**
+ * @brief
+ *
+ */
 void CoordinatesCalibrer::Init()
 {
     m_tx = 0;
@@ -29,66 +45,152 @@ void CoordinatesCalibrer::Init()
     memset(m_robots, 0, sizeof(NewRoboControl*)*2);
 }
 
+/**
+ * @brief
+ *
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ * @return bool
+ */
 bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Position c, Position d)
 {
-	/*
-	********** A **********
-	*                     *
-	D          O          B
-	*                     *
-	********** C **********
-	*/
-	
-        m_tx = -(a.GetX() + c.GetX()) / 2;
-        m_ty = -(a.GetY() + c.GetY()) / 2;
-        double dist = d.DistanceTo(b);
-        m_cosTheta = (b.GetX() - d.GetX()) / dist;
-        m_sinTheta = (d.GetY() - b.GetY()) / dist;
-        m_kx = 2 / dist;
-        m_ky = 2 / a.DistanceTo(c);
-	
-        m_calibrationSuccessful = true;
-	return true;
+    /*
+    ********** A **********
+    *                     *
+    D          O          B
+    *                     *
+    ********** C **********
+    */
+
+    m_tx = -(a.GetX() + c.GetX()) / 2;
+    m_ty = -(a.GetY() + c.GetY()) / 2;
+    double dist = d.DistanceTo(b);
+    m_cosTheta = (b.GetX() - d.GetX()) / dist;
+    m_sinTheta = (d.GetY() - b.GetY()) / dist;
+    m_kx = 2 / dist;
+    m_ky = 2 / a.DistanceTo(c);
+
+    m_theta = acos(m_cosTheta);
+    if (m_sinTheta < 0)
+        m_theta = -m_theta;
+
+    m_calibrationSuccessful = true;
+    return true;
 }
 
+/**
+ * @brief
+ *
+ * @param pos
+ * @return Position
+ */
 Position CoordinatesCalibrer::NormalizePosition(Position pos) const
 {
-	double x = pos.GetX(), y = pos.GetY();
-	
-	//Translation
-        x += m_tx;
-        y += m_ty;
-	
-	//Rotation
-        x = x * m_cosTheta - y * m_sinTheta;
-        y = x * m_sinTheta + y * m_cosTheta;
-	
-	//Dilatation
-        x *= m_kx;
-        y *= m_ky;
-	
-	return Position(x, y);
+    double x = pos.GetX(), y = pos.GetY();
+
+    //Translation
+    x += m_tx;
+    y += m_ty;
+
+    //Rotation
+    x = x * m_cosTheta - y * m_sinTheta;
+    y = x * m_sinTheta + y * m_cosTheta;
+
+    //Dilatation
+    x *= m_kx;
+    y *= m_ky;
+
+    return Position(x, y);
 }
 
+/**
+ * @brief
+ *
+ * @param pos
+ * @return Position
+ */
 Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
 {
-	double x = pos.GetX(), y = pos.GetY();
-	
-	//Dilatation
-        x /= m_kx;
-        y /= m_ky;
-	
-	//Rotation
-        x = x * m_cosTheta + y * m_sinTheta;
-        y = -x * m_sinTheta + y * m_cosTheta;
-	
-	//Translation
-        x -= m_tx;
-        y -= m_ty;
-	
-	return Position(x, y);
+    double x = pos.GetX(), y = pos.GetY();
+
+    //Dilatation
+    x /= m_kx;
+    y /= m_ky;
+
+    //Rotation
+    x = x * m_cosTheta + y * m_sinTheta;
+    y = -x * m_sinTheta + y * m_cosTheta;
+
+    //Translation
+    x -= m_tx;
+    y -= m_ty;
+
+    return Position(x, y);
 }
 
+/**
+ * @brief
+ *
+ * @param angle
+ * @return double
+ */
+double CoordinatesCalibrer::NormalizeAngle(double angle) const
+{
+    //Rotation
+    angle -= m_theta;
+    if (angle < -M_PI)
+        angle += 2*M_PI;
+    else if (angle > M_PI)
+        angle -= 2*M_PI;
+
+    //Dilatation
+    double c = cos(angle);
+    double y = 1 / (c*c) - 1;
+    double c2 = 1 / sqrt(1 + (m_ky/m_kx)*y * (m_ky/m_kx)*y);
+    double s2 = y / sqrt((m_kx/m_ky)*(m_kx/m_ky) + y*y);
+    angle = acos(c2);
+    if (s2 < 0)
+        angle = -angle;
+
+    return angle;
+}
+
+/**
+ * @brief
+ *
+ * @param angle
+ * @return double
+ */
+double CoordinatesCalibrer::UnnormalizeAngle(double angle) const
+{
+    //Dilatation
+    double c = cos(angle);
+    double y = 1 / (c*c) - 1;
+    double c2 = 1 / sqrt(1 + (m_kx/m_ky)*y * (m_kx/m_ky)*y);
+    double s2 = y / sqrt((m_ky/m_kx)*(m_ky/m_kx) + y*y);
+    angle = acos(c2);
+    if (s2 < 0)
+        angle = -angle;
+
+    //Rotation
+    angle += m_theta;
+    if (angle < -M_PI)
+        angle += 2*M_PI;
+    else if (angle > M_PI)
+        angle -= 2*M_PI;
+
+    return angle;
+}
+
+/**
+ * @brief
+ *
+ * @param robot1
+ * @param robot2
+ * @return bool
+ */
 bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboControl *robot2)
 {
     if (robot1)
@@ -101,6 +203,12 @@ bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboC
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param stopNow
+ * @return bool
+ */
 bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
 {
     if (!m_isCalibrating)
@@ -111,6 +219,16 @@ bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param tx
+ * @param ty
+ * @param theta
+ * @param kx
+ * @param ky
+ * @return bool
+ */
 bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, double *theta, double *kx, double *ky) const
 {
     if (!m_calibrationSuccessful)
@@ -130,6 +248,15 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, dou
     return true;
 }
 
+/**
+ * @brief
+ *
+ * @param xMax
+ * @param xMin
+ * @param yMax
+ * @param yMin
+ * @return bool
+ */
 bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin) const
 {
     if (!m_calibrationSuccessful)
@@ -153,6 +280,11 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin,
 
 #define exit_cal() do {calibrer->m_calibrationSuccessful = !calibrer->m_stopCalibrating; calibrer->m_isCalibrating = false; return NULL;} while (0)
 #define usleep_cal(t) do { if (calibrer->m_stopCalibrating) exit_cal(); usleep(t); if (calibrer->m_stopCalibrating) exit_cal(); } while (0)
+/**
+ * @brief
+ *
+ * @param data
+ */
 void* CoordinatesCalibrer::CalibrationFn(void *data)
 {
     CoordinatesCalibrer *calibrer = (CoordinatesCalibrer*)data;

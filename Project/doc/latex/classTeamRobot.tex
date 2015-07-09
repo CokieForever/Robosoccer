@@ -1,0 +1,505 @@
+\hypertarget{classTeamRobot}{
+\section{TeamRobot Class Reference}
+\label{classTeamRobot}\index{TeamRobot@{TeamRobot}}
+}
+
+
+{\ttfamily \#include $<$teamrobot.h$>$}
+
+Inheritance diagram for TeamRobot:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3cm]{classTeamRobot}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classTeamRobot_a4b116f58f0a1568a886d03b0c71df20c}{TeamRobot} (RTDBConn \&DBC, const int deviceNr, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalib, RawBall $\ast$ball, \hyperlink{classBallMonitor}{BallMonitor} $\ast$ballPm, \hyperlink{classRefereeDisplay}{RefereeDisplay} $\ast$display=NULL)
+\item 
+virtual \hyperlink{classTeamRobot_a7be9d5161b7524cbbb6ae486ad4a1b42}{$\sim$TeamRobot} ()
+\item 
+Position \hyperlink{classTeamRobot_acd11ff6d9651a8deddafa5bd9a30865c}{getDefaultPosition} () const 
+\item 
+void \hyperlink{classTeamRobot_a527cefdb32f2bc0a4fa770207d4dc934}{setDefaultPositionX} (double x)
+\item 
+void \hyperlink{classTeamRobot_afeb86cb88b18030049d525d1d6790e6e}{setDefaultPositionY} (double y)
+\item 
+void \hyperlink{classTeamRobot_a322f046e260aedff6f2c8edc5730c9ac}{setDefaultPosition} (Position pos)
+\item 
+const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ \hyperlink{classTeamRobot_a3ef7d4538226085ed4d92b8bd2fce67d}{getCoordinatesCalibrer} () const 
+\item 
+RawBall $\ast$ \hyperlink{classTeamRobot_a86dbc3bbf6fdcebd4ae41a6f68d92a15}{getBall} () const 
+\item 
+int \hyperlink{classTeamRobot_abc3a5d2d4cac44629a9d8851164b5eda}{getMapValue} (int i, int j) const 
+\item 
+const \hyperlink{classMatrix}{Interpreter::Map} \& \hyperlink{classTeamRobot_a8b5fa0d9f42166fc3339ec901fad5a91}{getMap} () const 
+\item 
+bool \hyperlink{classTeamRobot_a28ee2460e7d465989bb0582782db851e}{setMapValue} (int i, int j, int val)
+\item 
+void \hyperlink{classTeamRobot_ab8c92b6228aed8eef31d0b1b0fce8690}{setMap} (const \hyperlink{classMatrix}{Interpreter::Map} \&map)
+\item 
+void \hyperlink{classTeamRobot_a2caa2411b9972fa5caa595f568394ba0}{GiveDisplay} (\hyperlink{classRefereeDisplay}{RefereeDisplay} $\ast$display)
+\item 
+void \hyperlink{classTeamRobot_a162c8b33d4315a61d8371dc9a923b37b}{KickOff} (const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$otherRobots\mbox{[}5\mbox{]}, eSide ourSide, bool likePenalty=false)
+\item 
+void \hyperlink{classTeamRobot_ad5755055df84960c8d1a0a40efe33668}{KickPenalty} (const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$otherRobots\mbox{[}5\mbox{]})
+\item 
+void \hyperlink{classTeamRobot_a66ddecf846c0300c346e80b6a48d800f}{KickBall} (Position ballPos)
+\item 
+void \hyperlink{classTeamRobot_a98d044ad3907493236b2d399a26cb9ac}{KickMovingBall} (RawBall $\ast$ball)
+\item 
+bool \hyperlink{classTeamRobot_ac979572f4899940e88f067102ac1ae46}{ShouldKick} (Position ballPos, Position goalPos)
+\item 
+bool \hyperlink{classTeamRobot_ae7f6fa303c865dad297b662731165883}{ShouldGoalKick} (Position ballPos, eSide ourSide)
+\item 
+virtual void \hyperlink{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}{setNextCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)=0
+\item 
+virtual void \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{setCmdParam} (const \hyperlink{classInterpreter}{Interpreter} \&interpreter)=0
+\item 
+virtual void \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{performCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)=0
+\end{DoxyCompactItemize}
+\subsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classTeamRobot_acf4c435c98bc406744a12cd140d6631d}{AddBorderObstaclesToPathFinder} (bool small=false)
+\item 
+void \hyperlink{classTeamRobot_a1216ffb71821002b6e6845390c990d5f}{UpdatePathFinder} (const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$obstacles\mbox{[}5\mbox{]}, const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
+\item 
+void \hyperlink{classTeamRobot_a9ae431d9eeaa1d16fa28c636499ab553}{ComputePath} (const \hyperlink{classInterpreter}{Interpreter} \&interpreter)
+\item 
+void \hyperlink{classTeamRobot_a02df00aae0a514badc93a9b2593be85f}{FollowPath} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
+\item 
+virtual void \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{AddObstacleForFormation} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)=0
+\end{DoxyCompactItemize}
+\subsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{classTeamRobot_afb5f9191ca185053af37c1ae1f8dcb17}{IsPathOK} (\hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{PathFinder::Path} path, \hyperlink{structPathFinder_1_1Point}{PathFinder::Point} \&tgt)
+\item 
+static double \hyperlink{classTeamRobot_a45d5d631b1e1e28c9c0f4ecbd47fdbde}{AngleDiff} (double angle1, double angle2)
+\end{DoxyCompactItemize}
+\subsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Position \hyperlink{classTeamRobot_a5758854ca2d6a084bea074c39e75b5d3}{m\_\-defaultPos}
+\item 
+const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ \hyperlink{classTeamRobot_a3bfcb3cdeedcc11eaed1b5bce532560f}{m\_\-coordCalib}
+\item 
+\hyperlink{classMatrix}{Interpreter::Map} \hyperlink{classTeamRobot_acf38fcc5b3c4ab4815fb151e39d5889c}{m\_\-map}
+\item 
+RawBall $\ast$ \hyperlink{classTeamRobot_ac6544ce7a73fe05e3c9a69cc50b58bbe}{m\_\-ball}
+\item 
+\hyperlink{classPathFinder}{PathFinder} \hyperlink{classTeamRobot_ac5845718f0d540e3f17f39d62d6f11c7}{m\_\-pathFinder}
+\item 
+\hyperlink{classRefereeDisplay}{RefereeDisplay} $\ast$ \hyperlink{classTeamRobot_aecbb2869966fba9b3de3cbc530c7bc36}{m\_\-display}
+\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ \hyperlink{classTeamRobot_a9dc410e800f251d62dbde6b3791b2009}{m\_\-roboObstacles} \mbox{[}5\mbox{]}
+\item 
+Position \hyperlink{classTeamRobot_a5337cff2b594fd63b2445c1d49374d7e}{m\_\-roboObstaclePos} \mbox{[}5\mbox{]}
+\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ \hyperlink{classTeamRobot_a06fd18a201a66f021e0c72dfd845e26b}{m\_\-ballObstacles} \mbox{[}3\mbox{]}
+\item 
+Position \hyperlink{classTeamRobot_aba2294985cc9a1dc404271e29166da82}{m\_\-ballObstaclePos}
+\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ \hyperlink{classTeamRobot_a155fbee5f74459799332801b09c99616}{m\_\-penaltyAreaObstacles} \mbox{[}2\mbox{]}
+\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ \hyperlink{classTeamRobot_a0292337f910ac2bbb300affb87891ba7}{m\_\-borderObstacles} \mbox{[}4\mbox{]}
+\item 
+\hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{PathFinder::Path} \hyperlink{classTeamRobot_aca22e17bd02f1ce84786ed2194764afa}{m\_\-pathFinderPath}
+\item 
+\hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}{Interpreter::Strategy} \hyperlink{classTeamRobot_ab32d14c3de4fd5a6ff6db39eb04f52f2}{m\_\-prevFormation}
+\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ \hyperlink{classTeamRobot_af06d7a399ac2a3c24c27a7af1c6e38e5}{m\_\-areaObstacle}
+\item 
+string \hyperlink{classTeamRobot_af170b8d2e1b76b12f8cc83f6ec908e40}{m\_\-path}
+\item 
+queue$<$ int $>$ \hyperlink{classTeamRobot_a982ed6b6964c5e8b94519ef91b52c468}{m\_\-q}
+\item 
+bool \hyperlink{classTeamRobot_ab98a148247f0c8bbadac3cfc8fa268c8}{m\_\-actionPerformed}
+\item 
+int \hyperlink{classTeamRobot_ae4bafa3b5f0df155b1a45f95f6671316}{m\_\-go\_\-x}
+\item 
+int \hyperlink{classTeamRobot_ad0b6cee88278087238bf6fcecb419808}{m\_\-go\_\-y}
+\item 
+\hyperlink{classBallMonitor}{BallMonitor} $\ast$ \hyperlink{classTeamRobot_a84b5181a2fadaf7653d32f04fa04d657}{m\_\-ballPm}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classTeamRobot_a4b116f58f0a1568a886d03b0c71df20c}{
+\index{TeamRobot@{TeamRobot}!TeamRobot@{TeamRobot}}
+\index{TeamRobot@{TeamRobot}!TeamRobot@{TeamRobot}}
+\subsubsection[{TeamRobot}]{\setlength{\rightskip}{0pt plus 5cm}TeamRobot::TeamRobot (RTDBConn \& {\em DBC}, \/  const int {\em deviceNr}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em coordCalib}, \/  RawBall $\ast$ {\em ball}, \/  {\bf BallMonitor} $\ast$ {\em ballPm}, \/  {\bf RefereeDisplay} $\ast$ {\em display} = {\ttfamily NULL})}}
+\label{classTeamRobot_a4b116f58f0a1568a886d03b0c71df20c}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em DBC}]\item[{\em deviceNr}]\item[{\em coordCalib}]\item[{\em ball}]\item[{\em ballPm}]\item[{\em display}]\end{DoxyParams}
+\hypertarget{classTeamRobot_a7be9d5161b7524cbbb6ae486ad4a1b42}{
+\index{TeamRobot@{TeamRobot}!$\sim$TeamRobot@{$\sim$TeamRobot}}
+\index{$\sim$TeamRobot@{$\sim$TeamRobot}!TeamRobot@{TeamRobot}}
+\subsubsection[{$\sim$TeamRobot}]{\setlength{\rightskip}{0pt plus 5cm}TeamRobot::$\sim$TeamRobot ()\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classTeamRobot_a7be9d5161b7524cbbb6ae486ad4a1b42}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classTeamRobot_acf4c435c98bc406744a12cd140d6631d}{
+\index{TeamRobot@{TeamRobot}!AddBorderObstaclesToPathFinder@{AddBorderObstaclesToPathFinder}}
+\index{AddBorderObstaclesToPathFinder@{AddBorderObstaclesToPathFinder}!TeamRobot@{TeamRobot}}
+\subsubsection[{AddBorderObstaclesToPathFinder}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::AddBorderObstaclesToPathFinder (bool {\em small} = {\ttfamily false})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_acf4c435c98bc406744a12cd140d6631d}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em small}]\end{DoxyParams}
+\hypertarget{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{
+\index{TeamRobot@{TeamRobot}!AddObstacleForFormation@{AddObstacleForFormation}}
+\index{AddObstacleForFormation@{AddObstacleForFormation}!TeamRobot@{TeamRobot}}
+\subsubsection[{AddObstacleForFormation}]{\setlength{\rightskip}{0pt plus 5cm}virtual void TeamRobot::AddObstacleForFormation (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}protected, pure virtual\mbox{]}}}}
+\label{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}
+
+
+Implemented in \hyperlink{classGoalkeeper_a5287a2e74795bbec8f0ead767655da5d}{Goalkeeper}, \hyperlink{classPlayerMain_a978b3ce16f5d8e5d1cb9ef70f387227e}{PlayerMain}, and \hyperlink{classPlayerTwo_a9e3341541658f54a2dfb0491a774b4d4}{PlayerTwo}.
+
+\hypertarget{classTeamRobot_a45d5d631b1e1e28c9c0f4ecbd47fdbde}{
+\index{TeamRobot@{TeamRobot}!AngleDiff@{AngleDiff}}
+\index{AngleDiff@{AngleDiff}!TeamRobot@{TeamRobot}}
+\subsubsection[{AngleDiff}]{\setlength{\rightskip}{0pt plus 5cm}double TeamRobot::AngleDiff (double {\em angle1}, \/  double {\em angle2})\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}
+\label{classTeamRobot_a45d5d631b1e1e28c9c0f4ecbd47fdbde}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em angle1}]\item[{\em angle2}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_a9ae431d9eeaa1d16fa28c636499ab553}{
+\index{TeamRobot@{TeamRobot}!ComputePath@{ComputePath}}
+\index{ComputePath@{ComputePath}!TeamRobot@{TeamRobot}}
+\subsubsection[{ComputePath}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::ComputePath (const {\bf Interpreter} \& {\em interpreter})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a9ae431d9eeaa1d16fa28c636499ab553}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em interpreter}]\end{DoxyParams}
+\hypertarget{classTeamRobot_a02df00aae0a514badc93a9b2593be85f}{
+\index{TeamRobot@{TeamRobot}!FollowPath@{FollowPath}}
+\index{FollowPath@{FollowPath}!TeamRobot@{TeamRobot}}
+\subsubsection[{FollowPath}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::FollowPath (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a02df00aae0a514badc93a9b2593be85f}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em info}]\end{DoxyParams}
+\hypertarget{classTeamRobot_a86dbc3bbf6fdcebd4ae41a6f68d92a15}{
+\index{TeamRobot@{TeamRobot}!getBall@{getBall}}
+\index{getBall@{getBall}!TeamRobot@{TeamRobot}}
+\subsubsection[{getBall}]{\setlength{\rightskip}{0pt plus 5cm}RawBall $\ast$ TeamRobot::getBall () const}}
+\label{classTeamRobot_a86dbc3bbf6fdcebd4ae41a6f68d92a15}
+\begin{DoxyReturn}{Returns}
+RawBall $\ast$ 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_a3ef7d4538226085ed4d92b8bd2fce67d}{
+\index{TeamRobot@{TeamRobot}!getCoordinatesCalibrer@{getCoordinatesCalibrer}}
+\index{getCoordinatesCalibrer@{getCoordinatesCalibrer}!TeamRobot@{TeamRobot}}
+\subsubsection[{getCoordinatesCalibrer}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf CoordinatesCalibrer} $\ast$ TeamRobot::getCoordinatesCalibrer () const}}
+\label{classTeamRobot_a3ef7d4538226085ed4d92b8bd2fce67d}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_acd11ff6d9651a8deddafa5bd9a30865c}{
+\index{TeamRobot@{TeamRobot}!getDefaultPosition@{getDefaultPosition}}
+\index{getDefaultPosition@{getDefaultPosition}!TeamRobot@{TeamRobot}}
+\subsubsection[{getDefaultPosition}]{\setlength{\rightskip}{0pt plus 5cm}Position TeamRobot::getDefaultPosition () const}}
+\label{classTeamRobot_acd11ff6d9651a8deddafa5bd9a30865c}
+\begin{DoxyReturn}{Returns}
+Position 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_a8b5fa0d9f42166fc3339ec901fad5a91}{
+\index{TeamRobot@{TeamRobot}!getMap@{getMap}}
+\index{getMap@{getMap}!TeamRobot@{TeamRobot}}
+\subsubsection[{getMap}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Interpreter::Map} \& TeamRobot::getMap () const}}
+\label{classTeamRobot_a8b5fa0d9f42166fc3339ec901fad5a91}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{Interpreter::Map} \& 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_abc3a5d2d4cac44629a9d8851164b5eda}{
+\index{TeamRobot@{TeamRobot}!getMapValue@{getMapValue}}
+\index{getMapValue@{getMapValue}!TeamRobot@{TeamRobot}}
+\subsubsection[{getMapValue}]{\setlength{\rightskip}{0pt plus 5cm}int TeamRobot::getMapValue (int {\em i}, \/  int {\em j}) const}}
+\label{classTeamRobot_abc3a5d2d4cac44629a9d8851164b5eda}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em i}]\item[{\em j}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_a2caa2411b9972fa5caa595f568394ba0}{
+\index{TeamRobot@{TeamRobot}!GiveDisplay@{GiveDisplay}}
+\index{GiveDisplay@{GiveDisplay}!TeamRobot@{TeamRobot}}
+\subsubsection[{GiveDisplay}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::GiveDisplay ({\bf RefereeDisplay} $\ast$ {\em display})}}
+\label{classTeamRobot_a2caa2411b9972fa5caa595f568394ba0}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em display}]\end{DoxyParams}
+\hypertarget{classTeamRobot_afb5f9191ca185053af37c1ae1f8dcb17}{
+\index{TeamRobot@{TeamRobot}!IsPathOK@{IsPathOK}}
+\index{IsPathOK@{IsPathOK}!TeamRobot@{TeamRobot}}
+\subsubsection[{IsPathOK}]{\setlength{\rightskip}{0pt plus 5cm}bool TeamRobot::IsPathOK ({\bf PathFinder::Path} {\em path}, \/  {\bf PathFinder::Point} \& {\em tgt})\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}
+\label{classTeamRobot_afb5f9191ca185053af37c1ae1f8dcb17}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em path}]\item[{\em tgt}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_a66ddecf846c0300c346e80b6a48d800f}{
+\index{TeamRobot@{TeamRobot}!KickBall@{KickBall}}
+\index{KickBall@{KickBall}!TeamRobot@{TeamRobot}}
+\subsubsection[{KickBall}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::KickBall (Position {\em ballPos})}}
+\label{classTeamRobot_a66ddecf846c0300c346e80b6a48d800f}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ballPos}]\end{DoxyParams}
+\hypertarget{classTeamRobot_a98d044ad3907493236b2d399a26cb9ac}{
+\index{TeamRobot@{TeamRobot}!KickMovingBall@{KickMovingBall}}
+\index{KickMovingBall@{KickMovingBall}!TeamRobot@{TeamRobot}}
+\subsubsection[{KickMovingBall}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::KickMovingBall (RawBall $\ast$ {\em ball})}}
+\label{classTeamRobot_a98d044ad3907493236b2d399a26cb9ac}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ball}]\end{DoxyParams}
+\hypertarget{classTeamRobot_a162c8b33d4315a61d8371dc9a923b37b}{
+\index{TeamRobot@{TeamRobot}!KickOff@{KickOff}}
+\index{KickOff@{KickOff}!TeamRobot@{TeamRobot}}
+\subsubsection[{KickOff}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::KickOff (const {\bf NewRoboControl} $\ast$ {\em otherRobots}\mbox{[}5\mbox{]}, \/  eSide {\em ourSide}, \/  bool {\em likePenalty} = {\ttfamily false})}}
+\label{classTeamRobot_a162c8b33d4315a61d8371dc9a923b37b}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em otherRobots\mbox{[}$\,$\mbox{]}}]\item[{\em ourSide}]\item[{\em likePenalty}]\end{DoxyParams}
+\hypertarget{classTeamRobot_ad5755055df84960c8d1a0a40efe33668}{
+\index{TeamRobot@{TeamRobot}!KickPenalty@{KickPenalty}}
+\index{KickPenalty@{KickPenalty}!TeamRobot@{TeamRobot}}
+\subsubsection[{KickPenalty}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::KickPenalty (const {\bf NewRoboControl} $\ast$ {\em otherRobots}\mbox{[}5\mbox{]})}}
+\label{classTeamRobot_ad5755055df84960c8d1a0a40efe33668}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em otherRobots\mbox{[}$\,$\mbox{]}}]\end{DoxyParams}
+\hypertarget{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{
+\index{TeamRobot@{TeamRobot}!performCmd@{performCmd}}
+\index{performCmd@{performCmd}!TeamRobot@{TeamRobot}}
+\subsubsection[{performCmd}]{\setlength{\rightskip}{0pt plus 5cm}virtual void TeamRobot::performCmd (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}
+
+
+Implemented in \hyperlink{classGoalkeeper_ab850d0d2278730bebc5479f1a339a925}{Goalkeeper}, \hyperlink{classPlayerMain_af12a95c226ce973056681a138b55fb6c}{PlayerMain}, and \hyperlink{classPlayerTwo_a56d794b718c60092a324f312b8333eb9}{PlayerTwo}.
+
+\hypertarget{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{
+\index{TeamRobot@{TeamRobot}!setCmdParam@{setCmdParam}}
+\index{setCmdParam@{setCmdParam}!TeamRobot@{TeamRobot}}
+\subsubsection[{setCmdParam}]{\setlength{\rightskip}{0pt plus 5cm}virtual void TeamRobot::setCmdParam (const {\bf Interpreter} \& {\em interpreter})\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}
+
+
+Implemented in \hyperlink{classGoalkeeper_acfa6fbad0f6b1627fd59cc7cce6ff321}{Goalkeeper}, \hyperlink{classPlayerMain_a5c4af159392663660f91809052422945}{PlayerMain}, and \hyperlink{classPlayerTwo_aa0294cf24297f66ffd92f1a250794340}{PlayerTwo}.
+
+\hypertarget{classTeamRobot_a322f046e260aedff6f2c8edc5730c9ac}{
+\index{TeamRobot@{TeamRobot}!setDefaultPosition@{setDefaultPosition}}
+\index{setDefaultPosition@{setDefaultPosition}!TeamRobot@{TeamRobot}}
+\subsubsection[{setDefaultPosition}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::setDefaultPosition (Position {\em pos})}}
+\label{classTeamRobot_a322f046e260aedff6f2c8edc5730c9ac}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pos}]\end{DoxyParams}
+\hypertarget{classTeamRobot_a527cefdb32f2bc0a4fa770207d4dc934}{
+\index{TeamRobot@{TeamRobot}!setDefaultPositionX@{setDefaultPositionX}}
+\index{setDefaultPositionX@{setDefaultPositionX}!TeamRobot@{TeamRobot}}
+\subsubsection[{setDefaultPositionX}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::setDefaultPositionX (double {\em x})}}
+\label{classTeamRobot_a527cefdb32f2bc0a4fa770207d4dc934}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em x}]\end{DoxyParams}
+\hypertarget{classTeamRobot_afeb86cb88b18030049d525d1d6790e6e}{
+\index{TeamRobot@{TeamRobot}!setDefaultPositionY@{setDefaultPositionY}}
+\index{setDefaultPositionY@{setDefaultPositionY}!TeamRobot@{TeamRobot}}
+\subsubsection[{setDefaultPositionY}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::setDefaultPositionY (double {\em y})}}
+\label{classTeamRobot_afeb86cb88b18030049d525d1d6790e6e}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em y}]\end{DoxyParams}
+\hypertarget{classTeamRobot_ab8c92b6228aed8eef31d0b1b0fce8690}{
+\index{TeamRobot@{TeamRobot}!setMap@{setMap}}
+\index{setMap@{setMap}!TeamRobot@{TeamRobot}}
+\subsubsection[{setMap}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::setMap (const {\bf Interpreter::Map} \& {\em map})}}
+\label{classTeamRobot_ab8c92b6228aed8eef31d0b1b0fce8690}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classTeamRobot_a28ee2460e7d465989bb0582782db851e}{
+\index{TeamRobot@{TeamRobot}!setMapValue@{setMapValue}}
+\index{setMapValue@{setMapValue}!TeamRobot@{TeamRobot}}
+\subsubsection[{setMapValue}]{\setlength{\rightskip}{0pt plus 5cm}bool TeamRobot::setMapValue (int {\em i}, \/  int {\em j}, \/  int {\em val})}}
+\label{classTeamRobot_a28ee2460e7d465989bb0582782db851e}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em i}]\item[{\em j}]\item[{\em val}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}{
+\index{TeamRobot@{TeamRobot}!setNextCmd@{setNextCmd}}
+\index{setNextCmd@{setNextCmd}!TeamRobot@{TeamRobot}}
+\subsubsection[{setNextCmd}]{\setlength{\rightskip}{0pt plus 5cm}virtual void TeamRobot::setNextCmd (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}pure virtual\mbox{]}}}}
+\label{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}
+
+
+Implemented in \hyperlink{classGoalkeeper_abc394351f7c0d552c6e96da422c772ec}{Goalkeeper}, \hyperlink{classPlayerMain_a8f0320189df15529662c7f16d2f74084}{PlayerMain}, and \hyperlink{classPlayerTwo_a7ac9a9a4f1dedee2006e6a0c79f37c0c}{PlayerTwo}.
+
+\hypertarget{classTeamRobot_ae7f6fa303c865dad297b662731165883}{
+\index{TeamRobot@{TeamRobot}!ShouldGoalKick@{ShouldGoalKick}}
+\index{ShouldGoalKick@{ShouldGoalKick}!TeamRobot@{TeamRobot}}
+\subsubsection[{ShouldGoalKick}]{\setlength{\rightskip}{0pt plus 5cm}bool TeamRobot::ShouldGoalKick (Position {\em ballPos}, \/  eSide {\em ourSide})}}
+\label{classTeamRobot_ae7f6fa303c865dad297b662731165883}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ballPos}]\item[{\em ourSide}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_ac979572f4899940e88f067102ac1ae46}{
+\index{TeamRobot@{TeamRobot}!ShouldKick@{ShouldKick}}
+\index{ShouldKick@{ShouldKick}!TeamRobot@{TeamRobot}}
+\subsubsection[{ShouldKick}]{\setlength{\rightskip}{0pt plus 5cm}bool TeamRobot::ShouldKick (Position {\em ballPos}, \/  Position {\em goalPos})}}
+\label{classTeamRobot_ac979572f4899940e88f067102ac1ae46}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ballPos}]\item[{\em goalPos}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classTeamRobot_a1216ffb71821002b6e6845390c990d5f}{
+\index{TeamRobot@{TeamRobot}!UpdatePathFinder@{UpdatePathFinder}}
+\index{UpdatePathFinder@{UpdatePathFinder}!TeamRobot@{TeamRobot}}
+\subsubsection[{UpdatePathFinder}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::UpdatePathFinder (const {\bf NewRoboControl} $\ast$ {\em obstacles}\mbox{[}5\mbox{]}, \/  const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a1216ffb71821002b6e6845390c990d5f}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em obstacles\mbox{[}$\,$\mbox{]}}]\item[{\em info}]\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classTeamRobot_ab98a148247f0c8bbadac3cfc8fa268c8}{
+\index{TeamRobot@{TeamRobot}!m\_\-actionPerformed@{m\_\-actionPerformed}}
+\index{m\_\-actionPerformed@{m\_\-actionPerformed}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-actionPerformed}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf TeamRobot::m\_\-actionPerformed}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_ab98a148247f0c8bbadac3cfc8fa268c8}
+TODO \hypertarget{classTeamRobot_af06d7a399ac2a3c24c27a7af1c6e38e5}{
+\index{TeamRobot@{TeamRobot}!m\_\-areaObstacle@{m\_\-areaObstacle}}
+\index{m\_\-areaObstacle@{m\_\-areaObstacle}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-areaObstacle}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon}$\ast$ {\bf TeamRobot::m\_\-areaObstacle}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_af06d7a399ac2a3c24c27a7af1c6e38e5}
+TODO \hypertarget{classTeamRobot_ac6544ce7a73fe05e3c9a69cc50b58bbe}{
+\index{TeamRobot@{TeamRobot}!m\_\-ball@{m\_\-ball}}
+\index{m\_\-ball@{m\_\-ball}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-ball}]{\setlength{\rightskip}{0pt plus 5cm}RawBall$\ast$ {\bf TeamRobot::m\_\-ball}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_ac6544ce7a73fe05e3c9a69cc50b58bbe}
+TODO \hypertarget{classTeamRobot_aba2294985cc9a1dc404271e29166da82}{
+\index{TeamRobot@{TeamRobot}!m\_\-ballObstaclePos@{m\_\-ballObstaclePos}}
+\index{m\_\-ballObstaclePos@{m\_\-ballObstaclePos}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-ballObstaclePos}]{\setlength{\rightskip}{0pt plus 5cm}Position {\bf TeamRobot::m\_\-ballObstaclePos}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_aba2294985cc9a1dc404271e29166da82}
+TODO \hypertarget{classTeamRobot_a06fd18a201a66f021e0c72dfd845e26b}{
+\index{TeamRobot@{TeamRobot}!m\_\-ballObstacles@{m\_\-ballObstacles}}
+\index{m\_\-ballObstacles@{m\_\-ballObstacles}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-ballObstacles}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon}$\ast$ {\bf TeamRobot::m\_\-ballObstacles}\mbox{[}3\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a06fd18a201a66f021e0c72dfd845e26b}
+TODO \hypertarget{classTeamRobot_a84b5181a2fadaf7653d32f04fa04d657}{
+\index{TeamRobot@{TeamRobot}!m\_\-ballPm@{m\_\-ballPm}}
+\index{m\_\-ballPm@{m\_\-ballPm}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-ballPm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf BallMonitor}$\ast$ {\bf TeamRobot::m\_\-ballPm}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a84b5181a2fadaf7653d32f04fa04d657}
+TODO \hypertarget{classTeamRobot_a0292337f910ac2bbb300affb87891ba7}{
+\index{TeamRobot@{TeamRobot}!m\_\-borderObstacles@{m\_\-borderObstacles}}
+\index{m\_\-borderObstacles@{m\_\-borderObstacles}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-borderObstacles}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon}$\ast$ {\bf TeamRobot::m\_\-borderObstacles}\mbox{[}4\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a0292337f910ac2bbb300affb87891ba7}
+TODO \hypertarget{classTeamRobot_a3bfcb3cdeedcc11eaed1b5bce532560f}{
+\index{TeamRobot@{TeamRobot}!m\_\-coordCalib@{m\_\-coordCalib}}
+\index{m\_\-coordCalib@{m\_\-coordCalib}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-coordCalib}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf CoordinatesCalibrer}$\ast$ {\bf TeamRobot::m\_\-coordCalib}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a3bfcb3cdeedcc11eaed1b5bce532560f}
+TODO \hypertarget{classTeamRobot_a5758854ca2d6a084bea074c39e75b5d3}{
+\index{TeamRobot@{TeamRobot}!m\_\-defaultPos@{m\_\-defaultPos}}
+\index{m\_\-defaultPos@{m\_\-defaultPos}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-defaultPos}]{\setlength{\rightskip}{0pt plus 5cm}Position {\bf TeamRobot::m\_\-defaultPos}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a5758854ca2d6a084bea074c39e75b5d3}
+TODO \hypertarget{classTeamRobot_aecbb2869966fba9b3de3cbc530c7bc36}{
+\index{TeamRobot@{TeamRobot}!m\_\-display@{m\_\-display}}
+\index{m\_\-display@{m\_\-display}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-display}]{\setlength{\rightskip}{0pt plus 5cm}{\bf RefereeDisplay}$\ast$ {\bf TeamRobot::m\_\-display}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_aecbb2869966fba9b3de3cbc530c7bc36}
+TODO \hypertarget{classTeamRobot_ae4bafa3b5f0df155b1a45f95f6671316}{
+\index{TeamRobot@{TeamRobot}!m\_\-go\_\-x@{m\_\-go\_\-x}}
+\index{m\_\-go\_\-x@{m\_\-go\_\-x}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-go\_\-x}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf TeamRobot::m\_\-go\_\-x}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_ae4bafa3b5f0df155b1a45f95f6671316}
+TODO \hypertarget{classTeamRobot_ad0b6cee88278087238bf6fcecb419808}{
+\index{TeamRobot@{TeamRobot}!m\_\-go\_\-y@{m\_\-go\_\-y}}
+\index{m\_\-go\_\-y@{m\_\-go\_\-y}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-go\_\-y}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf TeamRobot::m\_\-go\_\-y}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_ad0b6cee88278087238bf6fcecb419808}
+TODO \hypertarget{classTeamRobot_acf38fcc5b3c4ab4815fb151e39d5889c}{
+\index{TeamRobot@{TeamRobot}!m\_\-map@{m\_\-map}}
+\index{m\_\-map@{m\_\-map}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-map}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Interpreter::Map} {\bf TeamRobot::m\_\-map}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_acf38fcc5b3c4ab4815fb151e39d5889c}
+TODO \hypertarget{classTeamRobot_af170b8d2e1b76b12f8cc83f6ec908e40}{
+\index{TeamRobot@{TeamRobot}!m\_\-path@{m\_\-path}}
+\index{m\_\-path@{m\_\-path}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-path}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf TeamRobot::m\_\-path}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_af170b8d2e1b76b12f8cc83f6ec908e40}
+TODO 
+
+Reimplemented in \hyperlink{classPlayerTwo_af9880885ced53351b52dcc949f6df162}{PlayerTwo}.
+
+\hypertarget{classTeamRobot_ac5845718f0d540e3f17f39d62d6f11c7}{
+\index{TeamRobot@{TeamRobot}!m\_\-pathFinder@{m\_\-pathFinder}}
+\index{m\_\-pathFinder@{m\_\-pathFinder}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-pathFinder}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PathFinder} {\bf TeamRobot::m\_\-pathFinder}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_ac5845718f0d540e3f17f39d62d6f11c7}
+TODO \hypertarget{classTeamRobot_aca22e17bd02f1ce84786ed2194764afa}{
+\index{TeamRobot@{TeamRobot}!m\_\-pathFinderPath@{m\_\-pathFinderPath}}
+\index{m\_\-pathFinderPath@{m\_\-pathFinderPath}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-pathFinderPath}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PathFinder::Path} {\bf TeamRobot::m\_\-pathFinderPath}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_aca22e17bd02f1ce84786ed2194764afa}
+TODO \hypertarget{classTeamRobot_a155fbee5f74459799332801b09c99616}{
+\index{TeamRobot@{TeamRobot}!m\_\-penaltyAreaObstacles@{m\_\-penaltyAreaObstacles}}
+\index{m\_\-penaltyAreaObstacles@{m\_\-penaltyAreaObstacles}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-penaltyAreaObstacles}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon}$\ast$ {\bf TeamRobot::m\_\-penaltyAreaObstacles}\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a155fbee5f74459799332801b09c99616}
+TODO \hypertarget{classTeamRobot_ab32d14c3de4fd5a6ff6db39eb04f52f2}{
+\index{TeamRobot@{TeamRobot}!m\_\-prevFormation@{m\_\-prevFormation}}
+\index{m\_\-prevFormation@{m\_\-prevFormation}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-prevFormation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Interpreter::Strategy} {\bf TeamRobot::m\_\-prevFormation}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_ab32d14c3de4fd5a6ff6db39eb04f52f2}
+TODO \hypertarget{classTeamRobot_a982ed6b6964c5e8b94519ef91b52c468}{
+\index{TeamRobot@{TeamRobot}!m\_\-q@{m\_\-q}}
+\index{m\_\-q@{m\_\-q}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-q}]{\setlength{\rightskip}{0pt plus 5cm}queue$<$int$>$ {\bf TeamRobot::m\_\-q}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a982ed6b6964c5e8b94519ef91b52c468}
+TODO 
+
+Reimplemented in \hyperlink{classPlayerTwo_ac2f70709bd48ad9f5c2435cbff1e65b3}{PlayerTwo}.
+
+\hypertarget{classTeamRobot_a5337cff2b594fd63b2445c1d49374d7e}{
+\index{TeamRobot@{TeamRobot}!m\_\-roboObstaclePos@{m\_\-roboObstaclePos}}
+\index{m\_\-roboObstaclePos@{m\_\-roboObstaclePos}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-roboObstaclePos}]{\setlength{\rightskip}{0pt plus 5cm}Position {\bf TeamRobot::m\_\-roboObstaclePos}\mbox{[}5\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a5337cff2b594fd63b2445c1d49374d7e}
+TODO \hypertarget{classTeamRobot_a9dc410e800f251d62dbde6b3791b2009}{
+\index{TeamRobot@{TeamRobot}!m\_\-roboObstacles@{m\_\-roboObstacles}}
+\index{m\_\-roboObstacles@{m\_\-roboObstacles}!TeamRobot@{TeamRobot}}
+\subsubsection[{m\_\-roboObstacles}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon}$\ast$ {\bf TeamRobot::m\_\-roboObstacles}\mbox{[}5\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
+\label{classTeamRobot_a9dc410e800f251d62dbde6b3791b2009}
+TODO 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{teamrobot_8h}{teamrobot.h}\item 
+src/\hyperlink{teamrobot_8cpp}{teamrobot.cpp}\end{DoxyCompactItemize}

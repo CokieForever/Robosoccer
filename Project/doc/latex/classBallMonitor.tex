@@ -1,0 +1,404 @@
+\hypertarget{classBallMonitor}{
+\section{BallMonitor Class Reference}
+\label{classBallMonitor}\index{BallMonitor@{BallMonitor}}
+}
+
+
+{\ttfamily \#include $<$ballmonitor.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structBallMonitor_1_1Angle}{Angle}
+\item 
+struct \hyperlink{structBallMonitor_1_1Direction}{Direction}
+\item 
+struct \hyperlink{structBallMonitor_1_1PosTime}{PosTime}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classBallMonitor_a176a257973eefa572b6972aa6b5a605d}{BallMonitor} (\hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalibrer, RawBall $\ast$ball=NULL)
+\item 
+bool \hyperlink{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}{StartMonitoring} (RawBall $\ast$ball=NULL)
+\item 
+bool \hyperlink{classBallMonitor_af71db12abeb1f10f7be58eb7591910a3}{StopMonitoring} ()
+\item 
+bool \hyperlink{classBallMonitor_aab81815271c442087c15bc8f6843d092}{GetBallPosition} (Position $\ast$pos) const 
+\item 
+bool \hyperlink{classBallMonitor_a3cd2fe1ed297c468634fbb390ca088bd}{GetBallDirection} (\hyperlink{structBallMonitor_1_1Direction}{Direction} $\ast$dir) const 
+\item 
+bool \hyperlink{classBallMonitor_a914053314023ea79ee691a3031e355bf}{PredictBallPosition} (double $\ast$a, double $\ast$b, int precision)
+\item 
+bool \hyperlink{classBallMonitor_a8995e71b82d80987984dd6b1ed89c0a0}{IsBallMoving} () const 
+\item 
+std::vector$<$ double $>$ \hyperlink{classBallMonitor_aad046acf9df6b0381ab3b1b8351e97c5}{ComputeVisibilityMap} (int maxLevel, const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robot\mbox{[}6\mbox{]}, eSide ourSide, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalib) const 
+\item 
+std::vector$<$ double $>$ \hyperlink{classBallMonitor_ac30119e22cfe4814670c4eae8c6b5495}{ComputeVisibilityMap} (const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robot\mbox{[}6\mbox{]}, eSide ourSide, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalib) const 
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a0d2ef73ba2b0573021c800c311e08245}{ComputeVisibilityMap} (int maxLevel, Position pos, const Position $\ast$robotPos, int nbPos, eSide ourSide)
+\item 
+static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a53e07299cf403dd036cab543d37fbf92}{ComputeVisibilityMap} (Position pos, const Position $\ast$robotPos, int nbPos, eSide ourSide)
+\item 
+static double \hyperlink{classBallMonitor_a9045d5d3abf9c9b549303c831b3387e0}{GetBestDirection} (std::vector$<$ double $>$ visibilityMap, eSide ourSide)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const int \hyperlink{classBallMonitor_a6603291a8d6c6a2de7b378ece54d5e2b}{NB\_\-POSTIME} = 10
+\end{DoxyCompactItemize}
+\subsection*{Private Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef bool($\ast$ \hyperlink{classBallMonitor_a5ad781c99d5b43bee7c838de9da75527}{CompareFn} )(const \hyperlink{structBallMonitor_1_1Angle}{Angle} \&, const \hyperlink{structBallMonitor_1_1Angle}{Angle} \&)
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classBallMonitor_a09ed61cf1852d45f03e7aacdebfe0175}{ResetPosTimeList} ()
+\item 
+bool \hyperlink{classBallMonitor_a49645db55ca752adbc2a5a074c7314be}{ComputeLinearRegression} (double $\ast$a, double $\ast$b, int precision=2) const 
+\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void $\ast$ \hyperlink{classBallMonitor_af76da8bc13e92d9083a9a77469c472df}{BallMonitoringFn} (void $\ast$data)
+\item 
+static void $\ast$ \hyperlink{classBallMonitor_a2ca3e25f437b5aabb3bc88e0f84cf9a5}{BallFollowingFn} (void $\ast$data)
+\item 
+static bool \hyperlink{classBallMonitor_a78114ec7fc20317f84491e428dd8c126}{CompareAngles} (const \hyperlink{structBallMonitor_1_1Angle}{Angle} \&a1, const \hyperlink{structBallMonitor_1_1Angle}{Angle} \&a2)
+\item 
+static \hyperlink{structBallMonitor_1_1Angle}{Angle} \hyperlink{classBallMonitor_a805b7229e7db773c56e9987d794ada9a}{CreateAngle} (double val, int id)
+\item 
+static double \hyperlink{classBallMonitor_a32d7b6d877b84c7d7fd9bc9ffe659562}{AngleVertMirror} (double angle)
+\item 
+static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a74f8a1ce881528e475269fa1c964fa61}{MergeVisibilityMaps} (std::vector$<$ double $>$ \&map1, std::vector$<$ double $>$ \&map2)
+\item 
+static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a8f3198b6b4ef8eb52c0ff04afd33cc8f}{AnglesToMap} (std::priority\_\-queue$<$ \hyperlink{structBallMonitor_1_1Angle}{Angle}, std::vector$<$ \hyperlink{structBallMonitor_1_1Angle}{Angle} $>$, \hyperlink{classBallMonitor_a5ad781c99d5b43bee7c838de9da75527}{CompareFn} $>$ angles, double minAngle, double maxAngle)
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+RawBall $\ast$ \hyperlink{classBallMonitor_a4bd064999cb8ee1a286c8dd7ac11ce05}{m\_\-mainBall}
+\item 
+bool \hyperlink{classBallMonitor_a2486fa4296de6308930dc3864e05b61a}{m\_\-stopBallMonitoring}
+\item 
+bool \hyperlink{classBallMonitor_ac991e138d7e4ae238d2a68365c1caa68}{m\_\-ballMonitoring}
+\item 
+pthread\_\-mutex\_\-t \hyperlink{classBallMonitor_a5a9a84961419fefc7131d449bab07b0f}{m\_\-ballMonitoringMtx}
+\item 
+pthread\_\-t \hyperlink{classBallMonitor_a97247e5882aa1012dca3a84ba1350ffe}{m\_\-ballMonitoringThread}
+\item 
+bool \hyperlink{classBallMonitor_ada441cfbcbac3335a118348945e8b6c7}{m\_\-ballFollowing}
+\item 
+pthread\_\-t \hyperlink{classBallMonitor_af2b98e5dca99d4d2efc01330d84400d6}{m\_\-ballFollowingThread}
+\item 
+bool \hyperlink{classBallMonitor_a306a59cfa638a9e4a4c8b6881b5e7f91}{m\_\-stopBallFollowing}
+\item 
+\hyperlink{structBallMonitor_1_1PosTime}{PosTime} \hyperlink{classBallMonitor_ad20f7e0f913357a70ad2d5113bb7cb5b}{m\_\-ballPosTime} \mbox{[}\hyperlink{classBallMonitor_a6603291a8d6c6a2de7b378ece54d5e2b}{NB\_\-POSTIME}\mbox{]}
+\item 
+int \hyperlink{classBallMonitor_a2f93064edafac9ef59555ecc8d860e0f}{m\_\-ballPosTimeInd}
+\item 
+int \hyperlink{classBallMonitor_a80d4362976840374c4e5c207e6a38c86}{m\_\-nbBallPosTime}
+\item 
+\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$ \hyperlink{classBallMonitor_a3411a0f9095e0d0e948a48b015ff1598}{m\_\-followerRobot}
+\item 
+\hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ \hyperlink{classBallMonitor_addde606e4f6cd92dc43efd3342ce5f60}{m\_\-coordCalibrer}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classBallMonitor_a5ad781c99d5b43bee7c838de9da75527}{
+\index{BallMonitor@{BallMonitor}!CompareFn@{CompareFn}}
+\index{CompareFn@{CompareFn}!BallMonitor@{BallMonitor}}
+\subsubsection[{CompareFn}]{\setlength{\rightskip}{0pt plus 5cm}typedef bool($\ast$ {\bf BallMonitor::CompareFn})(const {\bf Angle} \&, const {\bf Angle} \&)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a5ad781c99d5b43bee7c838de9da75527}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classBallMonitor_a176a257973eefa572b6972aa6b5a605d}{
+\index{BallMonitor@{BallMonitor}!BallMonitor@{BallMonitor}}
+\index{BallMonitor@{BallMonitor}!BallMonitor@{BallMonitor}}
+\subsubsection[{BallMonitor}]{\setlength{\rightskip}{0pt plus 5cm}BallMonitor::BallMonitor ({\bf CoordinatesCalibrer} $\ast$ {\em coordCalibrer}, \/  RawBall $\ast$ {\em ball} = {\ttfamily NULL})}}
+\label{classBallMonitor_a176a257973eefa572b6972aa6b5a605d}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em coordCalibrer}]\item[{\em ball}]\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classBallMonitor_a8f3198b6b4ef8eb52c0ff04afd33cc8f}{
+\index{BallMonitor@{BallMonitor}!AnglesToMap@{AnglesToMap}}
+\index{AnglesToMap@{AnglesToMap}!BallMonitor@{BallMonitor}}
+\subsubsection[{AnglesToMap}]{\setlength{\rightskip}{0pt plus 5cm}static std::vector$<$double$>$ BallMonitor::AnglesToMap (std::priority\_\-queue$<$ {\bf Angle}, std::vector$<$ {\bf Angle} $>$, {\bf CompareFn} $>$ {\em angles}, \/  double {\em minAngle}, \/  double {\em maxAngle})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classBallMonitor_a8f3198b6b4ef8eb52c0ff04afd33cc8f}
+\hypertarget{classBallMonitor_a32d7b6d877b84c7d7fd9bc9ffe659562}{
+\index{BallMonitor@{BallMonitor}!AngleVertMirror@{AngleVertMirror}}
+\index{AngleVertMirror@{AngleVertMirror}!BallMonitor@{BallMonitor}}
+\subsubsection[{AngleVertMirror}]{\setlength{\rightskip}{0pt plus 5cm}double BallMonitor::AngleVertMirror (double {\em angle})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classBallMonitor_a32d7b6d877b84c7d7fd9bc9ffe659562}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em angle}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a2ca3e25f437b5aabb3bc88e0f84cf9a5}{
+\index{BallMonitor@{BallMonitor}!BallFollowingFn@{BallFollowingFn}}
+\index{BallFollowingFn@{BallFollowingFn}!BallMonitor@{BallMonitor}}
+\subsubsection[{BallFollowingFn}]{\setlength{\rightskip}{0pt plus 5cm}static void$\ast$ BallMonitor::BallFollowingFn (void $\ast$ {\em data})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classBallMonitor_a2ca3e25f437b5aabb3bc88e0f84cf9a5}
+\hypertarget{classBallMonitor_af76da8bc13e92d9083a9a77469c472df}{
+\index{BallMonitor@{BallMonitor}!BallMonitoringFn@{BallMonitoringFn}}
+\index{BallMonitoringFn@{BallMonitoringFn}!BallMonitor@{BallMonitor}}
+\subsubsection[{BallMonitoringFn}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ BallMonitor::BallMonitoringFn (void $\ast$ {\em data})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classBallMonitor_af76da8bc13e92d9083a9a77469c472df}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em data}]\end{DoxyParams}
+\hypertarget{classBallMonitor_a78114ec7fc20317f84491e428dd8c126}{
+\index{BallMonitor@{BallMonitor}!CompareAngles@{CompareAngles}}
+\index{CompareAngles@{CompareAngles}!BallMonitor@{BallMonitor}}
+\subsubsection[{CompareAngles}]{\setlength{\rightskip}{0pt plus 5cm}bool BallMonitor::CompareAngles (const {\bf Angle} \& {\em a1}, \/  const {\bf Angle} \& {\em a2})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classBallMonitor_a78114ec7fc20317f84491e428dd8c126}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em a1}]\item[{\em a2}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a49645db55ca752adbc2a5a074c7314be}{
+\index{BallMonitor@{BallMonitor}!ComputeLinearRegression@{ComputeLinearRegression}}
+\index{ComputeLinearRegression@{ComputeLinearRegression}!BallMonitor@{BallMonitor}}
+\subsubsection[{ComputeLinearRegression}]{\setlength{\rightskip}{0pt plus 5cm}bool BallMonitor::ComputeLinearRegression (double $\ast$ {\em a}, \/  double $\ast$ {\em b}, \/  int {\em precision} = {\ttfamily 2}) const\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a49645db55ca752adbc2a5a074c7314be}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em a}]\item[{\em b}]\item[{\em precision}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_ac30119e22cfe4814670c4eae8c6b5495}{
+\index{BallMonitor@{BallMonitor}!ComputeVisibilityMap@{ComputeVisibilityMap}}
+\index{ComputeVisibilityMap@{ComputeVisibilityMap}!BallMonitor@{BallMonitor}}
+\subsubsection[{ComputeVisibilityMap}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ double $>$ BallMonitor::ComputeVisibilityMap (const {\bf NewRoboControl} $\ast$ {\em robot}\mbox{[}6\mbox{]}, \/  eSide {\em ourSide}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em coordCalib}) const}}
+\label{classBallMonitor_ac30119e22cfe4814670c4eae8c6b5495}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em robot\mbox{[}$\,$\mbox{]}}]\item[{\em ourSide}]\item[{\em coordCalib}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std::vector$<$double$>$ 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_aad046acf9df6b0381ab3b1b8351e97c5}{
+\index{BallMonitor@{BallMonitor}!ComputeVisibilityMap@{ComputeVisibilityMap}}
+\index{ComputeVisibilityMap@{ComputeVisibilityMap}!BallMonitor@{BallMonitor}}
+\subsubsection[{ComputeVisibilityMap}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ double $>$ BallMonitor::ComputeVisibilityMap (int {\em maxLevel}, \/  const {\bf NewRoboControl} $\ast$ {\em robot}\mbox{[}6\mbox{]}, \/  eSide {\em ourSide}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em coordCalib}) const}}
+\label{classBallMonitor_aad046acf9df6b0381ab3b1b8351e97c5}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em maxLevel}]\item[{\em robot\mbox{[}$\,$\mbox{]}}]\item[{\em ourSide}]\item[{\em coordCalib}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std::vector$<$double$>$ 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a53e07299cf403dd036cab543d37fbf92}{
+\index{BallMonitor@{BallMonitor}!ComputeVisibilityMap@{ComputeVisibilityMap}}
+\index{ComputeVisibilityMap@{ComputeVisibilityMap}!BallMonitor@{BallMonitor}}
+\subsubsection[{ComputeVisibilityMap}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ double $>$ BallMonitor::ComputeVisibilityMap (Position {\em pos}, \/  const Position $\ast$ {\em robotPos}, \/  int {\em nbPos}, \/  eSide {\em ourSide})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classBallMonitor_a53e07299cf403dd036cab543d37fbf92}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pos}]\item[{\em robotPos}]\item[{\em nbPos}]\item[{\em ourSide}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std::vector$<$double$>$ 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a0d2ef73ba2b0573021c800c311e08245}{
+\index{BallMonitor@{BallMonitor}!ComputeVisibilityMap@{ComputeVisibilityMap}}
+\index{ComputeVisibilityMap@{ComputeVisibilityMap}!BallMonitor@{BallMonitor}}
+\subsubsection[{ComputeVisibilityMap}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ double $>$ BallMonitor::ComputeVisibilityMap (int {\em maxLevel}, \/  Position {\em pos}, \/  const Position $\ast$ {\em robotPos}, \/  int {\em nbPos}, \/  eSide {\em ourSide})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classBallMonitor_a0d2ef73ba2b0573021c800c311e08245}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em maxLevel}]\item[{\em pos}]\item[{\em robotPos}]\item[{\em nbPos}]\item[{\em ourSide}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std::vector$<$double$>$ 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a805b7229e7db773c56e9987d794ada9a}{
+\index{BallMonitor@{BallMonitor}!CreateAngle@{CreateAngle}}
+\index{CreateAngle@{CreateAngle}!BallMonitor@{BallMonitor}}
+\subsubsection[{CreateAngle}]{\setlength{\rightskip}{0pt plus 5cm}{\bf BallMonitor::Angle} BallMonitor::CreateAngle (double {\em val}, \/  int {\em id})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classBallMonitor_a805b7229e7db773c56e9987d794ada9a}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em val}]\item[{\em id}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{structBallMonitor_1_1Angle}{BallMonitor::Angle} 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a3cd2fe1ed297c468634fbb390ca088bd}{
+\index{BallMonitor@{BallMonitor}!GetBallDirection@{GetBallDirection}}
+\index{GetBallDirection@{GetBallDirection}!BallMonitor@{BallMonitor}}
+\subsubsection[{GetBallDirection}]{\setlength{\rightskip}{0pt plus 5cm}bool BallMonitor::GetBallDirection ({\bf Direction} $\ast$ {\em dir}) const}}
+\label{classBallMonitor_a3cd2fe1ed297c468634fbb390ca088bd}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em dir}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_aab81815271c442087c15bc8f6843d092}{
+\index{BallMonitor@{BallMonitor}!GetBallPosition@{GetBallPosition}}
+\index{GetBallPosition@{GetBallPosition}!BallMonitor@{BallMonitor}}
+\subsubsection[{GetBallPosition}]{\setlength{\rightskip}{0pt plus 5cm}bool BallMonitor::GetBallPosition (Position $\ast$ {\em pos}) const}}
+\label{classBallMonitor_aab81815271c442087c15bc8f6843d092}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pos}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a9045d5d3abf9c9b549303c831b3387e0}{
+\index{BallMonitor@{BallMonitor}!GetBestDirection@{GetBestDirection}}
+\index{GetBestDirection@{GetBestDirection}!BallMonitor@{BallMonitor}}
+\subsubsection[{GetBestDirection}]{\setlength{\rightskip}{0pt plus 5cm}double BallMonitor::GetBestDirection (std::vector$<$ double $>$ {\em visibilityMap}, \/  eSide {\em ourSide})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classBallMonitor_a9045d5d3abf9c9b549303c831b3387e0}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em visibilityMap}]\item[{\em ourSide}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a8995e71b82d80987984dd6b1ed89c0a0}{
+\index{BallMonitor@{BallMonitor}!IsBallMoving@{IsBallMoving}}
+\index{IsBallMoving@{IsBallMoving}!BallMonitor@{BallMonitor}}
+\subsubsection[{IsBallMoving}]{\setlength{\rightskip}{0pt plus 5cm}bool BallMonitor::IsBallMoving () const}}
+\label{classBallMonitor_a8995e71b82d80987984dd6b1ed89c0a0}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a74f8a1ce881528e475269fa1c964fa61}{
+\index{BallMonitor@{BallMonitor}!MergeVisibilityMaps@{MergeVisibilityMaps}}
+\index{MergeVisibilityMaps@{MergeVisibilityMaps}!BallMonitor@{BallMonitor}}
+\subsubsection[{MergeVisibilityMaps}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ double $>$ BallMonitor::MergeVisibilityMaps (std::vector$<$ double $>$ \& {\em map1}, \/  std::vector$<$ double $>$ \& {\em map2})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classBallMonitor_a74f8a1ce881528e475269fa1c964fa61}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map1}]\item[{\em map2}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std::vector$<$double$>$ 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a914053314023ea79ee691a3031e355bf}{
+\index{BallMonitor@{BallMonitor}!PredictBallPosition@{PredictBallPosition}}
+\index{PredictBallPosition@{PredictBallPosition}!BallMonitor@{BallMonitor}}
+\subsubsection[{PredictBallPosition}]{\setlength{\rightskip}{0pt plus 5cm}bool BallMonitor::PredictBallPosition (double $\ast$ {\em a}, \/  double $\ast$ {\em b}, \/  int {\em precision})}}
+\label{classBallMonitor_a914053314023ea79ee691a3031e355bf}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em a}]\item[{\em b}]\item[{\em precision}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_a09ed61cf1852d45f03e7aacdebfe0175}{
+\index{BallMonitor@{BallMonitor}!ResetPosTimeList@{ResetPosTimeList}}
+\index{ResetPosTimeList@{ResetPosTimeList}!BallMonitor@{BallMonitor}}
+\subsubsection[{ResetPosTimeList}]{\setlength{\rightskip}{0pt plus 5cm}void BallMonitor::ResetPosTimeList ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a09ed61cf1852d45f03e7aacdebfe0175}
+\hypertarget{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}{
+\index{BallMonitor@{BallMonitor}!StartMonitoring@{StartMonitoring}}
+\index{StartMonitoring@{StartMonitoring}!BallMonitor@{BallMonitor}}
+\subsubsection[{StartMonitoring}]{\setlength{\rightskip}{0pt plus 5cm}bool BallMonitor::StartMonitoring (RawBall $\ast$ {\em ball} = {\ttfamily NULL})}}
+\label{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ball}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classBallMonitor_af71db12abeb1f10f7be58eb7591910a3}{
+\index{BallMonitor@{BallMonitor}!StopMonitoring@{StopMonitoring}}
+\index{StopMonitoring@{StopMonitoring}!BallMonitor@{BallMonitor}}
+\subsubsection[{StopMonitoring}]{\setlength{\rightskip}{0pt plus 5cm}bool BallMonitor::StopMonitoring ()}}
+\label{classBallMonitor_af71db12abeb1f10f7be58eb7591910a3}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classBallMonitor_ada441cfbcbac3335a118348945e8b6c7}{
+\index{BallMonitor@{BallMonitor}!m\_\-ballFollowing@{m\_\-ballFollowing}}
+\index{m\_\-ballFollowing@{m\_\-ballFollowing}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-ballFollowing}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf BallMonitor::m\_\-ballFollowing}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_ada441cfbcbac3335a118348945e8b6c7}
+TODO \hypertarget{classBallMonitor_af2b98e5dca99d4d2efc01330d84400d6}{
+\index{BallMonitor@{BallMonitor}!m\_\-ballFollowingThread@{m\_\-ballFollowingThread}}
+\index{m\_\-ballFollowingThread@{m\_\-ballFollowingThread}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-ballFollowingThread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-t {\bf BallMonitor::m\_\-ballFollowingThread}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_af2b98e5dca99d4d2efc01330d84400d6}
+TODO \hypertarget{classBallMonitor_ac991e138d7e4ae238d2a68365c1caa68}{
+\index{BallMonitor@{BallMonitor}!m\_\-ballMonitoring@{m\_\-ballMonitoring}}
+\index{m\_\-ballMonitoring@{m\_\-ballMonitoring}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-ballMonitoring}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf BallMonitor::m\_\-ballMonitoring}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_ac991e138d7e4ae238d2a68365c1caa68}
+TODO \hypertarget{classBallMonitor_a5a9a84961419fefc7131d449bab07b0f}{
+\index{BallMonitor@{BallMonitor}!m\_\-ballMonitoringMtx@{m\_\-ballMonitoringMtx}}
+\index{m\_\-ballMonitoringMtx@{m\_\-ballMonitoringMtx}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-ballMonitoringMtx}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-mutex\_\-t {\bf BallMonitor::m\_\-ballMonitoringMtx}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a5a9a84961419fefc7131d449bab07b0f}
+TODO \hypertarget{classBallMonitor_a97247e5882aa1012dca3a84ba1350ffe}{
+\index{BallMonitor@{BallMonitor}!m\_\-ballMonitoringThread@{m\_\-ballMonitoringThread}}
+\index{m\_\-ballMonitoringThread@{m\_\-ballMonitoringThread}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-ballMonitoringThread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-t {\bf BallMonitor::m\_\-ballMonitoringThread}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a97247e5882aa1012dca3a84ba1350ffe}
+TODO \hypertarget{classBallMonitor_ad20f7e0f913357a70ad2d5113bb7cb5b}{
+\index{BallMonitor@{BallMonitor}!m\_\-ballPosTime@{m\_\-ballPosTime}}
+\index{m\_\-ballPosTime@{m\_\-ballPosTime}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-ballPosTime}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PosTime} {\bf BallMonitor::m\_\-ballPosTime}\mbox{[}{\bf NB\_\-POSTIME}\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_ad20f7e0f913357a70ad2d5113bb7cb5b}
+TODO \hypertarget{classBallMonitor_a2f93064edafac9ef59555ecc8d860e0f}{
+\index{BallMonitor@{BallMonitor}!m\_\-ballPosTimeInd@{m\_\-ballPosTimeInd}}
+\index{m\_\-ballPosTimeInd@{m\_\-ballPosTimeInd}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-ballPosTimeInd}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf BallMonitor::m\_\-ballPosTimeInd}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a2f93064edafac9ef59555ecc8d860e0f}
+TODO \hypertarget{classBallMonitor_addde606e4f6cd92dc43efd3342ce5f60}{
+\index{BallMonitor@{BallMonitor}!m\_\-coordCalibrer@{m\_\-coordCalibrer}}
+\index{m\_\-coordCalibrer@{m\_\-coordCalibrer}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-coordCalibrer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CoordinatesCalibrer}$\ast$ {\bf BallMonitor::m\_\-coordCalibrer}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_addde606e4f6cd92dc43efd3342ce5f60}
+TODO \hypertarget{classBallMonitor_a3411a0f9095e0d0e948a48b015ff1598}{
+\index{BallMonitor@{BallMonitor}!m\_\-followerRobot@{m\_\-followerRobot}}
+\index{m\_\-followerRobot@{m\_\-followerRobot}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-followerRobot}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NewRoboControl}$\ast$ {\bf BallMonitor::m\_\-followerRobot}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a3411a0f9095e0d0e948a48b015ff1598}
+TODO \hypertarget{classBallMonitor_a4bd064999cb8ee1a286c8dd7ac11ce05}{
+\index{BallMonitor@{BallMonitor}!m\_\-mainBall@{m\_\-mainBall}}
+\index{m\_\-mainBall@{m\_\-mainBall}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-mainBall}]{\setlength{\rightskip}{0pt plus 5cm}RawBall$\ast$ {\bf BallMonitor::m\_\-mainBall}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a4bd064999cb8ee1a286c8dd7ac11ce05}
+TODO \hypertarget{classBallMonitor_a80d4362976840374c4e5c207e6a38c86}{
+\index{BallMonitor@{BallMonitor}!m\_\-nbBallPosTime@{m\_\-nbBallPosTime}}
+\index{m\_\-nbBallPosTime@{m\_\-nbBallPosTime}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-nbBallPosTime}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf BallMonitor::m\_\-nbBallPosTime}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a80d4362976840374c4e5c207e6a38c86}
+TODO \hypertarget{classBallMonitor_a306a59cfa638a9e4a4c8b6881b5e7f91}{
+\index{BallMonitor@{BallMonitor}!m\_\-stopBallFollowing@{m\_\-stopBallFollowing}}
+\index{m\_\-stopBallFollowing@{m\_\-stopBallFollowing}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-stopBallFollowing}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf BallMonitor::m\_\-stopBallFollowing}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a306a59cfa638a9e4a4c8b6881b5e7f91}
+TODO \hypertarget{classBallMonitor_a2486fa4296de6308930dc3864e05b61a}{
+\index{BallMonitor@{BallMonitor}!m\_\-stopBallMonitoring@{m\_\-stopBallMonitoring}}
+\index{m\_\-stopBallMonitoring@{m\_\-stopBallMonitoring}!BallMonitor@{BallMonitor}}
+\subsubsection[{m\_\-stopBallMonitoring}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf BallMonitor::m\_\-stopBallMonitoring}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classBallMonitor_a2486fa4296de6308930dc3864e05b61a}
+TODO \hypertarget{classBallMonitor_a6603291a8d6c6a2de7b378ece54d5e2b}{
+\index{BallMonitor@{BallMonitor}!NB\_\-POSTIME@{NB\_\-POSTIME}}
+\index{NB\_\-POSTIME@{NB\_\-POSTIME}!BallMonitor@{BallMonitor}}
+\subsubsection[{NB\_\-POSTIME}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf BallMonitor::NB\_\-POSTIME} = 10\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classBallMonitor_a6603291a8d6c6a2de7b378ece54d5e2b}
+TODO 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{ballmonitor_8h}{ballmonitor.h}\item 
+src/\hyperlink{ballmonitor_8cpp}{ballmonitor.cpp}\end{DoxyCompactItemize}

@@ -1,7 +1,18 @@
 #include "sdlutilities.h"
+#include "pathfinder.h"
 
 
 //From here: http://stackoverflow.com/questions/11737988/how-to-draw-a-line-using-sdl-without-using-external-libraries
+/**
+ * @brief
+ *
+ * @param surf
+ * @param x1
+ * @param y1
+ * @param x2
+ * @param y2
+ * @param color
+ */
 void DrawLine(SDL_Surface *surf, float x1, float y1, float x2, float y2, SDL_Color color)
 {
     Uint32 pixel = SDL_MapRGB(surf->format, color.r, color.g, color.b);
@@ -49,6 +60,14 @@ void DrawLine(SDL_Surface *surf, float x1, float y1, float x2, float y2, SDL_Col
     SDL_UnlockSurface(surf);
 }
 
+/**
+ * @brief
+ *
+ * @param r
+ * @param g
+ * @param b
+ * @return SDL_Color
+ */
 SDL_Color CreateColor(int r, int g, int b)
 {
     SDL_Color color = {r,g,b,0};
@@ -58,6 +77,14 @@ SDL_Color CreateColor(int r, int g, int b)
 /*
  * Return the pixel value at (x, y)
  * NOTE: The surface must be locked before calling this!
+ */
+/**
+ * @brief
+ *
+ * @param surface
+ * @param x
+ * @param y
+ * @return Uint32
  */
 Uint32 GetPixel(SDL_Surface *surface, int x, int y)
 {
@@ -86,6 +113,15 @@ Uint32 GetPixel(SDL_Surface *surface, int x, int y)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param surf
+ * @param x
+ * @param y
+ * @param pixel
+ * @return bool
+ */
 bool PutPixelCheck(SDL_Surface *surf, int x, int y, Uint32 pixel)
 {
     if (x < 0 || y < 0 || x >= surf->w || y >= surf->h)
@@ -97,6 +133,14 @@ bool PutPixelCheck(SDL_Surface *surf, int x, int y, Uint32 pixel)
 /*
  * Set the pixel at (x, y) to the given value
  * NOTE: The surface must be locked before calling this!
+ */
+/**
+ * @brief
+ *
+ * @param surface
+ * @param x
+ * @param y
+ * @param pixel
  */
 void PutPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
@@ -131,6 +175,13 @@ void PutPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
     }
 }
 
+/**
+ * @brief
+ *
+ * @param surf
+ * @param rect
+ * @param color
+ */
 void DrawRect(SDL_Surface *surf, SDL_Rect rect, SDL_Color color)
 {
     Uint32 pixel = SDL_MapRGB(surf->format, color.r, color.g, color.b);
@@ -151,6 +202,11 @@ void DrawRect(SDL_Surface *surf, SDL_Rect rect, SDL_Color color)
     SDL_UnlockSurface(surf);
 }
 
+/**
+ * @brief
+ *
+ * @return SDL_Rect
+ */
 SDL_Rect GetMousePos()
 {
     int x, y;
@@ -159,12 +215,27 @@ SDL_Rect GetMousePos()
     return rect;
 }
 
+/**
+ * @brief
+ *
+ * @param area
+ * @param colorHovered
+ * @param colorPushed
+ * @return Button
+ */
 Button CreateButton(SDL_Rect area, SDL_Color colorHovered, SDL_Color colorPushed)
 {
     Button button = {area, colorHovered, colorPushed, false};
     return button;
 }
 
+/**
+ * @brief
+ *
+ * @param button
+ * @param event
+ * @return ButtonStatus
+ */
 ButtonStatus ManageButton(Button *button, SDL_Event event)
 {
     ButtonStatus status = BS_NONE;
@@ -205,12 +276,27 @@ ButtonStatus ManageButton(Button *button, SDL_Event event)
     return status;
 }
 
+/**
+ * @brief
+ *
+ * @param area
+ * @param ghostSurf
+ * @param colorHovered
+ * @return DragDrop
+ */
 DragDrop CreateDragDrop(SDL_Rect area, SDL_Surface *ghostSurf, SDL_Color colorHovered)
 {
     DragDrop dd = {area, colorHovered, ghostSurf, false};
     return dd;
 }
 
+/**
+ * @brief
+ *
+ * @param dd
+ * @param event
+ * @return DragDropStatus
+ */
 DragDropStatus ManageDragDrop(DragDrop *dd, SDL_Event event)
 {
     DragDropStatus status = DDS_NONE;
@@ -255,3 +341,4 @@ DragDropStatus ManageDragDrop(DragDrop *dd, SDL_Event event)
 
     return status;
 }
+

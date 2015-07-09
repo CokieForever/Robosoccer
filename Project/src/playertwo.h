@@ -9,41 +9,56 @@
 #include <queue>
 
 
+/**
+ * @brief
+ *
+ */
 class PlayerTwo : public TeamRobot
 {
 
   public:
+    /**
+     * @brief
+     *
+     */
     enum ActionPlayerTwo
     {
-      GO_TO_DEF_POS, KICK_PENALTY, KICK_OFF, STOP, FOLLOWPATH, DEFENSE, ATTACK
+        GO_TO_DEF_POS,  /**< TODO */
+        FOLLOWPATH,     /**< TODO */
+        STOP,           /**< TODO */
+        DEFENSE         /**< TODO */
     };
 
+    /**
+     * @brief
+     *
+     */
     struct KickParam
     {
-      double  turnAngle;
-      int  force;
-      Position pos;
+      double turnAngle;     /**< TODO */
+      int force;            /**< TODO */
+      Position pos;         /**< TODO */
 
     };
 
-    PlayerTwo(RTDBConn& DBC, const int deviceNr, CoordinatesCalibrer* coordCalib, RawBall*, BallMonitor* ballpt);
+    PlayerTwo(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall*, BallMonitor *ballPm, RefereeDisplay *display = NULL);
 
-
-    void setNextCmd(Interpreter* info);
-    void setCmdParam(void);
-    void* performCmd(void);
-    void defend_p2 (void);
+    void setNextCmd(const Interpreter::GameData& info);
+    void setCmdParam(const Interpreter& interpreter);
+    void performCmd(const Interpreter::GameData& info);
 
   private:
-    BallMonitor* m_ballpt;
-    Position m_defendp2;
-    queue<int> m_q;
-    string m_path;
-    ActionPlayerTwo m_nextCmd;
-    KickParam m_kickPenaltyParam;
-    Position m_kickOffParam;
-    int m_go_x, m_go_y;
+    static const double DEFENSE_LINE = 0.75;    /**< TODO */
 
+    BallMonitor* m_ballpt;          /**< TODO */
+    queue<int> m_q;                 /**< TODO */
+    string m_path;                  /**< TODO */
+    ActionPlayerTwo m_nextCmd;      /**< TODO */
+    KickParam m_kickPenaltyParam;   /**< TODO */
+    Position m_kickOffParam;        /**< TODO */
+    Position m_defendpm;            /**< TODO */
+    
+    void AddObstacleForFormation(const Interpreter::GameData& info);
 
 };
 #endif // PLAYERTWO_H
