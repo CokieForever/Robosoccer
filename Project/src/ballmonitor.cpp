@@ -4,10 +4,10 @@
 #include "geometry.h"
 
 /**
- * @brief
+ * @brief creates a @ref BallMonitor . This is the constructor of ball monitor class
  *
- * @param coordCalibrer
- * @param ball
+ * @param coordCalibrer the coordinates calibrer
+ * @param ball The ball
  */
 BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball)
 {
@@ -25,10 +25,10 @@ BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball)
 }
 
 /**
- * @brief
+ * @brief This function starts the monitoring of the ball.It creates a new thread to monitor the ball.
  *
- * @param ball
- * @return bool
+ * @param ball The ball .
+ * @return bool It tells us if the monitoring was done or not.
  */
 bool BallMonitor::StartMonitoring(RawBall *ball)
 {
@@ -49,9 +49,9 @@ bool BallMonitor::StartMonitoring(RawBall *ball)
 }
 
 /**
- * @brief
+ * @brief This function stops the monitoring of the ball.It destroys the thread created to monitor the ball.
  *
- * @return bool
+ * @return bool It tells if the monitoring was stopped or not.
  */
 bool BallMonitor::StopMonitoring()
 {
@@ -67,10 +67,10 @@ bool BallMonitor::StopMonitoring()
 }
 
 /**
- * @brief
+ * @brief This function gets the position of the ball.
  *
- * @param pos
- * @return bool
+ * @param pos  A pointer to the position of the ball
+ * @return bool It tells us if the position was got or not.
  */
 bool BallMonitor::GetBallPosition(Position *pos) const
 {
@@ -91,10 +91,10 @@ bool BallMonitor::GetBallPosition(Position *pos) const
 }
 
 /**
- * @brief
+ * @brief This function gets the direction of the ball.
  *
- * @param dir
- * @return bool
+ * @param dir Direction of the ball.
+ * @return bool True if the Direction of the ball was got. False if not.
  */
 bool BallMonitor::GetBallDirection(Direction *dir) const
 {
@@ -121,11 +121,12 @@ bool BallMonitor::GetBallDirection(Direction *dir) const
 }
 
 /**
- * @brief
+ * @brief This funtion predicts the linear trajectory of a moving ball with a certain precision
+ *  based on two positions of the ball in two different times.
  *
- * @param a
- * @param b
- * @param precision
+ * @param a The solpe of the line describing the predicted trajectory of the ball.
+ * @param b The intercept the line describing the predicted trajectory of the ball.
+ * @param precision The precision with which thr line trajectory of the ball is predicted.
  * @return bool
  */
 bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
@@ -165,9 +166,9 @@ bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
 }
 
 /**
- * @brief
+ * @brief Tells if the ball is moving on the field or not.
  *
- * @return bool
+ * @return bool True if the ball is moving. False if not.
  */
 bool BallMonitor::IsBallMoving() const
 {
@@ -187,11 +188,11 @@ bool BallMonitor::IsBallMoving() const
 }
 
 /**
- * @brief
+ * @brief Gives the best direction to shoot the ball
  *
- * @param visibilityMap
- * @param ourSide
- * @return double
+ * @param visibilityMap The visibility map of the robot. It is the beam in which it is possible to shoot the ball.
+ * @param ourSide The side where our team plays.
+ * @return double The angle inside the beam in which it is better to shoot the ball.
  */
 double BallMonitor::GetBestDirection(std::vector<double> visibilityMap, eSide ourSide)
 {
@@ -245,7 +246,7 @@ double BallMonitor::GetBestDirection(std::vector<double> visibilityMap, eSide ou
 }
 
 /**
- * @brief
+ * @brief This function computes the visibility map based on the position of other robots and on our side.
  *
  * @param maxLevel
  * @param robot[]

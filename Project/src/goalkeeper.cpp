@@ -12,22 +12,22 @@
 
 
 /**
- * @brief
+ * @brief This is the constructor of Goalkeeper class
  *
- * @param DBC
- * @param deviceNr
- * @param coordCalib
- * @param b
- * @param ballPm
+ * @param DBC Database connexion.
+ * @param deviceNr The number of the robot.
+ * @param coordCalib Calibrer of coordinates.
+ * @param b The ball.
+ * @param ballPm The ball monitor of the ball.
  */
 Goalkeeper::Goalkeeper(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm)
 {
 }
 
 /**
- * @brief
+ * @brief This function sets the next command for the goalkeeper.
  *
- * @param info
+ * @param info Information about the playmode given by the interpreter.
  */
 void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
 {
@@ -60,9 +60,9 @@ void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief
+ * @brief This function sets the next command for the goalkeeper.
  *
- * @param interpreter
+ * @param interpreter The interpreter
  */
 void Goalkeeper::setCmdParam(const Interpreter& interpreter)
 {
@@ -111,9 +111,9 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
 }
 
 /**
- * @brief
+ * @brief perform the commands for the goalkeeper.
  *
- * @param info
+ * @param info Information about the playmode given by the interpreter.
  */
 void Goalkeeper::performCmd(const Interpreter::GameData& info)
 {
@@ -134,9 +134,9 @@ void Goalkeeper::performCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief
+ * @brief This methods adds obstacles where the goalkeeper shouln't go.
  *
- * @param info
+ * @param info Information about the game given by the interpreter.
  */
 void Goalkeeper::AddObstacleForFormation(const Interpreter::GameData& info)
 {

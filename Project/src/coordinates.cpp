@@ -2,7 +2,7 @@
 
 
 /**
- * @brief
+ * @brief Initializing  constructor.
  *
  */
 CoordinatesCalibrer::CoordinatesCalibrer()
@@ -11,12 +11,12 @@ CoordinatesCalibrer::CoordinatesCalibrer()
 }
 
 /**
- * @brief
+ * @brief Constructor of the coordinates calibrer based on 4 positions in the field.
  *
- * @param a
- * @param b
- * @param c
- * @param d
+ * @param a First position
+ * @param b Second position
+ * @param c Third position
+ * @param d Fourth position
  */
 CoordinatesCalibrer::CoordinatesCalibrer(Position a, Position b, Position c, Position d)
 {
@@ -25,7 +25,7 @@ CoordinatesCalibrer::CoordinatesCalibrer(Position a, Position b, Position c, Pos
 }
 
 /**
- * @brief
+ * @brief Initializes the parameters for the Coordinates calibrer class
  *
  */
 void CoordinatesCalibrer::Init()
@@ -46,12 +46,12 @@ void CoordinatesCalibrer::Init()
 }
 
 /**
- * @brief
+ * @brief sets manually the coodinates calibrer based on 4 positions
  *
- * @param a
- * @param b
- * @param c
- * @param d
+ * @param a First position
+ * @param b Second position
+ * @param c Third position
+ * @param d Fourth position
  * @return bool
  */
 bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Position c, Position d)
@@ -81,10 +81,11 @@ bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Posi
 }
 
 /**
- * @brief
+ * @brief It normalizes a position
  *
- * @param pos
- * @return Position
+ *
+ * @param pos Position to be normalized.
+ * @return Position Normalized position.
  */
 Position CoordinatesCalibrer::NormalizePosition(Position pos) const
 {
@@ -106,10 +107,10 @@ Position CoordinatesCalibrer::NormalizePosition(Position pos) const
 }
 
 /**
- * @brief
+ * @brief It unnormalizes a position.
  *
- * @param pos
- * @return Position
+ * @param pos Position to be unnormalized.
+ * @return Position Unnormalized position.
  */
 Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
 {
@@ -131,10 +132,10 @@ Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
 }
 
 /**
- * @brief
+ * @brief It normalizes an angle to an angle between -M_PI and M_PI.
  *
- * @param angle
- * @return double
+ * @param angle Angle to be normalized.
+ * @return double Normalized Angle.
  */
 double CoordinatesCalibrer::NormalizeAngle(double angle) const
 {
@@ -158,10 +159,10 @@ double CoordinatesCalibrer::NormalizeAngle(double angle) const
 }
 
 /**
- * @brief
+ * @brief It unnormalizes an angle.
  *
- * @param angle
- * @return double
+ * @param angle Angle to be unnormalized.
+ * @return double The unnormalized angle.
  */
 double CoordinatesCalibrer::UnnormalizeAngle(double angle) const
 {
@@ -185,11 +186,11 @@ double CoordinatesCalibrer::UnnormalizeAngle(double angle) const
 }
 
 /**
- * @brief
+ * @brief This function starts the coordinates calibration
  *
- * @param robot1
- * @param robot2
- * @return bool
+ * @param robot1 First robot.
+ * @param robot2 Second robot.
+ * @return bool True if thr coordinates calibration was started. False if not.
  */
 bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboControl *robot2)
 {
@@ -204,10 +205,10 @@ bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboC
 }
 
 /**
- * @brief
+ * @brief It waits for the end of the coordinates calibration before ending it
  *
- * @param stopNow
- * @return bool
+ * @param stopNow True if the coordinates calbration should stop immediately. False if not.
+ * @return bool     True if the coordinates caliration is still not finished. False if it is stopped.
  */
 bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
 {
@@ -220,7 +221,7 @@ bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
 }
 
 /**
- * @brief
+ * @brief It gets the results of coordinates calibration.
  *
  * @param tx
  * @param ty
@@ -249,7 +250,7 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, dou
 }
 
 /**
- * @brief
+ * @brief it
  *
  * @param xMax
  * @param xMin
