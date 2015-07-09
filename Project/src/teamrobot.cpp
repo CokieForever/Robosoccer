@@ -237,10 +237,10 @@ void TeamRobot::GiveDisplay(RefereeDisplay *display)
 }
 
 /**
- * @brief
+ * @brief update the path based on current position of the robots
  *
- * @param obstacles[]
- * @param info
+ * @param obstacles[] are all other robots
+ * @param info is current playmode of referee
  */
 void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Interpreter::GameData& info)
 {
@@ -437,9 +437,9 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
 }
 
 /**
- * @brief
+ * @brief this function is carried out during the game and it allows the robot to attack and defense properly
  *
- * @param info
+ * @param info is current playmode of referee
  */
 void TeamRobot::FollowPath(const Interpreter::GameData& info)
 {
@@ -590,9 +590,9 @@ void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
 }
 
 /**
- * @brief
+ * @brief this function calculate whether the robot should move forwards or backwards to kick the ball. Furthermore, it adjusts the angle of the robot so that the robot can hit the ball precisely.
  *
- * @param ballPos
+ * @param ballPos is the position of the ball
  */
 void TeamRobot::KickBall(Position ballPos)
 {

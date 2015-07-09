@@ -180,12 +180,12 @@ double NewRoboControl::degToRad(double deg)
 }
 
 /**
- * @brief
+ * @brief this function check if the the robot reach the target
  *
- * @param current
- * @param target
- * @param precise
- * @return bool
+ * @param current is the current position of the robot
+ * @param target is the target position of the robot
+ * @param precise defines how precise the robot should be around the target
+ * @return bool return ture if the robot reaches the target
  */
 bool NewRoboControl::IsOnTarget(Position current, Position target, bool precise)
 {
@@ -232,13 +232,13 @@ bool NewRoboControl::IsOnTarget(Position target, bool precise) const
 }
 
 /**
- * @brief
+ * @brief move the robot to the target position
  *
- * @param tarX
- * @param tarY
- * @param speed
+ * @param tarX is the x value of target position
+ * @param tarY is the y value of target position
+ * @param speed the robot should move at this speed
  * @param tarP
- * @param varDir
+ * @param varDir defines whether the robot should move forwards or backwards
  * @return bool
  */
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
@@ -330,7 +330,7 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
 }
 
 /**
- * @brief
+ * @brief move the robot to a random position
  *
  */
 void NewRoboControl::RandomMove()
@@ -398,7 +398,7 @@ void NewRoboControl::setSpeed(double translation, double rotation, eDirection di
     }
     Log(ToString(wheelL) + " und " + ToString(wheelR), DEBUG);
     wheelL = wheelL - rotation * 800.0 / 3.14159265358965;
-    wheelR = wheelR + rotation * 800.0 / 3.14159265358965;
+    wheelR = wheelR + rotation * 800.0 / 3.14159265358965;l
 
     MoveMs(wheelL, wheelR, 50, 0);
 }

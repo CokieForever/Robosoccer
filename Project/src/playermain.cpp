@@ -204,11 +204,13 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
             pos = m_coordCalib->NormalizePosition(GetPos());
             mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
             mapy = Interpreter::coord2mapY(pos.GetY())+ m_go_y;
+    }
+}
 
 /**
- * @brief
+ * @brief in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots
  *
- * @param info
+ * @param info is the current playmode and situation(score etc.) from referee
  */
 void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
@@ -234,15 +236,11 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
         m_areaObstacle = NULL;   //Should never happen
 }
 
-            cruisetoBias(pos.GetX(),pos.GetY(), 600, -10, 30);
-            //robot->GotoPos(pos);
-            //wait until movement is done
-            //usleep(0.5e6);
 
 //Player main defend the goal corners
 //could be used in Defend Mode for P2
 /**
- * @brief
+ * @brief this function moves the robot to a specified position to carry out defense
  *
  */
 void PlayerMain::defend_p2(void)
@@ -281,7 +279,4 @@ void PlayerMain::defend_p2(void)
         counter = 0;
     }
     counter++;
-}
-
-    return 0;
 }

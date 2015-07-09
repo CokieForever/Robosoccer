@@ -91,10 +91,10 @@ bool BallMonitor::GetBallPosition(Position *pos) const
 }
 
 /**
- * @brief
+ * @brief this function calculate the direction of the ball and save the value as a vector
  *
- * @param dir
- * @return bool
+ * @param dir is the vector of the ball
+ * @return bool return false if the ball is not detected, true if the direction is determined.
  */
 bool BallMonitor::GetBallDirection(Direction *dir) const
 {
@@ -121,11 +121,11 @@ bool BallMonitor::GetBallDirection(Direction *dir) const
 }
 
 /**
- * @brief
+ * @brief interception of the ball.
  *
- * @param a
- * @param b
- * @param precision
+ * @param a possible x value of the location where the ball ends.
+ * @param b possible y value of the location where the ball ends.
+ * @param precision defines how many points are used to predict the ball track
  * @return bool
  */
 bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
@@ -165,9 +165,9 @@ bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
 }
 
 /**
- * @brief
+ * @brief this function checks if the ball is moving
  *
- * @return bool
+ * @return bool false if not moving
  */
 bool BallMonitor::IsBallMoving() const
 {
@@ -526,11 +526,11 @@ std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<A
 }
 
 /**
- * @brief
+ * @brief compare two angles
  *
- * @param a1
- * @param a2
- * @return bool
+ * @param a1 argument1
+ * @param a2 argument2
+ * @return bool true if a1>a2
  */
 bool BallMonitor::CompareAngles(const Angle& a1, const Angle& a2)
 {
