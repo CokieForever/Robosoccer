@@ -281,6 +281,8 @@ void* RefereeDisplay::RefDisplayFn(void *data)
             break;
 
         int n;
+        eSide ourSide = display->m_interpreter->getMode().our_side;
+        SDL_Rect r;
 
         #ifdef PATHPLANNING_ASTAR
         SDL_Surface *bgSurf = display->m_mapDisplay ? display->m_mapDisplay->UpdateDisplay() : NULL;
@@ -350,7 +352,6 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         }
 
         //Display visibility map for the ball
-        eSide ourSide = display->m_interpreter->getMode().our_side;
         std::vector<double> map = display->m_ballMonitor->ComputeVisibilityMap(2, (const NewRoboControl**)display->m_robots, ourSide, display->m_coordCalibrer);
         n = map.size();
         SDL_Rect ballPosR = display->PosToRect(ballPos_n);
@@ -370,12 +371,12 @@ void* RefereeDisplay::RefDisplayFn(void *data)
         double x, y;
         double dir = BallMonitor::GetBestDirection(map, ourSide);
         ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 4, &x, &y);
-        SDL_Rect r = display->PosToRect(Position(x, y));
+        r = display->PosToRect(Position(x, y));
         DrawLine(screen, ballPosR.x, ballPosR.y, r.x, r.y, CreateColor(255,255,255));
 
         //Display ball trajectory prevision
         double a, b;
-        if (display->m_ballMonitor->PredictBallPosition(&a, &b, 5))
+        if (display->m_ballMonitor->PredictBallPosition(&a, &b, 0))
         {
             double isectX[2], isectY[2];
             if (GetLineRectIntersections(-0.95, -0.95, 0.95, 0.95, a, b, isectX, isectY))

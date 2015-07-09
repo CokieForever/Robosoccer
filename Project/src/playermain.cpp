@@ -148,7 +148,7 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
     {
-        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, 0), PathFinder::CreatePoint(2, 2));
+        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-3, -2), PathFinder::CreatePoint(0.5, 2));
     }
     else if (info.formation == Interpreter::DEF)
     {

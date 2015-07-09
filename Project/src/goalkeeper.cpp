@@ -71,7 +71,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
         case PREVENT_GOAL:
         {
             eSide side = interpreter.getMode().our_side;
-            double x = side == LEFT_SIDE ? -0.9 : +0.9;
+            double x = side == LEFT_SIDE ? -0.95 : +0.95;
 
             BallMonitor::Direction dir;
             m_ballPm->GetBallDirection(&dir);
@@ -82,7 +82,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
                 double a, b;
                 if (m_ballPm->PredictBallPosition(&a, &b, 4) && a < PathFinder::INFINI_TY)
                 {
-                    double y = std::max(-0.25, std::min(0.25, a * x + b));
+                    double y = std::max(-0.22, std::min(0.22, a * x + b));
                     m_preventGoalParam = m_coordCalib->UnnormalizePosition(Position(x,y));
                     success = true;
                 }
@@ -93,7 +93,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
                 Position ballPos;
                 m_ballPm->GetBallPosition(&ballPos);
                 ballPos = m_coordCalib->NormalizePosition(ballPos);
-                double y = std::max(-0.25, std::min(0.25, ballPos.GetY()));
+                double y = std::max(-0.22, std::min(0.22, ballPos.GetY()));
                 m_preventGoalParam = m_coordCalib->UnnormalizePosition(Position(x, y));
             }
 
@@ -121,7 +121,7 @@ void Goalkeeper::performCmd(const Interpreter::GameData& info)
     switch(m_nextCmd)
     {
         case PREVENT_GOAL:
-            cruisetoBias(m_preventGoalParam.GetX(), m_preventGoalParam.GetY(), 400);
+            cruisetoBias(m_preventGoalParam.GetX(), m_preventGoalParam.GetY(), 600);
             break;
 
         case GO_TO_DEF_POS:

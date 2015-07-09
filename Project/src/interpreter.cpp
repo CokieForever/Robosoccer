@@ -728,7 +728,7 @@ void Interpreter::setDefaultPos()
 
         case PENALTY:
             if (m_mode.turn == THEIR_TURN)
-                m_gkDefaultPosition.SetX(1.1);
+                m_gkDefaultPosition.SetX(-1.1);
             break;
 
         case KICK_OFF:

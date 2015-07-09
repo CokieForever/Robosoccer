@@ -437,11 +437,10 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
  */
 void TeamRobot::FollowPath(const Interpreter::GameData& info)
 {
-    Position ballPos;
-    m_ballPm->GetBallPosition(&ballPos);
+    Position ballPos = m_ball->GetPos();
 
     bool kicked = true;
-    if (info.formation == Interpreter::DEF)
+    if (true || info.formation == Interpreter::DEF)
     {
         if (ShouldGoalKick(ballPos, info.our_side))
             KickMovingBall(m_ball);
@@ -526,7 +525,7 @@ void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, boo
         for (int j=0 ; GetPos().DistanceTo(end) >= 0.05 && j < 10 ; j++)
         {
             GotoXY(end.GetX(), end.GetY(), 50);
-            for (int i=0 ; i < 100 && GetPos().DistanceTo(end) >= 0.05 ; i++)
+            for (int i=0 ; i < 20 && GetPos().DistanceTo(end) >= 0.05 ; i++)
                 usleep(20000);
         }
     }
@@ -606,6 +605,8 @@ void TeamRobot::KickBall(Position ballPos)
 
     for (int i=0 ; i < 200 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
     {
+        Log("diff3 = " + ToString(diff3 * 180 / M_PI), DEBUG);
+
     #ifdef SIMULATION
         if (diff3 < 0)
             MoveMs(-20, 20, 200, 0);
@@ -624,12 +625,14 @@ void TeamRobot::KickBall(Position ballPos)
         diff3 = AngleDiff(a, phi);
     }
 
-    MoveMs(0,0,0,0);
+    StopAction();
 
     if (forward)
-        MoveMsBlocking(200, 200, 500, 0);
+        MoveMs(200, 200, 900, 0);
     else
-        MoveMsBlocking(-200, -200, 500, 0);
+        MoveMs(-200, -200, 900, 0);
+
+    usleep(900000);
 }
 
 /**
@@ -642,7 +645,7 @@ void TeamRobot::KickMovingBall(RawBall *ball)
     double diff3 = PathFinder::INFINI_TY;
     bool forward;
 
-    for (int i=0 ; i < 10 && fabs(diff3) > 10 * M_PI / 180 ; i++)
+    for (int i=0 ; i < 10 ; i++)
     {
         Position ballPos = ball->GetPos();
         if (ballPos.DistanceTo(GetPos()) > 0.2)
@@ -661,7 +664,11 @@ void TeamRobot::KickMovingBall(RawBall *ball)
 
         forward = fabs(diff1) < fabs(diff2);
         double a = forward ? robotBallAngle : robotBallAngle2;
-        double diff3 = AngleDiff(a, phi);
+        diff3 = AngleDiff(a, phi);
+
+        Log("diff3 = " + ToString(diff3 * 180 / M_PI), DEBUG);
+        if (abs(diff3) <= 5 * M_PI / 180)
+            break;
 
     #ifdef SIMULATION
         double time = std::min(40., fabs(diff3) * 2710 / (3 * M_PI));
@@ -670,18 +677,18 @@ void TeamRobot::KickMovingBall(RawBall *ball)
         else if (diff3 > 0)
             MoveMs(60, -60, 200, 0);
     #else
-        double time = std::min(40., fabs(diff3) * 2710 / (3 * M_PI));
+        double time = std::min(40., fabs(diff3) * 1355 / (3 * M_PI));
         if (diff3 > 0)
-            MoveMs(-30, 30, 200, 0);
+            MoveMs(-60, 60, time, 0);
         else if (diff3 < 0)
-            MoveMs(30, -30, 200, 0);
+            MoveMs(60, -60, time, 0);
     #endif
 
         usleep(time * 1000);
-        ballPos = ball->GetPos();
+        StopAction();
     }
 
-    MoveMs(0,0,0,0);
+    StopAction();
 
     if (forward)
         MoveMsBlocking(200, 200, 500, 0);

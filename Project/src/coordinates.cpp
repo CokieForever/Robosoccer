@@ -1,4 +1,5 @@
 #include "coordinates.h"
+#include "geometry.h"
 
 
 /**
@@ -84,6 +85,22 @@ bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Posi
  * @brief
  *
  * @param pos
+ * @param phi
+ * @return Position
+ */
+Position CoordinatesCalibrer::NormalizePosition(Position pos, double phi) const
+{
+    double x, y;
+    phi = phi >= 0 ? phi - M_PI : phi + M_PI;
+    ComputeVectorEnd(pos.GetX(), pos.GetY(), phi, 0.025, &x, &y);
+
+    return NormalizePosition(Position(x,y));
+}
+
+/**
+ * @brief
+ *
+ * @param pos
  * @return Position
  */
 Position CoordinatesCalibrer::NormalizePosition(Position pos) const
@@ -101,6 +118,23 @@ Position CoordinatesCalibrer::NormalizePosition(Position pos) const
     //Dilatation
     x *= m_kx;
     y *= m_ky;
+
+    return Position(x, y);
+}
+
+/**
+ * @brief
+ *
+ * @param pos
+ * @param phi UNNORMALIZED orientation of the robot, typically given by @ref RoboControl::GetPhi().
+ * @return Position
+ */
+Position CoordinatesCalibrer::UnnormalizePosition(Position pos, double phi) const
+{
+    pos = UnnormalizePosition(pos);
+
+    double x, y;
+    ComputeVectorEnd(pos.GetX(), pos.GetY(), phi, 0.025, &x, &y);
 
     return Position(x, y);
 }

@@ -49,7 +49,9 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
                     m_nextCmd = DEFENSE;
             }
             else
+            {
                 m_nextCmd = FOLLOWPATH;
+            }
             break;
 
         case BEFORE_KICK_OFF:
@@ -147,7 +149,7 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
             Position ballPos;
             m_ballPm->GetBallPosition(&ballPos);
             if (ShouldGoalKick(ballPos, info.our_side))
-                KickBall(ballPos);
+                KickMovingBall(m_ball);
             else
                 cruisetoBias(m_defendpm.GetX(), m_defendpm.GetY(), 650);
             break;
@@ -162,7 +164,9 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
 void PlayerTwo::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
-        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(2, 0));
+    {
+        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.5, -2), PathFinder::CreatePoint(2, 2));
+    }
     else if (info.formation == Interpreter::DEF)
         m_areaObstacle = NULL;  //Behavior different in this mode
     else if (info.formation == Interpreter::MIX)
