@@ -8,10 +8,10 @@
 
 //Berechnung in welcher Richtung Roboter fahren soll
 /**
- * @brief
- *
- * @param nominal
- * @param actual
+ * @brief with this function, the robot can determine whether it should drive forward or backward, in
+ * order to reach the target conveniently
+ * @param nominal is the direction that the robot should turn in order to reach the target
+ * @param actual is the actual direction of the robot at the moment.
  * @return Controller::eDirection
  */
 NewRoboControl::eDirection NewRoboControl::getDirection(double nominal, double actual)
@@ -35,11 +35,11 @@ NewRoboControl::eDirection NewRoboControl::getDirection(double nominal, double a
 }
 
 /**
- * @brief
- *
- * @param nominal
- * @param actual
- * @return double
+ * @brief this function calculate the angle difference between actual angle of the robot and the angle to
+ * which the robot should turn
+ * @param nominal is the direction that the robot should turn in order to reach the target
+ * @param actual is the actual direction of the robot at the moment.
+ * @return double is the result.
  */
 double NewRoboControl::getDiffAngle(double nominal, double actual)
 {
@@ -217,18 +217,14 @@ NewRoboControl::~NewRoboControl()
     //m_checkSpeedFinishNow = true;
     //pthread_join(m_thread, NULL);
 }
-/*
-void* NewRoboControl::Checkspeed(void *data)
-{
-    NewRoboControl *robo = (NewRoboControl*)data;
-    robo->m_checkSpeedFinishNow = false;
+
 
 /**
- * @brief
+ * @brief check if the robot has reached its target
  *
- * @param target
- * @param precise
- * @return bool
+ * @param target is The target of the robot at the moment.
+ * @param precise defines the precision.
+ * @return bool is Ture if the robot is on the target.
  */
 bool NewRoboControl::IsOnTarget(Position target, bool precise) const
 {

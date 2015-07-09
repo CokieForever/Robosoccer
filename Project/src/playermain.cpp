@@ -36,9 +36,9 @@ PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalib
 }
 
 /**
- * @brief
- *
- * @param info
+ * @brief this function give the robot the position that it should move to depending on the
+ * commands of the referee
+ * @param info playmode of referee
  */
 void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 {
@@ -83,9 +83,9 @@ void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief
+ * @brief this function set the value of parameters for each commands from the referee
  *
- * @param interpreter
+ * @param interpreter is pointer to the Interpreter
  */
 void PlayerMain::setCmdParam(const Interpreter& interpreter)
 {
@@ -176,9 +176,9 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
 }
 
 /**
- * @brief
+ * @brief the robot perform based on the command of the referee
  *
- * @param info
+ * @param info current playmode defined by referee
  */
 void PlayerMain::performCmd(const Interpreter::GameData& info)
 {
