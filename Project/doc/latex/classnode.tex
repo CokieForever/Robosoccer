@@ -1,0 +1,140 @@
+\hypertarget{classnode}{
+\section{node Class Reference}
+\label{classnode}\index{node@{node}}
+}
+
+
+{\ttfamily \#include $<$node.h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classnode_a802701cab6639590de6f16136184c2de}{node} (int xp, int yp, int d, int p)
+\item 
+int \hyperlink{classnode_a419596f9858640ee6d04b69b616b7cd2}{getxPos} () const 
+\item 
+int \hyperlink{classnode_a3b5d135d5e5eac9211a9478ea9803ae7}{getyPos} () const 
+\item 
+int \hyperlink{classnode_a78c66d7badca074b6b34ec7eca4ab106}{getLevel} () const 
+\item 
+int \hyperlink{classnode_afebf5ef7f94fa7554890f03e97686de7}{getPriority} () const 
+\item 
+void \hyperlink{classnode_ad51b92de008bd5107a7b55cc61fc497b}{updatePriority} (const int \&xDest, const int \&yDest)
+\item 
+void \hyperlink{classnode_a04a186013c42fb942b6da90d2e98d4ed}{nextLevel} (const int \&i)
+\item 
+const int \& \hyperlink{classnode_a311569dff2e77c4c7953107333960a5d}{estimate} (const int \&xDest, const int \&yDest) const 
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{classnode_a377c0cd9462931487ee9a80917c0071a}{m\_\-xPos}
+\item 
+int \hyperlink{classnode_a848f211f150104a88c1e072c4716f169}{m\_\-yPos}
+\item 
+int \hyperlink{classnode_ab68076929ea68209db1fdd25b7530515}{m\_\-level}
+\item 
+int \hyperlink{classnode_ae1c537b9584f180d868a0ddf1b64526c}{m\_\-priority}
+\end{DoxyCompactItemize}
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classnode_a802701cab6639590de6f16136184c2de}{
+\index{node@{node}!node@{node}}
+\index{node@{node}!node@{node}}
+\subsubsection[{node}]{\setlength{\rightskip}{0pt plus 5cm}node::node (int {\em xp}, \/  int {\em yp}, \/  int {\em d}, \/  int {\em p})}}
+\label{classnode_a802701cab6639590de6f16136184c2de}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em xp}]\item[{\em yp}]\item[{\em d}]\item[{\em p}]\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classnode_a311569dff2e77c4c7953107333960a5d}{
+\index{node@{node}!estimate@{estimate}}
+\index{estimate@{estimate}!node@{node}}
+\subsubsection[{estimate}]{\setlength{\rightskip}{0pt plus 5cm}const int \& node::estimate (const int \& {\em xDest}, \/  const int \& {\em yDest}) const}}
+\label{classnode_a311569dff2e77c4c7953107333960a5d}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em xDest}]\item[{\em yDest}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const int \& 
+\end{DoxyReturn}
+\hypertarget{classnode_a78c66d7badca074b6b34ec7eca4ab106}{
+\index{node@{node}!getLevel@{getLevel}}
+\index{getLevel@{getLevel}!node@{node}}
+\subsubsection[{getLevel}]{\setlength{\rightskip}{0pt plus 5cm}int node::getLevel () const}}
+\label{classnode_a78c66d7badca074b6b34ec7eca4ab106}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\hypertarget{classnode_afebf5ef7f94fa7554890f03e97686de7}{
+\index{node@{node}!getPriority@{getPriority}}
+\index{getPriority@{getPriority}!node@{node}}
+\subsubsection[{getPriority}]{\setlength{\rightskip}{0pt plus 5cm}int node::getPriority () const}}
+\label{classnode_afebf5ef7f94fa7554890f03e97686de7}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\hypertarget{classnode_a419596f9858640ee6d04b69b616b7cd2}{
+\index{node@{node}!getxPos@{getxPos}}
+\index{getxPos@{getxPos}!node@{node}}
+\subsubsection[{getxPos}]{\setlength{\rightskip}{0pt plus 5cm}int node::getxPos () const}}
+\label{classnode_a419596f9858640ee6d04b69b616b7cd2}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\hypertarget{classnode_a3b5d135d5e5eac9211a9478ea9803ae7}{
+\index{node@{node}!getyPos@{getyPos}}
+\index{getyPos@{getyPos}!node@{node}}
+\subsubsection[{getyPos}]{\setlength{\rightskip}{0pt plus 5cm}int node::getyPos () const}}
+\label{classnode_a3b5d135d5e5eac9211a9478ea9803ae7}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\hypertarget{classnode_a04a186013c42fb942b6da90d2e98d4ed}{
+\index{node@{node}!nextLevel@{nextLevel}}
+\index{nextLevel@{nextLevel}!node@{node}}
+\subsubsection[{nextLevel}]{\setlength{\rightskip}{0pt plus 5cm}void node::nextLevel (const int \& {\em i})}}
+\label{classnode_a04a186013c42fb942b6da90d2e98d4ed}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em i}]\end{DoxyParams}
+\hypertarget{classnode_ad51b92de008bd5107a7b55cc61fc497b}{
+\index{node@{node}!updatePriority@{updatePriority}}
+\index{updatePriority@{updatePriority}!node@{node}}
+\subsubsection[{updatePriority}]{\setlength{\rightskip}{0pt plus 5cm}void node::updatePriority (const int \& {\em xDest}, \/  const int \& {\em yDest})}}
+\label{classnode_ad51b92de008bd5107a7b55cc61fc497b}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em xDest}]\item[{\em yDest}]\end{DoxyParams}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classnode_ab68076929ea68209db1fdd25b7530515}{
+\index{node@{node}!m\_\-level@{m\_\-level}}
+\index{m\_\-level@{m\_\-level}!node@{node}}
+\subsubsection[{m\_\-level}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf node::m\_\-level}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classnode_ab68076929ea68209db1fdd25b7530515}
+Total distance already travelled to reach the node \hypertarget{classnode_ae1c537b9584f180d868a0ddf1b64526c}{
+\index{node@{node}!m\_\-priority@{m\_\-priority}}
+\index{m\_\-priority@{m\_\-priority}!node@{node}}
+\subsubsection[{m\_\-priority}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf node::m\_\-priority}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classnode_ae1c537b9584f180d868a0ddf1b64526c}
+Level + remaining distance estimate (smaller: higher priority) \hypertarget{classnode_a377c0cd9462931487ee9a80917c0071a}{
+\index{node@{node}!m\_\-xPos@{m\_\-xPos}}
+\index{m\_\-xPos@{m\_\-xPos}!node@{node}}
+\subsubsection[{m\_\-xPos}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf node::m\_\-xPos}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classnode_a377c0cd9462931487ee9a80917c0071a}
+Current position (x coordinate) \hypertarget{classnode_a848f211f150104a88c1e072c4716f169}{
+\index{node@{node}!m\_\-yPos@{m\_\-yPos}}
+\index{m\_\-yPos@{m\_\-yPos}!node@{node}}
+\subsubsection[{m\_\-yPos}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf node::m\_\-yPos}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classnode_a848f211f150104a88c1e072c4716f169}
+Current position (y coordinate) 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{node_8h}{node.h}\item 
+src/\hyperlink{node_8cpp}{node.cpp}\end{DoxyCompactItemize}

@@ -18,43 +18,73 @@ class Goalkeeper;
 
 class TeamRobot;
 
+/**
+ * @brief
+ *
+ */
 class Interpreter
 {
 
 public:
+    /**
+     * @brief
+     *
+     */
     enum KickTurn
     {
-        OUR_TURN, THEIR_TURN
+        OUR_TURN,   /**< TODO */
+        THEIR_TURN  /**< TODO */
     };
 
+    /**
+     * @brief
+     *
+     */
     enum Strategy
     {
-        ATK, DEF, MIX
+        ATK,    /**< TODO */
+        DEF,    /**< TODO */
+        MIX     /**< TODO */
     };
 
+    /**
+     * @brief
+     *
+     */
     struct GameData
     {
-        int team, oponent_score, our_score;
-        ePlayMode mode;
-        Strategy formation;
-        eSide our_side;
-        KickTurn turn;
+        eTeam team;             /**< TODO */
+        int oponent_score;      /**< TODO */
+        int our_score;          /**< TODO */
+        ePlayMode mode;         /**< TODO */
+        Strategy formation;     /**< TODO */
+        eSide our_side;         /**< TODO */
+        KickTurn turn;          /**< TODO */
     };
 
+    /**
+     * @brief
+     *
+     */
     struct Point
     {
-        int x, y;
+        int x;  /**< TODO */
+        int y;  /**< TODO */
     };
 
-    static const double MID_THRESHOLD  = 0.30;
-    static const int MAP_WIDTH = 100;
-    static const int MAP_HEIGHT = 80;
-    static const int MAP_BORDERSIZE = 5;
+    static const double MID_THRESHOLD  = 0.30;  /**< TODO */
+    static const int MAP_WIDTH = 100;           /**< TODO */
+    static const int MAP_HEIGHT = 80;           /**< TODO */
+    static const int MAP_BORDERSIZE = 5;        /**< TODO */
 
-    static const int DIR = 8; // number of possible directions to go at any position
-    static const int DX[DIR];
-    static const int DY[DIR];
+    static const int DIR = 8;   /**< Number of possible directions to go at any position */
+    static const int DX[DIR];   /**< TODO */
+    static const int DY[DIR];   /**< TODO */
 
+    /**
+     * @brief
+     *
+     */
     typedef Matrix Map;
 
     static string pathFind(Map map, Point start, Point finish);
@@ -77,8 +107,10 @@ public:
     static void maskLeft(Map &map);
     static void maskRight(Map &map);
 
-    Interpreter(int x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, OpponentRobot* a, OpponentRobot* b, OpponentRobot* c, RawBall* d, CoordinatesCalibrer* e);
+    Interpreter(eTeam x, Referee* y, Goalkeeper* z, PlayerMain* p, PlayerTwo* t, OpponentRobot* a, OpponentRobot* b, OpponentRobot* c, RawBall* d, CoordinatesCalibrer* e);
     ~Interpreter();
+
+    void End();
 
     GameData getMode() const;
 
@@ -100,25 +132,27 @@ public:
     int waitForUpdate(int id);
 
 private:
-    CoordinatesCalibrer* m_cal;
-    Referee* m_ref;
-    const Goalkeeper* m_gk;
-    const PlayerMain* m_p1;
-    const PlayerTwo* m_p2;
-    RawBall* m_ball;
-    const OpponentRobot* m_e1, *m_e2, *m_e3;
-    GameData m_mode;
-    int m_situationId;
-    Position m_gkDefaultPosition;
-    Position m_p1DefaultPosition;
-    Position m_p2DefaultPosition;
-    pthread_mutex_t m_mutex;
-    pthread_cond_t m_cond;
+    CoordinatesCalibrer* m_cal;     /**< TODO */
+    Referee* m_ref;                 /**< TODO */
+    const Goalkeeper* m_gk;         /**< TODO */
+    const PlayerMain* m_p1;         /**< TODO */
+    const PlayerTwo* m_p2;          /**< TODO */
+    RawBall* m_ball;                /**< TODO */
+    const OpponentRobot *m_e1;      /**< TODO */
+    const OpponentRobot *m_e2;      /**< TODO */
+    const OpponentRobot *m_e3;      /**< TODO */
+    GameData m_mode;                /**< TODO */
+    int m_situationId;              /**< TODO */
+    Position m_gkDefaultPosition;   /**< TODO */
+    Position m_p1DefaultPosition;   /**< TODO */
+    Position m_p2DefaultPosition;   /**< TODO */
+    pthread_mutex_t m_mutex;        /**< TODO */
+    pthread_cond_t m_cond;          /**< TODO */
 
-    Map m_p1Map;
-    Map m_p2Map;
-    pthread_mutex_t m_p1MapMutex;
-    pthread_mutex_t m_p2MapMutex;
+    Map m_p1Map;                    /**< TODO */
+    Map m_p2Map;                    /**< TODO */
+    pthread_mutex_t m_p1MapMutex;   /**< TODO */
+    pthread_mutex_t m_p2MapMutex;   /**< TODO */
 
     void setPlayMode();
     void setSide();
@@ -131,8 +165,5 @@ private:
     void formationUpdateP2();
 
 };
-
-
-
 
 #endif /* INTERPRETER_H_ */
