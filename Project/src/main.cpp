@@ -77,7 +77,7 @@ typedef struct
 
 static void* MainLoop(void* data);
 
-const eTeam team = BLUE_TEAM;    /**< TODO */
+const eTeam team = RED_TEAM;    /**< TODO */
 
 #ifdef SIMULATION
 const unsigned int refreshWait = 500;   /**< TODO */

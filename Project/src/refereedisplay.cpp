@@ -376,7 +376,7 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 
         //Display ball trajectory prevision
         double a, b;
-        if (display->m_ballMonitor->PredictBallPosition(&a, &b, 0))
+        if (display->m_ballMonitor->PredictBallPosition(&a, &b, 4))
         {
             double isectX[2], isectY[2];
             if (GetLineRectIntersections(-0.95, -0.95, 0.95, 0.95, a, b, isectX, isectY))

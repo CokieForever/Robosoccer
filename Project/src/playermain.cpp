@@ -114,11 +114,17 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
  */
 void PlayerMain::performCmd(const Interpreter::GameData& info)
 {
+    static bool penaltyKicked = false;
+
     switch(m_nextCmd)
     {
         case KICK_PENALTY:
-            KickPenalty((const NewRoboControl**)m_otherRobots);
-            break;
+            if (!penaltyKicked)
+            {
+                KickPenalty((const NewRoboControl**)m_otherRobots);
+                penaltyKicked = true;
+            }
+            return;
 
         case GO_TO_DEF_POS:
             Log("Player1 Perform Go To Default Pos", DEBUG);
@@ -137,6 +143,8 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
         case STOP:
             break;
     }
+
+    penaltyKicked = false;
 }
 
 /**

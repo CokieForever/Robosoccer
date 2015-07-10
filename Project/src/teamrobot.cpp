@@ -511,7 +511,7 @@ void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, boo
 
     double endX, endY;
     dir = dir<=0 ? dir+M_PI : dir-M_PI;
-    ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 0.075, &endX, &endY);
+    ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 0.01, &endX, &endY);
 
     if (likePenalty)
     {
@@ -519,7 +519,7 @@ void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, boo
         double cosAngle, sinAngle;
         double l = currentPos.DistanceTo(Position(endX, endY));
         ComputeLineAngle(currentPos.GetX(), currentPos.GetY(), endX, endY, &cosAngle, &sinAngle);
-        ComputeVectorEnd(currentPos.GetX(), currentPos.GetY(), cosAngle, sinAngle, l+0.05, &endX, &endY);
+        ComputeVectorEnd(currentPos.GetX(), currentPos.GetY(), cosAngle, sinAngle, l+0.025, &endX, &endY);
 
         Position end = m_coordCalib->UnnormalizePosition(Position(endX, endY));
         for (int j=0 ; GetPos().DistanceTo(end) >= 0.05 && j < 10 ; j++)
@@ -560,33 +560,46 @@ void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
 
     std::vector<double> map = m_ballPm->ComputeVisibilityMap(1, ballPos, &(ePos[0]), 3, RIGHT_SIDE);
     double dir = BallMonitor::GetBestDirection(map, RIGHT_SIDE);
+    /*double dir;
+    ComputeLineAngle(-1, 0, ballPos_n.GetX(), ballPos_n.GetY(), &dir);*/
 
     double endX, endY;
     dir = dir<=0 ? dir+M_PI : dir-M_PI;
-    ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 0.1, &endX, &endY);
-
-    Position currentPos = m_coordCalib->NormalizePosition(GetPos());
-    double cosAngle, sinAngle;
-    ComputeLineAngle(currentPos.GetX(), currentPos.GetY(), endX, endY, &cosAngle, &sinAngle);
-    ComputeVectorEnd(endX, endY, cosAngle, sinAngle, 0.05, &endX, &endY);
+    ComputeVectorEnd(ballPos_n.GetX(), ballPos_n.GetY(), dir, 0.075, &endX, &endY);
 
     Position end = m_coordCalib->UnnormalizePosition(Position(endX, endY));
-    for (int j=0 ; GetPos().DistanceTo(end) >= 0.05 && j < 10 ; j++)
+    bool forward = true;
+
+    for (int k=0 ; k < 3 ; k++)
     {
-        GotoXY(end.GetX(), end.GetY(), 50);
-        for (int i=0 ; i < 500 && GetPos().DistanceTo(end) >= 0.05 ; i++)
-            usleep(20000);
+        if (k != 0 && GetPos().DistanceTo(end) > 0.02)
+        {
+            forward = Rotation(ballPos);
+            for (int i=0 ; i < 50 ; i++)
+            {
+                if (forward)
+                    MoveMs(-30, -30, 100, 0);
+                else
+                    MoveMs(30, 30, 100, 0);
+                usleep(33000);
+            }
+        }
+        else if (k != 0)
+            break;
+
+        for (int j=0 ; GetPos().DistanceTo(end) >= 0.05 && j < 5 ; j++)
+        {
+            GotoXY(end.GetX(), end.GetY(), 50);
+            for (int i=0 ; i < 250 && GetPos().DistanceTo(end) >= 0.05 ; i++)
+                usleep(20000);
+        }
     }
 
-    KickBall(ballPos);
+    usleep(1e6);
+    KickBall(ballPos, false, forward);
 }
 
-/**
- * @brief
- *
- * @param ballPos
- */
-void TeamRobot::KickBall(Position ballPos)
+bool TeamRobot::Rotation(Position ballPos)
 {
     double phi = GetPhi().Get();
 
@@ -605,32 +618,49 @@ void TeamRobot::KickBall(Position ballPos)
 
     for (int i=0 ; i < 200 && fabs(diff3) >= 5 * M_PI / 180 ; i++)
     {
-        Log("diff3 = " + ToString(diff3 * 180 / M_PI), DEBUG);
 
     #ifdef SIMULATION
         if (diff3 < 0)
-            MoveMs(-20, 20, 200, 0);
+            MoveMs(-20, 20, 100, 0);
         else if (diff3 > 0)
-            MoveMs(20, -20, 200, 0);
+            MoveMs(20, -20, 100, 0);
     #else
         if (diff3 > 0)
-            MoveMs(-20, 20, 200, 0);
+            MoveMs(-20, 20, 100, 0);
         else if (diff3 < 0)
-            MoveMs(20, -20, 200, 0);
+            MoveMs(20, -20, 100, 0);
     #endif
 
         usleep(20000);
 
         phi = GetPhi().Get();
         diff3 = AngleDiff(a, phi);
+
+        Log("diff3 = " + ToString(diff3 * 180 / M_PI), DEBUG);
     }
 
     StopAction();
+    return forward;
+}
 
-    if (forward)
-        MoveMs(200, 200, 900, 0);
-    else
-        MoveMs(-200, -200, 900, 0);
+/**
+ * @brief
+ *
+ * @param ballPos
+ */
+void TeamRobot::KickBall(Position ballPos, bool rotate, bool forward)
+{
+    if (rotate)
+        forward = Rotation(ballPos);
+
+    for (int i = 0 ; i < 10 ; i++)
+    {
+        if (forward)
+            MoveMs(200, 200, 600, 0);
+        else
+            MoveMs(-200, -200, 600, 0);
+        usleep(33000);
+    }
 
     usleep(900000);
 }
@@ -690,10 +720,14 @@ void TeamRobot::KickMovingBall(RawBall *ball)
 
     StopAction();
 
-    if (forward)
-        MoveMsBlocking(200, 200, 500, 0);
-    else
-        MoveMsBlocking(-200, -200, 500, 0);
+    for (int i = 0 ; i < 10 ; i++)
+    {
+        if (forward)
+            MoveMs(200, 200, 600, 0);
+        else
+            MoveMs(-200, -200, 600, 0);
+        usleep(33000);
+    }
 }
 
 /**

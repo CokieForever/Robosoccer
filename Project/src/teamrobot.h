@@ -39,7 +39,8 @@ public:
 
     void KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, bool likePenalty = false);
     void KickPenalty(const NewRoboControl* otherRobots[5]);
-    void KickBall(Position ballPos);
+    bool Rotation(Position ballPos);
+    void KickBall(Position ballPos, bool rotate=true, bool forward=true);
     void KickMovingBall(RawBall *ball);
     bool ShouldKick(Position ballPos, Position goalPos);
     bool ShouldGoalKick(Position ballPos, eSide ourSide);
