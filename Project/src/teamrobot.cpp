@@ -68,7 +68,7 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibre
     GiveDisplay(display);
     
     //collision detection starts
-    pthread_create(&m_thread, NULL, Checkspeed, this);
+    //pthread_create(&m_thread, NULL, Checkspeed, this);
 }
 
 /**
@@ -105,8 +105,8 @@ void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
  */
 TeamRobot::~TeamRobot()
 {
-    m_checkSpeedFinishNow = true;
-    pthread_join(m_thread, NULL);
+    //m_checkSpeedFinishNow = true;
+    //pthread_join(m_thread, NULL);
     if (m_pathFinderPath)
         delete m_pathFinderPath;
 }
@@ -336,7 +336,7 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
         for (unsigned int i= 0 ; i<m_path.length() ; i++)
         {
             c=m_path.at(i);
-            j=atoi(&c);
+            j=atoim_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));(&c);
             m_q.push(j);
         }
     }
@@ -592,14 +592,16 @@ void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
         else if (k != 0)
             break;
 
-        for (int j=0 ; GetPos().DistanceTo(end) >= 0.05 && j < 5 ; j++)
+        for (int j=0 ; GetPos().DistanceTo(end) >= 0.05 && j < 3 ; j++)
         {
             GotoXY(end.GetX(), end.GetY(), 50);
-            for (int i=0 ; i < 250 && GetPos().DistanceTo(end) >= 0.05 ; i++)
+            for (int i=0 ; i < 500 && GetPos().DistanceTo(end) >= 0.05 ; i++)
                 usleep(20000);
         }
     }
 
+    usleep(1e6);
+    forward = Rotation(ballPos);
     usleep(1e6);
     KickBall(ballPos, false, forward);
 }
@@ -661,9 +663,9 @@ void TeamRobot::KickBall(Position ballPos, bool rotate, bool forward)
     for (int i = 0 ; i < 10 ; i++)
     {
         if (forward)
-            MoveMs(200, 200, 600, 0);
+            MoveMs(200, 200, 200, 0);
         else
-            MoveMs(-200, -200, 600, 0);
+            MoveMs(-200, -200, 200, 0);
         usleep(33000);
     }
 

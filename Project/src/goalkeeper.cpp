@@ -71,6 +71,9 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
         case PREVENT_GOAL:
         {
             eSide side = interpreter.getMode().our_side;
+            if (interpreter.getMode().mode == PENALTY)
+                side = LEFT_SIDE;
+
             double x = side == LEFT_SIDE ? -0.95 : +0.95;
 
             BallMonitor::Direction dir;

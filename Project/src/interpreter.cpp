@@ -568,7 +568,7 @@ Position Interpreter::getP2DefaultPos() const
 }
 
 /**
- * @brief
+ * @briefATK
  *
  * @return const Goalkeeper *
  */
@@ -677,13 +677,13 @@ void Interpreter::setDefaultPos()
             if(m_mode.our_side == LEFT_SIDE)
             {
                 m_gkDefaultPosition = Position(-1.1, 0.0);
-                m_p1DefaultPosition = Position(-0.3, -0.2);
+                m_p1DefaultPosition = Position(-0.3, 0);
                 m_p2DefaultPosition = Position(-0.3, 0.2);
             }
             else if(m_mode.our_side == RIGHT_SIDE)
             {
                 m_gkDefaultPosition = Position(1.1, 0.0);
-                m_p1DefaultPosition = Position(0.3, 0.2);
+                m_p1DefaultPosition = Position(0.3, 0);
                 m_p2DefaultPosition = Position(0.3, -0.2);
             }
             else

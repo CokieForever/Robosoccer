@@ -165,7 +165,10 @@ void PlayerTwo::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
     {
-        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.5, -2), PathFinder::CreatePoint(2, 2));
+        if (info.our_side == LEFT_SIDE)
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+        else
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
     }
     else if (info.formation == Interpreter::DEF)
         m_areaObstacle = NULL;  //Behavior different in this mode
