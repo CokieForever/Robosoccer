@@ -204,7 +204,6 @@ NewRoboControl::NewRoboControl(RTDBConn &DBC, const int deviceNr) : RoboControl(
 {
     m_stopCruisingNow = false;
     m_isCruising = false;
-    //pthread_create(&m_thread, NULL, Checkspeed, this);
 }
 
 //The destructor is empty but is there only to prevent class instantation (see newrobocontrol.h)
@@ -214,10 +213,7 @@ NewRoboControl::NewRoboControl(RTDBConn &DBC, const int deviceNr) : RoboControl(
  */
 NewRoboControl::~NewRoboControl()
 {
-    //m_checkSpeedFinishNow = true;
-    //pthread_join(m_thread, NULL);
 }
-
 
 /**
  * @brief check if the robot has reached its target
@@ -399,7 +395,7 @@ void NewRoboControl::setSpeed(double translation, double rotation, eDirection di
     }
     Log(ToString(wheelL) + " und " + ToString(wheelR), DEBUG);
     wheelL = wheelL - rotation * 800.0 / 3.14159265358965;
-    wheelR = wheelR + rotation * 800.0 / 3.14159265358965;l
+    wheelR = wheelR + rotation * 800.0 / 3.14159265358965;
 
     MoveMs(wheelL, wheelR, 50, 0);
 }

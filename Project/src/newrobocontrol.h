@@ -49,18 +49,11 @@ public:
     void RandomMove();
     bool drivePath(std::vector<Position>* path);
     void setSpeed(double translation, double rotation, eDirection dir);
-    static void* Checkspeed(void *data);
-    pthread_t m_thread;
 
 private:
     bool m_stopCruisingNow;     /**< TODO */
     bool m_isCruising;          /**< TODO */
     pthread_t m_cruiseThread;   /**< TODO */
-    /*
-    Position m_targetPos;
-    bool m_checkSpeedFinishNow;
-    double m_targetSpeed;
-    */
 
 };
 

@@ -35,10 +35,6 @@ bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
  */
 TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
 {
-    //collision detection starts
-    pthread_create(&m_thread, NULL, Checkspeed, this);
-    //collision detection ends
-
     m_coordCalib = coordCalib;
     m_ball = ball;
     m_display = display;

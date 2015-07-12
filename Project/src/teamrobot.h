@@ -49,8 +49,6 @@ public:
     virtual void setCmdParam(const Interpreter& interpreter) = 0;
     virtual void performCmd(const Interpreter::GameData& info) = 0;
 
-    static void* Checkspeed(void* data);
-
 protected:
     static bool IsPathOK(PathFinder::Path path, PathFinder::Point& tgt);
     static double AngleDiff(double angle1, double angle2);
@@ -91,12 +89,6 @@ private:
     Position m_targetPos;
     bool m_checkSpeedFinishNow;
     double m_targetSpeed;
-
-    pthread_t m_thread;
-    Position m_targetPos;
-    bool m_checkSpeedFinishNow;
-    double m_targetSpeed;
-
 
 };
 

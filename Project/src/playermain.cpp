@@ -11,7 +11,6 @@
 #include "share.h"
 #include "kogmo_rtdb.hxx"
 #include <queue>
-#include <queue>
 #include "playermain.h"
 #include "refereedisplay.h"
 #include "goalkeeper.h"
@@ -42,15 +41,13 @@ PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalib
  */
 void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 {
-    Interpreter::GameData mode = info->getMode();
-
-    switch(mode.mode)
+    switch(info.mode)
     {
         case PENALTY:
-            if (mode.turn == Interpreter::OUR_TURN)
+            if (info.turn == Interpreter::OUR_TURN)
                 m_nextCmd = KICK_PENALTY;
             else
-                m_nextCmd = GO_TO_DEF_POS;
+                m_nextCmd = STOP;
             break;
 
         case BEFORE_PENALTY:
@@ -62,22 +59,20 @@ void PlayerMain::setNextCmd(const Interpreter::GameData& info)
             break;
 
         case KICK_OFF:
-            if (mode.turn == Interpreter::OUR_TURN)
-                m_nextCmd = PlayerMain::KICK_OFF;
+            if (info.turn == Interpreter::OUR_TURN)
+                m_nextCmd = KICK_OFF;
             else
-                m_nextCmd = GO_TO_DEF_POS;
+                m_nextCmd = STOP;
             break;
 
+        case BEFORE_KICK_OFF:
+            m_nextCmd = GO_TO_DEF_POS;
+            break;
+
+        case REFEREE_INIT:
         case PAUSE:
-            m_nextCmd = STOP;
-            break;
-
         case TIME_OVER:
             m_nextCmd = STOP;
-            break;
-
-        default:
-            m_nextCmd = GO_TO_DEF_POS;
             break;
     }
 }
@@ -89,77 +84,16 @@ void PlayerMain::setNextCmd(const Interpreter::GameData& info)
  */
 void PlayerMain::setCmdParam(const Interpreter& interpreter)
 {
-    //both needed when it comes to path tracking
-    Interpreter::Point A,B;
-    //interpreter::Point *pt;
-    char c;
-    int j,idx_tmp;
-    unsigned int interpolate_n = 15;
-    Position robo_n,ball_n;
-
     switch(m_nextCmd)
     {
-
-        case KICK_PENALTY:
-            m_kickPenaltyParam.ball = m_ball->GetPos();
-            m_kickPenaltyParam.pos.SetX(0.5);
-            m_kickPenaltyParam.pos.SetY(0.25);
-            break;
-
         case FOLLOWPATH:
-            if (m_q.size()==0)
-            {
-                //create queue of move indices
-
-                robo_n = m_coordCalib->NormalizePosition(GetPos());
-                ball_n = m_coordCalib->NormalizePosition(m_ball->GetPos());
-
-                A.x = Interpreter::coord2mapX(robo_n.GetX());
-                A.y = Interpreter::coord2mapY(robo_n.GetY());
-                B.x = Interpreter::coord2mapX(ball_n.GetX());
-                B.y = Interpreter::coord2mapY(ball_n.GetY());
-
-                //get string with motion commands
-                m_path = Interpreter::pathFind(m_map,A,B);
-                Interpreter::showMap(m_map,m_path,A);
-
-                for (unsigned int i= 0 ; i<m_path.length() ; i++)
-                {
-                    c=m_path.at(i);
-                    j=atoi(&c);
-                    m_q.push(j);
-                }
-            }
-            m_go_x = 0;
-            m_go_y = 0;
-
-            //take n points and interpolate
-            if (m_q.size()>= interpolate_n)
-            {
-                for (unsigned int i=0;i<interpolate_n;i++)
-                {
-                    idx_tmp = m_q.front();
-                    m_go_x = m_go_x + Interpreter::DX[idx_tmp];
-                    m_go_y = m_go_y + Interpreter::DY[idx_tmp];
-                    m_q.pop();
-                }
-
-            }
-            else
-            {
-                while(m_q.size()!=0)
-                {
-                    idx_tmp = m_q.front();
-                    m_go_x = m_go_x + Interpreter::DX[idx_tmp];
-                    m_go_y = m_go_y + Interpreter::DY[idx_tmp];
-                    m_q.pop();
-                }
-            }
-
-            break;
+            ComputePath(interpreter);
 
         case GO_TO_DEF_POS:
+            m_defaultPos = interpreter.getP1DefaultPos();
             break;
+
+        case KICK_PENALTY:
         case KICK_OFF:
             m_otherRobots[0] = interpreter.getGK();
             m_otherRobots[1] = interpreter.getP2();
@@ -169,8 +103,6 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
             break;
 
         case STOP:
-            break;
-        default:
             break;
     }
 }
@@ -186,7 +118,7 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
 
     switch(m_nextCmd)
     {
-        case PlayerMain::KICK_PENALTY:
+        case KICK_PENALTY:
             if (!penaltyKicked)
             {
                 KickPenalty((const NewRoboControl**)m_otherRobots);
@@ -194,22 +126,22 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
             }
             return;
 
-        case PlayerMain::GO_TO_DEF_POS:
+        case GO_TO_DEF_POS:
             Log("Player1 Perform Go To Default Pos", DEBUG);
             cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650);
             break;
 
-        case PlayerMain::KICK_OFF:
+        case KICK_OFF:
             Log("Player1 Perform Kick Off", INFO);
             KickOff((const NewRoboControl**)m_otherRobots, info.our_side, true);
             break;
 
-        case PlayerMain::FOLLOWPATH:
-            cout << "Player1 Perform Followpath (queue size): " << m_q.size() << endl;
+        case FOLLOWPATH:
+            FollowPath(info);
+            break;
 
-            pos = m_coordCalib->NormalizePosition(GetPos());
-            mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
-            mapy = Interpreter::coord2mapY(pos.GetY())+ m_go_y;
+        case STOP:
+            break;
     }
 
     penaltyKicked = false;
@@ -288,3 +220,4 @@ void PlayerMain::defend_p2(void)
     }
     counter++;
 }
+
