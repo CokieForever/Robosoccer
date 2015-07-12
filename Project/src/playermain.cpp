@@ -156,10 +156,25 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
     {
+        /*
         if (info.our_side == LEFT_SIDE)
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-3, -2), PathFinder::CreatePoint(0, 2));
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-3, -2), PathFinder::CreatePoint(0.5, 2));
         else
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(3, 2));
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-0.5, -2), PathFinder::CreatePoint(3, 2));
+        */
+        if (info.our_side == LEFT_SIDE)
+        {
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-3, -2), PathFinder::CreatePoint(0, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.5, -2), PathFinder::CreatePoint(2, 2)); // original atk mode
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.55, -2), PathFinder::CreatePoint(2, 2)); // atk mode with overlap
+        }
+        else
+        {
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(3, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.5, 2)); // original atk mode
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.55, 2));   // atk mode with overlap
+        }
+
     }
     else if (info.formation == Interpreter::DEF)
     {
@@ -171,9 +186,11 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
     else if (info.formation == Interpreter::MIX)
     {
         if (info.our_side == LEFT_SIDE)
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.15, 2)); //mix mode with overlap
         else
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.15, -2), PathFinder::CreatePoint(2, 2)); // mix mode with overlap
     }
     else
         m_areaObstacle = NULL;   //Should never happen

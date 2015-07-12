@@ -40,7 +40,7 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibre
     m_display = display;
     m_pathFinderPath = NULL;
     m_map.Fill(0);
-    m_prevFormation = Interpreter::MIX;     //Update request
+    m_prevFormation = Interpreter::INIT;     //Update request
     m_areaObstacle = NULL;
     m_ballPm = ballPm;
 
@@ -54,13 +54,13 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibre
     }
 
     //Left penalty area
-    PathFinder::Point ul = PathFinder::CreatePoint(-2, -0.3);
-    PathFinder::Point lr = PathFinder::CreatePoint(-0.8, 0.3);
+    PathFinder::Point ul = PathFinder::CreatePoint(-2, -0.35);
+    PathFinder::Point lr = PathFinder::CreatePoint(-0.8, 0.35);
     m_penaltyAreaObstacles[0] = m_pathFinder.AddRectangle(ul, lr);
 
     //Right penalty area
-    ul = PathFinder::CreatePoint(0.8, -0.3);
-    lr = PathFinder::CreatePoint(2, 0.3);
+    ul = PathFinder::CreatePoint(0.8, -0.35);
+    lr = PathFinder::CreatePoint(2, 0.35);
     m_penaltyAreaObstacles[1] = m_pathFinder.AddRectangle(ul, lr);
 
     AddBorderObstaclesToPathFinder();
@@ -121,7 +121,7 @@ Position TeamRobot::getDefaultPosition() const
     return m_defaultPos;
 }
 
-/**
+/**            cout << "ball velocity: " << ball.GetVelocity() << endl;
  * @brief this function defines the x of the default position
  *
  * @param x is the X value of current default position
@@ -307,7 +307,7 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
 #ifdef PATHPLANNING_ASTAR
 
     //both needed when it comes to path tracking
-    Interpreter::Point A,B;
+    Interpreter::Point A,B;            cout << "ball velocity: " << ball.GetVelocity() << endl;
     //Interpreter::Point *pt;
     char c;
     int j,idx_tmp;
@@ -328,7 +328,7 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
         B.y = Interpreter::coord2mapY(ball_n.GetY());
 
         //get string with motion commands
-        m_path = Interpreter::pathFind(m_map,A,B);
+        m_path = Interpreter::pathFind(m_map,A,B);            cout << "ball velocity: " << ball.GetVelocity() << endl;
         #ifdef VERY_VERBOSE
         Interpreter::showMap(m_map,m_path,A);
         #endif
@@ -336,7 +336,7 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
         for (unsigned int i= 0 ; i<m_path.length() ; i++)
         {
             c=m_path.at(i);
-            j=atoim_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));(&c);
+            j = atoi(&c);
             m_q.push(j);
         }
     }

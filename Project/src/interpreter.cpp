@@ -854,7 +854,7 @@ void Interpreter::updateSituation()
     formationUpdateP2();
     pthread_mutex_unlock((pthread_mutex_t*)&m_p2MapMutex);
     #endif
-
+// mix mode with overlap
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
     pthread_cond_broadcast(&m_cond);
     pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
@@ -875,10 +875,9 @@ int Interpreter::waitForUpdate(int id)
     pthread_cond_wait(&m_cond, &m_mutex);
     id = m_situationId;
     pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
-
     return id;
 }
-
+// mix mode with overlap
 /**
  * @brief
  *
@@ -899,7 +898,7 @@ void Interpreter::maskUpperLeft(Map &map)
 void Interpreter::maskOmitUpperLeft(Map &map)
 {
     maskRight(map);
-    maskLowerLeft(map);
+    maskLowerLeft(map);// mix mode with overlap
 }
 
 /**
@@ -920,7 +919,7 @@ void Interpreter::maskUpperRight(Map &map)
  * @param map
  */
 void Interpreter::maskOmitUpperRight(Map &map)
-{
+{// mix mode with overlap
     maskLeft(map);
     maskLowerRight(map);
 }
@@ -949,8 +948,7 @@ void Interpreter::maskOmitLowerLeft(Map &map)
 }
 
 /**
- * @brief
- *
+ * @brief mix mode with overlap
  * @param map
  */
 void Interpreter::maskLowerRight(Map &map)
@@ -1015,9 +1013,11 @@ void Interpreter::formationUpdateP1()
             (info.our_side== LEFT_SIDE) ? maskLeft(m_p1Map) : maskRight(m_p1Map);
             break;
 
-        default:
-            //ATK case
+        case Interpreter::ATK:
             (info.our_side== LEFT_SIDE) ? maskOmitUpperRight(m_p1Map) : maskOmitLowerLeft(m_p1Map);
+            break;
+
+        case Interpreter::INIT:
             break;
 
     }
@@ -1043,9 +1043,12 @@ void Interpreter::formationUpdateP2()
             (info.our_side== LEFT_SIDE) ? maskRight(m_p2Map) : maskLeft(m_p2Map);
             break;
 
-        default:
-            //DEF case
-            (info.our_side== LEFT_SIDE) ? maskOmitLowerLeft(m_p2Map) : maskOmitUpperRight(m_p2Map);
+        case Interpreter::DEF:
+                //DEF case
+                (info.our_side== LEFT_SIDE) ? maskOmitLowerLeft(m_p2Map) : maskOmitUpperRight(m_p2Map);
+                break;
+
+        case Interpreter::INIT:
             break;
     }
 

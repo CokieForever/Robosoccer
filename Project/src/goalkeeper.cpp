@@ -41,8 +41,15 @@ void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
             break;
 
         case PLAY_ON:
-            m_nextCmd = PREVENT_GOAL;
+        {
+            Position ballPos = m_coordCalib->NormalizePosition(m_ball->GetPos());
+
+            if (fabs(ballPos.GetY()) <= 0.35 && (info.our_side == LEFT_SIDE ? ballPos.GetX() <= -0.8 : ballPos.GetX() >= +0.8) && m_ball->GetVelocity() <= 0.00005)
+                m_nextCmd = CLEAR_GOAL;
+            else
+                m_nextCmd = PREVENT_GOAL;
             break;
+        }
 
         case BEFORE_KICK_OFF:
         case BEFORE_PENALTY:
@@ -74,7 +81,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
             if (interpreter.getMode().mode == PENALTY)
                 side = LEFT_SIDE;
 
-            double x = side == LEFT_SIDE ? -0.95 : +0.95;
+            double x = side == LEFT_SIDE ? -0.97 : +0.97;
 
             BallMonitor::Direction dir;
             m_ballPm->GetBallDirection(&dir);
@@ -108,6 +115,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
             Log("Goal keeper moving to Position = " + ToString(m_defaultPos), DEBUG);
             break;
 
+        case CLEAR_GOAL:
         case STOP:
             break;
     }
@@ -129,6 +137,10 @@ void Goalkeeper::performCmd(const Interpreter::GameData& info)
 
         case GO_TO_DEF_POS:
             cruisetoBias(m_defaultPos.GetX(),m_defaultPos.GetY(), 650);
+            break;
+
+        case CLEAR_GOAL:
+            cruisetoBias(m_ball->GetX(), m_ball->GetY(), 1000);
             break;
 
         case STOP:
