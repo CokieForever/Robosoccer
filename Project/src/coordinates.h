@@ -35,11 +35,11 @@ private:
     double m_theta;                 /**< TODO */
     double m_kx;                    /**< TODO */
     double m_ky;                    /**< TODO */
-    bool m_isCalibrating;           /**< TODO */
-    bool m_calibrationSuccessful;   /**< TODO */
-    bool m_stopCalibrating;         /**< TODO */
-    pthread_t m_calibrationThread;  /**< TODO */
-    NewRoboControl *m_robots[2];    /**< TODO */
+    bool m_isCalibrating;           /**< Indicates if the calibration is still going on. */
+    bool m_calibrationSuccessful;   /**< Indicates if the calibration is successful. */
+    bool m_stopCalibrating;         /**< Indicates if the calibration should be stopped. */
+    pthread_t m_calibrationThread;  /**< The thread of calibration. */
+    NewRoboControl *m_robots[2];    /**< Rhe robots. */
 
     void Init();
 

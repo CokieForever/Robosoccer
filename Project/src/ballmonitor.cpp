@@ -6,7 +6,7 @@
 /**
  * @brief creates a @ref BallMonitor . This is the constructor of ball monitor class
  *
- * @param coordCalibrer the coordinates calibrer
+ * @param coordCalibrer the coordinates calibrator
  * @param ball The ball
  */
 BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball)
@@ -127,7 +127,7 @@ bool BallMonitor::GetBallDirection(Direction *dir) const
  * @param a The solpe of the line describing the predicted trajectory of the ball.
  * @param b The intercept the line describing the predicted trajectory of the ball.
  * @param precision The precision with which thr line trajectory of the ball is predicted.
- * @return bool
+ * @return bool True if the linear trajectory was predicted. False if not.
  */
 bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
 {
@@ -248,11 +248,11 @@ double BallMonitor::GetBestDirection(std::vector<double> visibilityMap, eSide ou
 /**
  * @brief This function computes the visibility map based on the position of other robots and on our side.
  *
- * @param maxLevel
- * @param robot[]
- * @param ourSide
- * @param coordCalib
- * @return std::vector<double>
+ * @param maxLevel The maximum level of recursion.
+ * @param robot[] An array of robots.
+ * @param ourSide The side in which our team plays.
+ * @param coordCalib The calibrator of coordinates
+ * @return std::vector<double> The visibility map.
  */
 std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, const NewRoboControl* robot[6], eSide ourSide, const CoordinatesCalibrer *coordCalib) const
 {
@@ -267,14 +267,14 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, const NewRob
 }
 
 /**
- * @brief
+ * @brief This function computes the visibility map based on the position of other robots and on our side.
  *
- * @param maxLevel
- * @param pos
- * @param robotPos
- * @param nbPos
- * @param ourSide
- * @return std::vector<double>
+ * @param maxLevel The maximum level of recursion.
+ * @param pos Position Position of the ball.
+ * @param robotPos The position of our robot.
+ * @param nbPos Number of robots.
+ * @param ourSide The side in which we play.
+ * @return std::vector<double> The visibility map.
  */
 std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos, const Position *robotPos, int nbPos, eSide ourSide)
 {
@@ -394,12 +394,12 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos
 }
 
 /**
- * @brief
+ * @brief This function computes the visibility map based on the position of other robots and on our side.
  *
- * @param robot[]
- * @param ourSide
- * @param coordCalib
- * @return std::vector<double>
+ * @param robot[] Array of robots.
+ * @param ourSide The side in which our team plays.
+ * @param coordCalib The coordinates calibrator.
+ * @return std::vector<double> The visibility map.
  */
 std::vector<double> BallMonitor::ComputeVisibilityMap(const NewRoboControl* robot[6], eSide ourSide, const CoordinatesCalibrer *coordCalib) const
 {
@@ -414,13 +414,13 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(const NewRoboControl* robo
 }
 
 /**
- * @brief
+ * @brief This function computes the visibility map based on the position of other robots and on our side.
  *
- * @param pos
- * @param robotPos
- * @param nbPos
- * @param ourSide
- * @return std::vector<double>
+ * @param pos Ball position.
+ * @param robotPos Position of our robot.
+ * @param nbPos Number of robots.
+ * @param ourSide The side in which our team plays.
+ * @return std::vector<double> The visibility map.
  */
 std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, const Position *robotPos, int nbPos, eSide ourSide)
 {
@@ -477,14 +477,14 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, const Positi
 }
 
 /**
- * @brief
+ * @brief This function inserts angles into the visibilty map
  *
- * @param priority_queue<Angle
- * @param std::vector<Angle>
- * @param angles
- * @param minAngle
- * @param maxAngle
- * @return std::vector<double>
+ * @param priority_queue<Angle Priority queue of angles to be converted into the map.
+ * @param std::vector<Angle> Vector of angles.
+ * @param angles A list of angles.
+ * @param minAngle Mininmal angle.
+ * @param maxAngle Maximum angle.
+ * @return std::vector<double> Visibility map.
  */
 std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<Angle>, CompareFn> angles, double minAngle, double maxAngle)
 {
@@ -527,11 +527,11 @@ std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<A
 }
 
 /**
- * @brief
+ * @brief This function compares two angles.
  *
- * @param a1
- * @param a2
- * @return bool
+ * @param a1 First angle.
+ * @param a2 Second angle.
+ * @return bool True if the first angle is bigger than the second angle. False if not.
  */
 bool BallMonitor::CompareAngles(const Angle& a1, const Angle& a2)
 {
@@ -539,11 +539,11 @@ bool BallMonitor::CompareAngles(const Angle& a1, const Angle& a2)
 }
 
 /**
- * @brief
+ * @brief This function creates an angle of a given value and id
  *
- * @param val
- * @param id
- * @return BallMonitor::Angle
+ * @param val Value of the angle.
+ * @param id Angle's id.
+ * @return BallMonitor::Angle The returned angle.
  */
 BallMonitor::Angle BallMonitor::CreateAngle(double val, int id)
 {
@@ -552,10 +552,10 @@ BallMonitor::Angle BallMonitor::CreateAngle(double val, int id)
 }
 
 /**
- * @brief
+ * @brief This function returns an angle which is perpendicular to a given angle.
  *
- * @param angle
- * @return double
+ * @param angle The given angle.
+ * @return double The value of the perpendicular angle.
  */
 double BallMonitor::AngleVertMirror(double angle)
 {
@@ -563,11 +563,11 @@ double BallMonitor::AngleVertMirror(double angle)
 }
 
 /**
- * @brief
+ * @brief This function merges two visibility maps.
  *
- * @param map1
- * @param map2
- * @return std::vector<double>
+ * @param map1 First visibility map.
+ * @param map2 Second visibility map.
+ * @return std::vector<double> The merged visibility map.
  */
 std::vector<double> BallMonitor::MergeVisibilityMaps(std::vector<double>& map1, std::vector<double>& map2)
 {
@@ -611,12 +611,12 @@ std::vector<double> BallMonitor::MergeVisibilityMaps(std::vector<double>& map1, 
 
 
 /**
- * @brief
+ * @brief This function computes a linear regression of the ball's position.
  *
- * @param a
- * @param b
- * @param precision
- * @return bool
+ * @param a The solpe of the line describing the trajectory of the ball.
+ * @param b The intercept the line describing the trajectory of the ball.
+ * @param precision The precision with which thr line trajectory of the ball is computed.
+ * @return bool True if the linear regression was computed. False if not.
  */
 bool BallMonitor::ComputeLinearRegression(double *a, double *b, int precision) const
 {
@@ -655,7 +655,7 @@ bool BallMonitor::ComputeLinearRegression(double *a, double *b, int precision) c
 }
 
 /**
- * @brief
+ * @brief This unlocks the Ball Monitoring thread.
  *
  */
 void BallMonitor::ResetPosTimeList()
@@ -666,9 +666,9 @@ void BallMonitor::ResetPosTimeList()
 }
 
 /**
- * @brief
+ * @brief This function realizes the ball monitoring
  *
- * @param data
+ * @param data The data needed for monitoring.
  */
 void* BallMonitor::BallMonitoringFn(void *data)
 {

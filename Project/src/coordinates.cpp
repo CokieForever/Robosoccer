@@ -250,13 +250,13 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, dou
 }
 
 /**
- * @brief it
+ * @brief This function gets the results of coordinates calibration.
  *
- * @param xMax
- * @param xMin
- * @param yMax
- * @param yMin
- * @return bool
+ * @param xMax The maximum value os x.
+ * @param xMin The minimum value os x.
+ * @param yMax The maximum value os y.
+ * @param yMin The minimum value os y.
+ * @return bool True if the calibration results are got. Flase if not.
  */
 bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin) const
 {
@@ -282,9 +282,9 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin,
 #define exit_cal() do {calibrer->m_calibrationSuccessful = !calibrer->m_stopCalibrating; calibrer->m_isCalibrating = false; return NULL;} while (0)
 #define usleep_cal(t) do { if (calibrer->m_stopCalibrating) exit_cal(); usleep(t); if (calibrer->m_stopCalibrating) exit_cal(); } while (0)
 /**
- * @brief
+ * @brief This function realizes the calibration of robots coordinates.
  *
- * @param data
+ * @param data Data needed for calibration.
  */
 void* CoordinatesCalibrer::CalibrationFn(void *data)
 {

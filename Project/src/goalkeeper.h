@@ -20,9 +20,9 @@ class Goalkeeper : public TeamRobot
      */
     enum ActionGk
     {
-        GO_TO_DEF_POS,  /**< TODO */
-        PREVENT_GOAL,   /**< TODO */
-        STOP            /**< TODO */
+        GO_TO_DEF_POS,  /**< Go to default position */
+        PREVENT_GOAL,   /**< Prevent goal */
+        STOP            /**< stop moving */
     };
 
     Goalkeeper(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer* coordCalib, RawBall* ball, BallMonitor* ballgk);
@@ -33,9 +33,9 @@ class Goalkeeper : public TeamRobot
 
 
   private:
-    ActionGk m_nextCmd;             /**< TODO */
-    Position m_preventGoalParam;    /**< TODO */
-    BallMonitor* m_ballgk;          /**< TODO */
+    ActionGk m_nextCmd;             /**< Next command for the goalkeeper */
+    Position m_preventGoalParam;    /**< The position to prevent the goal */
+    BallMonitor* m_ballgk;          /**< The monitor of ball */
     
     void AddObstacleForFormation(const Interpreter::GameData& info);
 
