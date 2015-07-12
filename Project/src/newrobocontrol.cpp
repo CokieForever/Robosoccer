@@ -241,7 +241,7 @@ bool NewRoboControl::IsOnTarget(Position target, bool precise) const
  * @param varDir defines whether the robot should move forwards or backwards
  * @return bool
  */
-bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir)
+bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir, double dist)
 {
 #ifdef SIMULATION   //The cruisetoBias() does not work in simulation
 
@@ -299,8 +299,9 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
         }
         else if ((fabs(diffAngle)) <= variationDirec)  // Schritt 1.1 erfolgreich, es folgt Schritt 1.2
         {
-
-            setSpeed(speed * getSpeedT(sqrt((diffX * diffX) + (diffY * diffY))), speedAngleDrive, eDir);
+            if (dist <= 0)
+                dist = sqrt((diffX * diffX) + (diffY * diffY));
+            setSpeed(speed * getSpeedT(dist), speedAngleDrive, eDir);
             // Schritt 1.2 - 1.4 gleichzeitig!
         }
     }
@@ -361,7 +362,7 @@ bool NewRoboControl::drivePath(std::vector<Position>* path)
                 prevPos = pos;
             }
 
-            return cruisetoBias(target->GetX(), target->GetY(), 500 + 1000*d);
+            return cruisetoBias(target->GetX(), target->GetY(), 700, -10, 30, d);
         }
     }
 

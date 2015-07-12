@@ -15,7 +15,9 @@ public:
     bool SetManualCoordCalibration(Position a, Position b, Position c, Position d);
 
     Position NormalizePosition(Position pos) const;
+    Position NormalizePosition(Position pos, double phi) const;
     Position UnnormalizePosition(Position pos) const;
+    Position UnnormalizePosition(Position pos, double phi) const;
     double NormalizeAngle(double angle) const;
     double UnnormalizeAngle(double angle) const;
 

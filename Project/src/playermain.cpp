@@ -182,11 +182,17 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
  */
 void PlayerMain::performCmd(const Interpreter::GameData& info)
 {
+    static bool penaltyKicked = false;
+
     switch(m_nextCmd)
     {
         case PlayerMain::KICK_PENALTY:
-            KickPenalty((const NewRoboControl**)m_otherRobots);
-            break;
+            if (!penaltyKicked)
+            {
+                KickPenalty((const NewRoboControl**)m_otherRobots);
+                penaltyKicked = true;
+            }
+            return;
 
         case PlayerMain::GO_TO_DEF_POS:
             Log("Player1 Perform Go To Default Pos", DEBUG);
@@ -205,6 +211,8 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
             mapx = Interpreter::coord2mapX(pos.GetX())+ m_go_x;
             mapy = Interpreter::coord2mapY(pos.GetY())+ m_go_y;
     }
+
+    penaltyKicked = false;
 }
 
 /**
@@ -216,7 +224,7 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
     {
-        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, 0), PathFinder::CreatePoint(2, 2));
+        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-3, -2), PathFinder::CreatePoint(0.5, 2));
     }
     else if (info.formation == Interpreter::DEF)
     {

@@ -45,7 +45,7 @@ public:
     virtual ~NewRoboControl() = 0;  //Prevents instantiation of NewRoboControl
 
     bool IsOnTarget(Position target, bool precise=true) const;
-    bool cruisetoBias(double tarX, double tarY, int speed, double tarP=-10, double varDir=30);
+    bool cruisetoBias(double tarX, double tarY, int speed, double tarP=-10, double varDir=30, double dist=0);
     void RandomMove();
     bool drivePath(std::vector<Position>* path);
     void setSpeed(double translation, double rotation, eDirection dir);

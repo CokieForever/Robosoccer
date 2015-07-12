@@ -3,9 +3,23 @@
 
 using namespace std;
 
+/**
+ * @brief
+ *
+ * @param level
+ * @return string
+ */
 static string levelString(LogLevel level);
 
 
+/**
+ * @brief
+ *
+ * @param message
+ * @param funcName
+ * @param line
+ * @param level
+ */
 void Log_def(string message, string funcName, int line, LogLevel level)
 {
 #if !defined(VERBOSE)
@@ -42,6 +56,12 @@ void Log_def(string message, string funcName, int line, LogLevel level)
 #endif
 }
 
+/**
+ * @brief
+ *
+ * @param level
+ * @return string
+ */
 static string levelString(LogLevel level)
 {
     switch (level)
