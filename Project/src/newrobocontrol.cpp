@@ -8,10 +8,10 @@
 
 //Berechnung in welcher Richtung Roboter fahren soll
 /**
- * @brief
- *
- * @param nominal
- * @param actual
+ * @brief with this function, the robot can determine whether it should drive forward or backward, in
+ * order to reach the target conveniently
+ * @param nominal is the direction that the robot should turn in order to reach the target
+ * @param actual is the actual direction of the robot at the moment.
  * @return Controller::eDirection
  */
 NewRoboControl::eDirection NewRoboControl::getDirection(double nominal, double actual)
@@ -35,11 +35,11 @@ NewRoboControl::eDirection NewRoboControl::getDirection(double nominal, double a
 }
 
 /**
- * @brief
- *
- * @param nominal
- * @param actual
- * @return double
+ * @brief this function calculate the angle difference between actual angle of the robot and the angle to
+ * which the robot should turn
+ * @param nominal is the direction that the robot should turn in order to reach the target
+ * @param actual is the actual direction of the robot at the moment.
+ * @return double is the result.
  */
 double NewRoboControl::getDiffAngle(double nominal, double actual)
 {
@@ -180,12 +180,12 @@ double NewRoboControl::degToRad(double deg)
 }
 
 /**
- * @brief
+ * @brief this function check if the the robot reach the target
  *
- * @param current
- * @param target
- * @param precise
- * @return bool
+ * @param current is the current position of the robot
+ * @param target is the target position of the robot
+ * @param precise defines how precise the robot should be around the target
+ * @return bool return ture if the robot reaches the target
  */
 bool NewRoboControl::IsOnTarget(Position current, Position target, bool precise)
 {
@@ -216,11 +216,11 @@ NewRoboControl::~NewRoboControl()
 }
 
 /**
- * @brief
+ * @brief check if the robot has reached its target
  *
- * @param target
- * @param precise
- * @return bool
+ * @param target is The target of the robot at the moment.
+ * @param precise defines the precision.
+ * @return bool is Ture if the robot is on the target.
  */
 bool NewRoboControl::IsOnTarget(Position target, bool precise) const
 {
@@ -228,13 +228,13 @@ bool NewRoboControl::IsOnTarget(Position target, bool precise) const
 }
 
 /**
- * @brief
+ * @brief move the robot to the target position
  *
- * @param tarX
- * @param tarY
- * @param speed
+ * @param tarX is the x value of target position
+ * @param tarY is the y value of target position
+ * @param speed the robot should move at this speed
  * @param tarP
- * @param varDir
+ * @param varDir defines whether the robot should move forwards or backwards
  * @return bool
  */
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir, double dist)
@@ -327,7 +327,7 @@ bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double ta
 }
 
 /**
- * @brief
+ * @brief move the robot to a random position
  *
  */
 void NewRoboControl::RandomMove()

@@ -83,7 +83,12 @@ protected:
     virtual void AddObstacleForFormation(const Interpreter::GameData& info) = 0;
 
 private:
-    /* Well, nothing. */
+    static void* Checkspeed(void* data);
+    
+    pthread_t m_thread;
+    Position m_targetPos;
+    bool m_checkSpeedFinishNow;
+    double m_targetSpeed;
 
 };
 

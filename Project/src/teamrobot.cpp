@@ -66,6 +66,9 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibre
     AddBorderObstaclesToPathFinder();
 
     GiveDisplay(display);
+    
+    //collision detection starts
+    pthread_create(&m_thread, NULL, Checkspeed, this);
 }
 
 /**
@@ -102,14 +105,16 @@ void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
  */
 TeamRobot::~TeamRobot()
 {
+    m_checkSpeedFinishNow = true;
+    pthread_join(m_thread, NULL);
     if (m_pathFinderPath)
         delete m_pathFinderPath;
 }
 
 /**
- * @brief
+ * @brief using this function the robot get the default position for the current situation
  *
- * @return Position
+ * @return Position is the default position.
  */
 Position TeamRobot::getDefaultPosition() const
 {
@@ -117,9 +122,9 @@ Position TeamRobot::getDefaultPosition() const
 }
 
 /**
- * @brief
+ * @brief this function defines the x of the default position
  *
- * @param x
+ * @param x is the X value of current default position
  */
 void TeamRobot::setDefaultPositionX(double x)
 {
@@ -127,9 +132,9 @@ void TeamRobot::setDefaultPositionX(double x)
 }
 
 /**
- * @brief
+ * @brief this function defines the x of the default position
  *
- * @param y
+ * @param y is the Y value of current default position
  */
 void TeamRobot::setDefaultPositionY(double y)
 {
@@ -137,9 +142,9 @@ void TeamRobot::setDefaultPositionY(double y)
 }
 
 /**
- * @brief
+ * @brief this function defines pos of the default position
  *
- * @param pos
+ * @param pos is the value of current default position
  */
 void TeamRobot::setDefaultPosition(Position pos)
 {
@@ -167,10 +172,10 @@ RawBall* TeamRobot::getBall() const
 }
 
 /**
- * @brief
- *
- * @param i
- * @param j
+ * @brief this function calculate the actual position in the map based on the pathfinder.
+ * it unnormalizes from pathfinder to real map
+ * @param i is value on x axis in pathfinder
+ * @param j is value on y axis in pathfinder
  * @return int
  */
 int TeamRobot::getMapValue(int i, int j) const
@@ -231,10 +236,10 @@ void TeamRobot::GiveDisplay(RefereeDisplay *display)
 }
 
 /**
- * @brief
+ * @brief update the path based on current position of the robots
  *
- * @param obstacles[]
- * @param info
+ * @param obstacles[] are all other robots
+ * @param info is current playmode of referee
  */
 void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Interpreter::GameData& info)
 {
@@ -431,9 +436,9 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
 }
 
 /**
- * @brief
+ * @brief this function is carried out during the game and it allows the robot to attack and defense properly
  *
- * @param info
+ * @param info is current playmode of referee
  */
 void TeamRobot::FollowPath(const Interpreter::GameData& info)
 {
@@ -644,9 +649,9 @@ bool TeamRobot::Rotation(Position ballPos)
 }
 
 /**
- * @brief
+ * @brief this function calculate whether the robot should move forwards or backwards to kick the ball. Furthermore, it adjusts the angle of the robot so that the robot can hit the ball precisely.
  *
- * @param ballPos
+ * @param ballPos is the position of the ball
  */
 void TeamRobot::KickBall(Position ballPos, bool rotate, bool forward)
 {
@@ -731,11 +736,11 @@ void TeamRobot::KickMovingBall(RawBall *ball)
 }
 
 /**
- * @brief
- *
- * @param ballPos
- * @param goalPos
- * @return bool
+ * @brief this function calculate if the robot should kick the ball and kick the ball
+ * in the direction of the goal.
+ * @param ballPos is the position of the ball
+ * @param goalPos is the position of the goal
+ * @return bool is false if the ball is still far away from the robot
  */
 bool TeamRobot::ShouldKick(Position ballPos, Position goalPos)
 {
@@ -755,11 +760,12 @@ bool TeamRobot::ShouldKick(Position ballPos, Position goalPos)
 }
 
 /**
- * @brief
+ * @brief this function let the robot kick the ball if the ball is on our side.
+ * in this way the potential dangerous is eliminated
  *
- * @param ballPos
- * @param ourSide
- * @return bool
+ * @param ballPos is the position of the ball
+ * @param ourSide the side we are right now.
+ * @return bool return false if ball is still far away from the robot
  */
 bool TeamRobot::ShouldGoalKick(Position ballPos, eSide ourSide)
 {
@@ -779,11 +785,11 @@ bool TeamRobot::ShouldGoalKick(Position ballPos, eSide ourSide)
 }
 
 /**
- * @brief
- *
+ * @brief this function calculate the difference between 2 angles
+ * and return the difference value in the range of -PI to PI.
  * @param angle1
  * @param angle2
- * @return double
+ * @return double the difference between angle1 and angle2
  */
 double TeamRobot::AngleDiff(double angle1, double angle2)
 {
@@ -791,4 +797,33 @@ double TeamRobot::AngleDiff(double angle1, double angle2)
     if (diff >= M_PI)
         diff -= 2*M_PI;
     return diff;
+}
+
+
+/**
+ * @brief moves the robot to a random position if it stucks somewhere.
+ *
+ * @param data is the robot
+ */
+void* TeamRobot::Checkspeed(void *data)
+{
+    TeamRobot *robo = (TeamRobot*)data;
+    robo->m_checkSpeedFinishNow = false;
+
+    Position current;
+    while(!robo->m_checkSpeedFinishNow)
+    {
+        current = robo->GetPos();
+        usleep(5000000);
+        Log("Collision detection.",INFO);
+        //cout<<"Collision detection."<<endl<<endl;
+        if(!robo->IsOnTarget(robo->m_targetPos))
+        //if(((abs(robo->m_targetPos.GetX()-current.GetX())+abs(robo->m_targetPos.GetY()-current.GetY()))>0.2) && (robo->m_targetSpeed!=0))
+        {
+            robo->RandomMove();
+            Log("Robot is random moving.", INFO);
+            //cout<<"Robot is random moving."<<endl<<endl;
+        }
+    }
+    return 0;
 }

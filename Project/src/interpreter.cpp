@@ -30,9 +30,9 @@ const int Interpreter::DY[Interpreter::DIR] = {0, 1, 1, 1, 0, -1, -1, -1}; /**< 
 
 
 /**
- * @brief
+ * @brief normalize the matrix to the real map
  *
- * @param x
+ * @param x is x value of the real map
  * @return int
  */
 int Interpreter::coord2mapX(double x)
@@ -64,7 +64,7 @@ int Interpreter::coord2mapY(double y)
 }
 
 /**
- * @brief
+ * @brief normalize the matrix value to real map, or otherwise.
  *
  * @param mapX
  * @return double
@@ -79,7 +79,7 @@ double Interpreter::map2coordX(int mapX)
 }
 
 /**
- * @brief
+ * @brief normalize the matrix value to real map, or otherwise.
  *
  * @param mapY
  * @return double

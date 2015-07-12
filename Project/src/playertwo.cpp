@@ -71,9 +71,9 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief
+ * @brief this function set the value of parameters for each commands from the referee
  *
- * @param interpreter
+ * @param interpreter is pointer to the Interpreter
  */
 void PlayerTwo::setCmdParam(const Interpreter& interpreter)
 {
@@ -125,9 +125,9 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
 }
 
 /**
- * @brief
+ * @brief the robot perform based on the command of the referee
  *
- * @param info
+ * @param info current playmode defined by referee
  */
 void PlayerTwo::performCmd(const Interpreter::GameData& info)
 {
@@ -157,9 +157,9 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief
+ * @brief in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots
  *
- * @param info
+ * @param info info is the current playmode and situation(score etc.) from referee
  */
 void PlayerTwo::AddObstacleForFormation(const Interpreter::GameData& info)
 {
