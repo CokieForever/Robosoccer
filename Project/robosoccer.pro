@@ -1,14 +1,20 @@
 TEMPLATE = app
 TARGET = robosoccer
 
+# Choose if you want to compile for simulation here
 #DEFINES += SIMULATION
 
+# Choose your path planning algorihtm here. Note: Using A* is not recommended as it is not maintained anymore and therefore is not guaranteed to work.
 #DEFINES += PATHPLANNING_ASTAR
 DEFINES += PATHPLANNING_POLYGONS
 
-#DEFINES += STACK_LOG
+# Choose the verbosity of the ouput here. VERBOSE is recommended.
 DEFINES += VERBOSE
 #DEFINES += VERY_VERBOSE
+
+# Choose if you want to activate the record of the stack in case of unexpected crash.
+#DEFINES += STACK_LOG
+
 
 contains(DEFINES, SIMULATION) {
     include(/DIST/lehre/lab_roso/tech/usr_sim/include/settings.pri)

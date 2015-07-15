@@ -16,6 +16,7 @@ Inheritance diagram for Goalkeeper:\begin{figure}[H]
 \begin{DoxyCompactItemize}
 \item 
 enum \hyperlink{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855}{ActionGk} \{ \hyperlink{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855af1fa8ff07676a5e27f9cc78f6811c704}{GO\_\-TO\_\-DEF\_\-POS}, 
+\hyperlink{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855a16f1efd31d6ead68306d343d85059ca2}{CLEAR\_\-GOAL}, 
 \hyperlink{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855a96b7bc8aa3f3a4d1b68955f8d757e9c1}{PREVENT\_\-GOAL}, 
 \hyperlink{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855a7940a4d0074c5f5bb33743797387c2c1}{STOP}
  \}
@@ -24,18 +25,18 @@ enum \hyperlink{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855}{ActionGk} \{ 
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classGoalkeeper_a7ad214162340c37a695ba00d4576c3c4}{Goalkeeper} (RTDBConn \&DBC, const int deviceNr, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalib, RawBall $\ast$ball, \hyperlink{classBallMonitor}{BallMonitor} $\ast$ballgk)
-\item 
+\begin{DoxyCompactList}\small\item\em This is the constructor of \hyperlink{classGoalkeeper}{Goalkeeper} class. \item\end{DoxyCompactList}\item 
 void \hyperlink{classGoalkeeper_abc394351f7c0d552c6e96da422c772ec}{setNextCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\item 
+\begin{DoxyCompactList}\small\item\em This function sets the next command for the goalkeeper. \item\end{DoxyCompactList}\item 
 void \hyperlink{classGoalkeeper_acfa6fbad0f6b1627fd59cc7cce6ff321}{setCmdParam} (const \hyperlink{classInterpreter}{Interpreter} \&interpreter)
-\item 
+\begin{DoxyCompactList}\small\item\em This function sets the next command for the goalkeeper. \item\end{DoxyCompactList}\item 
 void \hyperlink{classGoalkeeper_ab850d0d2278730bebc5479f1a339a925}{performCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em perform the commands for the goalkeeper. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classGoalkeeper_a5287a2e74795bbec8f0ead767655da5d}{AddObstacleForFormation} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em This methods adds obstacles where the goalkeeper shouln't go. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -60,15 +61,19 @@ Position \hyperlink{classGoalkeeper_a04b3ca2b51698e36928ccce7569842eb}{m\_\-prev
 \hypertarget{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855af1fa8ff07676a5e27f9cc78f6811c704}{
 GO\_\-TO\_\-DEF\_\-POS}
 \label{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855af1fa8ff07676a5e27f9cc78f6811c704}
+}]Go to default position \index{CLEAR\_\-GOAL@{CLEAR\_\-GOAL}!Goalkeeper@{Goalkeeper}}\index{Goalkeeper@{Goalkeeper}!CLEAR\_\-GOAL@{CLEAR\_\-GOAL}}\item[{\em 
+\hypertarget{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855a16f1efd31d6ead68306d343d85059ca2}{
+CLEAR\_\-GOAL}
+\label{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855a16f1efd31d6ead68306d343d85059ca2}
 }]TODO \index{PREVENT\_\-GOAL@{PREVENT\_\-GOAL}!Goalkeeper@{Goalkeeper}}\index{Goalkeeper@{Goalkeeper}!PREVENT\_\-GOAL@{PREVENT\_\-GOAL}}\item[{\em 
 \hypertarget{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855a96b7bc8aa3f3a4d1b68955f8d757e9c1}{
 PREVENT\_\-GOAL}
 \label{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855a96b7bc8aa3f3a4d1b68955f8d757e9c1}
-}]TODO \index{STOP@{STOP}!Goalkeeper@{Goalkeeper}}\index{Goalkeeper@{Goalkeeper}!STOP@{STOP}}\item[{\em 
+}]Prevent goal \index{STOP@{STOP}!Goalkeeper@{Goalkeeper}}\index{Goalkeeper@{Goalkeeper}!STOP@{STOP}}\item[{\em 
 \hypertarget{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855a7940a4d0074c5f5bb33743797387c2c1}{
 STOP}
 \label{classGoalkeeper_a25db0bed632b4bdb87532b0fbbf45855a7940a4d0074c5f5bb33743797387c2c1}
-}]TODO \end{description}
+}]stop moving \end{description}
 \end{Desc}
 
 
@@ -80,8 +85,12 @@ STOP}
 \subsubsection[{Goalkeeper}]{\setlength{\rightskip}{0pt plus 5cm}Goalkeeper::Goalkeeper (RTDBConn \& {\em DBC}, \/  const int {\em deviceNr}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em coordCalib}, \/  RawBall $\ast$ {\em b}, \/  {\bf BallMonitor} $\ast$ {\em ballPm})}}
 \label{classGoalkeeper_a7ad214162340c37a695ba00d4576c3c4}
 
+
+This is the constructor of \hyperlink{classGoalkeeper}{Goalkeeper} class. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em DBC}]\item[{\em deviceNr}]\item[{\em coordCalib}]\item[{\em b}]\item[{\em ballPm}]\end{DoxyParams}
+\item[{\em DBC}]Database connexion. \item[{\em deviceNr}]The number of the robot. \item[{\em coordCalib}]Calibrer of coordinates. \item[{\em b}]The ball. \item[{\em ballPm}]The ball monitor of the ball. \end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
@@ -91,8 +100,12 @@ STOP}
 \subsubsection[{AddObstacleForFormation}]{\setlength{\rightskip}{0pt plus 5cm}void Goalkeeper::AddObstacleForFormation (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}private, virtual\mbox{]}}}}
 \label{classGoalkeeper_a5287a2e74795bbec8f0ead767655da5d}
 
+
+This methods adds obstacles where the goalkeeper shouln't go. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]\end{DoxyParams}
+\item[{\em info}]Information about the game given by the interpreter. \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{TeamRobot}.
@@ -103,8 +116,12 @@ Implements \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{TeamRobo
 \subsubsection[{performCmd}]{\setlength{\rightskip}{0pt plus 5cm}void Goalkeeper::performCmd (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
 \label{classGoalkeeper_ab850d0d2278730bebc5479f1a339a925}
 
+
+perform the commands for the goalkeeper. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]\end{DoxyParams}
+\item[{\em info}]Information about the playmode given by the interpreter. \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobot}.
@@ -115,8 +132,12 @@ Implements \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobo
 \subsubsection[{setCmdParam}]{\setlength{\rightskip}{0pt plus 5cm}void Goalkeeper::setCmdParam (const {\bf Interpreter} \& {\em interpreter})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
 \label{classGoalkeeper_acfa6fbad0f6b1627fd59cc7cce6ff321}
 
+
+This function sets the next command for the goalkeeper. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em interpreter}]\end{DoxyParams}
+\item[{\em interpreter}]The interpreter \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{TeamRobot}.
@@ -127,8 +148,12 @@ Implements \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{TeamRobo
 \subsubsection[{setNextCmd}]{\setlength{\rightskip}{0pt plus 5cm}void Goalkeeper::setNextCmd (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
 \label{classGoalkeeper_abc394351f7c0d552c6e96da422c772ec}
 
+
+This function sets the next command for the goalkeeper. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]\end{DoxyParams}
+\item[{\em info}]Information about the playmode given by the interpreter. \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}{TeamRobot}.
@@ -141,17 +166,17 @@ Implements \hyperlink{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}{TeamRobo
 \index{m\_\-ballgk@{m\_\-ballgk}!Goalkeeper@{Goalkeeper}}
 \subsubsection[{m\_\-ballgk}]{\setlength{\rightskip}{0pt plus 5cm}{\bf BallMonitor}$\ast$ {\bf Goalkeeper::m\_\-ballgk}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classGoalkeeper_a8fc8e75ffc8d3582d293b0fe42a0c073}
-TODO \hypertarget{classGoalkeeper_a84e9e9f514d0ace81c95e03ee832aea8}{
+The monitor of ball \hypertarget{classGoalkeeper_a84e9e9f514d0ace81c95e03ee832aea8}{
 \index{Goalkeeper@{Goalkeeper}!m\_\-nextCmd@{m\_\-nextCmd}}
 \index{m\_\-nextCmd@{m\_\-nextCmd}!Goalkeeper@{Goalkeeper}}
 \subsubsection[{m\_\-nextCmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ActionGk} {\bf Goalkeeper::m\_\-nextCmd}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classGoalkeeper_a84e9e9f514d0ace81c95e03ee832aea8}
-TODO \hypertarget{classGoalkeeper_a04b3ca2b51698e36928ccce7569842eb}{
+Next command for the goalkeeper \hypertarget{classGoalkeeper_a04b3ca2b51698e36928ccce7569842eb}{
 \index{Goalkeeper@{Goalkeeper}!m\_\-preventGoalParam@{m\_\-preventGoalParam}}
 \index{m\_\-preventGoalParam@{m\_\-preventGoalParam}!Goalkeeper@{Goalkeeper}}
 \subsubsection[{m\_\-preventGoalParam}]{\setlength{\rightskip}{0pt plus 5cm}Position {\bf Goalkeeper::m\_\-preventGoalParam}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classGoalkeeper_a04b3ca2b51698e36928ccce7569842eb}
-TODO 
+The position to prevent the goal 
 
 The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
 \item 

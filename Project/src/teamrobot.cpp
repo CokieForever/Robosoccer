@@ -818,13 +818,12 @@ void* TeamRobot::Checkspeed(void *data)
         current = robo->GetPos();
         usleep(5000000);
         Log("Collision detection.",INFO);
-        //cout<<"Collision detection."<<endl<<endl;
+
         if(!robo->IsOnTarget(robo->m_targetPos))
         //if(((abs(robo->m_targetPos.GetX()-current.GetX())+abs(robo->m_targetPos.GetY()-current.GetY()))>0.2) && (robo->m_targetSpeed!=0))
         {
             robo->RandomMove();
             Log("Robot is random moving.", INFO);
-            //cout<<"Robot is random moving."<<endl<<endl;
         }
     }
     return 0;

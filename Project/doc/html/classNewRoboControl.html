@@ -71,18 +71,24 @@ Inheritance diagram for NewRoboControl:</div>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a81f7ad52f88ea8fb90eeff5650efa1c5">NewRoboControl</a> (RTDBConn &amp;DBC, const int deviceNr)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#ae63cbd6c60d37882d176e9e7d60b11ba">~NewRoboControl</a> ()=0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a77b0e86bef15f3b1fb6cf98d91c6a9b4">IsOnTarget</a> (Position target, bool precise=true) const </td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a89119d6af9d59b6e0279b39e23c35122">cruisetoBias</a> (double tarX, double tarY, int speed, double tarP=-10, double varDir=30)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">check if the robot has reached its target  <a href="#a77b0e86bef15f3b1fb6cf98d91c6a9b4"></a><br/></td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a30944b8982d85ab2ee83fd248b731bc0">cruisetoBias</a> (double tarX, double tarY, int speed, double tarP=-10, double varDir=30, double dist=0)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">move the robot to the target position  <a href="#a30944b8982d85ab2ee83fd248b731bc0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#ab3231acd7efd60677b4f48b094cb6dd3">RandomMove</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">move the robot to a random position  <a href="#ab3231acd7efd60677b4f48b094cb6dd3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a9816eae1b7c90dbb74a7e0365e2b57e9">drivePath</a> (std::vector&lt; Position &gt; *path)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#ad2ddddb5f0272a733021524ebaaaeffd">setSpeed</a> (double translation, double rotation, <a class="el" href="classNewRoboControl.html#a077fa253b827c190e82c1ce1e4c8d18f">eDirection</a> dir)</td></tr>
 <tr><td colspan="2"><h2>Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static <a class="el" href="classNewRoboControl.html#a077fa253b827c190e82c1ce1e4c8d18f">eDirection</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a9979ccfbc622d9082fb034caf36c514b">getDirection</a> (double nominal, double actual)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">with this function, the robot can determine whether it should drive forward or backward, in order to reach the target conveniently  <a href="#a9979ccfbc622d9082fb034caf36c514b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a960c714f4f8828d16dc955c871affbb5">getDiffAngle</a> (double nominal, double actual)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function calculate the angle difference between actual angle of the robot and the angle to which the robot should turn  <a href="#a960c714f4f8828d16dc955c871affbb5"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#ab2f2407b40c535ed734049e8e1ed71e6">getSpeedP</a> (double nominal, double actual)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#ac1f5cb8932193d5e8315bb19aeddb3fa">getSpeedPt</a> (double nominal, double actual, int geschw)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a0c5f29bb2dee1faf96725b80ddc64398">getSpeedT</a> (double diff)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a44def2cefef0f6c41b180bda044dfdfb">degToRad</a> (double deg)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a106c7ccc03f05693a07da1235ab0b17f">IsOnTarget</a> (Position current, Position target, bool precise=true)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function check if the the robot reach the target  <a href="#a106c7ccc03f05693a07da1235ab0b17f"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a2f7afe3fa8d85f8fedf05ba12ec21f32">m_stopCruisingNow</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#aa83c55c4b75ef04c909038e2ad581e3b">m_isCruising</a></td></tr>
@@ -165,7 +171,7 @@ Inheritance diagram for NewRoboControl:</div>
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a89119d6af9d59b6e0279b39e23c35122"></a><!-- doxytag: member="NewRoboControl::cruisetoBias" ref="a89119d6af9d59b6e0279b39e23c35122" args="(double tarX, double tarY, int speed, double tarP=&#45;10, double varDir=30)" -->
+<a class="anchor" id="a30944b8982d85ab2ee83fd248b731bc0"></a><!-- doxytag: member="NewRoboControl::cruisetoBias" ref="a30944b8982d85ab2ee83fd248b731bc0" args="(double tarX, double tarY, int speed, double tarP=&#45;10, double varDir=30, double dist=0)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
@@ -197,7 +203,13 @@ Inheritance diagram for NewRoboControl:</div>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">double&nbsp;</td>
-          <td class="paramname"> <em>varDir</em> = <code>30</code></td><td>&nbsp;</td>
+          <td class="paramname"> <em>varDir</em> = <code>30</code>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">double&nbsp;</td>
+          <td class="paramname"> <em>dist</em> = <code>0</code></td><td>&nbsp;</td>
         </tr>
         <tr>
           <td></td>
@@ -207,13 +219,15 @@ Inheritance diagram for NewRoboControl:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>move the robot to the target position </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>tarX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>tarY</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>speed</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>tarX</em>&nbsp;</td><td>is the x value of target position </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>tarY</em>&nbsp;</td><td>is the y value of target position </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>speed</em>&nbsp;</td><td>the robot should move at this speed </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>tarP</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>varDir</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>varDir</em>&nbsp;</td><td>defines whether the robot should move forwards or backwards </td></tr>
   </table>
   </dd>
 </dl>
@@ -295,14 +309,16 @@ Inheritance diagram for NewRoboControl:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>this function calculate the angle difference between actual angle of the robot and the angle to which the robot should turn </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>nominal</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nominal</em>&nbsp;</td><td>is the direction that the robot should turn in order to reach the target </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>is the actual direction of the robot at the moment. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>double </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>double is the result. </dd></dl>
 
 </div>
 </div>
@@ -330,10 +346,12 @@ Inheritance diagram for NewRoboControl:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>with this function, the robot can determine whether it should drive forward or backward, in order to reach the target conveniently </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>nominal</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nominal</em>&nbsp;</td><td>is the direction that the robot should turn in order to reach the target </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>actual</em>&nbsp;</td><td>is the actual direction of the robot at the moment. </td></tr>
   </table>
   </dd>
 </dl>
@@ -466,14 +484,16 @@ Inheritance diagram for NewRoboControl:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>check if the robot has reached its target </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>target</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>precise</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>target</em>&nbsp;</td><td>is The target of the robot at the moment. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>precise</em>&nbsp;</td><td>defines the precision. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool is Ture if the robot is on the target. </dd></dl>
 
 </div>
 </div>
@@ -507,15 +527,17 @@ Inheritance diagram for NewRoboControl:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>this function check if the the robot reach the target </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>current</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>target</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>precise</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>current</em>&nbsp;</td><td>is the current position of the robot </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>target</em>&nbsp;</td><td>is the target position of the robot </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>precise</em>&nbsp;</td><td>defines how precise the robot should be around the target </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool return ture if the robot reaches the target </dd></dl>
 
 </div>
 </div>
@@ -533,6 +555,8 @@ Inheritance diagram for NewRoboControl:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>move the robot to a random position </p>
 
 </div>
 </div>
@@ -639,7 +663,7 @@ Inheritance diagram for NewRoboControl:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 7 12:46:02 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Jul 15 11:51:29 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>
