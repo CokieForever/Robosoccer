@@ -121,7 +121,7 @@ Position TeamRobot::getDefaultPosition() const
     return m_defaultPos;
 }
 
-/**            cout << "ball velocity: " << ball.GetVelocity() << endl;
+/**
  * @brief this function defines the x of the default position
  *
  * @param x is the X value of current default position
@@ -307,7 +307,7 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
 #ifdef PATHPLANNING_ASTAR
 
     //both needed when it comes to path tracking
-    Interpreter::Point A,B;            cout << "ball velocity: " << ball.GetVelocity() << endl;
+    Interpreter::Point A,B;
     //Interpreter::Point *pt;
     char c;
     int j,idx_tmp;
@@ -328,7 +328,7 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
         B.y = Interpreter::coord2mapY(ball_n.GetY());
 
         //get string with motion commands
-        m_path = Interpreter::pathFind(m_map,A,B);            cout << "ball velocity: " << ball.GetVelocity() << endl;
+        m_path = Interpreter::pathFind(m_map,A,B);
         #ifdef VERY_VERBOSE
         Interpreter::showMap(m_map,m_path,A);
         #endif

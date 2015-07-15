@@ -166,11 +166,9 @@ void PlayerTwo::AddObstacleForFormation(const Interpreter::GameData& info)
     if (info.formation == Interpreter::ATK)
     {
         if (info.our_side == LEFT_SIDE)
-            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2)); // original atk mode
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2)); // atk mdoe with overlap
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
         else
-            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));  // original atk mode
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));  // atk mdoe with overlap
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
     }
     else if (info.formation == Interpreter::DEF)
         m_areaObstacle = NULL;  //Behavior different in this mode
