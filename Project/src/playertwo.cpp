@@ -14,23 +14,23 @@
 #include "log.h"
 
 /**
- * @brief
+ * @brief Constructor of PlayerTwo class
  *
- * @param DBC
- * @param deviceNr
- * @param coordCalib
- * @param b
- * @param ballPm
- * @param display
+ * @param DBC Database connexion
+ * @param deviceNr Number of the robot
+ * @param coordCalib Coordinates calibrator
+ * @param b Ball data
+ * @param ballPm Monitoring the ball
+ * @param display Display paths, robots ball
  */
 PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm, display)
 {
 }
 
 /**
- * @brief
+ * @brief Set next Command for PlayerTwo, depending on the command of Interpreter a case (strategy) is selected 
  *
- * @param info
+ * @param info Actual playmode given by Interpreter
  */
 void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
 {
@@ -71,9 +71,9 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief this function set the value of parameters for each commands from the referee
+ * @brief this function sets the value of parameters depending on the selected strategy 
  *
- * @param interpreter is pointer to the Interpreter
+ * @param interpreter is pointer to the Interpreter, needed for side informations
  */
 void PlayerTwo::setCmdParam(const Interpreter& interpreter)
 {
@@ -125,9 +125,9 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
 }
 
 /**
- * @brief the robot perform based on the command of the referee
+ * @brief the robot performs the command based on selected strategy
  *
- * @param info current playmode defined by referee
+ * @param info Referee informations needed for side information
  */
 void PlayerTwo::performCmd(const Interpreter::GameData& info)
 {
