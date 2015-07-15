@@ -96,7 +96,6 @@ public:
     static double map2coordY(int);
     static void showMap(const Map& map, string path, Point start);
     static void matrixupdate(Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
-
     static void maskLowerRight(Map &map);
     static void maskLowerLeft(Map &map);
     static void maskUpperRight(Map &map);
