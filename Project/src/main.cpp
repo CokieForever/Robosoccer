@@ -126,7 +126,10 @@ int main(void)
     #endif
 
     BallMonitor ballMonitor(&coordCalibrer);
-    RefereeDisplay refereeDisplay(&ballMonitor, &coordCalibrer);
+    BallMonitor ballMonitor2(&coordCalibrer);
+    BallMonitor ballMonitor3(&coordCalibrer);
+    BallMonitor ballMonitor4(&coordCalibrer);
+    RefereeDisplay refereeDisplay(&ballMonitor4, &coordCalibrer);
 
     try
     {
@@ -140,8 +143,8 @@ int main(void)
         RawBall ball(DBC);
 
         Goalkeeper gk = Goalkeeper(DBC, rfcomm_nr[0], &coordCalibrer, &ball, &ballMonitor);
-        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball, &ballMonitor);
-        PlayerTwo p2 = PlayerTwo(DBC, rfcomm_nr[2], &coordCalibrer, &ball, &ballMonitor);
+        PlayerMain p1 = PlayerMain(DBC, rfcomm_nr[1], &coordCalibrer, &ball, &ballMonitor2);
+        PlayerTwo p2 = PlayerTwo(DBC, rfcomm_nr[2], &coordCalibrer, &ball, &ballMonitor3);
         OpponentRobot robo4 = OpponentRobot(DBC, rfcomm_nr_2[0]);
         OpponentRobot robo5 = OpponentRobot(DBC, rfcomm_nr_2[1]);
         OpponentRobot robo6 = OpponentRobot(DBC, rfcomm_nr_2[2]);
@@ -152,6 +155,9 @@ int main(void)
         Log("Side: " + ToString(ref.GetSide()), INFO);
 
         ballMonitor.StartMonitoring(&ball);
+        ballMonitor2.StartMonitoring(&ball);
+        ballMonitor3.StartMonitoring(&ball);
+        ballMonitor4.StartMonitoring(&ball);
 
         Interpreter info(team, &ref, &gk, &p1, &p2, &robo4, &robo5, &robo6, &ball, &coordCalibrer);
 
@@ -164,7 +170,7 @@ int main(void)
         MainLoopDataStruct s2 = {&refereeDisplay, &info, &p1};
         MainLoopDataStruct s3 = {&refereeDisplay, &info, &p2};
 
-        pthread_t gkThread, p1Thread, p2Thread;
+        pthread_t p1Thread, p2Thread, gkThread;
         pthread_create(&gkThread, NULL, MainLoop, &s1);
         pthread_create(&p1Thread, NULL, MainLoop, &s2);
         pthread_create(&p2Thread, NULL, MainLoop, &s3);
@@ -192,6 +198,9 @@ int main(void)
 
     refereeDisplay.StopDisplay();
     ballMonitor.StopMonitoring();
+    ballMonitor2.StopMonitoring();
+    ballMonitor3.StopMonitoring();
+    ballMonitor4.StopMonitoring();
 
     Log("End", INFO);
     pthread_exit(NULL);

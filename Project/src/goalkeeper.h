@@ -21,6 +21,7 @@ class Goalkeeper : public TeamRobot
     enum ActionGk
     {
         GO_TO_DEF_POS,  /**< TODO */
+        CLEAR_GOAL,     /**< TODO */
         PREVENT_GOAL,   /**< TODO */
         STOP            /**< TODO */
     };

@@ -42,6 +42,7 @@ public:
      */
     enum Strategy
     {
+        INIT,   /**< TODO */
         ATK,    /**< TODO */
         DEF,    /**< TODO */
         MIX     /**< TODO */
