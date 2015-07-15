@@ -15,7 +15,9 @@ public:
     bool SetManualCoordCalibration(Position a, Position b, Position c, Position d);
 
     Position NormalizePosition(Position pos) const;
+    Position NormalizePosition(Position pos, double phi) const;
     Position UnnormalizePosition(Position pos) const;
+    Position UnnormalizePosition(Position pos, double phi) const;
     double NormalizeAngle(double angle) const;
     double UnnormalizeAngle(double angle) const;
 
@@ -35,11 +37,11 @@ private:
     double m_theta;                 /**< TODO */
     double m_kx;                    /**< TODO */
     double m_ky;                    /**< TODO */
-    bool m_isCalibrating;           /**< TODO */
-    bool m_calibrationSuccessful;   /**< TODO */
-    bool m_stopCalibrating;         /**< TODO */
-    pthread_t m_calibrationThread;  /**< TODO */
-    NewRoboControl *m_robots[2];    /**< TODO */
+    bool m_isCalibrating;           /**< Indicates if the calibration is still going on. */
+    bool m_calibrationSuccessful;   /**< Indicates if the calibration is successful. */
+    bool m_stopCalibrating;         /**< Indicates if the calibration should be stopped. */
+    pthread_t m_calibrationThread;  /**< The thread of calibration. */
+    NewRoboControl *m_robots[2];    /**< Rhe robots. */
 
     void Init();
 

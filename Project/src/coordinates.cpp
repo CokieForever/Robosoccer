@@ -1,8 +1,9 @@
 #include "coordinates.h"
+#include "geometry.h"
 
 
 /**
- * @brief
+ * @brief Initializing  constructor.
  *
  */
 CoordinatesCalibrer::CoordinatesCalibrer()
@@ -11,12 +12,12 @@ CoordinatesCalibrer::CoordinatesCalibrer()
 }
 
 /**
- * @brief
+ * @brief Constructor of the coordinates calibrer based on 4 positions in the field.
  *
- * @param a
- * @param b
- * @param c
- * @param d
+ * @param a First position
+ * @param b Second position
+ * @param c Third position
+ * @param d Fourth position
  */
 CoordinatesCalibrer::CoordinatesCalibrer(Position a, Position b, Position c, Position d)
 {
@@ -25,7 +26,7 @@ CoordinatesCalibrer::CoordinatesCalibrer(Position a, Position b, Position c, Pos
 }
 
 /**
- * @brief
+ * @brief Initializes the parameters for the Coordinates calibrer class
  *
  */
 void CoordinatesCalibrer::Init()
@@ -46,12 +47,12 @@ void CoordinatesCalibrer::Init()
 }
 
 /**
- * @brief
+ * @brief sets manually the coodinates calibrer based on 4 positions
  *
- * @param a
- * @param b
- * @param c
- * @param d
+ * @param a First position
+ * @param b Second position
+ * @param c Third position
+ * @param d Fourth position
  * @return bool
  */
 bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Position c, Position d)
@@ -81,6 +82,38 @@ bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Posi
 }
 
 /**
+ * @brief It normalizes a position
+ *
+ * @param pos
+ * @param phi
+ * @return Position
+ */
+Position CoordinatesCalibrer::NormalizePosition(Position pos, double phi) const
+{
+    double x, y;
+    phi = phi >= 0 ? phi - M_PI : phi + M_PI;
+    ComputeVectorEnd(pos.GetX(), pos.GetY(), phi, 0.025, &x, &y);
+
+    return NormalizePosition(Position(x,y));
+}
+
+/**
+ * @brief
+ *
+ * @param pos
+ * @param phi
+ * @return Position
+ */
+Position CoordinatesCalibrer::NormalizePosition(Position pos, double phi) const
+{
+    double x, y;
+    phi = phi >= 0 ? phi - M_PI : phi + M_PI;
+    ComputeVectorEnd(pos.GetX(), pos.GetY(), phi, 0.025, &x, &y);
+
+    return NormalizePosition(Position(x,y));
+}
+
+/**
  * @brief
  *
  * @param pos
@@ -101,6 +134,40 @@ Position CoordinatesCalibrer::NormalizePosition(Position pos) const
     //Dilatation
     x *= m_kx;
     y *= m_ky;
+
+    return Position(x, y);
+}
+
+/**
+ * @brief It unnormalizes a position.
+ *
+ * @param pos
+ * @param phi UNNORMALIZED orientation of the robot, typically given by @ref RoboControl::GetPhi().
+ * @return Position
+ */
+Position CoordinatesCalibrer::UnnormalizePosition(Position pos, double phi) const
+{
+    pos = UnnormalizePosition(pos);
+
+    double x, y;
+    ComputeVectorEnd(pos.GetX(), pos.GetY(), phi, 0.025, &x, &y);
+
+    return Position(x, y);
+}
+
+/**
+ * @brief
+ *
+ * @param pos
+ * @param phi UNNORMALIZED orientation of the robot, typically given by @ref RoboControl::GetPhi().
+ * @return Position
+ */
+Position CoordinatesCalibrer::UnnormalizePosition(Position pos, double phi) const
+{
+    pos = UnnormalizePosition(pos);
+
+    double x, y;
+    ComputeVectorEnd(pos.GetX(), pos.GetY(), phi, 0.025, &x, &y);
 
     return Position(x, y);
 }
@@ -131,10 +198,10 @@ Position CoordinatesCalibrer::UnnormalizePosition(Position pos) const
 }
 
 /**
- * @brief
+ * @brief It normalizes an angle to an angle between -M_PI and M_PI.
  *
- * @param angle
- * @return double
+ * @param angle Angle to be normalized.
+ * @return double Normalized Angle.
  */
 double CoordinatesCalibrer::NormalizeAngle(double angle) const
 {
@@ -158,10 +225,10 @@ double CoordinatesCalibrer::NormalizeAngle(double angle) const
 }
 
 /**
- * @brief
+ * @brief It unnormalizes an angle.
  *
- * @param angle
- * @return double
+ * @param angle Angle to be unnormalized.
+ * @return double The unnormalized angle.
  */
 double CoordinatesCalibrer::UnnormalizeAngle(double angle) const
 {
@@ -185,11 +252,11 @@ double CoordinatesCalibrer::UnnormalizeAngle(double angle) const
 }
 
 /**
- * @brief
+ * @brief This function starts the coordinates calibration
  *
- * @param robot1
- * @param robot2
- * @return bool
+ * @param robot1 First robot.
+ * @param robot2 Second robot.
+ * @return bool True if thr coordinates calibration was started. False if not.
  */
 bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboControl *robot2)
 {
@@ -204,10 +271,10 @@ bool CoordinatesCalibrer::StartCoordCalibration(NewRoboControl *robot1, NewRoboC
 }
 
 /**
- * @brief
+ * @brief It waits for the end of the coordinates calibration before ending it
  *
- * @param stopNow
- * @return bool
+ * @param stopNow True if the coordinates calbration should stop immediately. False if not.
+ * @return bool     True if the coordinates caliration is still not finished. False if it is stopped.
  */
 bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
 {
@@ -220,7 +287,7 @@ bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
 }
 
 /**
- * @brief
+ * @brief It gets the results of coordinates calibration.
  *
  * @param tx
  * @param ty
@@ -249,13 +316,13 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, dou
 }
 
 /**
- * @brief
+ * @brief This function gets the results of coordinates calibration.
  *
- * @param xMax
- * @param xMin
- * @param yMax
- * @param yMin
- * @return bool
+ * @param xMax The maximum value os x.
+ * @param xMin The minimum value os x.
+ * @param yMax The maximum value os y.
+ * @param yMin The minimum value os y.
+ * @return bool True if the calibration results are got. Flase if not.
  */
 bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin, double *yMax, double *yMin) const
 {
@@ -281,9 +348,9 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *xMax, double *xMin,
 #define exit_cal() do {calibrer->m_calibrationSuccessful = !calibrer->m_stopCalibrating; calibrer->m_isCalibrating = false; return NULL;} while (0)
 #define usleep_cal(t) do { if (calibrer->m_stopCalibrating) exit_cal(); usleep(t); if (calibrer->m_stopCalibrating) exit_cal(); } while (0)
 /**
- * @brief
+ * @brief This function realizes the calibration of robots coordinates.
  *
- * @param data
+ * @param data Data needed for calibration.
  */
 void* CoordinatesCalibrer::CalibrationFn(void *data)
 {

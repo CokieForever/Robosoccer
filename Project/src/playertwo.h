@@ -26,7 +26,7 @@ class PlayerTwo : public TeamRobot
         GO_TO_DEF_POS,  /**< TODO */
         FOLLOWPATH,     /**< TODO */
         STOP,           /**< TODO */
-        DEFENSE         /**< TODO */
+        DEFENSE       /**< TODO */
     };
 
     /**

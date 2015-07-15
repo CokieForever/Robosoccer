@@ -17,7 +17,7 @@ public:
     static const int NB_POSTIME  = 10; /**< TODO */
 
     /**
-     * @brief
+     * @brief This structure contains the direction coordinates of the ball
      *
      */
     typedef struct
@@ -27,7 +27,7 @@ public:
     } Direction;
 
     /**
-     * @brief
+     * @brief This structure contains the position of the ball and the given time.
      *
      */
     typedef struct
@@ -54,7 +54,7 @@ public:
 
 private:
     /**
-     * @brief
+     * @brief This structure contains the value and is of an angle.
      *
      */
     struct Angle

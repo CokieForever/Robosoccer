@@ -35,9 +35,9 @@ PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalib
 }
 
 /**
- * @brief
- *
- * @param info
+ * @brief this function give the robot the position that it should move to depending on the
+ * commands of the referee
+ * @param info playmode of referee
  */
 void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 {
@@ -78,9 +78,9 @@ void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief
+ * @brief this function set the value of parameters for each commands from the referee
  *
- * @param interpreter
+ * @param interpreter is pointer to the Interpreter
  */
 void PlayerMain::setCmdParam(const Interpreter& interpreter)
 {
@@ -108,17 +108,23 @@ void PlayerMain::setCmdParam(const Interpreter& interpreter)
 }
 
 /**
- * @brief
+ * @brief the robot perform based on the command of the referee
  *
- * @param info
+ * @param info current playmode defined by referee
  */
 void PlayerMain::performCmd(const Interpreter::GameData& info)
 {
+    static bool penaltyKicked = false;
+
     switch(m_nextCmd)
     {
         case KICK_PENALTY:
-            KickPenalty((const NewRoboControl**)m_otherRobots);
-            break;
+            if (!penaltyKicked)
+            {
+                KickPenalty((const NewRoboControl**)m_otherRobots);
+                penaltyKicked = true;
+            }
+            return;
 
         case GO_TO_DEF_POS:
             Log("Player1 Perform Go To Default Pos", DEBUG);
@@ -137,18 +143,38 @@ void PlayerMain::performCmd(const Interpreter::GameData& info)
         case STOP:
             break;
     }
+
+    penaltyKicked = false;
 }
 
 /**
- * @brief
+ * @brief in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots
  *
- * @param info
+ * @param info is the current playmode and situation(score etc.) from referee
  */
 void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
     {
-        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, 0), PathFinder::CreatePoint(2, 2));
+        /*
+        if (info.our_side == LEFT_SIDE)
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-3, -2), PathFinder::CreatePoint(0.5, 2));
+        else
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-0.5, -2), PathFinder::CreatePoint(3, 2));
+        */
+        if (info.our_side == LEFT_SIDE)
+        {
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-3, -2), PathFinder::CreatePoint(0, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.5, -2), PathFinder::CreatePoint(2, 2)); // original atk mode
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.55, -2), PathFinder::CreatePoint(2, 2)); // atk mode with overlap
+        }
+        else
+        {
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(3, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.5, 2)); // original atk mode
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.55, 2));   // atk mode with overlap
+        }
+
     }
     else if (info.formation == Interpreter::DEF)
     {
@@ -160,9 +186,11 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
     else if (info.formation == Interpreter::MIX)
     {
         if (info.our_side == LEFT_SIDE)
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.15, 2)); //mix mode with overlap
         else
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.15, -2), PathFinder::CreatePoint(2, 2)); // mix mode with overlap
     }
     else
         m_areaObstacle = NULL;   //Should never happen
@@ -172,7 +200,7 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 //Player main defend the goal corners
 //could be used in Defend Mode for P2
 /**
- * @brief
+ * @brief this function moves the robot to a specified position to carry out defense
  *
  */
 void PlayerMain::defend_p2(void)
