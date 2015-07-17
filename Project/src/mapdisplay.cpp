@@ -7,11 +7,11 @@ using namespace std;
 
 
 /**
- * @brief
+ * @brief Constructor of the mapdisplay class. Initializes the variables.
  *
- * @param map
- * @param screenW
- * @param screenH
+ * @param map Map given by the interpreter
+ * @param screenW Width of the screen where the map will be displayed.
+ * @param screenH Height of the screen where the map will be displayed.
  */
 MapDisplay::MapDisplay(const Interpreter::Map& map, int screenW, int screenH) : m_map(map)
 {
@@ -21,7 +21,7 @@ MapDisplay::MapDisplay(const Interpreter::Map& map, int screenW, int screenH) : 
 }
 
 /**
- * @brief
+ * @brief Destructor of the class mapdisplay.
  *
  */
 MapDisplay::~MapDisplay()
@@ -31,9 +31,9 @@ MapDisplay::~MapDisplay()
 }
 
 /**
- * @brief
+ * @brief This function gets the SDL surface
  *
- * @return SDL_Surface *
+ * @return SDL_Surface * SDL surface used for display.
  */
 SDL_Surface* MapDisplay::GetDisplay() const
 {
@@ -41,9 +41,9 @@ SDL_Surface* MapDisplay::GetDisplay() const
 }
 
 /**
- * @brief
+ * @brief This function updates the SDL surface
  *
- * @return SDL_Surface *
+ * @return SDL_Surface * SDL surface updated for display.
  */
 SDL_Surface* MapDisplay::UpdateDisplay()
 {
@@ -80,12 +80,12 @@ SDL_Surface* MapDisplay::UpdateDisplay()
 }
 
 /**
- * @brief
+ * @brief This function converts screen coordinates into marix coordinates
  *
- * @param x
- * @param y
- * @param i
- * @param j
+ * @param x screen coordinate x
+ * @param y screen coordinate y
+ * @param i column number in the matrix.
+ * @param j row number in the matrix.
  */
 void MapDisplay::ConvertScreenCoordToMatrixCoord(int x, int y, int *i, int *j)
 {

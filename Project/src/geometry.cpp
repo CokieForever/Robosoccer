@@ -2,14 +2,14 @@
 #include "pathfinder.h"
 
 /**
- * @brief
+ * @brief This function computes the end of a vector given a start point an angle and length of the vector.
  *
- * @param startX
- * @param startY
- * @param angle
- * @param length
- * @param endX
- * @param endY
+ * @param startX Coordinate x of the start point (origin of the vector).
+ * @param startY Coordinate y of the start point (origin of the vector).
+ * @param angle Angle between the vector and the x axis.
+ * @param length Length of the vector.
+ * @param endX Coordinate x of the end point (end of the vector).
+ * @param endY Coordinate y of the end point (end of the vector).
  */
 void ComputeVectorEnd(double startX, double startY, double angle, double length, double *endX, double *endY)
 {
@@ -17,15 +17,15 @@ void ComputeVectorEnd(double startX, double startY, double angle, double length,
 }
 
 /**
- * @brief
+ * @brief This function computes the end of a vector given a start point a cosinus and sinus of an angle and length of the vector.
  *
- * @param startX
- * @param startY
- * @param cosAngle
- * @param sinAngle
- * @param length
- * @param endX
- * @param endY
+ * @param startX Coordinate x of the start point (origin of the vector).
+ * @param startY Coordinate y of the start point (origin of the vector).
+ * @param cosAngle Cosinus of the angle between the vector and the x axis.
+ * @param sinAngle Sinus of the angle between the vector and the x axis.
+ * @param length Length of the vector.
+ * @param endX Coordinate x of the end point (end of the vector).
+ * @param endY Coordinate y of the end point (end of the vector).
  */
 void ComputeVectorEnd(double startX, double startY, double cosAngle, double sinAngle, double length, double *endX, double *endY)
 {
@@ -34,13 +34,13 @@ void ComputeVectorEnd(double startX, double startY, double cosAngle, double sinA
 }
 
 /**
- * @brief
+ * @brief This function computes the angle between a vector and the x axis.
  *
- * @param startX
- * @param startY
- * @param endX
- * @param endY
- * @param angle
+ * @param startX x coordinate of the origin of the vector.
+ * @param startY y coordinate of the origin of the vector.
+ * @param endX x coordinate of the end of the vector.
+ * @param endY y coordinate of the end of the vector.
+ * @param angle The angle between the vector and the x axis.
  */
 void ComputeLineAngle(double startX, double startY, double endX, double endY, double *angle)
 {
@@ -52,14 +52,14 @@ void ComputeLineAngle(double startX, double startY, double endX, double endY, do
 }
 
 /**
- * @brief
+ * @brief  This function computes the cosinus and sinus of the angle between a vector and the x axis.
  *
- * @param startX
- * @param startY
- * @param endX
- * @param endY
- * @param cosAngle
- * @param sinAngle
+ * @param startX x coordinate of the origin of the vector.
+ * @param startY y coordinate of the origin of the vector.
+ * @param endX x coordinate of the end of the vector.
+ * @param endY y coordinate of the end of the vector.
+ * @param cosAngle Cosinus of the angle between the vector and x axis.
+ * @param sinAngle Sinus of the angle between the vector and  x axis.
  */
 void ComputeLineAngle(double startX, double startY, double endX, double endY, double *cosAngle, double *sinAngle)
 {
