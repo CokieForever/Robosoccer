@@ -69,15 +69,15 @@ void ComputeLineAngle(double startX, double startY, double endX, double endY, do
 }
 
 /**
- * @brief
+ * @brief This function computes the coordinates of the 4 corners of a rectangle.
  *
- * @param startX
- * @param startY
- * @param endX
- * @param endY
- * @param thickness
- * @param (rectX)[]
- * @param (rectY)[]
+ * @param startX Coordinate x of the first corner in in the rectangle.
+ * @param startY Coordinate y of the first corner in in the rectangle.
+ * @param endX Coordinate x of the last corner in in the rectangle.
+ * @param endY Coordinate y of the first corner in in the rectangle.
+ * @param thickness Thickness of the lines that lie the corners.
+ * @param (rectX)[] x coordinates of the four corners in the rectangle.
+ * @param (rectY)[] y coordinates of the four corners in the rectangle.
  */
 void ComputeThickLineRect(double startX, double startY, double endX, double endY, double thickness, double (&rectX)[4], double (&rectY)[4])
 {
@@ -90,17 +90,17 @@ void ComputeThickLineRect(double startX, double startY, double endX, double endY
 }
 
 /**
- * @brief
+ * @brief This function tells us if there is an intersection between two segments defined by two points each.
  *
- * @param x1
- * @param y1
- * @param x2
- * @param y2
- * @param x3
- * @param y3
- * @param x4
- * @param y4
- * @return bool
+ * @param x1 x coordinate of the first point in the first segment.
+ * @param y1 y coordinate of the first point in the first segment.
+ * @param x2 x coordinate of the second point in the first segment.
+ * @param y2 y coordinate of the second point in the first segment.
+ * @param x3 x coordinate of the first point in the second segment.
+ * @param y3 y coordinate of the first point in the second segment.
+ * @param x4 x coordinate of the second point in the second segment.
+ * @param y4 y coordinate of the second point in the second segment.
+ * @return bool True if there is intersection. False if not.
  */
 bool DoSegmentsIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
 {
@@ -110,16 +110,17 @@ bool DoSegmentsIntersect(double x1, double y1, double x2, double y2, double x3, 
 }
 
 /**
- * @brief
+ * @brief This function tells us if there is an intersection between two segments defined by two
+ * points each and give the coordinates of the intersection point if there is an intersection.
  *
- * @param x1
- * @param y1
- * @param x2
- * @param y2
- * @param x3
- * @param y3
- * @param x4
- * @param y4
+ * @param x1 x coordinate of the first point in the first segment.
+ * @param y1 y coordinate of the first point in the first segment.
+ * @param x2 x coordinate of the second point in the first segment.
+ * @param y2 y coordinate of the second point in the first segment.
+ * @param x3 x coordinate of the first point in the second segment.
+ * @param y3 y coordinate of the first point in the second segment.
+ * @param x4 x coordinate of the second point in the second segment.
+ * @param y4 y coordinate of the second point in the second segment.
  * @param isectX
  * @param isectY
  * @return bool
