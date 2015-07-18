@@ -5,10 +5,10 @@
 #include <queue>
 
 /**
- * @brief
+ * @brief create a point in normalized map
  *
- * @param x
- * @param y
+ * @param x value on x axis
+ * @param y value on y axis
  * @return Matrix::Point
  */
 Matrix::Point Matrix::CreatePoint(int x, int y)
@@ -110,10 +110,10 @@ void Matrix::Fill(Uint8 number)
 }
 
 /**
- * @brief
- *
- * @param ul
- * @param lr
+ * @brief this function draw a rectangle on the map. The rectangle could be used to restrict the moving
+ * area of a robot in different strategy
+ * @param ul upper left point of the rectangle
+ * @param lr lower right point of the rectangle
  * @param number
  */
 void Matrix::DrawRectangle(Point ul, Point lr, Uint8 number)
@@ -127,10 +127,10 @@ void Matrix::DrawRectangle(Point ul, Point lr, Uint8 number)
 }
 
 /**
- * @brief
+ * @brief this function is used to draw lines. The movement of the robot should not cross this line
  *
- * @param start
- * @param end
+ * @param start start point of the line
+ * @param end end point of the line
  * @param thickness
  * @param number
  */
@@ -142,10 +142,10 @@ void Matrix::DrawThickLine(Point start, Point end, int thickness, Uint8 number)
 }
 
 /**
- * @brief
+ * @brief this function is used to draw a circle on the matrix
  *
- * @param center
- * @param radius
+ * @param center is the centre of the circle
+ * @param radius is the radius of the circle
  * @param number
  */
 void Matrix::DrawCircle(Point center, int radius, Uint8 number)
@@ -155,10 +155,10 @@ void Matrix::DrawCircle(Point center, int radius, Uint8 number)
 }
 
 /**
- * @brief
- *
- * @param points
- * @param n
+ * @brief this function is used to draw a polygon on the robot. This polygon serves as a barrier. In the
+ * pathfinding, the path will avoid the polygon so that robots would not collide.
+ * @param points are points of the polygon
+ * @param n is the number of the points of the polygon
  * @param number
  */
 void Matrix::DrawPolygon(Point *points, int n, Uint8 number)
@@ -288,10 +288,10 @@ void Matrix::flood_AddNextLine(int newY, bool isNext, bool downwards, int minX, 
 }
 
 /**
- * @brief
+ * @brief unnormalize the point of the matrix to the point on real map
  *
- * @param x
- * @param y
+ * @param x the value on x axis
+ * @param y the value on y axis
  * @return Uint8 &
  */
 Uint8& Matrix::Get(int x, int y) const
