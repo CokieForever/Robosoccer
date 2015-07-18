@@ -34,14 +34,14 @@ enum \hyperlink{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2}{ActionPlayerTw
 void \hyperlink{classPlayerTwo_a7ac9a9a4f1dedee2006e6a0c79f37c0c}{setNextCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
 \item 
 void \hyperlink{classPlayerTwo_aa0294cf24297f66ffd92f1a250794340}{setCmdParam} (const \hyperlink{classInterpreter}{Interpreter} \&interpreter)
-\item 
+\begin{DoxyCompactList}\small\item\em this function set the value of parameters for each commands from the referee \item\end{DoxyCompactList}\item 
 void \hyperlink{classPlayerTwo_a56d794b718c60092a324f312b8333eb9}{performCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em the robot perform based on the command of the referee \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classPlayerTwo_a9e3341541658f54a2dfb0491a774b4d4}{AddObstacleForFormation} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -114,8 +114,12 @@ DEFENSE}
 \subsubsection[{AddObstacleForFormation}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerTwo::AddObstacleForFormation (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}private, virtual\mbox{]}}}}
 \label{classPlayerTwo_a9e3341541658f54a2dfb0491a774b4d4}
 
+
+in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]\end{DoxyParams}
+\item[{\em info}]info is the current playmode and situation(score etc.) from referee \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{TeamRobot}.
@@ -126,8 +130,12 @@ Implements \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{TeamRobo
 \subsubsection[{performCmd}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerTwo::performCmd (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
 \label{classPlayerTwo_a56d794b718c60092a324f312b8333eb9}
 
+
+the robot perform based on the command of the referee 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]\end{DoxyParams}
+\item[{\em info}]current playmode defined by referee \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobot}.
@@ -138,8 +146,12 @@ Implements \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobo
 \subsubsection[{setCmdParam}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerTwo::setCmdParam (const {\bf Interpreter} \& {\em interpreter})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
 \label{classPlayerTwo_aa0294cf24297f66ffd92f1a250794340}
 
+
+this function set the value of parameters for each commands from the referee 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em interpreter}]\end{DoxyParams}
+\item[{\em interpreter}]is pointer to the \hyperlink{classInterpreter}{Interpreter} \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{TeamRobot}.

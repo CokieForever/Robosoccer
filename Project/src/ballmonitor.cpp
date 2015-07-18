@@ -181,8 +181,7 @@ bool BallMonitor::IsBallMoving() const
     int i2 = m_ballPosTimeInd;
     int i1 = (m_ballPosTimeInd-1 + NB_POSTIME) % NB_POSTIME;
     bool moving = (m_ballPosTime[i1].pos.GetX() != m_ballPosTime[i2].pos.GetX()
-            || m_ballPosTime[i1].pos.GetY() != m_ballPosTime[i2].pos.GetY())
-            && clock() - m_ballPosTime[i1].time <= CLOCKS_PER_SEC * 0.100;
+            || m_ballPosTime[i1].pos.GetY() != m_ballPosTime[i2].pos.GetY());
     pthread_mutex_unlock((pthread_mutex_t*)&m_ballMonitoringMtx);
     return moving;
 }
@@ -687,7 +686,7 @@ void* BallMonitor::BallMonitoringFn(void *data)
 
     while (!monitor->m_stopBallMonitoring)
     {
-        while (!monitor->m_stopBallMonitoring && (pos = monitor->m_mainBall->GetPos()).DistanceTo(monitor->m_ballPosTime[monitor->m_ballPosTimeInd].pos) < 0.025)
+        while (!monitor->m_stopBallMonitoring && (pos = monitor->m_mainBall->GetPos()).DistanceTo(monitor->m_ballPosTime[monitor->m_ballPosTimeInd].pos) < 0.0025)
             usleep(1000);
 
         if (monitor->m_stopBallMonitoring)

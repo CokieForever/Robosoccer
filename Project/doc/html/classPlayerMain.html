@@ -73,11 +73,16 @@ Inheritance diagram for PlayerMain:</div>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a12957aeecc6902370f03ff2ffbb0551d">PlayerMain</a> (RTDBConn &amp;DBC, const int deviceNr, const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *c, RawBall *b, <a class="el" href="classBallMonitor.html">BallMonitor</a> *ballPm, <a class="el" href="classRefereeDisplay.html">RefereeDisplay</a> *display=NULL)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a8f0320189df15529662c7f16d2f74084">setNextCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function give the robot the position that it should move to depending on the commands of the referee  <a href="#a8f0320189df15529662c7f16d2f74084"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a5c4af159392663660f91809052422945">setCmdParam</a> (const <a class="el" href="classInterpreter.html">Interpreter</a> &amp;interpreter)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function set the value of parameters for each commands from the referee  <a href="#a5c4af159392663660f91809052422945"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#af12a95c226ce973056681a138b55fb6c">performCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">the robot perform based on the command of the referee  <a href="#af12a95c226ce973056681a138b55fb6c"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a978b3ce16f5d8e5d1cb9ef70f387227e">AddObstacleForFormation</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots  <a href="#a978b3ce16f5d8e5d1cb9ef70f387227e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a64e1d5734e07cfa82b2571aa11bb4f9d">defend_p2</a> (void)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function moves the robot to a specified position to carry out defense  <a href="#a64e1d5734e07cfa82b2571aa11bb4f9d"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classPlayerMain.html#af07f952a547b2902a452c1413f26dae2">ActionPlayerMain</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a038f8616ec79dd26bae8039b6ada8321">m_nextCmd</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBallMonitor.html">BallMonitor</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#aea071084f1a844ceafac3621ffb5c320">m_ballpm</a></td></tr>
@@ -196,9 +201,11 @@ Inheritance diagram for PlayerMain:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>is the current playmode and situation(score etc.) from referee </td></tr>
   </table>
   </dd>
 </dl>
@@ -223,6 +230,8 @@ Inheritance diagram for PlayerMain:</div>
 </div>
 <div class="memdoc">
 
+<p>this function moves the robot to a specified position to carry out defense </p>
+
 </div>
 </div>
 <a class="anchor" id="af12a95c226ce973056681a138b55fb6c"></a><!-- doxytag: member="PlayerMain::performCmd" ref="af12a95c226ce973056681a138b55fb6c" args="(const Interpreter::GameData &amp;info)" -->
@@ -240,9 +249,11 @@ Inheritance diagram for PlayerMain:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>the robot perform based on the command of the referee </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>current playmode defined by referee </td></tr>
   </table>
   </dd>
 </dl>
@@ -266,9 +277,11 @@ Inheritance diagram for PlayerMain:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>this function set the value of parameters for each commands from the referee </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td>is pointer to the <a class="el" href="classInterpreter.html">Interpreter</a> </td></tr>
   </table>
   </dd>
 </dl>
@@ -292,9 +305,11 @@ Inheritance diagram for PlayerMain:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>this function give the robot the position that it should move to depending on the commands of the referee </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>playmode of referee </td></tr>
   </table>
   </dd>
 </dl>
@@ -379,7 +394,7 @@ Inheritance diagram for PlayerMain:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 7 12:46:02 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Jul 15 11:51:29 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

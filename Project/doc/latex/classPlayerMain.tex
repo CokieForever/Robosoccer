@@ -30,18 +30,18 @@ enum \hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2}{ActionPlayerM
 \hyperlink{classPlayerMain_a12957aeecc6902370f03ff2ffbb0551d}{PlayerMain} (RTDBConn \&DBC, const int deviceNr, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$c, RawBall $\ast$b, \hyperlink{classBallMonitor}{BallMonitor} $\ast$ballPm, \hyperlink{classRefereeDisplay}{RefereeDisplay} $\ast$display=NULL)
 \item 
 void \hyperlink{classPlayerMain_a8f0320189df15529662c7f16d2f74084}{setNextCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\item 
+\begin{DoxyCompactList}\small\item\em this function give the robot the position that it should move to depending on the commands of the referee \item\end{DoxyCompactList}\item 
 void \hyperlink{classPlayerMain_a5c4af159392663660f91809052422945}{setCmdParam} (const \hyperlink{classInterpreter}{Interpreter} \&interpreter)
-\item 
+\begin{DoxyCompactList}\small\item\em this function set the value of parameters for each commands from the referee \item\end{DoxyCompactList}\item 
 void \hyperlink{classPlayerMain_af12a95c226ce973056681a138b55fb6c}{performCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em the robot perform based on the command of the referee \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classPlayerMain_a978b3ce16f5d8e5d1cb9ef70f387227e}{AddObstacleForFormation} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\item 
+\begin{DoxyCompactList}\small\item\em in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots \item\end{DoxyCompactList}\item 
 void \hyperlink{classPlayerMain_a64e1d5734e07cfa82b2571aa11bb4f9d}{defend\_\-p2} (void)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em this function moves the robot to a specified position to carry out defense \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -107,8 +107,12 @@ FOLLOWPATH}
 \subsubsection[{AddObstacleForFormation}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::AddObstacleForFormation (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}private, virtual\mbox{]}}}}
 \label{classPlayerMain_a978b3ce16f5d8e5d1cb9ef70f387227e}
 
+
+in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]\end{DoxyParams}
+\item[{\em info}]is the current playmode and situation(score etc.) from referee \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{TeamRobot}.
@@ -118,14 +122,22 @@ Implements \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{TeamRobo
 \index{defend\_\-p2@{defend\_\-p2}!PlayerMain@{PlayerMain}}
 \subsubsection[{defend\_\-p2}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::defend\_\-p2 (void)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classPlayerMain_a64e1d5734e07cfa82b2571aa11bb4f9d}
+
+
+this function moves the robot to a specified position to carry out defense 
+
 \hypertarget{classPlayerMain_af12a95c226ce973056681a138b55fb6c}{
 \index{PlayerMain@{PlayerMain}!performCmd@{performCmd}}
 \index{performCmd@{performCmd}!PlayerMain@{PlayerMain}}
 \subsubsection[{performCmd}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::performCmd (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
 \label{classPlayerMain_af12a95c226ce973056681a138b55fb6c}
 
+
+the robot perform based on the command of the referee 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]\end{DoxyParams}
+\item[{\em info}]current playmode defined by referee \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobot}.
@@ -136,8 +148,12 @@ Implements \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobo
 \subsubsection[{setCmdParam}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::setCmdParam (const {\bf Interpreter} \& {\em interpreter})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
 \label{classPlayerMain_a5c4af159392663660f91809052422945}
 
+
+this function set the value of parameters for each commands from the referee 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em interpreter}]\end{DoxyParams}
+\item[{\em interpreter}]is pointer to the \hyperlink{classInterpreter}{Interpreter} \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{TeamRobot}.
@@ -148,8 +164,12 @@ Implements \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{TeamRobo
 \subsubsection[{setNextCmd}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::setNextCmd (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
 \label{classPlayerMain_a8f0320189df15529662c7f16d2f74084}
 
+
+this function give the robot the position that it should move to depending on the commands of the referee 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]\end{DoxyParams}
+\item[{\em info}]playmode of referee \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}{TeamRobot}.

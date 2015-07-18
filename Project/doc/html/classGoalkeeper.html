@@ -62,16 +62,22 @@ Inheritance diagram for Goalkeeper:</div>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Types</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#a25db0bed632b4bdb87532b0fbbf45855">ActionGk</a> { <a class="el" href="classGoalkeeper.html#a25db0bed632b4bdb87532b0fbbf45855af1fa8ff07676a5e27f9cc78f6811c704">GO_TO_DEF_POS</a>, 
+<a class="el" href="classGoalkeeper.html#a25db0bed632b4bdb87532b0fbbf45855a16f1efd31d6ead68306d343d85059ca2">CLEAR_GOAL</a>, 
 <a class="el" href="classGoalkeeper.html#a25db0bed632b4bdb87532b0fbbf45855a96b7bc8aa3f3a4d1b68955f8d757e9c1">PREVENT_GOAL</a>, 
 <a class="el" href="classGoalkeeper.html#a25db0bed632b4bdb87532b0fbbf45855a7940a4d0074c5f5bb33743797387c2c1">STOP</a>
  }</td></tr>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#a7ad214162340c37a695ba00d4576c3c4">Goalkeeper</a> (RTDBConn &amp;DBC, const int deviceNr, const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *coordCalib, RawBall *ball, <a class="el" href="classBallMonitor.html">BallMonitor</a> *ballgk)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is the constructor of <a class="el" href="classGoalkeeper.html">Goalkeeper</a> class.  <a href="#a7ad214162340c37a695ba00d4576c3c4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#abc394351f7c0d552c6e96da422c772ec">setNextCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the next command for the goalkeeper.  <a href="#abc394351f7c0d552c6e96da422c772ec"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#acfa6fbad0f6b1627fd59cc7cce6ff321">setCmdParam</a> (const <a class="el" href="classInterpreter.html">Interpreter</a> &amp;interpreter)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the next command for the goalkeeper.  <a href="#acfa6fbad0f6b1627fd59cc7cce6ff321"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#ab850d0d2278730bebc5479f1a339a925">performCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">perform the commands for the goalkeeper.  <a href="#ab850d0d2278730bebc5479f1a339a925"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#a5287a2e74795bbec8f0ead767655da5d">AddObstacleForFormation</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This methods adds obstacles where the goalkeeper shouln't go.  <a href="#a5287a2e74795bbec8f0ead767655da5d"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classGoalkeeper.html#a25db0bed632b4bdb87532b0fbbf45855">ActionGk</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#a84e9e9f514d0ace81c95e03ee832aea8">m_nextCmd</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#a04b3ca2b51698e36928ccce7569842eb">m_preventGoalParam</a></td></tr>
@@ -90,13 +96,16 @@ Inheritance diagram for Goalkeeper:</div>
 <div class="memdoc">
 <dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
 <tr><td valign="top"><em><a class="anchor" id="a25db0bed632b4bdb87532b0fbbf45855af1fa8ff07676a5e27f9cc78f6811c704"></a><!-- doxytag: member="GO_TO_DEF_POS" ref="a25db0bed632b4bdb87532b0fbbf45855af1fa8ff07676a5e27f9cc78f6811c704" args="" -->GO_TO_DEF_POS</em>&nbsp;</td><td>
+<p>Go to default position </p>
+</td></tr>
+<tr><td valign="top"><em><a class="anchor" id="a25db0bed632b4bdb87532b0fbbf45855a16f1efd31d6ead68306d343d85059ca2"></a><!-- doxytag: member="CLEAR_GOAL" ref="a25db0bed632b4bdb87532b0fbbf45855a16f1efd31d6ead68306d343d85059ca2" args="" -->CLEAR_GOAL</em>&nbsp;</td><td>
 <p>TODO </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="a25db0bed632b4bdb87532b0fbbf45855a96b7bc8aa3f3a4d1b68955f8d757e9c1"></a><!-- doxytag: member="PREVENT_GOAL" ref="a25db0bed632b4bdb87532b0fbbf45855a96b7bc8aa3f3a4d1b68955f8d757e9c1" args="" -->PREVENT_GOAL</em>&nbsp;</td><td>
-<p>TODO </p>
+<p>Prevent goal </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="a25db0bed632b4bdb87532b0fbbf45855a7940a4d0074c5f5bb33743797387c2c1"></a><!-- doxytag: member="STOP" ref="a25db0bed632b4bdb87532b0fbbf45855a7940a4d0074c5f5bb33743797387c2c1" args="" -->STOP</em>&nbsp;</td><td>
-<p>TODO </p>
+<p>stop moving </p>
 </td></tr>
 </table>
 </dd>
@@ -147,13 +156,15 @@ Inheritance diagram for Goalkeeper:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>This is the constructor of <a class="el" href="classGoalkeeper.html">Goalkeeper</a> class. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>DBC</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>deviceNr</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>coordCalib</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ballPm</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>DBC</em>&nbsp;</td><td>Database connexion. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>deviceNr</em>&nbsp;</td><td>The number of the robot. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>coordCalib</em>&nbsp;</td><td>Calibrer of coordinates. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td>The ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ballPm</em>&nbsp;</td><td>The ball monitor of the ball. </td></tr>
   </table>
   </dd>
 </dl>
@@ -176,9 +187,11 @@ Inheritance diagram for Goalkeeper:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>This methods adds obstacles where the goalkeeper shouln't go. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>Information about the game given by the interpreter. </td></tr>
   </table>
   </dd>
 </dl>
@@ -202,9 +215,11 @@ Inheritance diagram for Goalkeeper:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>perform the commands for the goalkeeper. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>Information about the playmode given by the interpreter. </td></tr>
   </table>
   </dd>
 </dl>
@@ -228,9 +243,11 @@ Inheritance diagram for Goalkeeper:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function sets the next command for the goalkeeper. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td>The interpreter </td></tr>
   </table>
   </dd>
 </dl>
@@ -254,9 +271,11 @@ Inheritance diagram for Goalkeeper:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function sets the next command for the goalkeeper. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>Information about the playmode given by the interpreter. </td></tr>
   </table>
   </dd>
 </dl>
@@ -276,7 +295,7 @@ Inheritance diagram for Goalkeeper:</div>
       </table>
 </div>
 <div class="memdoc">
-<p>TODO </p>
+<p>The monitor of ball </p>
 
 </div>
 </div>
@@ -290,7 +309,7 @@ Inheritance diagram for Goalkeeper:</div>
       </table>
 </div>
 <div class="memdoc">
-<p>TODO </p>
+<p>Next command for the goalkeeper </p>
 
 </div>
 </div>
@@ -304,7 +323,7 @@ Inheritance diagram for Goalkeeper:</div>
       </table>
 </div>
 <div class="memdoc">
-<p>TODO </p>
+<p>The position to prevent the goal </p>
 
 </div>
 </div>
@@ -327,7 +346,7 @@ Inheritance diagram for Goalkeeper:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 7 12:46:02 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Jul 15 11:51:29 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -14,23 +14,23 @@
 #include "log.h"
 
 /**
- * @brief
+ * @brief Constructor of PlayerTwo class
  *
- * @param DBC
- * @param deviceNr
- * @param coordCalib
- * @param b
- * @param ballPm
- * @param display
+ * @param DBC Database connexion
+ * @param deviceNr Number of the robot
+ * @param coordCalib Coordinates calibrator
+ * @param b Ball data
+ * @param ballPm Monitoring the ball
+ * @param display Display paths, robots ball
  */
 PlayerTwo::PlayerTwo(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *b, BallMonitor *ballPm, RefereeDisplay *display) : TeamRobot(DBC, deviceNr, coordCalib, b, ballPm, display)
 {
 }
 
 /**
- * @brief
+ * @brief Set next Command for PlayerTwo, depending on the command of Interpreter a case (strategy) is selected 
  *
- * @param info
+ * @param info Actual playmode given by Interpreter
  */
 void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
 {
@@ -49,7 +49,9 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
                     m_nextCmd = DEFENSE;
             }
             else
+            {
                 m_nextCmd = FOLLOWPATH;
+            }
             break;
 
         case BEFORE_KICK_OFF:
@@ -69,9 +71,9 @@ void PlayerTwo::setNextCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief
+ * @brief this function sets the value of parameters depending on the selected strategy 
  *
- * @param interpreter
+ * @param interpreter is pointer to the Interpreter, needed for side informations
  */
 void PlayerTwo::setCmdParam(const Interpreter& interpreter)
 {
@@ -123,9 +125,9 @@ void PlayerTwo::setCmdParam(const Interpreter& interpreter)
 }
 
 /**
- * @brief
+ * @brief the robot performs the command based on selected strategy
  *
- * @param info
+ * @param info Referee informations needed for side information
  */
 void PlayerTwo::performCmd(const Interpreter::GameData& info)
 {
@@ -147,7 +149,7 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
             Position ballPos;
             m_ballPm->GetBallPosition(&ballPos);
             if (ShouldGoalKick(ballPos, info.our_side))
-                KickBall(ballPos);
+                KickMovingBall(m_ball);
             else
                 cruisetoBias(m_defendpm.GetX(), m_defendpm.GetY(), 650);
             break;
@@ -155,22 +157,29 @@ void PlayerTwo::performCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief
+ * @brief in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots
  *
- * @param info
+ * @param info info is the current playmode and situation(score etc.) from referee
  */
 void PlayerTwo::AddObstacleForFormation(const Interpreter::GameData& info)
 {
     if (info.formation == Interpreter::ATK)
-        m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(2, 0));
+    {
+        if (info.our_side == LEFT_SIDE)
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+        else
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+    }
     else if (info.formation == Interpreter::DEF)
         m_areaObstacle = NULL;  //Behavior different in this mode
     else if (info.formation == Interpreter::MIX)
     {
         if (info.our_side == RIGHT_SIDE)
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(0, 2));
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(-2, -2), PathFinder::CreatePoint(-0.15, 2)); // mix mode with overlap
         else
-            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+            //m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0, -2), PathFinder::CreatePoint(2, 2));
+            m_areaObstacle = m_pathFinder.AddRectangle(PathFinder::CreatePoint(0.15, -2), PathFinder::CreatePoint(2, 2));   // mix mode with overlap
     }else
         m_areaObstacle = NULL;  //Should never happen
 }

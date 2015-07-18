@@ -10,37 +10,41 @@
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classCoordinatesCalibrer_ac9a522299ada8f2e58ed8f0c91f4f396}{CoordinatesCalibrer} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Initializing constructor. \item\end{DoxyCompactList}\item 
 \hyperlink{classCoordinatesCalibrer_a3b6304945fa64ac97a1b0bbc78753155}{CoordinatesCalibrer} (Position a, Position b, Position c, Position d)
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor of the coordinates calibrer based on 4 positions in the field. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{SetManualCoordCalibration} (Position a, Position b, Position c, Position d)
-\item 
+\begin{DoxyCompactList}\small\item\em sets manually the coodinates calibrer based on 4 positions \item\end{DoxyCompactList}\item 
 Position \hyperlink{classCoordinatesCalibrer_ad6519b69842756c256922d14d1e248ce}{NormalizePosition} (Position pos) const 
 \item 
+Position \hyperlink{classCoordinatesCalibrer_a034180f011c23565b9b5907ce0219fbf}{NormalizePosition} (Position pos, double phi) const 
+\begin{DoxyCompactList}\small\item\em It normalizes a position. \item\end{DoxyCompactList}\item 
 Position \hyperlink{classCoordinatesCalibrer_a8522193b13196313d001c589e7845bd3}{UnnormalizePosition} (Position pos) const 
 \item 
+Position \hyperlink{classCoordinatesCalibrer_a19035a69d4d571e5e1d4baa4ba10baee}{UnnormalizePosition} (Position pos, double phi) const 
+\begin{DoxyCompactList}\small\item\em It unnormalizes a position. \item\end{DoxyCompactList}\item 
 double \hyperlink{classCoordinatesCalibrer_acae6b5f07cf198f9c85a1b09e9a275dc}{NormalizeAngle} (double angle) const 
-\item 
+\begin{DoxyCompactList}\small\item\em It normalizes an angle to an angle between -\/M\_\-PI and M\_\-PI. \item\end{DoxyCompactList}\item 
 double \hyperlink{classCoordinatesCalibrer_ab97fd4d3f3930aaff39cee1543022cb6}{UnnormalizeAngle} (double angle) const 
-\item 
+\begin{DoxyCompactList}\small\item\em It unnormalizes an angle. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}{StartCoordCalibration} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robot1, \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robot2)
-\item 
+\begin{DoxyCompactList}\small\item\em This function starts the coordinates calibration. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a99563ba6e43f839bf1b10f55cf155125}{WaitForCoordCalibrationEnd} (bool stopNow=false)
-\item 
+\begin{DoxyCompactList}\small\item\em It waits for the end of the coordinates calibration before ending it. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}{GetCoordCalibrationResults} (double $\ast$tx, double $\ast$ty, double $\ast$theta, double $\ast$kx, double $\ast$ky) const 
-\item 
+\begin{DoxyCompactList}\small\item\em It gets the results of coordinates calibration. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}{GetCoordCalibrationResults} (double $\ast$xMax, double $\ast$xMin, double $\ast$yMax, double $\ast$yMin) const 
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em This function gets the results of coordinates calibration. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classCoordinatesCalibrer_a19faab9e443f7ef64462a36c19baf6bc}{Init} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Initializes the parameters for the Coordinates calibrer class. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static void $\ast$ \hyperlink{classCoordinatesCalibrer_a4ce4c153ae8c3e50faccfba40e6bc4ea}{CalibrationFn} (void $\ast$data)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em This function realizes the calibration of robots coordinates. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -76,14 +80,22 @@ pthread\_\-t \hyperlink{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{CoordinatesCalibrer}]{\setlength{\rightskip}{0pt plus 5cm}CoordinatesCalibrer::CoordinatesCalibrer ()}}
 \label{classCoordinatesCalibrer_ac9a522299ada8f2e58ed8f0c91f4f396}
+
+
+Initializing constructor. 
+
 \hypertarget{classCoordinatesCalibrer_a3b6304945fa64ac97a1b0bbc78753155}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{CoordinatesCalibrer}]{\setlength{\rightskip}{0pt plus 5cm}CoordinatesCalibrer::CoordinatesCalibrer (Position {\em a}, \/  Position {\em b}, \/  Position {\em c}, \/  Position {\em d})}}
 \label{classCoordinatesCalibrer_a3b6304945fa64ac97a1b0bbc78753155}
 
+
+Constructor of the coordinates calibrer based on 4 positions in the field. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em a}]\item[{\em b}]\item[{\em c}]\item[{\em d}]\end{DoxyParams}
+\item[{\em a}]First position \item[{\em b}]Second position \item[{\em c}]Third position \item[{\em d}]Fourth position \end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
@@ -93,24 +105,36 @@ pthread\_\-t \hyperlink{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c
 \subsubsection[{CalibrationFn}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ CoordinatesCalibrer::CalibrationFn (void $\ast$ {\em data})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
 \label{classCoordinatesCalibrer_a4ce4c153ae8c3e50faccfba40e6bc4ea}
 
+
+This function realizes the calibration of robots coordinates. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em data}]\end{DoxyParams}
+\item[{\em data}]Data needed for calibration. \end{DoxyParams}
 \hypertarget{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!GetCoordCalibrationResults@{GetCoordCalibrationResults}}
 \index{GetCoordCalibrationResults@{GetCoordCalibrationResults}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{GetCoordCalibrationResults}]{\setlength{\rightskip}{0pt plus 5cm}bool CoordinatesCalibrer::GetCoordCalibrationResults (double $\ast$ {\em xMax}, \/  double $\ast$ {\em xMin}, \/  double $\ast$ {\em yMax}, \/  double $\ast$ {\em yMin}) const}}
 \label{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}
 
+
+This function gets the results of coordinates calibration. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em xMax}]\item[{\em xMin}]\item[{\em yMax}]\item[{\em yMin}]\end{DoxyParams}
+\item[{\em xMax}]The maximum value os x. \item[{\em xMin}]The minimum value os x. \item[{\em yMax}]The maximum value os y. \item[{\em yMin}]The minimum value os y. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool True if the calibration results are got. Flase if not. 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!GetCoordCalibrationResults@{GetCoordCalibrationResults}}
 \index{GetCoordCalibrationResults@{GetCoordCalibrationResults}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{GetCoordCalibrationResults}]{\setlength{\rightskip}{0pt plus 5cm}bool CoordinatesCalibrer::GetCoordCalibrationResults (double $\ast$ {\em tx}, \/  double $\ast$ {\em ty}, \/  double $\ast$ {\em theta}, \/  double $\ast$ {\em kx}, \/  double $\ast$ {\em ky}) const}}
 \label{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}
+
+
+It gets the results of coordinates calibration. 
+
 
 \begin{DoxyParams}{Parameters}
 \item[{\em tx}]\item[{\em ty}]\item[{\em theta}]\item[{\em kx}]\item[{\em ky}]\end{DoxyParams}
@@ -122,16 +146,39 @@ bool
 \index{Init@{Init}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{Init}]{\setlength{\rightskip}{0pt plus 5cm}void CoordinatesCalibrer::Init ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_a19faab9e443f7ef64462a36c19baf6bc}
+
+
+Initializes the parameters for the Coordinates calibrer class. 
+
 \hypertarget{classCoordinatesCalibrer_acae6b5f07cf198f9c85a1b09e9a275dc}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!NormalizeAngle@{NormalizeAngle}}
 \index{NormalizeAngle@{NormalizeAngle}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{NormalizeAngle}]{\setlength{\rightskip}{0pt plus 5cm}double CoordinatesCalibrer::NormalizeAngle (double {\em angle}) const}}
 \label{classCoordinatesCalibrer_acae6b5f07cf198f9c85a1b09e9a275dc}
 
+
+It normalizes an angle to an angle between -\/M\_\-PI and M\_\-PI. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em angle}]\end{DoxyParams}
+\item[{\em angle}]Angle to be normalized. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-double 
+double Normalized Angle. 
+\end{DoxyReturn}
+\hypertarget{classCoordinatesCalibrer_a034180f011c23565b9b5907ce0219fbf}{
+\index{CoordinatesCalibrer@{CoordinatesCalibrer}!NormalizePosition@{NormalizePosition}}
+\index{NormalizePosition@{NormalizePosition}!CoordinatesCalibrer@{CoordinatesCalibrer}}
+\subsubsection[{NormalizePosition}]{\setlength{\rightskip}{0pt plus 5cm}Position CoordinatesCalibrer::NormalizePosition (Position {\em pos}, \/  double {\em phi}) const}}
+\label{classCoordinatesCalibrer_a034180f011c23565b9b5907ce0219fbf}
+
+
+It normalizes a position. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pos}]\item[{\em phi}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Position 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_ad6519b69842756c256922d14d1e248ce}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!NormalizePosition@{NormalizePosition}}
@@ -150,8 +197,12 @@ Position
 \subsubsection[{SetManualCoordCalibration}]{\setlength{\rightskip}{0pt plus 5cm}bool CoordinatesCalibrer::SetManualCoordCalibration (Position {\em a}, \/  Position {\em b}, \/  Position {\em c}, \/  Position {\em d})}}
 \label{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}
 
+
+sets manually the coodinates calibrer based on 4 positions 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em a}]\item[{\em b}]\item[{\em c}]\item[{\em d}]\end{DoxyParams}
+\item[{\em a}]First position \item[{\em b}]Second position \item[{\em c}]Third position \item[{\em d}]Fourth position \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 bool 
 \end{DoxyReturn}
@@ -161,10 +212,14 @@ bool
 \subsubsection[{StartCoordCalibration}]{\setlength{\rightskip}{0pt plus 5cm}bool CoordinatesCalibrer::StartCoordCalibration ({\bf NewRoboControl} $\ast$ {\em robot1}, \/  {\bf NewRoboControl} $\ast$ {\em robot2})}}
 \label{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}
 
+
+This function starts the coordinates calibration. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robot1}]\item[{\em robot2}]\end{DoxyParams}
+\item[{\em robot1}]First robot. \item[{\em robot2}]Second robot. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool True if thr coordinates calibration was started. False if not. 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_ab97fd4d3f3930aaff39cee1543022cb6}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!UnnormalizeAngle@{UnnormalizeAngle}}
@@ -172,10 +227,29 @@ bool
 \subsubsection[{UnnormalizeAngle}]{\setlength{\rightskip}{0pt plus 5cm}double CoordinatesCalibrer::UnnormalizeAngle (double {\em angle}) const}}
 \label{classCoordinatesCalibrer_ab97fd4d3f3930aaff39cee1543022cb6}
 
+
+It unnormalizes an angle. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em angle}]\end{DoxyParams}
+\item[{\em angle}]Angle to be unnormalized. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-double 
+double The unnormalized angle. 
+\end{DoxyReturn}
+\hypertarget{classCoordinatesCalibrer_a19035a69d4d571e5e1d4baa4ba10baee}{
+\index{CoordinatesCalibrer@{CoordinatesCalibrer}!UnnormalizePosition@{UnnormalizePosition}}
+\index{UnnormalizePosition@{UnnormalizePosition}!CoordinatesCalibrer@{CoordinatesCalibrer}}
+\subsubsection[{UnnormalizePosition}]{\setlength{\rightskip}{0pt plus 5cm}Position CoordinatesCalibrer::UnnormalizePosition (Position {\em pos}, \/  double {\em phi}) const}}
+\label{classCoordinatesCalibrer_a19035a69d4d571e5e1d4baa4ba10baee}
+
+
+It unnormalizes a position. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pos}]\item[{\em phi}]UNNORMALIZED orientation of the robot, typically given by RoboControl::GetPhi(). \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Position 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_a8522193b13196313d001c589e7845bd3}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!UnnormalizePosition@{UnnormalizePosition}}
@@ -194,10 +268,14 @@ Position
 \subsubsection[{WaitForCoordCalibrationEnd}]{\setlength{\rightskip}{0pt plus 5cm}bool CoordinatesCalibrer::WaitForCoordCalibrationEnd (bool {\em stopNow} = {\ttfamily false})}}
 \label{classCoordinatesCalibrer_a99563ba6e43f839bf1b10f55cf155125}
 
+
+It waits for the end of the coordinates calibration before ending it. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em stopNow}]\end{DoxyParams}
+\item[{\em stopNow}]True if the coordinates calbration should stop immediately. False if not. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool True if the coordinates caliration is still not finished. False if it is stopped. 
 \end{DoxyReturn}
 
 
@@ -207,12 +285,12 @@ bool
 \index{m\_\-calibrationSuccessful@{m\_\-calibrationSuccessful}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-calibrationSuccessful}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf CoordinatesCalibrer::m\_\-calibrationSuccessful}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_aade3d6c933ebb71c197061828ca6b951}
-TODO \hypertarget{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c3a}{
+Indicates if the calibration is successful. \hypertarget{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c3a}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-calibrationThread@{m\_\-calibrationThread}}
 \index{m\_\-calibrationThread@{m\_\-calibrationThread}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-calibrationThread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-t {\bf CoordinatesCalibrer::m\_\-calibrationThread}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c3a}
-TODO \hypertarget{classCoordinatesCalibrer_a0fd71c87e90fc61802942e22c9584fb9}{
+The thread of calibration. \hypertarget{classCoordinatesCalibrer_a0fd71c87e90fc61802942e22c9584fb9}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-cosTheta@{m\_\-cosTheta}}
 \index{m\_\-cosTheta@{m\_\-cosTheta}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-cosTheta}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf CoordinatesCalibrer::m\_\-cosTheta}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
@@ -222,7 +300,7 @@ TODO \hypertarget{classCoordinatesCalibrer_a2d3543afab02c87d0e06861d064bd265}{
 \index{m\_\-isCalibrating@{m\_\-isCalibrating}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-isCalibrating}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf CoordinatesCalibrer::m\_\-isCalibrating}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_a2d3543afab02c87d0e06861d064bd265}
-TODO \hypertarget{classCoordinatesCalibrer_a337af708f5dc1bfca0d191b988d8ab49}{
+Indicates if the calibration is still going on. \hypertarget{classCoordinatesCalibrer_a337af708f5dc1bfca0d191b988d8ab49}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-kx@{m\_\-kx}}
 \index{m\_\-kx@{m\_\-kx}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-kx}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf CoordinatesCalibrer::m\_\-kx}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
@@ -237,7 +315,7 @@ TODO \hypertarget{classCoordinatesCalibrer_aebcdb5e598d2af268ab93a0271c245b6}{
 \index{m\_\-robots@{m\_\-robots}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-robots}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NewRoboControl}$\ast$ {\bf CoordinatesCalibrer::m\_\-robots}\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_aebcdb5e598d2af268ab93a0271c245b6}
-TODO \hypertarget{classCoordinatesCalibrer_af2675b7f9f8612eb53e81a5268501180}{
+Rhe robots. \hypertarget{classCoordinatesCalibrer_af2675b7f9f8612eb53e81a5268501180}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-sinTheta@{m\_\-sinTheta}}
 \index{m\_\-sinTheta@{m\_\-sinTheta}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-sinTheta}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf CoordinatesCalibrer::m\_\-sinTheta}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
@@ -247,7 +325,7 @@ TODO \hypertarget{classCoordinatesCalibrer_ac8da80d736936d73e78f21a7f046855d}{
 \index{m\_\-stopCalibrating@{m\_\-stopCalibrating}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-stopCalibrating}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf CoordinatesCalibrer::m\_\-stopCalibrating}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_ac8da80d736936d73e78f21a7f046855d}
-TODO \hypertarget{classCoordinatesCalibrer_a039975d1cf826afcb960e77f8f957f91}{
+Indicates if the calibration should be stopped. \hypertarget{classCoordinatesCalibrer_a039975d1cf826afcb960e77f8f957f91}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-theta@{m\_\-theta}}
 \index{m\_\-theta@{m\_\-theta}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-theta}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf CoordinatesCalibrer::m\_\-theta}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}

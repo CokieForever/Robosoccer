@@ -20,7 +20,8 @@ enum \hyperlink{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643}{KickTurn} \{
 \hyperlink{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76}{THEIR\_\-TURN}
  \}
 \item 
-enum \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}{Strategy} \{ \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}{ATK}, 
+enum \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}{Strategy} \{ \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9}{INIT}, 
+\hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}{ATK}, 
 \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75}{DEF}, 
 \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187}{MIX}
  \}
@@ -72,19 +73,19 @@ static string \hyperlink{classInterpreter_a253118e59d7428286ff70a818efe0c52}{pat
 static \hyperlink{structInterpreter_1_1Point}{Point} $\ast$ \hyperlink{classInterpreter_a17b252478116fc19ab8fe4623728cda8}{getCheckPoints} (\hyperlink{structInterpreter_1_1Point}{Point} start, string path)
 \item 
 static int \hyperlink{classInterpreter_a36e1b3f28a3d8dae2155f1f0212bed7d}{coord2mapX} (double)
-\item 
+\begin{DoxyCompactList}\small\item\em normalize the matrix to the real map \item\end{DoxyCompactList}\item 
 static int \hyperlink{classInterpreter_a5b597351a6bdaf23fbf42aed910b151f}{coord2mapY} (double)
 \item 
 static double \hyperlink{classInterpreter_afaaf3930191f9ba3e48a09af193e0a39}{map2coordX} (int)
-\item 
+\begin{DoxyCompactList}\small\item\em normalize the matrix value to real map, or otherwise. \item\end{DoxyCompactList}\item 
 static double \hyperlink{classInterpreter_abd0885c42ade8eb7f941c8d4b26a2501}{map2coordY} (int)
-\item 
+\begin{DoxyCompactList}\small\item\em normalize the matrix value to real map, or otherwise. \item\end{DoxyCompactList}\item 
 static void \hyperlink{classInterpreter_ae09346bdc7e055a43f760cb2b868357f}{showMap} (const \hyperlink{classMatrix}{Map} \&map, string path, \hyperlink{structInterpreter_1_1Point}{Point} start)
 \item 
 static void \hyperlink{classInterpreter_a4b195c13b5189f82d5b2ccd47ee4c562}{matrixupdate} (\hyperlink{classMatrix}{Map} \&map, const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$ref, const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$obstacles\mbox{[}5\mbox{]}, RawBall $\ast$ball, \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalibrer, eSide our\_\-side)
 \item 
 static void \hyperlink{classInterpreter_a5bafd4ac63cb3dee9a6ddff172a0df02}{maskLowerRight} (\hyperlink{classMatrix}{Map} \&map)
-\item 
+\begin{DoxyCompactList}\small\item\em mix mode with overlap \item\end{DoxyCompactList}\item 
 static void \hyperlink{classInterpreter_af02271dded17efbe47316706aad115f7}{maskLowerLeft} (\hyperlink{classMatrix}{Map} \&map)
 \item 
 static void \hyperlink{classInterpreter_a6741607033424bb90e95e59311941ed3}{maskUpperRight} (\hyperlink{classMatrix}{Map} \&map)
@@ -220,7 +221,11 @@ THEIR\_\-TURN}
 \begin{Desc}
 \item[Enumerator: ]\par
 \begin{description}
-\index{ATK@{ATK}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!ATK@{ATK}}\item[{\em 
+\index{INIT@{INIT}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!INIT@{INIT}}\item[{\em 
+\hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9}{
+INIT}
+\label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9}
+}]TODO \index{ATK@{ATK}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!ATK@{ATK}}\item[{\em 
 \hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}{
 ATK}
 \label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}
@@ -260,8 +265,12 @@ MIX}
 \subsubsection[{coord2mapX}]{\setlength{\rightskip}{0pt plus 5cm}int Interpreter::coord2mapX (double {\em x})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{classInterpreter_a36e1b3f28a3d8dae2155f1f0212bed7d}
 
+
+normalize the matrix to the real map 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em x}]\end{DoxyParams}
+\item[{\em x}]is x value of the real map \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 int 
 \end{DoxyReturn}
@@ -388,6 +397,10 @@ Position
 \subsubsection[{map2coordX}]{\setlength{\rightskip}{0pt plus 5cm}double Interpreter::map2coordX (int {\em mapX})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{classInterpreter_afaaf3930191f9ba3e48a09af193e0a39}
 
+
+normalize the matrix value to real map, or otherwise. 
+
+
 \begin{DoxyParams}{Parameters}
 \item[{\em mapX}]\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
@@ -398,6 +411,10 @@ double
 \index{map2coordY@{map2coordY}!Interpreter@{Interpreter}}
 \subsubsection[{map2coordY}]{\setlength{\rightskip}{0pt plus 5cm}double Interpreter::map2coordY (int {\em mapY})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{classInterpreter_abd0885c42ade8eb7f941c8d4b26a2501}
+
+
+normalize the matrix value to real map, or otherwise. 
+
 
 \begin{DoxyParams}{Parameters}
 \item[{\em mapY}]\end{DoxyParams}
@@ -425,6 +442,10 @@ double
 \index{maskLowerRight@{maskLowerRight}!Interpreter@{Interpreter}}
 \subsubsection[{maskLowerRight}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskLowerRight ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{classInterpreter_a5bafd4ac63cb3dee9a6ddff172a0df02}
+
+
+mix mode with overlap 
+
 
 \begin{DoxyParams}{Parameters}
 \item[{\em map}]\end{DoxyParams}

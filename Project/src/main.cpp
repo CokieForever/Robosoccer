@@ -141,7 +141,7 @@ int main(void)
         MainLoopDataStruct s2 = {&refereeDisplay, &info, &p1};
         MainLoopDataStruct s3 = {&refereeDisplay, &info, &p2};
 
-        pthread_t gkThread, p1Thread, p2Thread;
+        pthread_t p1Thread, p2Thread, gkThread;
         pthread_create(&gkThread, NULL, MainLoop, &s1);
         pthread_create(&p1Thread, NULL, MainLoop, &s2);
         pthread_create(&p2Thread, NULL, MainLoop, &s3);
@@ -168,6 +168,9 @@ int main(void)
 
     refereeDisplay.StopDisplay();
     ballMonitor.StopMonitoring();
+    ballMonitor2.StopMonitoring();
+    ballMonitor3.StopMonitoring();
+    ballMonitor4.StopMonitoring();
 
     cout << "End" << endl;
     pthread_exit(NULL);

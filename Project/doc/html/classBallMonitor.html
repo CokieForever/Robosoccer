@@ -51,22 +51,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBallMonitor_1_1Angle.html">Angle</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This structure contains the value and is of an angle.  <a href="structBallMonitor_1_1Angle.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBallMonitor_1_1Direction.html">Direction</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This structure contains the direction coordinates of the ball.  <a href="structBallMonitor_1_1Direction.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structBallMonitor_1_1PosTime.html">PosTime</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This structure contains the position of the ball and the given time.  <a href="structBallMonitor_1_1PosTime.html#_details">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a176a257973eefa572b6972aa6b5a605d">BallMonitor</a> (<a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *coordCalibrer, RawBall *ball=NULL)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">creates a <a class="el" href="classBallMonitor.html">BallMonitor</a> . This is the constructor of ball monitor class  <a href="#a176a257973eefa572b6972aa6b5a605d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a4d2b3aa764f5d4f4d5f58b7530565f90">StartMonitoring</a> (RawBall *ball=NULL)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function starts the monitoring of the ball.It creates a new thread to monitor the ball.  <a href="#a4d2b3aa764f5d4f4d5f58b7530565f90"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#af71db12abeb1f10f7be58eb7591910a3">StopMonitoring</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function stops the monitoring of the ball.It destroys the thread created to monitor the ball.  <a href="#af71db12abeb1f10f7be58eb7591910a3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#aab81815271c442087c15bc8f6843d092">GetBallPosition</a> (Position *pos) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function gets the position of the ball.  <a href="#aab81815271c442087c15bc8f6843d092"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a3cd2fe1ed297c468634fbb390ca088bd">GetBallDirection</a> (<a class="el" href="structBallMonitor_1_1Direction.html">Direction</a> *dir) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function gets the direction of the ball.  <a href="#a3cd2fe1ed297c468634fbb390ca088bd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a914053314023ea79ee691a3031e355bf">PredictBallPosition</a> (double *a, double *b, int precision)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This funtion predicts the linear trajectory of a moving ball with a certain precision based on two positions of the ball in two different times.  <a href="#a914053314023ea79ee691a3031e355bf"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a8995e71b82d80987984dd6b1ed89c0a0">IsBallMoving</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Tells if the ball is moving on the field or not.  <a href="#a8995e71b82d80987984dd6b1ed89c0a0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#aad046acf9df6b0381ab3b1b8351e97c5">ComputeVisibilityMap</a> (int maxLevel, const <a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robot[6], eSide ourSide, const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *coordCalib) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes the visibility map based on the position of other robots and on our side.  <a href="#aad046acf9df6b0381ab3b1b8351e97c5"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">std::vector&lt; double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#ac30119e22cfe4814670c4eae8c6b5495">ComputeVisibilityMap</a> (const <a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robot[6], eSide ourSide, const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *coordCalib) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes the visibility map based on the position of other robots and on our side.  <a href="#ac30119e22cfe4814670c4eae8c6b5495"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static std::vector&lt; double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a0d2ef73ba2b0573021c800c311e08245">ComputeVisibilityMap</a> (int maxLevel, Position pos, const Position *robotPos, int nbPos, eSide ourSide)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes the visibility map based on the position of other robots and on our side.  <a href="#a0d2ef73ba2b0573021c800c311e08245"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static std::vector&lt; double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a53e07299cf403dd036cab543d37fbf92">ComputeVisibilityMap</a> (Position pos, const Position *robotPos, int nbPos, eSide ourSide)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes the visibility map based on the position of other robots and on our side.  <a href="#a53e07299cf403dd036cab543d37fbf92"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a9045d5d3abf9c9b549303c831b3387e0">GetBestDirection</a> (std::vector&lt; double &gt; visibilityMap, eSide ourSide)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gives the best direction to shoot the ball.  <a href="#a9045d5d3abf9c9b549303c831b3387e0"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Public Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static const int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a6603291a8d6c6a2de7b378ece54d5e2b">NB_POSTIME</a> = 10</td></tr>
 <tr><td colspan="2"><h2>Private Types</h2></td></tr>
@@ -74,13 +89,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a09ed61cf1852d45f03e7aacdebfe0175">ResetPosTimeList</a> ()</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a49645db55ca752adbc2a5a074c7314be">ComputeLinearRegression</a> (double *a, double *b, int precision=2) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes a linear regression of the ball's position.  <a href="#a49645db55ca752adbc2a5a074c7314be"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#af76da8bc13e92d9083a9a77469c472df">BallMonitoringFn</a> (void *data)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function realizes the ball monitoring.  <a href="#af76da8bc13e92d9083a9a77469c472df"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a2ca3e25f437b5aabb3bc88e0f84cf9a5">BallFollowingFn</a> (void *data)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a78114ec7fc20317f84491e428dd8c126">CompareAngles</a> (const <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a> &amp;a1, const <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a> &amp;a2)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function compares two angles.  <a href="#a78114ec7fc20317f84491e428dd8c126"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a805b7229e7db773c56e9987d794ada9a">CreateAngle</a> (double val, int id)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function creates an angle of a given value and id.  <a href="#a805b7229e7db773c56e9987d794ada9a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a32d7b6d877b84c7d7fd9bc9ffe659562">AngleVertMirror</a> (double angle)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function returns an angle which is perpendicular to a given angle.  <a href="#a32d7b6d877b84c7d7fd9bc9ffe659562"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static std::vector&lt; double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a74f8a1ce881528e475269fa1c964fa61">MergeVisibilityMaps</a> (std::vector&lt; double &gt; &amp;map1, std::vector&lt; double &gt; &amp;map2)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function merges two visibility maps.  <a href="#a74f8a1ce881528e475269fa1c964fa61"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static std::vector&lt; double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a8f3198b6b4ef8eb52c0ff04afd33cc8f">AnglesToMap</a> (std::priority_queue&lt; <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a>, std::vector&lt; <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a> &gt;, <a class="el" href="classBallMonitor.html#a5ad781c99d5b43bee7c838de9da75527">CompareFn</a> &gt; angles, double minAngle, double maxAngle)</td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">RawBall *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a4bd064999cb8ee1a286c8dd7ac11ce05">m_mainBall</a></td></tr>
@@ -136,10 +157,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>creates a <a class="el" href="classBallMonitor.html">BallMonitor</a> . This is the constructor of ball monitor class </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>coordCalibrer</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>coordCalibrer</em>&nbsp;</td><td>the coordinates calibrator </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball </td></tr>
   </table>
   </dd>
 </dl>
@@ -195,13 +218,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function returns an angle which is perpendicular to a given angle. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td>The given angle. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>double </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>double The value of the perpendicular angle. </dd></dl>
 
 </div>
 </div>
@@ -238,9 +263,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function realizes the ball monitoring. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>The data needed for monitoring. </td></tr>
   </table>
   </dd>
 </dl>
@@ -271,14 +298,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function compares two angles. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>a1</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>a2</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>a1</em>&nbsp;</td><td>First angle. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>a2</em>&nbsp;</td><td>Second angle. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the first angle is bigger than the second angle. False if not. </dd></dl>
 
 </div>
 </div>
@@ -312,15 +341,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes a linear regression of the ball's position. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>precision</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>The solpe of the line describing the trajectory of the ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td>The intercept the line describing the trajectory of the ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>precision</em>&nbsp;</td><td>The precision with which thr line trajectory of the ball is computed. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the linear regression was computed. False if not. </dd></dl>
 
 </div>
 </div>
@@ -354,15 +385,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes the visibility map based on the position of other robots and on our side. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robot[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>coordCalib</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robot[]</em>&nbsp;</td><td>Array of robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td>The side in which our team plays. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>coordCalib</em>&nbsp;</td><td>The coordinates calibrator. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; The visibility map. </dd></dl>
 
 </div>
 </div>
@@ -402,16 +435,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes the visibility map based on the position of other robots and on our side. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>maxLevel</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>robot[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>coordCalib</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>maxLevel</em>&nbsp;</td><td>The maximum level of recursion. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robot[]</em>&nbsp;</td><td>An array of robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td>The side in which our team plays. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>coordCalib</em>&nbsp;</td><td>The calibrator of coordinates </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; The visibility map. </dd></dl>
 
 </div>
 </div>
@@ -451,16 +486,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes the visibility map based on the position of other robots and on our side. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>robotPos</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nbPos</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>Ball position. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robotPos</em>&nbsp;</td><td>Position of our robot. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nbPos</em>&nbsp;</td><td>Number of robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td>The side in which our team plays. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; The visibility map. </dd></dl>
 
 </div>
 </div>
@@ -506,17 +543,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes the visibility map based on the position of other robots and on our side. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>maxLevel</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>robotPos</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>nbPos</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>maxLevel</em>&nbsp;</td><td>The maximum level of recursion. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>Position Position of the ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robotPos</em>&nbsp;</td><td>The position of our robot. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>nbPos</em>&nbsp;</td><td>Number of robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td>The side in which we play. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; The visibility map. </dd></dl>
 
 </div>
 </div>
@@ -544,14 +583,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function creates an angle of a given value and id. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>val</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>id</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>val</em>&nbsp;</td><td>Value of the angle. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>id</em>&nbsp;</td><td>Angle's id. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="structBallMonitor_1_1Angle.html">BallMonitor::Angle</a> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="structBallMonitor_1_1Angle.html" title="This structure contains the value and is of an angle.">BallMonitor::Angle</a> The returned angle. </dd></dl>
 
 </div>
 </div>
@@ -570,13 +611,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function gets the direction of the ball. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>dir</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>dir</em>&nbsp;</td><td><a class="el" href="structBallMonitor_1_1Direction.html" title="This structure contains the direction coordinates of the ball.">Direction</a> of the ball. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the <a class="el" href="structBallMonitor_1_1Direction.html" title="This structure contains the direction coordinates of the ball.">Direction</a> of the ball was got. False if not. </dd></dl>
 
 </div>
 </div>
@@ -595,13 +638,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function gets the position of the ball. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>A pointer to the position of the ball </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool It tells us if the position was got or not. </dd></dl>
 
 </div>
 </div>
@@ -629,14 +674,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Gives the best direction to shoot the ball. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>visibilityMap</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>visibilityMap</em>&nbsp;</td><td>The visibility map of the robot. It is the beam in which it is possible to shoot the ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td>The side where our team plays. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>double </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>double The angle inside the beam in which it is better to shoot the ball. </dd></dl>
 
 </div>
 </div>
@@ -654,7 +701,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+
+<p>Tells if the ball is moving on the field or not. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the ball is moving. False if not. </dd></dl>
 
 </div>
 </div>
@@ -682,14 +731,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function merges two visibility maps. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>map1</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>map2</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>map1</em>&nbsp;</td><td>First visibility map. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>map2</em>&nbsp;</td><td>Second visibility map. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; The merged visibility map. </dd></dl>
 
 </div>
 </div>
@@ -723,15 +774,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This funtion predicts the linear trajectory of a moving ball with a certain precision based on two positions of the ball in two different times. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>precision</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>The solpe of the line describing the predicted trajectory of the ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td>The intercept the line describing the predicted trajectory of the ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>precision</em>&nbsp;</td><td>The precision with which thr line trajectory of the ball is predicted. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the linear trajectory was predicted. False if not. </dd></dl>
 
 </div>
 </div>
@@ -767,13 +820,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function starts the monitoring of the ball.It creates a new thread to monitor the ball. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball . </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool It tells us if the monitoring was done or not. </dd></dl>
 
 </div>
 </div>
@@ -791,7 +846,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+
+<p>This function stops the monitoring of the ball.It destroys the thread created to monitor the ball. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool It tells if the monitoring was stopped or not. </dd></dl>
 
 </div>
 </div>
@@ -1011,7 +1068,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 7 12:46:02 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Wed Jul 15 11:51:29 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

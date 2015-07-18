@@ -27,11 +27,11 @@ enum \hyperlink{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18f}{eDirectio
 virtual \hyperlink{classNewRoboControl_ae63cbd6c60d37882d176e9e7d60b11ba}{$\sim$NewRoboControl} ()=0
 \item 
 bool \hyperlink{classNewRoboControl_a77b0e86bef15f3b1fb6cf98d91c6a9b4}{IsOnTarget} (Position target, bool precise=true) const 
-\item 
-bool \hyperlink{classNewRoboControl_a89119d6af9d59b6e0279b39e23c35122}{cruisetoBias} (double tarX, double tarY, int speed, double tarP=-\/10, double varDir=30)
-\item 
+\begin{DoxyCompactList}\small\item\em check if the robot has reached its target \item\end{DoxyCompactList}\item 
+bool \hyperlink{classNewRoboControl_a30944b8982d85ab2ee83fd248b731bc0}{cruisetoBias} (double tarX, double tarY, int speed, double tarP=-\/10, double varDir=30, double dist=0)
+\begin{DoxyCompactList}\small\item\em move the robot to the target position \item\end{DoxyCompactList}\item 
 void \hyperlink{classNewRoboControl_ab3231acd7efd60677b4f48b094cb6dd3}{RandomMove} ()
-\item 
+\begin{DoxyCompactList}\small\item\em move the robot to a random position \item\end{DoxyCompactList}\item 
 bool \hyperlink{classNewRoboControl_a9816eae1b7c90dbb74a7e0365e2b57e9}{drivePath} (std::vector$<$ Position $>$ $\ast$path)
 \item 
 void \hyperlink{classNewRoboControl_ad2ddddb5f0272a733021524ebaaaeffd}{setSpeed} (double translation, double rotation, \hyperlink{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18f}{eDirection} dir)
@@ -40,9 +40,9 @@ void \hyperlink{classNewRoboControl_ad2ddddb5f0272a733021524ebaaaeffd}{setSpeed}
 \begin{DoxyCompactItemize}
 \item 
 static \hyperlink{classNewRoboControl_a077fa253b827c190e82c1ce1e4c8d18f}{eDirection} \hyperlink{classNewRoboControl_a9979ccfbc622d9082fb034caf36c514b}{getDirection} (double nominal, double actual)
-\item 
+\begin{DoxyCompactList}\small\item\em with this function, the robot can determine whether it should drive forward or backward, in order to reach the target conveniently \item\end{DoxyCompactList}\item 
 static double \hyperlink{classNewRoboControl_a960c714f4f8828d16dc955c871affbb5}{getDiffAngle} (double nominal, double actual)
-\item 
+\begin{DoxyCompactList}\small\item\em this function calculate the angle difference between actual angle of the robot and the angle to which the robot should turn \item\end{DoxyCompactList}\item 
 static double \hyperlink{classNewRoboControl_ab2f2407b40c535ed734049e8e1ed71e6}{getSpeedP} (double nominal, double actual)
 \item 
 static double \hyperlink{classNewRoboControl_ac1f5cb8932193d5e8315bb19aeddb3fa}{getSpeedPt} (double nominal, double actual, int geschw)
@@ -52,7 +52,7 @@ static double \hyperlink{classNewRoboControl_a0c5f29bb2dee1faf96725b80ddc64398}{
 static double \hyperlink{classNewRoboControl_a44def2cefef0f6c41b180bda044dfdfb}{degToRad} (double deg)
 \item 
 static bool \hyperlink{classNewRoboControl_a106c7ccc03f05693a07da1235ab0b17f}{IsOnTarget} (Position current, Position target, bool precise=true)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em this function check if the the robot reach the target \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -103,14 +103,18 @@ BACKWARD}
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classNewRoboControl_a89119d6af9d59b6e0279b39e23c35122}{
+\hypertarget{classNewRoboControl_a30944b8982d85ab2ee83fd248b731bc0}{
 \index{NewRoboControl@{NewRoboControl}!cruisetoBias@{cruisetoBias}}
 \index{cruisetoBias@{cruisetoBias}!NewRoboControl@{NewRoboControl}}
-\subsubsection[{cruisetoBias}]{\setlength{\rightskip}{0pt plus 5cm}bool NewRoboControl::cruisetoBias (double {\em tarX}, \/  double {\em tarY}, \/  int {\em speed}, \/  double {\em tarP} = {\ttfamily -\/10}, \/  double {\em varDir} = {\ttfamily 30})}}
-\label{classNewRoboControl_a89119d6af9d59b6e0279b39e23c35122}
+\subsubsection[{cruisetoBias}]{\setlength{\rightskip}{0pt plus 5cm}bool NewRoboControl::cruisetoBias (double {\em tarX}, \/  double {\em tarY}, \/  int {\em speed}, \/  double {\em tarP} = {\ttfamily -\/10}, \/  double {\em varDir} = {\ttfamily 30}, \/  double {\em dist} = {\ttfamily 0})}}
+\label{classNewRoboControl_a30944b8982d85ab2ee83fd248b731bc0}
+
+
+move the robot to the target position 
+
 
 \begin{DoxyParams}{Parameters}
-\item[{\em tarX}]\item[{\em tarY}]\item[{\em speed}]\item[{\em tarP}]\item[{\em varDir}]\end{DoxyParams}
+\item[{\em tarX}]is the x value of target position \item[{\em tarY}]is the y value of target position \item[{\em speed}]the robot should move at this speed \item[{\em tarP}]\item[{\em varDir}]defines whether the robot should move forwards or backwards \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 bool 
 \end{DoxyReturn}
@@ -142,10 +146,14 @@ bool
 \subsubsection[{getDiffAngle}]{\setlength{\rightskip}{0pt plus 5cm}double NewRoboControl::getDiffAngle (double {\em nominal}, \/  double {\em actual})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{classNewRoboControl_a960c714f4f8828d16dc955c871affbb5}
 
+
+this function calculate the angle difference between actual angle of the robot and the angle to which the robot should turn 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em nominal}]\item[{\em actual}]\end{DoxyParams}
+\item[{\em nominal}]is the direction that the robot should turn in order to reach the target \item[{\em actual}]is the actual direction of the robot at the moment. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-double 
+double is the result. 
 \end{DoxyReturn}
 \hypertarget{classNewRoboControl_a9979ccfbc622d9082fb034caf36c514b}{
 \index{NewRoboControl@{NewRoboControl}!getDirection@{getDirection}}
@@ -153,8 +161,12 @@ double
 \subsubsection[{getDirection}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NewRoboControl::eDirection} NewRoboControl::getDirection (double {\em nominal}, \/  double {\em actual})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{classNewRoboControl_a9979ccfbc622d9082fb034caf36c514b}
 
+
+with this function, the robot can determine whether it should drive forward or backward, in order to reach the target conveniently 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em nominal}]\item[{\em actual}]\end{DoxyParams}
+\item[{\em nominal}]is the direction that the robot should turn in order to reach the target \item[{\em actual}]is the actual direction of the robot at the moment. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 Controller::eDirection 
 \end{DoxyReturn}
@@ -197,10 +209,14 @@ double
 \subsubsection[{IsOnTarget}]{\setlength{\rightskip}{0pt plus 5cm}bool NewRoboControl::IsOnTarget (Position {\em target}, \/  bool {\em precise} = {\ttfamily true}) const}}
 \label{classNewRoboControl_a77b0e86bef15f3b1fb6cf98d91c6a9b4}
 
+
+check if the robot has reached its target 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em target}]\item[{\em precise}]\end{DoxyParams}
+\item[{\em target}]is The target of the robot at the moment. \item[{\em precise}]defines the precision. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool is Ture if the robot is on the target. 
 \end{DoxyReturn}
 \hypertarget{classNewRoboControl_a106c7ccc03f05693a07da1235ab0b17f}{
 \index{NewRoboControl@{NewRoboControl}!IsOnTarget@{IsOnTarget}}
@@ -208,16 +224,24 @@ bool
 \subsubsection[{IsOnTarget}]{\setlength{\rightskip}{0pt plus 5cm}bool NewRoboControl::IsOnTarget (Position {\em current}, \/  Position {\em target}, \/  bool {\em precise} = {\ttfamily true})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{classNewRoboControl_a106c7ccc03f05693a07da1235ab0b17f}
 
+
+this function check if the the robot reach the target 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em current}]\item[{\em target}]\item[{\em precise}]\end{DoxyParams}
+\item[{\em current}]is the current position of the robot \item[{\em target}]is the target position of the robot \item[{\em precise}]defines how precise the robot should be around the target \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool return ture if the robot reaches the target 
 \end{DoxyReturn}
 \hypertarget{classNewRoboControl_ab3231acd7efd60677b4f48b094cb6dd3}{
 \index{NewRoboControl@{NewRoboControl}!RandomMove@{RandomMove}}
 \index{RandomMove@{RandomMove}!NewRoboControl@{NewRoboControl}}
 \subsubsection[{RandomMove}]{\setlength{\rightskip}{0pt plus 5cm}void NewRoboControl::RandomMove ()}}
 \label{classNewRoboControl_ab3231acd7efd60677b4f48b094cb6dd3}
+
+
+move the robot to a random position 
+
 \hypertarget{classNewRoboControl_ad2ddddb5f0272a733021524ebaaaeffd}{
 \index{NewRoboControl@{NewRoboControl}!setSpeed@{setSpeed}}
 \index{setSpeed@{setSpeed}!NewRoboControl@{NewRoboControl}}
