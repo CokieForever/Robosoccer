@@ -9,7 +9,7 @@
 #include "interpreter.h"
 
 /**
- * @brief
+ * @brief This class is responsible for the display of the map on screen.
  *
  */
 class MapDisplay
@@ -23,10 +23,10 @@ public:
     SDL_Surface* UpdateDisplay();
 
 private:
-    const Interpreter::Map& m_map;  /**< TODO */
-    int m_screenW;                  /**< TODO */
-    int m_screenH;                  /**< TODO */
-    SDL_Surface *m_bgSurf;          /**< TODO */
+    const Interpreter::Map& m_map;  /**< map given for the interpreter */
+    int m_screenW;                  /**< Width of the screen */
+    int m_screenH;                  /**< Height of the screen */
+    SDL_Surface *m_bgSurf;          /**< SDL surface */
 
     void ConvertScreenCoordToMatrixCoord(int x, int y, int *i, int *j);
 

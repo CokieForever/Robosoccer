@@ -654,6 +654,7 @@ bool BallMonitor::ComputeLinearRegression(double *a, double *b, int precision) c
 }
 
 /**
+ * @brief This unlocks the Ball Monitoring thread.
  *
  */
 void BallMonitor::ResetPosTimeList()
