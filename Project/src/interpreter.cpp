@@ -47,9 +47,9 @@ int Interpreter::coord2mapX(double x)
 }
 
 /**
- * @brief returns field map coordinate of a normalized field coordinate
+ * @brief
  *
- * @param y is the normalzed field y-coordinate 
+ * @param y
  * @return int
  */
 int Interpreter::coord2mapY(double y)
@@ -94,11 +94,11 @@ double Interpreter::map2coordY(int mapY)
 }
 
 /**
- * @brief from given movement instructions, movements are grouped to checkpoints
+ * @brief
  *
- * @param start is the starting point of the path
- * @param path is the movement instruction to the goal position
- * @return Interpreter::Point * a list of checkpoints
+ * @param start
+ * @param path
+ * @return Interpreter::Point *
  */
 Interpreter::Point* Interpreter::getCheckPoints(Interpreter::Point start, string path)
 {
@@ -128,11 +128,11 @@ Interpreter::Point* Interpreter::getCheckPoints(Interpreter::Point start, string
 }
 
 /**
- * @brief finds a path through A* algorithm, returns string with movement commands
+ * @brief
  *
- * @param map is the field in a 2d array
- * @param start is the starting position in map coordinates
- * @param finish is the goal position in map coordinates
+ * @param map
+ * @param start
+ * @param finish
  * @return string
  */
 string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Interpreter::Point finish)
@@ -263,11 +263,11 @@ string Interpreter::pathFind(Interpreter::Map map, Interpreter::Point start, Int
 }
 
 /**
- * @brief displays map with planned path and obstacles in the console
+ * @brief
  *
- * @param map0 is the map to display
- * @param path is the string with movement instructions
- * @param start is the starting point in map coordinates
+ * @param map0
+ * @param path
+ * @param start
  */
 void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter::Point start)
 {
@@ -315,14 +315,14 @@ void Interpreter::showMap(const Interpreter::Map& map0, string path, Interpreter
 }
 
 /**
- * @brief	updates field map with obstacles
+ * @brief
  *
- * @param map is the field converted in a 2d array 
- * @param ref is an pointer to an the object of the NewRoboControl class whose map is updated
- * @param obstacles[] are the other robots which are considered as obstacles
- * @param ball is a pointer to a RawBall object
- * @param coordCalibrer is a pointer to a CoordinatesCalibrer object to perform normalization/unnormalization of field coordinates
- * @param our_side contains information of the side
+ * @param map
+ * @param ref
+ * @param obstacles[]
+ * @param ball
+ * @param coordCalibrer
+ * @param our_side
  */
 void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side)
 {
@@ -429,18 +429,18 @@ void Interpreter::matrixupdate(Interpreter::Map& map, const NewRoboControl* ref,
 
 
 /**
- * @brief Interpreter class constructor, initializes members
+ * @brief
  *
- * @param x is the current team
- * @param y is a pointer to the Referee class
- * @param z is a pointer to the Goalkeeper class
- * @param p is a pointer to the PlayerMain class
- * @param t is a pointer to the PlayerTwo class
- * @param a is a pointer to the OpponentRobot class
- * @param b is a pointer to the OpponentRobot class
- * @param c is a pointer to the OpponentRobot class
- * @param d is a pointer to the RawBall class
- * @param e is a pointer to the CoordinatesCalibrer class
+ * @param x
+ * @param y
+ * @param z
+ * @param p
+ * @param t
+ * @param a
+ * @param b
+ * @param c
+ * @param d
+ * @param e
  */
 Interpreter::Interpreter(eTeam x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTwo *t,OpponentRobot *a,OpponentRobot *b,OpponentRobot *c,RawBall *d,CoordinatesCalibrer *e)
 {
@@ -480,7 +480,7 @@ Interpreter::Interpreter(eTeam x,Referee *y,Goalkeeper *z,PlayerMain *p,PlayerTw
 }
 
 /**
- * @brief Interpreter destructor, destroys all mutex objects
+ * @brief
  *
  */
 Interpreter::~Interpreter()
@@ -493,7 +493,7 @@ Interpreter::~Interpreter()
 }
 
 /**
- * @brief handles mutex when program terminates
+ * @brief
  *
  */
 void Interpreter::End()
@@ -504,7 +504,7 @@ void Interpreter::End()
 }
 
 /**
- * @brief returns game information 
+ * @brief
  *
  * @return Interpreter::GameData
  */
@@ -514,7 +514,7 @@ Interpreter::GameData Interpreter::getMode() const
 }
 
 /**
- * @brief sets map for player 1
+ * @brief
  *
  * @param p1
  */
@@ -526,7 +526,7 @@ void Interpreter::SetP1MapToRobot(TeamRobot *p1) const
 }
 
 /**
- * @brief sets map for player 2
+ * @brief
  *
  * @param p2
  */
@@ -538,7 +538,7 @@ void Interpreter::SetP2MapToRobot(TeamRobot *p2) const
 }
 
 /**
- * @brief returns default position of own goalkeeper
+ * @brief
  *
  * @return Position
  */
@@ -548,7 +548,7 @@ Position Interpreter::getGKDefaultPos() const
 }
 
 /**
- * @brief returns default position of player 1
+ * @brief
  *
  * @return Position
  */
@@ -558,7 +558,7 @@ Position Interpreter::getP1DefaultPos() const
 }
 
 /**
- * @brief returns default position of player 2
+ * @brief
  *
  * @return Position
  */
@@ -568,7 +568,7 @@ Position Interpreter::getP2DefaultPos() const
 }
 
 /**
- * @brief returns pointer to constant own goalkeeper object
+ * @brief
  *
  * @return const Goalkeeper *
  */
@@ -578,7 +578,7 @@ const Goalkeeper* Interpreter::getGK() const
 }
 
 /**
- * @brief returns pointer to constant own robot1 object
+ * @brief
  *
  * @return const PlayerMain *
  */
@@ -588,7 +588,7 @@ const PlayerMain* Interpreter::getP1() const
 }
 
 /**
- * @brief returns pointer to constant own robot2 object
+ * @brief
  *
  * @return const PlayerTwo *
  */
@@ -598,7 +598,7 @@ const PlayerTwo* Interpreter::getP2() const
 }
 
 /**
- * @brief returns pointer to constant enemy robot1 object
+ * @brief
  *
  * @return const OpponentRobot *
  */
@@ -608,7 +608,7 @@ const OpponentRobot* Interpreter::getE1() const
 }
 
 /**
- * @brief returns pointer to constant enemy robot2 object
+ * @brief
  *
  * @return const OpponentRobot *
  */
@@ -618,7 +618,7 @@ const OpponentRobot* Interpreter::getE2() const
 }
 
 /**
- * @brief returns pointer to constant enemy robot3 object
+ * @brief
  *
  * @return const OpponentRobot *
  */
@@ -628,7 +628,7 @@ const OpponentRobot* Interpreter::getE3() const
 }
 
 /**
- * @brief verifies if own robots are on their default position, returns true or false
+ * @brief
  *
  * @return bool
  */
@@ -641,7 +641,7 @@ bool Interpreter::verifyPos()
 }
 
 /**
- * @brief sets default positions of own team robots according to the playing mode
+ * @brief
  *
  */
 void Interpreter::setDefaultPos()
@@ -745,7 +745,7 @@ void Interpreter::setDefaultPos()
 }
 
 /**
- * @brief sets current playmode and sends ready flag if necessary
+ * @brief
  *
  */
 void Interpreter::setPlayMode()
@@ -781,7 +781,7 @@ void Interpreter::setPlayMode()
 }
 
 /**
- * @brief updates game score for own and enemy team
+ * @brief
  *
  */
 void Interpreter::setScores()
@@ -799,7 +799,7 @@ void Interpreter::setScores()
 }
 
 /**
- * @brief sets own team side to play from referee information
+ * @brief
  *
  */
 void Interpreter::setSide()
@@ -815,7 +815,7 @@ void Interpreter::setSide()
 }
 
 /**
- * @brief sets kick turn 
+ * @brief
  *
  */
 void Interpreter::setTurn()
@@ -831,7 +831,7 @@ void Interpreter::setTurn()
 }
 
 /**
- * @brief Updates the playmode and default positions of the robots
+ * @brief
  *
  */
 void Interpreter::updateSituation()
@@ -854,16 +854,16 @@ void Interpreter::updateSituation()
     formationUpdateP2();
     pthread_mutex_unlock((pthread_mutex_t*)&m_p2MapMutex);
     #endif
-
+// mix mode with overlap
     pthread_mutex_lock((pthread_mutex_t*)&m_mutex);
     pthread_cond_broadcast(&m_cond);
     pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
 }
 
 /**
- * @brief locks program until gamedata is updated
+ * @brief
  *
- * @param id 
+ * @param id
  * @return int
  */
 int Interpreter::waitForUpdate(int id)
@@ -877,11 +877,11 @@ int Interpreter::waitForUpdate(int id)
     pthread_mutex_unlock((pthread_mutex_t*)&m_mutex);
     return id;
 }
-
+// mix mode with overlap
 /**
- * @brief sets upper left corner of the map as an obstacle
+ * @brief
  *
- * @param map is the map to be masked
+ * @param map
  */
 void Interpreter::maskUpperLeft(Map &map)
 {
@@ -891,20 +891,20 @@ void Interpreter::maskUpperLeft(Map &map)
 }
 
 /**
- * @brief sets everything on the map as an obstacle except upper left corner
+ * @brief
  *
- * @param map is the map to be masked
+ * @param map
  */
 void Interpreter::maskOmitUpperLeft(Map &map)
 {
     maskRight(map);
-    maskLowerLeft(map);
+    maskLowerLeft(map);// mix mode with overlap
 }
 
 /**
- * @brief sets upper right corner of the map as an obstacle
+ * @brief
  *
- * @param map is the map to be masked
+ * @param map
  */
 void Interpreter::maskUpperRight(Map &map)
 {
@@ -914,20 +914,20 @@ void Interpreter::maskUpperRight(Map &map)
 }
 
 /**
- * @brief sets everything on the map as an obstacle except upper right corner
+ * @brief
  *
- * @param map is the map to be masked
+ * @param map
  */
 void Interpreter::maskOmitUpperRight(Map &map)
-{
+{// mix mode with overlap
     maskLeft(map);
     maskLowerRight(map);
 }
 
 /**
- * @brief sets lower left corner of the map as an obstacle
+ * @brief
  *
- * @param map is the map to be masked
+ * @param map
  */
 void Interpreter::maskLowerLeft(Map &map)
 {
@@ -937,9 +937,9 @@ void Interpreter::maskLowerLeft(Map &map)
 }
 
 /**
- * @brief sets everything on the map as an obstacle except lower left corner
+ * @brief
  *
- * @param map is the map to be masked
+ * @param map
  */
 void Interpreter::maskOmitLowerLeft(Map &map)
 {
@@ -948,8 +948,8 @@ void Interpreter::maskOmitLowerLeft(Map &map)
 }
 
 /**
- * @brief sets lower right corner of the map as an obstacle
- * @param map is the map to be masked
+ * @brief mix mode with overlap
+ * @param map
  */
 void Interpreter::maskLowerRight(Map &map)
 {
@@ -959,9 +959,9 @@ void Interpreter::maskLowerRight(Map &map)
 }
 
 /**
- * @brief sets everything on the map as an obstacle except lower right corner
+ * @brief
  *
- * @param map is the map to be masked
+ * @param map
  */
 void Interpreter::maskOmitLowerRight(Map &map)
 {
@@ -970,9 +970,9 @@ void Interpreter::maskOmitLowerRight(Map &map)
 }
 
 /**
- * @brief sets left half of the map as an obstacle
+ * @brief
  *
- * @param map is the map to be masked
+ * @param map
  */
 void Interpreter::maskLeft(Map &map)
 {
@@ -981,9 +981,9 @@ void Interpreter::maskLeft(Map &map)
 }
 
 /**
- * @brief sets right half of the map as an obstacle
+ * @brief
  *
- * @param map is the map to be masked
+ * @param map
  */
 void Interpreter::maskRight(Map &map)
 {
@@ -994,7 +994,7 @@ void Interpreter::maskRight(Map &map)
 
 
 /**
- * @brief Sets map of PlayerMain according to the game strategy
+ * @brief
  *
  */
 void Interpreter::formationUpdateP1()
@@ -1024,7 +1024,7 @@ void Interpreter::formationUpdateP1()
 
 }
 /**
- * @brief Sets map of PlayerTwo according to the game strategy
+ * @brief
  *
  */
 void Interpreter::formationUpdateP2()

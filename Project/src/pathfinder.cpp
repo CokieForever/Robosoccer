@@ -66,7 +66,7 @@ vector<Position>* PathFinder::ConvertPathToReal(const Path path, const Coordinat
 }
 
 /**
- * @brief Frees every @PathFinder::ConvexPolygon "polygon" in a given list.
+ * @brief Frees every @ref PathFinder::ConvexPolygon "polygon" in a given list.
  * @param list The list of polygons to free.
  */
 void PathFinder::DestroyPolygonsList(PolygonsList list)

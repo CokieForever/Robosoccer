@@ -19,7 +19,7 @@ class Goalkeeper;
 class TeamRobot;
 
 /**
- * @brief The organizing central part of the program. Update and interpretation of game information to set formations, default positions...
+ * @brief
  *
  */
 class Interpreter
@@ -27,63 +27,63 @@ class Interpreter
 
 public:
     /**
-     * @brief KickTurn enum to distinguish the team which performs the kick in penalty shooting and kick off mode
+     * @brief
      *
      */
     enum KickTurn
     {
-        OUR_TURN,   /**< Own team will perform kick */
-        THEIR_TURN  /**< Enemy team will perform kick */
+        OUR_TURN,   /**< TODO */
+        THEIR_TURN  /**< TODO */
     };
 
     /**
-     * @brief Startegy enum to select predefined formations based on enum value
+     * @brief
      *
      */
     enum Strategy
     {
-        INIT,   /**< Undefined Strategy for Playmodes: STOP, REFEREE_INIT ... */
-        ATK,    /**< Attack formation  */
-        DEF,    /**< Defense formation */
-        MIX     /**< Mixed formation */
+        INIT,   /**< TODO */
+        ATK,    /**< TODO */
+        DEF,    /**< TODO */
+        MIX     /**< TODO */
     };
 
     /**
-     * @brief contains important game information
+     * @brief
      *
      */
     struct GameData
     {
-        eTeam team;             /**< Own team info */
-        int oponent_score;      /**< Enemy team goals */
-        int our_score;          /**< Own team goals */
-        ePlayMode mode;         /**< Playmode */
-        Strategy formation;     /**< Own team strategy enum */
-        eSide our_side;         /**< Own team side */
-        KickTurn turn;          /**< Kick turn information, e.g. for penalty shootout */
+        eTeam team;             /**< TODO */
+        int oponent_score;      /**< TODO */
+        int our_score;          /**< TODO */
+        ePlayMode mode;         /**< TODO */
+        Strategy formation;     /**< TODO */
+        eSide our_side;         /**< TODO */
+        KickTurn turn;          /**< TODO */
     };
 
     /**
-     * @brief data structure for map coordinates
+     * @brief
      *
      */
     struct Point
     {
-        int x;  /**< x-coordinate in a 2D array */
-        int y;  /**< y-coordinate in a 2D array */
+        int x;  /**< TODO */
+        int y;  /**< TODO */
     };
 
-    static const double MID_THRESHOLD  = 0.30;  /**< Threshold for switching strategy between ATK and DEF */
-    static const int MAP_WIDTH = 100;           /**< Width of the field map */
-    static const int MAP_HEIGHT = 80;           /**< Height of the field map */
-    static const int MAP_BORDERSIZE = 5;        /**< Bordersize for handling 2d array range*/
+    static const double MID_THRESHOLD  = 0.30;  /**< TODO */
+    static const int MAP_WIDTH = 100;           /**< TODO */
+    static const int MAP_HEIGHT = 80;           /**< TODO */
+    static const int MAP_BORDERSIZE = 5;        /**< TODO */
 
     static const int DIR = 8;   /**< Number of possible directions to go at any position */
-    static const int DX[DIR];   /**< Constant 1d array for A* algorithm instructions in x direction */
-    static const int DY[DIR];   /**< Constant 1d array for A* algorithm instructions in y direction */
+    static const int DX[DIR];   /**< TODO */
+    static const int DY[DIR];   /**< TODO */
 
     /**
-     * @brief alias for 2d a matrix to map
+     * @brief
      *
      */
     typedef Matrix Map;
@@ -94,7 +94,7 @@ public:
     static int coord2mapY(double);
     static double map2coordX(int);
     static double map2coordY(int);
-    static void showMap(const Map& map, string path, Point start);
+    static void showMap(const Map& map0, string path, Point start);
     static void matrixupdate(Map& map, const NewRoboControl* ref, const NewRoboControl* obstacles[5], RawBall* ball, CoordinatesCalibrer* coordCalibrer, eSide our_side);
     static void maskLowerRight(Map &map);
     static void maskLowerLeft(Map &map);
@@ -132,27 +132,27 @@ public:
     int waitForUpdate(int id);
 
 private:
-    CoordinatesCalibrer* m_cal;     /**< Pointer to a CoordinatesCalibrer class */
-    Referee* m_ref;                 /**< Pointer to a Referee class */
-    const Goalkeeper* m_gk;         /**< Pointer to a constant Goalkeeper class */
-    const PlayerMain* m_p1;         /**< Pointer to a constant PlayerMain class */
-    const PlayerTwo* m_p2;          /**< Pointer to a constant PlayerTwo class */
-    RawBall* m_ball;                /**< Pointer to a RawBall class */
-    const OpponentRobot *m_e1;      /**< Pointer to a constant OpponentRobot class */
-    const OpponentRobot *m_e2;      /**< Pointer to a constant OpponentRobot class */
-    const OpponentRobot *m_e3;      /**< Pointer to a constant OpponentRobot class */
-    GameData m_mode;                /**< Member containing Game information */
-    int m_situationId;              /**< Flag for update progress */
-    Position m_gkDefaultPosition;   /**< contains default position of the goalkeeper */
-    Position m_p1DefaultPosition;   /**< contains default position of the player1 */
-    Position m_p2DefaultPosition;   /**< contains default position of the player2 */
-    pthread_mutex_t m_mutex;        /**< mutex for updates */
-    pthread_cond_t m_cond;          /**< conditional variable for mutex lock */
+    CoordinatesCalibrer* m_cal;     /**< TODO */
+    Referee* m_ref;                 /**< TODO */
+    const Goalkeeper* m_gk;         /**< TODO */
+    const PlayerMain* m_p1;         /**< TODO */
+    const PlayerTwo* m_p2;          /**< TODO */
+    RawBall* m_ball;                /**< TODO */
+    const OpponentRobot *m_e1;      /**< TODO */
+    const OpponentRobot *m_e2;      /**< TODO */
+    const OpponentRobot *m_e3;      /**< TODO */
+    GameData m_mode;                /**< TODO */
+    int m_situationId;              /**< TODO */
+    Position m_gkDefaultPosition;   /**< TODO */
+    Position m_p1DefaultPosition;   /**< TODO */
+    Position m_p2DefaultPosition;   /**< TODO */
+    pthread_mutex_t m_mutex;        /**< TODO */
+    pthread_cond_t m_cond;          /**< TODO */
 
-    Map m_p1Map;                    /**< Map for player1 */
-    Map m_p2Map;                    /**< Map for player2 */
-    pthread_mutex_t m_p1MapMutex;   /**< mutex for map of player1 */
-    pthread_mutex_t m_p2MapMutex;   /**< mutex for map of player2 */
+    Map m_p1Map;                    /**< TODO */
+    Map m_p2Map;                    /**< TODO */
+    pthread_mutex_t m_p1MapMutex;   /**< TODO */
+    pthread_mutex_t m_p2MapMutex;   /**< TODO */
 
     void setPlayMode();
     void setSide();

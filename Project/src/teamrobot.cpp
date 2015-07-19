@@ -8,11 +8,11 @@
 #include "geometry.h"
 
 /**
- * @brief Proof if path is valid
+ * @brief
  *
- * @param path vector of calculated path
- * @param tgt Target position
- * @return bool returns false if no path is given
+ * @param path
+ * @param tgt
+ * @return bool
  */
 bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
 {
@@ -24,14 +24,14 @@ bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
 }
 
 /**
- * @brief Constructor of TeamRobot class
+ * @brief
  *
- * @param DBC Database connexion
- * @param deviceNr Number of the robot
- * @param coordCalib Coordinates calibrator
- * @param ball Ball data
- * @param ballPm Monitoring the ball
- * @param display Display paths, robots ball
+ * @param DBC
+ * @param deviceNr
+ * @param coordCalib
+ * @param ball
+ * @param ballPm
+ * @param display
  */
 TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
 {
@@ -72,7 +72,7 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibre
 }
 
 /**
- * @brief Add borders around obstacles, this is included in the path
+ * @brief
  *
  * @param small
  */
@@ -100,7 +100,7 @@ void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
 }
 
 /**
- * @brief TeamRobot destructor
+ * @brief
  *
  */
 TeamRobot::~TeamRobot()
@@ -298,9 +298,9 @@ void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Inter
 }
 
 /**
- * @brief Computation best path for a robot, take n points and interpolate, obstacles are taken into account. 
- * 
- * @param interpreter Get Interpreter informations
+ * @brief
+ *
+ * @param interpreter
  */
 void TeamRobot::ComputePath(const Interpreter& interpreter)
 {
@@ -495,11 +495,11 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
 
 
 /**
- * @brief Perform kickoff, enemy robots are taken into account, after best way to shoot the ball is calculated, shoot it if our turn
+ * @brief
  *
- * @param otherRobots[] Number all other robots
- * @param ourSide Get side information
- * @param likePenalty 
+ * @param otherRobots[]
+ * @param ourSide
+ * @param likePenalty
  */
 void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, bool likePenalty)
 {
@@ -548,9 +548,9 @@ void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, boo
 }
 
 /**
- * @brief Function for Penalty Shooting, find best path for robot to shoot the ball into a free area in the goal 
+ * @brief
  *
- * @param otherRobots[] Number of other robot s
+ * @param otherRobots[]
  */
 void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
 {
@@ -654,6 +654,8 @@ bool TeamRobot::Rotation(Position ballPos)
  * @brief this function calculate whether the robot should move forwards or backwards to kick the ball. Furthermore, it adjusts the angle of the robot so that the robot can hit the ball precisely.
  *
  * @param ballPos is the position of the ball
+ * @param rotate True if the robot should rotate towards the ball before kicking
+ * @param forward True if the kick must be done forward, False if it must be done backwards, ignored if rotate is True.
  */
 void TeamRobot::KickBall(Position ballPos, bool rotate, bool forward)
 {
@@ -673,9 +675,9 @@ void TeamRobot::KickBall(Position ballPos, bool rotate, bool forward)
 }
 
 /**
- * @brief Function for kicking the ball while it is moving, robot drives behind the ball rotate to a good position and shoot
+ * @brief
  *
- * @param ball Ball data
+ * @param ball
  */
 void TeamRobot::KickMovingBall(RawBall *ball)
 {

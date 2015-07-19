@@ -235,6 +235,7 @@ bool NewRoboControl::IsOnTarget(Position target, bool precise) const
  * @param speed the robot should move at this speed
  * @param tarP
  * @param varDir defines whether the robot should move forwards or backwards
+ * @param dist The distance to the target - automatically computed if negative (default)
  * @return bool
  */
 bool NewRoboControl::cruisetoBias(double tarX, double tarY, int speed, double tarP, double varDir, double dist)

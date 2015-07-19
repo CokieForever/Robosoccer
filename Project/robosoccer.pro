@@ -2,9 +2,9 @@ TEMPLATE = app
 TARGET = robosoccer
 
 # Choose if you want to compile for simulation here
-#DEFINES += SIMULATION
+DEFINES += SIMULATION
 
-# Choose your path planning algorihtm here. Note: Using A* is not recommended as it is not maintained anymore and therefore is not guaranteed to work.
+# Choose your path planning algorihtm here. Note: Using A* is not recommended as it is not maintained anymore and is therefore not guaranteed to work.
 #DEFINES += PATHPLANNING_ASTAR
 DEFINES += PATHPLANNING_POLYGONS
 
