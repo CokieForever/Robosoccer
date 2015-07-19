@@ -1,0 +1,743 @@
+\hypertarget{classInterpreter}{
+\section{Interpreter Class Reference}
+\label{classInterpreter}\index{Interpreter@{Interpreter}}
+}
+
+
+{\ttfamily \#include $<$interpreter.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structInterpreter_1_1GameData}{GameData}
+\item 
+struct \hyperlink{structInterpreter_1_1Point}{Point}
+\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643}{KickTurn} \{ \hyperlink{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe}{OUR\_\-TURN}, 
+\hyperlink{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76}{THEIR\_\-TURN}
+ \}
+\item 
+enum \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}{Strategy} \{ \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9}{INIT}, 
+\hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}{ATK}, 
+\hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75}{DEF}, 
+\hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187}{MIX}
+ \}
+\item 
+typedef \hyperlink{classMatrix}{Matrix} \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{Map}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classInterpreter_aa43e2d0df9f986ef4bde498aa8eadc04}{Interpreter} (eTeam x, Referee $\ast$y, \hyperlink{classGoalkeeper}{Goalkeeper} $\ast$z, \hyperlink{classPlayerMain}{PlayerMain} $\ast$p, \hyperlink{classPlayerTwo}{PlayerTwo} $\ast$t, \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$a, \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$b, \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$c, RawBall $\ast$d, \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$e)
+\item 
+\hyperlink{classInterpreter_a0f96b57f8126e2b5bc63390121e4b5b1}{$\sim$Interpreter} ()
+\item 
+void \hyperlink{classInterpreter_aa7c368c159002202e99b2c8b47acc534}{End} ()
+\item 
+\hyperlink{structInterpreter_1_1GameData}{GameData} \hyperlink{classInterpreter_adc77ada1a3d69c5e6bdfb2f1cc1a2e75}{getMode} () const 
+\item 
+void \hyperlink{classInterpreter_a4e5fcbc3020f3acd2d6855d12f8fe177}{SetP1MapToRobot} (\hyperlink{classTeamRobot}{TeamRobot} $\ast$p1) const 
+\item 
+void \hyperlink{classInterpreter_a3b96d97873572447193d3defe1bb877e}{SetP2MapToRobot} (\hyperlink{classTeamRobot}{TeamRobot} $\ast$p2) const 
+\item 
+Position \hyperlink{classInterpreter_aa8430187c89dffc8a9290d48ddd82346}{getGKDefaultPos} () const 
+\item 
+Position \hyperlink{classInterpreter_a2b46c460756f87d2dcef4ea8d8d49aaa}{getP1DefaultPos} () const 
+\item 
+Position \hyperlink{classInterpreter_ade297117d2ee20f524dd184ddd152c6d}{getP2DefaultPos} () const 
+\item 
+const \hyperlink{classGoalkeeper}{Goalkeeper} $\ast$ \hyperlink{classInterpreter_ac086d0ece936720419817ec19ebc3d8d}{getGK} () const 
+\item 
+const \hyperlink{classPlayerMain}{PlayerMain} $\ast$ \hyperlink{classInterpreter_af0d9f49ed686092925b626d032b0d9a6}{getP1} () const 
+\item 
+const \hyperlink{classPlayerTwo}{PlayerTwo} $\ast$ \hyperlink{classInterpreter_aa34b7799a25a0174b82690d09ce065f1}{getP2} () const 
+\item 
+const \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$ \hyperlink{classInterpreter_acf9d8aba6db6063eb28e290ae1d4b655}{getE1} () const 
+\item 
+const \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$ \hyperlink{classInterpreter_a46195d271e54a0e832876364562e4925}{getE2} () const 
+\item 
+const \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$ \hyperlink{classInterpreter_a71c179ef0fa2c3372733dcae42799da3}{getE3} () const 
+\item 
+void \hyperlink{classInterpreter_a9b1dfdf67300251fb2c22f37e1d4c646}{updateSituation} ()
+\item 
+int \hyperlink{classInterpreter_ae09dee3df8e85f0d6b75b6dab5926850}{waitForUpdate} (int id)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static string \hyperlink{classInterpreter_a253118e59d7428286ff70a818efe0c52}{pathFind} (\hyperlink{classMatrix}{Map} map, \hyperlink{structInterpreter_1_1Point}{Point} start, \hyperlink{structInterpreter_1_1Point}{Point} finish)
+\item 
+static \hyperlink{structInterpreter_1_1Point}{Point} $\ast$ \hyperlink{classInterpreter_a17b252478116fc19ab8fe4623728cda8}{getCheckPoints} (\hyperlink{structInterpreter_1_1Point}{Point} start, string path)
+\item 
+static int \hyperlink{classInterpreter_a36e1b3f28a3d8dae2155f1f0212bed7d}{coord2mapX} (double)
+\begin{DoxyCompactList}\small\item\em normalize the matrix to the real map \item\end{DoxyCompactList}\item 
+static int \hyperlink{classInterpreter_a5b597351a6bdaf23fbf42aed910b151f}{coord2mapY} (double)
+\item 
+static double \hyperlink{classInterpreter_afaaf3930191f9ba3e48a09af193e0a39}{map2coordX} (int)
+\begin{DoxyCompactList}\small\item\em normalize the matrix value to real map, or otherwise. \item\end{DoxyCompactList}\item 
+static double \hyperlink{classInterpreter_abd0885c42ade8eb7f941c8d4b26a2501}{map2coordY} (int)
+\begin{DoxyCompactList}\small\item\em normalize the matrix value to real map, or otherwise. \item\end{DoxyCompactList}\item 
+static void \hyperlink{classInterpreter_a28fca7f91931cc48a0dc91cbbb08ba7a}{showMap} (const \hyperlink{classMatrix}{Map} \&map0, string path, \hyperlink{structInterpreter_1_1Point}{Point} start)
+\item 
+static void \hyperlink{classInterpreter_a4b195c13b5189f82d5b2ccd47ee4c562}{matrixupdate} (\hyperlink{classMatrix}{Map} \&map, const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$ref, const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$obstacles\mbox{[}5\mbox{]}, RawBall $\ast$ball, \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalibrer, eSide our\_\-side)
+\item 
+static void \hyperlink{classInterpreter_a5bafd4ac63cb3dee9a6ddff172a0df02}{maskLowerRight} (\hyperlink{classMatrix}{Map} \&map)
+\begin{DoxyCompactList}\small\item\em mix mode with overlap \item\end{DoxyCompactList}\item 
+static void \hyperlink{classInterpreter_af02271dded17efbe47316706aad115f7}{maskLowerLeft} (\hyperlink{classMatrix}{Map} \&map)
+\item 
+static void \hyperlink{classInterpreter_a6741607033424bb90e95e59311941ed3}{maskUpperRight} (\hyperlink{classMatrix}{Map} \&map)
+\item 
+static void \hyperlink{classInterpreter_a1892fcf6bef01aa68c015c5a4a0c5f96}{maskUpperLeft} (\hyperlink{classMatrix}{Map} \&map)
+\item 
+static void \hyperlink{classInterpreter_a5aab0968d1a9c62fd20e1f11446deb73}{maskOmitLowerRight} (\hyperlink{classMatrix}{Map} \&map)
+\item 
+static void \hyperlink{classInterpreter_a849719043f4eef44634a9b5eb3e3561e}{maskOmitLowerLeft} (\hyperlink{classMatrix}{Map} \&map)
+\item 
+static void \hyperlink{classInterpreter_a83c078f3465a96026dbbc1ef3d7d120b}{maskOmitUpperRight} (\hyperlink{classMatrix}{Map} \&map)
+\item 
+static void \hyperlink{classInterpreter_a6232cdb6a8637bac127df9d19e8fd705}{maskOmitUpperLeft} (\hyperlink{classMatrix}{Map} \&map)
+\item 
+static void \hyperlink{classInterpreter_a454e31b3c1d0640be317c82c8b1b659d}{maskLeft} (\hyperlink{classMatrix}{Map} \&map)
+\item 
+static void \hyperlink{classInterpreter_abdfaacb7134b907d16a412ec1f80364b}{maskRight} (\hyperlink{classMatrix}{Map} \&map)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const double \hyperlink{classInterpreter_ad1c3ae1b11b176d50b5e8dcbf4b8b09e}{MID\_\-THRESHOLD} = 0.30
+\item 
+static const int \hyperlink{classInterpreter_a30c4dceff341b5e7cd36fdaba21aeaa9}{MAP\_\-WIDTH} = 100
+\item 
+static const int \hyperlink{classInterpreter_abda6b21064d50acd844bda3ed551e263}{MAP\_\-HEIGHT} = 80
+\item 
+static const int \hyperlink{classInterpreter_a0e360d1c91a1328af41fd9a4ede5eaef}{MAP\_\-BORDERSIZE} = 5
+\item 
+static const int \hyperlink{classInterpreter_a13a73024c4a1e62845a91f686adcd919}{DIR} = 8
+\item 
+static const int \hyperlink{classInterpreter_ac3d8a1b37737331fbfe7f4cea33cbd04}{DX} \mbox{[}\hyperlink{classInterpreter_a13a73024c4a1e62845a91f686adcd919}{DIR}\mbox{]} = \{1, 1, 0, -\/1, -\/1, -\/1, 0, 1\}
+\item 
+static const int \hyperlink{classInterpreter_aafc38675c9cad6e87686598dfe9c5758}{DY} \mbox{[}\hyperlink{classInterpreter_a13a73024c4a1e62845a91f686adcd919}{DIR}\mbox{]} = \{0, 1, 1, 1, 0, -\/1, -\/1, -\/1\}
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classInterpreter_aef305fb79ee56df26f7fa4d2fb1be84e}{setPlayMode} ()
+\item 
+void \hyperlink{classInterpreter_a7bcbe98cfcb820392776af34325af2f4}{setSide} ()
+\item 
+void \hyperlink{classInterpreter_a976750d75dbde52f1de42b189bc3db0d}{setTurn} ()
+\item 
+void \hyperlink{classInterpreter_ad947f5a13997ba025515d65be4ca13a3}{setScores} ()
+\item 
+bool \hyperlink{classInterpreter_af8a7d8d22248eefd43de2ea08fc61b0f}{verifyPos} ()
+\item 
+void \hyperlink{classInterpreter_aa64d5e94c2cdee7696135a360f51926b}{setDefaultPos} ()
+\item 
+void \hyperlink{classInterpreter_a0191e3c65605b0ebadb696cf540951ee}{formationUpdateP1} ()
+\item 
+void \hyperlink{classInterpreter_aa722fe96daeb04f61352559e6d29dda6}{formationUpdateP2} ()
+\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ \hyperlink{classInterpreter_a734c73b13d471eb10d9a0ce772ffd906}{m\_\-cal}
+\item 
+Referee $\ast$ \hyperlink{classInterpreter_a883b74196b1cf25fc6461642c62bc4ec}{m\_\-ref}
+\item 
+const \hyperlink{classGoalkeeper}{Goalkeeper} $\ast$ \hyperlink{classInterpreter_a5c100f5098dbea4f12c8e65524914891}{m\_\-gk}
+\item 
+const \hyperlink{classPlayerMain}{PlayerMain} $\ast$ \hyperlink{classInterpreter_af450bd472149d0832c48e5da0a21ac77}{m\_\-p1}
+\item 
+const \hyperlink{classPlayerTwo}{PlayerTwo} $\ast$ \hyperlink{classInterpreter_aefbda2bf4d390731938a93ff3e2bfaa6}{m\_\-p2}
+\item 
+RawBall $\ast$ \hyperlink{classInterpreter_abed4bfde044196ee1ed466bcc62efbd2}{m\_\-ball}
+\item 
+const \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$ \hyperlink{classInterpreter_a373544ccef8dc7630108349b589cee3d}{m\_\-e1}
+\item 
+const \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$ \hyperlink{classInterpreter_aa04c8b2059980f776ea43c6f5e8e734b}{m\_\-e2}
+\item 
+const \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$ \hyperlink{classInterpreter_ab61a3f3a1896b2d0d886aadcd15d72c1}{m\_\-e3}
+\item 
+\hyperlink{structInterpreter_1_1GameData}{GameData} \hyperlink{classInterpreter_aea59ccd407d1cbe579827da6ef24c9a1}{m\_\-mode}
+\item 
+int \hyperlink{classInterpreter_abe055996cec8f18725f3efb89e7e6ecb}{m\_\-situationId}
+\item 
+Position \hyperlink{classInterpreter_a3406559374dd0b28b8d702e5ba03189b}{m\_\-gkDefaultPosition}
+\item 
+Position \hyperlink{classInterpreter_a681f0273945917ab4dabec7b400bf001}{m\_\-p1DefaultPosition}
+\item 
+Position \hyperlink{classInterpreter_a2eb14ab69e51a5bdd6e393ed86b2d687}{m\_\-p2DefaultPosition}
+\item 
+pthread\_\-mutex\_\-t \hyperlink{classInterpreter_a4b1e804ce863d4d017e4b697e61e4017}{m\_\-mutex}
+\item 
+pthread\_\-cond\_\-t \hyperlink{classInterpreter_a9239b5f00f922f05a3902538784f5777}{m\_\-cond}
+\item 
+\hyperlink{classMatrix}{Map} \hyperlink{classInterpreter_a4c923fac8d283ef70a03812fce74ef47}{m\_\-p1Map}
+\item 
+\hyperlink{classMatrix}{Map} \hyperlink{classInterpreter_a9704ad86fdf8eddecfe191d8540fb4ef}{m\_\-p2Map}
+\item 
+pthread\_\-mutex\_\-t \hyperlink{classInterpreter_a849d1195573a32632ae33cd7ecd4bec7}{m\_\-p1MapMutex}
+\item 
+pthread\_\-mutex\_\-t \hyperlink{classInterpreter_a76012913dbff07096d081b2380c2c7a8}{m\_\-p2MapMutex}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{
+\index{Interpreter@{Interpreter}!Map@{Map}}
+\index{Map@{Map}!Interpreter@{Interpreter}}
+\subsubsection[{Map}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Matrix} {\bf Interpreter::Map}}}
+\label{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643}{
+\index{Interpreter@{Interpreter}!KickTurn@{KickTurn}}
+\index{KickTurn@{KickTurn}!Interpreter@{Interpreter}}
+\subsubsection[{KickTurn}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Interpreter::KickTurn}}}
+\label{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{OUR\_\-TURN@{OUR\_\-TURN}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!OUR\_\-TURN@{OUR\_\-TURN}}\item[{\em 
+\hypertarget{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe}{
+OUR\_\-TURN}
+\label{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe}
+}]TODO \index{THEIR\_\-TURN@{THEIR\_\-TURN}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!THEIR\_\-TURN@{THEIR\_\-TURN}}\item[{\em 
+\hypertarget{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76}{
+THEIR\_\-TURN}
+\label{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76}
+}]TODO \end{description}
+\end{Desc}
+
+\hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}{
+\index{Interpreter@{Interpreter}!Strategy@{Strategy}}
+\index{Strategy@{Strategy}!Interpreter@{Interpreter}}
+\subsubsection[{Strategy}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Interpreter::Strategy}}}
+\label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{INIT@{INIT}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!INIT@{INIT}}\item[{\em 
+\hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9}{
+INIT}
+\label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9}
+}]TODO \index{ATK@{ATK}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!ATK@{ATK}}\item[{\em 
+\hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}{
+ATK}
+\label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}
+}]TODO \index{DEF@{DEF}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!DEF@{DEF}}\item[{\em 
+\hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75}{
+DEF}
+\label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75}
+}]TODO \index{MIX@{MIX}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!MIX@{MIX}}\item[{\em 
+\hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187}{
+MIX}
+\label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187}
+}]TODO \end{description}
+\end{Desc}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classInterpreter_aa43e2d0df9f986ef4bde498aa8eadc04}{
+\index{Interpreter@{Interpreter}!Interpreter@{Interpreter}}
+\index{Interpreter@{Interpreter}!Interpreter@{Interpreter}}
+\subsubsection[{Interpreter}]{\setlength{\rightskip}{0pt plus 5cm}Interpreter::Interpreter (eTeam {\em x}, \/  Referee $\ast$ {\em y}, \/  {\bf Goalkeeper} $\ast$ {\em z}, \/  {\bf PlayerMain} $\ast$ {\em p}, \/  {\bf PlayerTwo} $\ast$ {\em t}, \/  {\bf OpponentRobot} $\ast$ {\em a}, \/  {\bf OpponentRobot} $\ast$ {\em b}, \/  {\bf OpponentRobot} $\ast$ {\em c}, \/  RawBall $\ast$ {\em d}, \/  {\bf CoordinatesCalibrer} $\ast$ {\em e})}}
+\label{classInterpreter_aa43e2d0df9f986ef4bde498aa8eadc04}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em x}]\item[{\em y}]\item[{\em z}]\item[{\em p}]\item[{\em t}]\item[{\em a}]\item[{\em b}]\item[{\em c}]\item[{\em d}]\item[{\em e}]\end{DoxyParams}
+\hypertarget{classInterpreter_a0f96b57f8126e2b5bc63390121e4b5b1}{
+\index{Interpreter@{Interpreter}!$\sim$Interpreter@{$\sim$Interpreter}}
+\index{$\sim$Interpreter@{$\sim$Interpreter}!Interpreter@{Interpreter}}
+\subsubsection[{$\sim$Interpreter}]{\setlength{\rightskip}{0pt plus 5cm}Interpreter::$\sim$Interpreter ()}}
+\label{classInterpreter_a0f96b57f8126e2b5bc63390121e4b5b1}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classInterpreter_a36e1b3f28a3d8dae2155f1f0212bed7d}{
+\index{Interpreter@{Interpreter}!coord2mapX@{coord2mapX}}
+\index{coord2mapX@{coord2mapX}!Interpreter@{Interpreter}}
+\subsubsection[{coord2mapX}]{\setlength{\rightskip}{0pt plus 5cm}int Interpreter::coord2mapX (double {\em x})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a36e1b3f28a3d8dae2155f1f0212bed7d}
+
+
+normalize the matrix to the real map 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em x}]is x value of the real map \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_a5b597351a6bdaf23fbf42aed910b151f}{
+\index{Interpreter@{Interpreter}!coord2mapY@{coord2mapY}}
+\index{coord2mapY@{coord2mapY}!Interpreter@{Interpreter}}
+\subsubsection[{coord2mapY}]{\setlength{\rightskip}{0pt plus 5cm}int Interpreter::coord2mapY (double {\em y})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a5b597351a6bdaf23fbf42aed910b151f}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em y}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_aa7c368c159002202e99b2c8b47acc534}{
+\index{Interpreter@{Interpreter}!End@{End}}
+\index{End@{End}!Interpreter@{Interpreter}}
+\subsubsection[{End}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::End ()}}
+\label{classInterpreter_aa7c368c159002202e99b2c8b47acc534}
+\hypertarget{classInterpreter_a0191e3c65605b0ebadb696cf540951ee}{
+\index{Interpreter@{Interpreter}!formationUpdateP1@{formationUpdateP1}}
+\index{formationUpdateP1@{formationUpdateP1}!Interpreter@{Interpreter}}
+\subsubsection[{formationUpdateP1}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::formationUpdateP1 ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a0191e3c65605b0ebadb696cf540951ee}
+\hypertarget{classInterpreter_aa722fe96daeb04f61352559e6d29dda6}{
+\index{Interpreter@{Interpreter}!formationUpdateP2@{formationUpdateP2}}
+\index{formationUpdateP2@{formationUpdateP2}!Interpreter@{Interpreter}}
+\subsubsection[{formationUpdateP2}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::formationUpdateP2 ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_aa722fe96daeb04f61352559e6d29dda6}
+\hypertarget{classInterpreter_a17b252478116fc19ab8fe4623728cda8}{
+\index{Interpreter@{Interpreter}!getCheckPoints@{getCheckPoints}}
+\index{getCheckPoints@{getCheckPoints}!Interpreter@{Interpreter}}
+\subsubsection[{getCheckPoints}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Interpreter::Point} $\ast$ Interpreter::getCheckPoints ({\bf Interpreter::Point} {\em start}, \/  string {\em path})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a17b252478116fc19ab8fe4623728cda8}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em start}]\item[{\em path}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{structInterpreter_1_1Point}{Interpreter::Point} $\ast$ 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_acf9d8aba6db6063eb28e290ae1d4b655}{
+\index{Interpreter@{Interpreter}!getE1@{getE1}}
+\index{getE1@{getE1}!Interpreter@{Interpreter}}
+\subsubsection[{getE1}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf OpponentRobot} $\ast$ Interpreter::getE1 () const}}
+\label{classInterpreter_acf9d8aba6db6063eb28e290ae1d4b655}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$ 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_a46195d271e54a0e832876364562e4925}{
+\index{Interpreter@{Interpreter}!getE2@{getE2}}
+\index{getE2@{getE2}!Interpreter@{Interpreter}}
+\subsubsection[{getE2}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf OpponentRobot} $\ast$ Interpreter::getE2 () const}}
+\label{classInterpreter_a46195d271e54a0e832876364562e4925}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$ 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_a71c179ef0fa2c3372733dcae42799da3}{
+\index{Interpreter@{Interpreter}!getE3@{getE3}}
+\index{getE3@{getE3}!Interpreter@{Interpreter}}
+\subsubsection[{getE3}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf OpponentRobot} $\ast$ Interpreter::getE3 () const}}
+\label{classInterpreter_a71c179ef0fa2c3372733dcae42799da3}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{classOpponentRobot}{OpponentRobot} $\ast$ 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_ac086d0ece936720419817ec19ebc3d8d}{
+\index{Interpreter@{Interpreter}!getGK@{getGK}}
+\index{getGK@{getGK}!Interpreter@{Interpreter}}
+\subsubsection[{getGK}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Goalkeeper} $\ast$ Interpreter::getGK () const}}
+\label{classInterpreter_ac086d0ece936720419817ec19ebc3d8d}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{classGoalkeeper}{Goalkeeper} $\ast$ 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_aa8430187c89dffc8a9290d48ddd82346}{
+\index{Interpreter@{Interpreter}!getGKDefaultPos@{getGKDefaultPos}}
+\index{getGKDefaultPos@{getGKDefaultPos}!Interpreter@{Interpreter}}
+\subsubsection[{getGKDefaultPos}]{\setlength{\rightskip}{0pt plus 5cm}Position Interpreter::getGKDefaultPos () const}}
+\label{classInterpreter_aa8430187c89dffc8a9290d48ddd82346}
+\begin{DoxyReturn}{Returns}
+Position 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_adc77ada1a3d69c5e6bdfb2f1cc1a2e75}{
+\index{Interpreter@{Interpreter}!getMode@{getMode}}
+\index{getMode@{getMode}!Interpreter@{Interpreter}}
+\subsubsection[{getMode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Interpreter::GameData} Interpreter::getMode () const}}
+\label{classInterpreter_adc77ada1a3d69c5e6bdfb2f1cc1a2e75}
+\begin{DoxyReturn}{Returns}
+\hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_af0d9f49ed686092925b626d032b0d9a6}{
+\index{Interpreter@{Interpreter}!getP1@{getP1}}
+\index{getP1@{getP1}!Interpreter@{Interpreter}}
+\subsubsection[{getP1}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PlayerMain} $\ast$ Interpreter::getP1 () const}}
+\label{classInterpreter_af0d9f49ed686092925b626d032b0d9a6}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{classPlayerMain}{PlayerMain} $\ast$ 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_a2b46c460756f87d2dcef4ea8d8d49aaa}{
+\index{Interpreter@{Interpreter}!getP1DefaultPos@{getP1DefaultPos}}
+\index{getP1DefaultPos@{getP1DefaultPos}!Interpreter@{Interpreter}}
+\subsubsection[{getP1DefaultPos}]{\setlength{\rightskip}{0pt plus 5cm}Position Interpreter::getP1DefaultPos () const}}
+\label{classInterpreter_a2b46c460756f87d2dcef4ea8d8d49aaa}
+\begin{DoxyReturn}{Returns}
+Position 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_aa34b7799a25a0174b82690d09ce065f1}{
+\index{Interpreter@{Interpreter}!getP2@{getP2}}
+\index{getP2@{getP2}!Interpreter@{Interpreter}}
+\subsubsection[{getP2}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PlayerTwo} $\ast$ Interpreter::getP2 () const}}
+\label{classInterpreter_aa34b7799a25a0174b82690d09ce065f1}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{classPlayerTwo}{PlayerTwo} $\ast$ 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_ade297117d2ee20f524dd184ddd152c6d}{
+\index{Interpreter@{Interpreter}!getP2DefaultPos@{getP2DefaultPos}}
+\index{getP2DefaultPos@{getP2DefaultPos}!Interpreter@{Interpreter}}
+\subsubsection[{getP2DefaultPos}]{\setlength{\rightskip}{0pt plus 5cm}Position Interpreter::getP2DefaultPos () const}}
+\label{classInterpreter_ade297117d2ee20f524dd184ddd152c6d}
+\begin{DoxyReturn}{Returns}
+Position 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_afaaf3930191f9ba3e48a09af193e0a39}{
+\index{Interpreter@{Interpreter}!map2coordX@{map2coordX}}
+\index{map2coordX@{map2coordX}!Interpreter@{Interpreter}}
+\subsubsection[{map2coordX}]{\setlength{\rightskip}{0pt plus 5cm}double Interpreter::map2coordX (int {\em mapX})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_afaaf3930191f9ba3e48a09af193e0a39}
+
+
+normalize the matrix value to real map, or otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em mapX}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_abd0885c42ade8eb7f941c8d4b26a2501}{
+\index{Interpreter@{Interpreter}!map2coordY@{map2coordY}}
+\index{map2coordY@{map2coordY}!Interpreter@{Interpreter}}
+\subsubsection[{map2coordY}]{\setlength{\rightskip}{0pt plus 5cm}double Interpreter::map2coordY (int {\em mapY})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_abd0885c42ade8eb7f941c8d4b26a2501}
+
+
+normalize the matrix value to real map, or otherwise. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em mapY}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_a454e31b3c1d0640be317c82c8b1b659d}{
+\index{Interpreter@{Interpreter}!maskLeft@{maskLeft}}
+\index{maskLeft@{maskLeft}!Interpreter@{Interpreter}}
+\subsubsection[{maskLeft}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskLeft ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a454e31b3c1d0640be317c82c8b1b659d}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_af02271dded17efbe47316706aad115f7}{
+\index{Interpreter@{Interpreter}!maskLowerLeft@{maskLowerLeft}}
+\index{maskLowerLeft@{maskLowerLeft}!Interpreter@{Interpreter}}
+\subsubsection[{maskLowerLeft}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskLowerLeft ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_af02271dded17efbe47316706aad115f7}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_a5bafd4ac63cb3dee9a6ddff172a0df02}{
+\index{Interpreter@{Interpreter}!maskLowerRight@{maskLowerRight}}
+\index{maskLowerRight@{maskLowerRight}!Interpreter@{Interpreter}}
+\subsubsection[{maskLowerRight}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskLowerRight ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a5bafd4ac63cb3dee9a6ddff172a0df02}
+
+
+mix mode with overlap 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_a849719043f4eef44634a9b5eb3e3561e}{
+\index{Interpreter@{Interpreter}!maskOmitLowerLeft@{maskOmitLowerLeft}}
+\index{maskOmitLowerLeft@{maskOmitLowerLeft}!Interpreter@{Interpreter}}
+\subsubsection[{maskOmitLowerLeft}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskOmitLowerLeft ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a849719043f4eef44634a9b5eb3e3561e}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_a5aab0968d1a9c62fd20e1f11446deb73}{
+\index{Interpreter@{Interpreter}!maskOmitLowerRight@{maskOmitLowerRight}}
+\index{maskOmitLowerRight@{maskOmitLowerRight}!Interpreter@{Interpreter}}
+\subsubsection[{maskOmitLowerRight}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskOmitLowerRight ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a5aab0968d1a9c62fd20e1f11446deb73}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_a6232cdb6a8637bac127df9d19e8fd705}{
+\index{Interpreter@{Interpreter}!maskOmitUpperLeft@{maskOmitUpperLeft}}
+\index{maskOmitUpperLeft@{maskOmitUpperLeft}!Interpreter@{Interpreter}}
+\subsubsection[{maskOmitUpperLeft}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskOmitUpperLeft ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a6232cdb6a8637bac127df9d19e8fd705}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_a83c078f3465a96026dbbc1ef3d7d120b}{
+\index{Interpreter@{Interpreter}!maskOmitUpperRight@{maskOmitUpperRight}}
+\index{maskOmitUpperRight@{maskOmitUpperRight}!Interpreter@{Interpreter}}
+\subsubsection[{maskOmitUpperRight}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskOmitUpperRight ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a83c078f3465a96026dbbc1ef3d7d120b}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_abdfaacb7134b907d16a412ec1f80364b}{
+\index{Interpreter@{Interpreter}!maskRight@{maskRight}}
+\index{maskRight@{maskRight}!Interpreter@{Interpreter}}
+\subsubsection[{maskRight}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskRight ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_abdfaacb7134b907d16a412ec1f80364b}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_a1892fcf6bef01aa68c015c5a4a0c5f96}{
+\index{Interpreter@{Interpreter}!maskUpperLeft@{maskUpperLeft}}
+\index{maskUpperLeft@{maskUpperLeft}!Interpreter@{Interpreter}}
+\subsubsection[{maskUpperLeft}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskUpperLeft ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a1892fcf6bef01aa68c015c5a4a0c5f96}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_a6741607033424bb90e95e59311941ed3}{
+\index{Interpreter@{Interpreter}!maskUpperRight@{maskUpperRight}}
+\index{maskUpperRight@{maskUpperRight}!Interpreter@{Interpreter}}
+\subsubsection[{maskUpperRight}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::maskUpperRight ({\bf Map} \& {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a6741607033424bb90e95e59311941ed3}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\end{DoxyParams}
+\hypertarget{classInterpreter_a4b195c13b5189f82d5b2ccd47ee4c562}{
+\index{Interpreter@{Interpreter}!matrixupdate@{matrixupdate}}
+\index{matrixupdate@{matrixupdate}!Interpreter@{Interpreter}}
+\subsubsection[{matrixupdate}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::matrixupdate ({\bf Interpreter::Map} \& {\em map}, \/  const {\bf NewRoboControl} $\ast$ {\em ref}, \/  const {\bf NewRoboControl} $\ast$ {\em obstacles}\mbox{[}5\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  {\bf CoordinatesCalibrer} $\ast$ {\em coordCalibrer}, \/  eSide {\em our\_\-side})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a4b195c13b5189f82d5b2ccd47ee4c562}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\item[{\em ref}]\item[{\em obstacles\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em coordCalibrer}]\item[{\em our\_\-side}]\end{DoxyParams}
+\hypertarget{classInterpreter_a253118e59d7428286ff70a818efe0c52}{
+\index{Interpreter@{Interpreter}!pathFind@{pathFind}}
+\index{pathFind@{pathFind}!Interpreter@{Interpreter}}
+\subsubsection[{pathFind}]{\setlength{\rightskip}{0pt plus 5cm}string Interpreter::pathFind ({\bf Interpreter::Map} {\em map}, \/  {\bf Interpreter::Point} {\em start}, \/  {\bf Interpreter::Point} {\em finish})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a253118e59d7428286ff70a818efe0c52}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map}]\item[{\em start}]\item[{\em finish}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+string 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_aa64d5e94c2cdee7696135a360f51926b}{
+\index{Interpreter@{Interpreter}!setDefaultPos@{setDefaultPos}}
+\index{setDefaultPos@{setDefaultPos}!Interpreter@{Interpreter}}
+\subsubsection[{setDefaultPos}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::setDefaultPos ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_aa64d5e94c2cdee7696135a360f51926b}
+\hypertarget{classInterpreter_a4e5fcbc3020f3acd2d6855d12f8fe177}{
+\index{Interpreter@{Interpreter}!SetP1MapToRobot@{SetP1MapToRobot}}
+\index{SetP1MapToRobot@{SetP1MapToRobot}!Interpreter@{Interpreter}}
+\subsubsection[{SetP1MapToRobot}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::SetP1MapToRobot ({\bf TeamRobot} $\ast$ {\em p1}) const}}
+\label{classInterpreter_a4e5fcbc3020f3acd2d6855d12f8fe177}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em p1}]\end{DoxyParams}
+\hypertarget{classInterpreter_a3b96d97873572447193d3defe1bb877e}{
+\index{Interpreter@{Interpreter}!SetP2MapToRobot@{SetP2MapToRobot}}
+\index{SetP2MapToRobot@{SetP2MapToRobot}!Interpreter@{Interpreter}}
+\subsubsection[{SetP2MapToRobot}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::SetP2MapToRobot ({\bf TeamRobot} $\ast$ {\em p2}) const}}
+\label{classInterpreter_a3b96d97873572447193d3defe1bb877e}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em p2}]\end{DoxyParams}
+\hypertarget{classInterpreter_aef305fb79ee56df26f7fa4d2fb1be84e}{
+\index{Interpreter@{Interpreter}!setPlayMode@{setPlayMode}}
+\index{setPlayMode@{setPlayMode}!Interpreter@{Interpreter}}
+\subsubsection[{setPlayMode}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::setPlayMode ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_aef305fb79ee56df26f7fa4d2fb1be84e}
+\hypertarget{classInterpreter_ad947f5a13997ba025515d65be4ca13a3}{
+\index{Interpreter@{Interpreter}!setScores@{setScores}}
+\index{setScores@{setScores}!Interpreter@{Interpreter}}
+\subsubsection[{setScores}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::setScores ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_ad947f5a13997ba025515d65be4ca13a3}
+\hypertarget{classInterpreter_a7bcbe98cfcb820392776af34325af2f4}{
+\index{Interpreter@{Interpreter}!setSide@{setSide}}
+\index{setSide@{setSide}!Interpreter@{Interpreter}}
+\subsubsection[{setSide}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::setSide ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a7bcbe98cfcb820392776af34325af2f4}
+\hypertarget{classInterpreter_a976750d75dbde52f1de42b189bc3db0d}{
+\index{Interpreter@{Interpreter}!setTurn@{setTurn}}
+\index{setTurn@{setTurn}!Interpreter@{Interpreter}}
+\subsubsection[{setTurn}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::setTurn ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a976750d75dbde52f1de42b189bc3db0d}
+\hypertarget{classInterpreter_a28fca7f91931cc48a0dc91cbbb08ba7a}{
+\index{Interpreter@{Interpreter}!showMap@{showMap}}
+\index{showMap@{showMap}!Interpreter@{Interpreter}}
+\subsubsection[{showMap}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::showMap (const {\bf Map} \& {\em map0}, \/  string {\em path}, \/  {\bf Interpreter::Point} {\em start})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a28fca7f91931cc48a0dc91cbbb08ba7a}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em map0}]\item[{\em path}]\item[{\em start}]\end{DoxyParams}
+\hypertarget{classInterpreter_a9b1dfdf67300251fb2c22f37e1d4c646}{
+\index{Interpreter@{Interpreter}!updateSituation@{updateSituation}}
+\index{updateSituation@{updateSituation}!Interpreter@{Interpreter}}
+\subsubsection[{updateSituation}]{\setlength{\rightskip}{0pt plus 5cm}void Interpreter::updateSituation ()}}
+\label{classInterpreter_a9b1dfdf67300251fb2c22f37e1d4c646}
+\hypertarget{classInterpreter_af8a7d8d22248eefd43de2ea08fc61b0f}{
+\index{Interpreter@{Interpreter}!verifyPos@{verifyPos}}
+\index{verifyPos@{verifyPos}!Interpreter@{Interpreter}}
+\subsubsection[{verifyPos}]{\setlength{\rightskip}{0pt plus 5cm}bool Interpreter::verifyPos ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_af8a7d8d22248eefd43de2ea08fc61b0f}
+\begin{DoxyReturn}{Returns}
+bool 
+\end{DoxyReturn}
+\hypertarget{classInterpreter_ae09dee3df8e85f0d6b75b6dab5926850}{
+\index{Interpreter@{Interpreter}!waitForUpdate@{waitForUpdate}}
+\index{waitForUpdate@{waitForUpdate}!Interpreter@{Interpreter}}
+\subsubsection[{waitForUpdate}]{\setlength{\rightskip}{0pt plus 5cm}int Interpreter::waitForUpdate (int {\em id})}}
+\label{classInterpreter_ae09dee3df8e85f0d6b75b6dab5926850}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em id}]\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classInterpreter_a13a73024c4a1e62845a91f686adcd919}{
+\index{Interpreter@{Interpreter}!DIR@{DIR}}
+\index{DIR@{DIR}!Interpreter@{Interpreter}}
+\subsubsection[{DIR}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf Interpreter::DIR} = 8\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a13a73024c4a1e62845a91f686adcd919}
+Number of possible directions to go at any position \hypertarget{classInterpreter_ac3d8a1b37737331fbfe7f4cea33cbd04}{
+\index{Interpreter@{Interpreter}!DX@{DX}}
+\index{DX@{DX}!Interpreter@{Interpreter}}
+\subsubsection[{DX}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf Interpreter::DX} = \{1, 1, 0, -\/1, -\/1, -\/1, 0, 1\}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_ac3d8a1b37737331fbfe7f4cea33cbd04}
+TODO \hypertarget{classInterpreter_aafc38675c9cad6e87686598dfe9c5758}{
+\index{Interpreter@{Interpreter}!DY@{DY}}
+\index{DY@{DY}!Interpreter@{Interpreter}}
+\subsubsection[{DY}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf Interpreter::DY} = \{0, 1, 1, 1, 0, -\/1, -\/1, -\/1\}\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_aafc38675c9cad6e87686598dfe9c5758}
+TODO \hypertarget{classInterpreter_abed4bfde044196ee1ed466bcc62efbd2}{
+\index{Interpreter@{Interpreter}!m\_\-ball@{m\_\-ball}}
+\index{m\_\-ball@{m\_\-ball}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-ball}]{\setlength{\rightskip}{0pt plus 5cm}RawBall$\ast$ {\bf Interpreter::m\_\-ball}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_abed4bfde044196ee1ed466bcc62efbd2}
+TODO \hypertarget{classInterpreter_a734c73b13d471eb10d9a0ce772ffd906}{
+\index{Interpreter@{Interpreter}!m\_\-cal@{m\_\-cal}}
+\index{m\_\-cal@{m\_\-cal}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-cal}]{\setlength{\rightskip}{0pt plus 5cm}{\bf CoordinatesCalibrer}$\ast$ {\bf Interpreter::m\_\-cal}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a734c73b13d471eb10d9a0ce772ffd906}
+TODO \hypertarget{classInterpreter_a9239b5f00f922f05a3902538784f5777}{
+\index{Interpreter@{Interpreter}!m\_\-cond@{m\_\-cond}}
+\index{m\_\-cond@{m\_\-cond}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-cond}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-cond\_\-t {\bf Interpreter::m\_\-cond}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a9239b5f00f922f05a3902538784f5777}
+TODO \hypertarget{classInterpreter_a373544ccef8dc7630108349b589cee3d}{
+\index{Interpreter@{Interpreter}!m\_\-e1@{m\_\-e1}}
+\index{m\_\-e1@{m\_\-e1}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-e1}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf OpponentRobot}$\ast$ {\bf Interpreter::m\_\-e1}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a373544ccef8dc7630108349b589cee3d}
+TODO \hypertarget{classInterpreter_aa04c8b2059980f776ea43c6f5e8e734b}{
+\index{Interpreter@{Interpreter}!m\_\-e2@{m\_\-e2}}
+\index{m\_\-e2@{m\_\-e2}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-e2}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf OpponentRobot}$\ast$ {\bf Interpreter::m\_\-e2}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_aa04c8b2059980f776ea43c6f5e8e734b}
+TODO \hypertarget{classInterpreter_ab61a3f3a1896b2d0d886aadcd15d72c1}{
+\index{Interpreter@{Interpreter}!m\_\-e3@{m\_\-e3}}
+\index{m\_\-e3@{m\_\-e3}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-e3}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf OpponentRobot}$\ast$ {\bf Interpreter::m\_\-e3}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_ab61a3f3a1896b2d0d886aadcd15d72c1}
+TODO \hypertarget{classInterpreter_a5c100f5098dbea4f12c8e65524914891}{
+\index{Interpreter@{Interpreter}!m\_\-gk@{m\_\-gk}}
+\index{m\_\-gk@{m\_\-gk}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-gk}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Goalkeeper}$\ast$ {\bf Interpreter::m\_\-gk}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a5c100f5098dbea4f12c8e65524914891}
+TODO \hypertarget{classInterpreter_a3406559374dd0b28b8d702e5ba03189b}{
+\index{Interpreter@{Interpreter}!m\_\-gkDefaultPosition@{m\_\-gkDefaultPosition}}
+\index{m\_\-gkDefaultPosition@{m\_\-gkDefaultPosition}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-gkDefaultPosition}]{\setlength{\rightskip}{0pt plus 5cm}Position {\bf Interpreter::m\_\-gkDefaultPosition}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a3406559374dd0b28b8d702e5ba03189b}
+TODO \hypertarget{classInterpreter_aea59ccd407d1cbe579827da6ef24c9a1}{
+\index{Interpreter@{Interpreter}!m\_\-mode@{m\_\-mode}}
+\index{m\_\-mode@{m\_\-mode}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-mode}]{\setlength{\rightskip}{0pt plus 5cm}{\bf GameData} {\bf Interpreter::m\_\-mode}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_aea59ccd407d1cbe579827da6ef24c9a1}
+TODO \hypertarget{classInterpreter_a4b1e804ce863d4d017e4b697e61e4017}{
+\index{Interpreter@{Interpreter}!m\_\-mutex@{m\_\-mutex}}
+\index{m\_\-mutex@{m\_\-mutex}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-mutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-mutex\_\-t {\bf Interpreter::m\_\-mutex}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a4b1e804ce863d4d017e4b697e61e4017}
+TODO \hypertarget{classInterpreter_af450bd472149d0832c48e5da0a21ac77}{
+\index{Interpreter@{Interpreter}!m\_\-p1@{m\_\-p1}}
+\index{m\_\-p1@{m\_\-p1}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-p1}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PlayerMain}$\ast$ {\bf Interpreter::m\_\-p1}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_af450bd472149d0832c48e5da0a21ac77}
+TODO \hypertarget{classInterpreter_a681f0273945917ab4dabec7b400bf001}{
+\index{Interpreter@{Interpreter}!m\_\-p1DefaultPosition@{m\_\-p1DefaultPosition}}
+\index{m\_\-p1DefaultPosition@{m\_\-p1DefaultPosition}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-p1DefaultPosition}]{\setlength{\rightskip}{0pt plus 5cm}Position {\bf Interpreter::m\_\-p1DefaultPosition}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a681f0273945917ab4dabec7b400bf001}
+TODO \hypertarget{classInterpreter_a4c923fac8d283ef70a03812fce74ef47}{
+\index{Interpreter@{Interpreter}!m\_\-p1Map@{m\_\-p1Map}}
+\index{m\_\-p1Map@{m\_\-p1Map}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-p1Map}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Map} {\bf Interpreter::m\_\-p1Map}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a4c923fac8d283ef70a03812fce74ef47}
+TODO \hypertarget{classInterpreter_a849d1195573a32632ae33cd7ecd4bec7}{
+\index{Interpreter@{Interpreter}!m\_\-p1MapMutex@{m\_\-p1MapMutex}}
+\index{m\_\-p1MapMutex@{m\_\-p1MapMutex}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-p1MapMutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-mutex\_\-t {\bf Interpreter::m\_\-p1MapMutex}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a849d1195573a32632ae33cd7ecd4bec7}
+TODO \hypertarget{classInterpreter_aefbda2bf4d390731938a93ff3e2bfaa6}{
+\index{Interpreter@{Interpreter}!m\_\-p2@{m\_\-p2}}
+\index{m\_\-p2@{m\_\-p2}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-p2}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PlayerTwo}$\ast$ {\bf Interpreter::m\_\-p2}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_aefbda2bf4d390731938a93ff3e2bfaa6}
+TODO \hypertarget{classInterpreter_a2eb14ab69e51a5bdd6e393ed86b2d687}{
+\index{Interpreter@{Interpreter}!m\_\-p2DefaultPosition@{m\_\-p2DefaultPosition}}
+\index{m\_\-p2DefaultPosition@{m\_\-p2DefaultPosition}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-p2DefaultPosition}]{\setlength{\rightskip}{0pt plus 5cm}Position {\bf Interpreter::m\_\-p2DefaultPosition}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a2eb14ab69e51a5bdd6e393ed86b2d687}
+TODO \hypertarget{classInterpreter_a9704ad86fdf8eddecfe191d8540fb4ef}{
+\index{Interpreter@{Interpreter}!m\_\-p2Map@{m\_\-p2Map}}
+\index{m\_\-p2Map@{m\_\-p2Map}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-p2Map}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Map} {\bf Interpreter::m\_\-p2Map}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a9704ad86fdf8eddecfe191d8540fb4ef}
+TODO \hypertarget{classInterpreter_a76012913dbff07096d081b2380c2c7a8}{
+\index{Interpreter@{Interpreter}!m\_\-p2MapMutex@{m\_\-p2MapMutex}}
+\index{m\_\-p2MapMutex@{m\_\-p2MapMutex}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-p2MapMutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-mutex\_\-t {\bf Interpreter::m\_\-p2MapMutex}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a76012913dbff07096d081b2380c2c7a8}
+TODO \hypertarget{classInterpreter_a883b74196b1cf25fc6461642c62bc4ec}{
+\index{Interpreter@{Interpreter}!m\_\-ref@{m\_\-ref}}
+\index{m\_\-ref@{m\_\-ref}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-ref}]{\setlength{\rightskip}{0pt plus 5cm}Referee$\ast$ {\bf Interpreter::m\_\-ref}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_a883b74196b1cf25fc6461642c62bc4ec}
+TODO \hypertarget{classInterpreter_abe055996cec8f18725f3efb89e7e6ecb}{
+\index{Interpreter@{Interpreter}!m\_\-situationId@{m\_\-situationId}}
+\index{m\_\-situationId@{m\_\-situationId}!Interpreter@{Interpreter}}
+\subsubsection[{m\_\-situationId}]{\setlength{\rightskip}{0pt plus 5cm}int {\bf Interpreter::m\_\-situationId}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classInterpreter_abe055996cec8f18725f3efb89e7e6ecb}
+TODO \hypertarget{classInterpreter_a0e360d1c91a1328af41fd9a4ede5eaef}{
+\index{Interpreter@{Interpreter}!MAP\_\-BORDERSIZE@{MAP\_\-BORDERSIZE}}
+\index{MAP\_\-BORDERSIZE@{MAP\_\-BORDERSIZE}!Interpreter@{Interpreter}}
+\subsubsection[{MAP\_\-BORDERSIZE}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf Interpreter::MAP\_\-BORDERSIZE} = 5\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a0e360d1c91a1328af41fd9a4ede5eaef}
+TODO \hypertarget{classInterpreter_abda6b21064d50acd844bda3ed551e263}{
+\index{Interpreter@{Interpreter}!MAP\_\-HEIGHT@{MAP\_\-HEIGHT}}
+\index{MAP\_\-HEIGHT@{MAP\_\-HEIGHT}!Interpreter@{Interpreter}}
+\subsubsection[{MAP\_\-HEIGHT}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf Interpreter::MAP\_\-HEIGHT} = 80\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_abda6b21064d50acd844bda3ed551e263}
+TODO \hypertarget{classInterpreter_a30c4dceff341b5e7cd36fdaba21aeaa9}{
+\index{Interpreter@{Interpreter}!MAP\_\-WIDTH@{MAP\_\-WIDTH}}
+\index{MAP\_\-WIDTH@{MAP\_\-WIDTH}!Interpreter@{Interpreter}}
+\subsubsection[{MAP\_\-WIDTH}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf Interpreter::MAP\_\-WIDTH} = 100\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_a30c4dceff341b5e7cd36fdaba21aeaa9}
+TODO \hypertarget{classInterpreter_ad1c3ae1b11b176d50b5e8dcbf4b8b09e}{
+\index{Interpreter@{Interpreter}!MID\_\-THRESHOLD@{MID\_\-THRESHOLD}}
+\index{MID\_\-THRESHOLD@{MID\_\-THRESHOLD}!Interpreter@{Interpreter}}
+\subsubsection[{MID\_\-THRESHOLD}]{\setlength{\rightskip}{0pt plus 5cm}const double {\bf Interpreter::MID\_\-THRESHOLD} = 0.30\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classInterpreter_ad1c3ae1b11b176d50b5e8dcbf4b8b09e}
+TODO 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{interpreter_8h}{interpreter.h}\item 
+src/\hyperlink{interpreter_8cpp}{interpreter.cpp}\end{DoxyCompactItemize}

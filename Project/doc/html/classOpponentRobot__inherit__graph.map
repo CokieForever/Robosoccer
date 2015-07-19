@@ -1,0 +1,4 @@
+<map id="G" name="G">
+<area shape="rect" href="$classNewRoboControl.html" title="{NewRoboControl\n|&#45; m_stopCruisingNow\l&#45; m_isCruising\l&#45; m_cruiseThread\l|+ NewRoboControl()\l+ ~NewRoboControl()\l+ IsOnTarget()\l+ cruisetoBias()\l+ RandomMove()\l+ drivePath()\l+ setSpeed()\l+ getDirection()\l+ getDiffAngle()\l+ getSpeedP()\l+ getSpeedPt()\l+ getSpeedT()\l+ degToRad()\l+ IsOnTarget()\l}" alt="" coords="5,141,149,509"/>
+<area shape="rect" href="$classRoboControl.html" title="{RoboControl\n||}" alt="" coords="32,5,123,93"/>
+</map>

@@ -1,0 +1,208 @@
+\hypertarget{classPlayerMain}{
+\section{PlayerMain Class Reference}
+\label{classPlayerMain}\index{PlayerMain@{PlayerMain}}
+}
+
+
+{\ttfamily \#include $<$playermain.h$>$}
+
+
+
+Inheritance diagram for PlayerMain:\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=400pt]{classPlayerMain__inherit__graph}
+\end{center}
+\end{figure}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2}{ActionPlayerMain} \{ \par
+\hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2ad110267c0dfd47655250b6e11cb333ed}{GO\_\-TO\_\-DEF\_\-POS}, 
+\hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2a3bfe9a85c58f83e457c2515fab072d03}{KICK\_\-PENALTY}, 
+\hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2aa3a0ef85cf87cfe01eb07e7d72e959cd}{KICK\_\-OFF}, 
+\hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2a182faa57b0ea5f67cd916a9261df12dc}{STOP}, 
+\par
+\hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2a19eca8a0a0720f6c698f344b4e6ffb72}{FOLLOWPATH}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classPlayerMain_a12957aeecc6902370f03ff2ffbb0551d}{PlayerMain} (RTDBConn \&DBC, const int deviceNr, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$c, RawBall $\ast$b, \hyperlink{classBallMonitor}{BallMonitor} $\ast$ballPm, \hyperlink{classRefereeDisplay}{RefereeDisplay} $\ast$display=NULL)
+\item 
+void \hyperlink{classPlayerMain_a8f0320189df15529662c7f16d2f74084}{setNextCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
+\begin{DoxyCompactList}\small\item\em this function give the robot the position that it should move to depending on the commands of the referee \item\end{DoxyCompactList}\item 
+void \hyperlink{classPlayerMain_a5c4af159392663660f91809052422945}{setCmdParam} (const \hyperlink{classInterpreter}{Interpreter} \&interpreter)
+\begin{DoxyCompactList}\small\item\em this function set the value of parameters for each commands from the referee \item\end{DoxyCompactList}\item 
+void \hyperlink{classPlayerMain_af12a95c226ce973056681a138b55fb6c}{performCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
+\begin{DoxyCompactList}\small\item\em the robot perform based on the command of the referee \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classPlayerMain_a978b3ce16f5d8e5d1cb9ef70f387227e}{AddObstacleForFormation} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
+\begin{DoxyCompactList}\small\item\em in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots \item\end{DoxyCompactList}\item 
+void \hyperlink{classPlayerMain_a64e1d5734e07cfa82b2571aa11bb4f9d}{defend\_\-p2} (void)
+\begin{DoxyCompactList}\small\item\em this function moves the robot to a specified position to carry out defense \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2}{ActionPlayerMain} \hyperlink{classPlayerMain_a038f8616ec79dd26bae8039b6ada8321}{m\_\-nextCmd}
+\item 
+\hyperlink{classBallMonitor}{BallMonitor} $\ast$ \hyperlink{classPlayerMain_aea071084f1a844ceafac3621ffb5c320}{m\_\-ballpm}
+\item 
+const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$ \hyperlink{classPlayerMain_a020813a869e52dc7368ba9216b10e3d8}{m\_\-otherRobots} \mbox{[}5\mbox{]}
+\item 
+Position \hyperlink{classPlayerMain_a859b462c123135acc3ad88b092429611}{m\_\-defendp2}
+\end{DoxyCompactItemize}
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{classPlayerMain_af07f952a547b2902a452c1413f26dae2}{
+\index{PlayerMain@{PlayerMain}!ActionPlayerMain@{ActionPlayerMain}}
+\index{ActionPlayerMain@{ActionPlayerMain}!PlayerMain@{PlayerMain}}
+\subsubsection[{ActionPlayerMain}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf PlayerMain::ActionPlayerMain}}}
+\label{classPlayerMain_af07f952a547b2902a452c1413f26dae2}
+\begin{Desc}
+\item[Enumerator: ]\par
+\begin{description}
+\index{GO\_\-TO\_\-DEF\_\-POS@{GO\_\-TO\_\-DEF\_\-POS}!PlayerMain@{PlayerMain}}\index{PlayerMain@{PlayerMain}!GO\_\-TO\_\-DEF\_\-POS@{GO\_\-TO\_\-DEF\_\-POS}}\item[{\em 
+\hypertarget{classPlayerMain_af07f952a547b2902a452c1413f26dae2ad110267c0dfd47655250b6e11cb333ed}{
+GO\_\-TO\_\-DEF\_\-POS}
+\label{classPlayerMain_af07f952a547b2902a452c1413f26dae2ad110267c0dfd47655250b6e11cb333ed}
+}]TODO \index{KICK\_\-PENALTY@{KICK\_\-PENALTY}!PlayerMain@{PlayerMain}}\index{PlayerMain@{PlayerMain}!KICK\_\-PENALTY@{KICK\_\-PENALTY}}\item[{\em 
+\hypertarget{classPlayerMain_af07f952a547b2902a452c1413f26dae2a3bfe9a85c58f83e457c2515fab072d03}{
+KICK\_\-PENALTY}
+\label{classPlayerMain_af07f952a547b2902a452c1413f26dae2a3bfe9a85c58f83e457c2515fab072d03}
+}]TODO \index{KICK\_\-OFF@{KICK\_\-OFF}!PlayerMain@{PlayerMain}}\index{PlayerMain@{PlayerMain}!KICK\_\-OFF@{KICK\_\-OFF}}\item[{\em 
+\hypertarget{classPlayerMain_af07f952a547b2902a452c1413f26dae2aa3a0ef85cf87cfe01eb07e7d72e959cd}{
+KICK\_\-OFF}
+\label{classPlayerMain_af07f952a547b2902a452c1413f26dae2aa3a0ef85cf87cfe01eb07e7d72e959cd}
+}]TODO \index{STOP@{STOP}!PlayerMain@{PlayerMain}}\index{PlayerMain@{PlayerMain}!STOP@{STOP}}\item[{\em 
+\hypertarget{classPlayerMain_af07f952a547b2902a452c1413f26dae2a182faa57b0ea5f67cd916a9261df12dc}{
+STOP}
+\label{classPlayerMain_af07f952a547b2902a452c1413f26dae2a182faa57b0ea5f67cd916a9261df12dc}
+}]TODO \index{FOLLOWPATH@{FOLLOWPATH}!PlayerMain@{PlayerMain}}\index{PlayerMain@{PlayerMain}!FOLLOWPATH@{FOLLOWPATH}}\item[{\em 
+\hypertarget{classPlayerMain_af07f952a547b2902a452c1413f26dae2a19eca8a0a0720f6c698f344b4e6ffb72}{
+FOLLOWPATH}
+\label{classPlayerMain_af07f952a547b2902a452c1413f26dae2a19eca8a0a0720f6c698f344b4e6ffb72}
+}]TODO \end{description}
+\end{Desc}
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classPlayerMain_a12957aeecc6902370f03ff2ffbb0551d}{
+\index{PlayerMain@{PlayerMain}!PlayerMain@{PlayerMain}}
+\index{PlayerMain@{PlayerMain}!PlayerMain@{PlayerMain}}
+\subsubsection[{PlayerMain}]{\setlength{\rightskip}{0pt plus 5cm}PlayerMain::PlayerMain (RTDBConn \& {\em DBC}, \/  const int {\em deviceNr}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em c}, \/  RawBall $\ast$ {\em b}, \/  {\bf BallMonitor} $\ast$ {\em ballPm}, \/  {\bf RefereeDisplay} $\ast$ {\em display} = {\ttfamily NULL})}}
+\label{classPlayerMain_a12957aeecc6902370f03ff2ffbb0551d}
+
+\begin{DoxyParams}{Parameters}
+\item[{\em DBC}]\item[{\em deviceNr}]\item[{\em c}]\item[{\em b}]\item[{\em ballPm}]\item[{\em display}]\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classPlayerMain_a978b3ce16f5d8e5d1cb9ef70f387227e}{
+\index{PlayerMain@{PlayerMain}!AddObstacleForFormation@{AddObstacleForFormation}}
+\index{AddObstacleForFormation@{AddObstacleForFormation}!PlayerMain@{PlayerMain}}
+\subsubsection[{AddObstacleForFormation}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::AddObstacleForFormation (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}private, virtual\mbox{]}}}}
+\label{classPlayerMain_a978b3ce16f5d8e5d1cb9ef70f387227e}
+
+
+in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em info}]is the current playmode and situation(score etc.) from referee \end{DoxyParams}
+
+
+Implements \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{TeamRobot}.
+
+\hypertarget{classPlayerMain_a64e1d5734e07cfa82b2571aa11bb4f9d}{
+\index{PlayerMain@{PlayerMain}!defend\_\-p2@{defend\_\-p2}}
+\index{defend\_\-p2@{defend\_\-p2}!PlayerMain@{PlayerMain}}
+\subsubsection[{defend\_\-p2}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::defend\_\-p2 (void)\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPlayerMain_a64e1d5734e07cfa82b2571aa11bb4f9d}
+
+
+this function moves the robot to a specified position to carry out defense 
+
+\hypertarget{classPlayerMain_af12a95c226ce973056681a138b55fb6c}{
+\index{PlayerMain@{PlayerMain}!performCmd@{performCmd}}
+\index{performCmd@{performCmd}!PlayerMain@{PlayerMain}}
+\subsubsection[{performCmd}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::performCmd (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classPlayerMain_af12a95c226ce973056681a138b55fb6c}
+
+
+the robot perform based on the command of the referee 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em info}]current playmode defined by referee \end{DoxyParams}
+
+
+Implements \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobot}.
+
+\hypertarget{classPlayerMain_a5c4af159392663660f91809052422945}{
+\index{PlayerMain@{PlayerMain}!setCmdParam@{setCmdParam}}
+\index{setCmdParam@{setCmdParam}!PlayerMain@{PlayerMain}}
+\subsubsection[{setCmdParam}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::setCmdParam (const {\bf Interpreter} \& {\em interpreter})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classPlayerMain_a5c4af159392663660f91809052422945}
+
+
+this function set the value of parameters for each commands from the referee 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em interpreter}]is pointer to the \hyperlink{classInterpreter}{Interpreter} \end{DoxyParams}
+
+
+Implements \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{TeamRobot}.
+
+\hypertarget{classPlayerMain_a8f0320189df15529662c7f16d2f74084}{
+\index{PlayerMain@{PlayerMain}!setNextCmd@{setNextCmd}}
+\index{setNextCmd@{setNextCmd}!PlayerMain@{PlayerMain}}
+\subsubsection[{setNextCmd}]{\setlength{\rightskip}{0pt plus 5cm}void PlayerMain::setNextCmd (const {\bf Interpreter::GameData} \& {\em info})\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
+\label{classPlayerMain_a8f0320189df15529662c7f16d2f74084}
+
+
+this function give the robot the position that it should move to depending on the commands of the referee 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em info}]playmode of referee \end{DoxyParams}
+
+
+Implements \hyperlink{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}{TeamRobot}.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classPlayerMain_aea071084f1a844ceafac3621ffb5c320}{
+\index{PlayerMain@{PlayerMain}!m\_\-ballpm@{m\_\-ballpm}}
+\index{m\_\-ballpm@{m\_\-ballpm}!PlayerMain@{PlayerMain}}
+\subsubsection[{m\_\-ballpm}]{\setlength{\rightskip}{0pt plus 5cm}{\bf BallMonitor}$\ast$ {\bf PlayerMain::m\_\-ballpm}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPlayerMain_aea071084f1a844ceafac3621ffb5c320}
+TODO \hypertarget{classPlayerMain_a859b462c123135acc3ad88b092429611}{
+\index{PlayerMain@{PlayerMain}!m\_\-defendp2@{m\_\-defendp2}}
+\index{m\_\-defendp2@{m\_\-defendp2}!PlayerMain@{PlayerMain}}
+\subsubsection[{m\_\-defendp2}]{\setlength{\rightskip}{0pt plus 5cm}Position {\bf PlayerMain::m\_\-defendp2}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPlayerMain_a859b462c123135acc3ad88b092429611}
+TODO \hypertarget{classPlayerMain_a038f8616ec79dd26bae8039b6ada8321}{
+\index{PlayerMain@{PlayerMain}!m\_\-nextCmd@{m\_\-nextCmd}}
+\index{m\_\-nextCmd@{m\_\-nextCmd}!PlayerMain@{PlayerMain}}
+\subsubsection[{m\_\-nextCmd}]{\setlength{\rightskip}{0pt plus 5cm}{\bf ActionPlayerMain} {\bf PlayerMain::m\_\-nextCmd}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPlayerMain_a038f8616ec79dd26bae8039b6ada8321}
+TODO \hypertarget{classPlayerMain_a020813a869e52dc7368ba9216b10e3d8}{
+\index{PlayerMain@{PlayerMain}!m\_\-otherRobots@{m\_\-otherRobots}}
+\index{m\_\-otherRobots@{m\_\-otherRobots}!PlayerMain@{PlayerMain}}
+\subsubsection[{m\_\-otherRobots}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf NewRoboControl}$\ast$ {\bf PlayerMain::m\_\-otherRobots}\mbox{[}5\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPlayerMain_a020813a869e52dc7368ba9216b10e3d8}
+TODO 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{playermain_8h}{playermain.h}\item 
+src/\hyperlink{playermain_8cpp}{playermain.cpp}\end{DoxyCompactItemize}

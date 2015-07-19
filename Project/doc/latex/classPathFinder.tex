@@ -1,0 +1,678 @@
+\hypertarget{classPathFinder}{
+\section{PathFinder Class Reference}
+\label{classPathFinder}\index{PathFinder@{PathFinder}}
+}
+
+
+Class used to find the shortest path in a given environment.  
+
+
+
+
+{\ttfamily \#include $<$pathfinder.h$>$}
+
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon}
+\begin{DoxyCompactList}\small\item\em Structure used to represent a convex polygon. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structPathFinder_1_1Point}{Point}
+\begin{DoxyCompactList}\small\item\em Structure to represent a point in the path finder. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structPathFinder_1_1Rectangle}{Rectangle}
+\begin{DoxyCompactList}\small\item\em Structure used to represent a horizontal rectangle. \item\end{DoxyCompactList}\item 
+struct \hyperlink{structPathFinder_1_1Segment}{Segment}
+\begin{DoxyCompactList}\small\item\em Structure used to describe a line segment. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef std::vector$<$ \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$ $>$ \hyperlink{classPathFinder_a16ed073fa542c82fd09e582cb4fbed24}{PolygonsList}
+\begin{DoxyCompactList}\small\item\em Type to store a list of \hyperlink{structPathFinder_1_1ConvexPolygon}{convex polygons}. Stores pointers to the polygons. \item\end{DoxyCompactList}\item 
+typedef std::vector$<$ \hyperlink{structPathFinder_1_1Point}{Point} $\ast$ $>$ \hyperlink{classPathFinder_a792a34ce673309f873090141c3d96f1c}{PointsList}
+\begin{DoxyCompactList}\small\item\em Type to store a list of \hyperlink{structPathFinder_1_1Point}{points}. Stores pointers to the points. \item\end{DoxyCompactList}\item 
+typedef std::vector$<$ \hyperlink{structPathFinder_1_1Point}{Point} $>$ $\ast$ \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{Path}
+\begin{DoxyCompactList}\small\item\em Type used to represent a full path. Pointer to a list of \hyperlink{structPathFinder_1_1Point}{points}. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classPathFinder_a0761f248c1ebaacf3e47a4021ca25256}{PathFinder} ()
+\begin{DoxyCompactList}\small\item\em Default (and unique) constructor for the path finder. \item\end{DoxyCompactList}\item 
+\hyperlink{classPathFinder_acc04bc8bcddfda54da6a2905b256cf90}{$\sim$PathFinder} ()
+\begin{DoxyCompactList}\small\item\em Destructor of the path finder. \item\end{DoxyCompactList}\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$ \hyperlink{classPathFinder_a7b703516042173b63c24759b600d655e}{AddRectangle} (const \hyperlink{structPathFinder_1_1Point}{Point} \&ul, const \hyperlink{structPathFinder_1_1Point}{Point} \&lr)
+\begin{DoxyCompactList}\small\item\em Adds a horizontal rectangle to the path finder's world. \item\end{DoxyCompactList}\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$ \hyperlink{classPathFinder_a85d6d0654ad55f798c4ecc826f7f63de}{AddParallelogram} (const \hyperlink{structPathFinder_1_1Point}{Point} \&ul0, const \hyperlink{structPathFinder_1_1Point}{Point} \&ur0, const \hyperlink{structPathFinder_1_1Point}{Point} \&ll0)
+\begin{DoxyCompactList}\small\item\em Adds a parallelogram to the path finder's world. \item\end{DoxyCompactList}\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$ \hyperlink{classPathFinder_a78778ee12c740256f30907e660c563b3}{AddThickLine} (const \hyperlink{structPathFinder_1_1Point}{Point} \&pt1, const \hyperlink{structPathFinder_1_1Point}{Point} \&pt2, double thickness)
+\begin{DoxyCompactList}\small\item\em Adds a \char`\"{}thick line\char`\"{} (rotated rectangle) to the path finder's world. \item\end{DoxyCompactList}\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$ \hyperlink{classPathFinder_ae167f12c8466a501a5a54068f92328c7}{AddPolygon} (const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} \&p)
+\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{structPathFinder_1_1ConvexPolygon}{convex polygon} to the path finder's world. \item\end{DoxyCompactList}\item 
+bool \hyperlink{classPathFinder_adbc8795e40ef601769a2659c241b4cb9}{RemovePolygon} (const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$poly)
+\begin{DoxyCompactList}\small\item\em Removes and fully frees a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} from the path finder's world. \item\end{DoxyCompactList}\item 
+bool \hyperlink{classPathFinder_a4707e0176f1a42c14f71fabc1cca4927}{RemovePolygons} (const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$polys\mbox{[}$\,$\mbox{]}, int n)
+\begin{DoxyCompactList}\small\item\em Removes and fully frees a list of \hyperlink{structPathFinder_1_1ConvexPolygon}{polygons} from the path finder's world. \item\end{DoxyCompactList}\item 
+bool \hyperlink{classPathFinder_ae4c46e0856f22121c4ac7bb07cc86dc1}{IsPolygonRegistered} (const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$poly) const 
+\begin{DoxyCompactList}\small\item\em Tells if a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} is currenlty in the path finder's world. \item\end{DoxyCompactList}\item 
+bool \hyperlink{classPathFinder_a6f0e23839f34803a1e712ff727ec734f}{IsPointRegistered} (const \hyperlink{structPathFinder_1_1Point}{Point} $\ast$pt) const 
+\begin{DoxyCompactList}\small\item\em Tells if a given \hyperlink{structPathFinder_1_1Point}{point} is currently in the path finder's world. \item\end{DoxyCompactList}\item 
+const std::vector$<$ \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$ $>$ \& \hyperlink{classPathFinder_a61256a9d84ff19f3471f0b22f69527e2}{GetPolygons} () const 
+\begin{DoxyCompactList}\small\item\em Returns a list of every \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} currently in the path finder's world. \item\end{DoxyCompactList}\item 
+\hyperlink{classPathFinder_a16ed073fa542c82fd09e582cb4fbed24}{PolygonsList} \hyperlink{classPathFinder_a1341f2c71d9984cc73719c8d9aa6aaa2}{GetPolygonsCopy} () const 
+\begin{DoxyCompactList}\small\item\em Returns a list of every \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} currently in the path finder's world. \item\end{DoxyCompactList}\item 
+std::vector$<$ \hyperlink{structPathFinder_1_1Point}{Point} $>$ $\ast$ \hyperlink{classPathFinder_a7d1904c4ee6abc79375356dc64cad995}{ComputePath} (\hyperlink{structPathFinder_1_1Point}{Point} start, \hyperlink{structPathFinder_1_1Point}{Point} end)
+\begin{DoxyCompactList}\small\item\em Computes the shortest path between two given \hyperlink{structPathFinder_1_1Point}{points} in the path finder's world. \item\end{DoxyCompactList}\item 
+bool \hyperlink{classPathFinder_a6d04d3b16677670873ea607c7966f49f}{CheckPointsVisibility} (const \hyperlink{structPathFinder_1_1Point}{Point} $\ast$p1, const \hyperlink{structPathFinder_1_1Point}{Point} $\ast$p2)
+\begin{DoxyCompactList}\small\item\em Thread-\/safe wrapper for \hyperlink{classPathFinder_a12fb7b7f54766d8bbf5753a5a036a5f0}{PathFinder::CheckPointsVisibility\_\-p()}. \item\end{DoxyCompactList}\item 
+\hyperlink{structPathFinder_1_1Point}{Point} \hyperlink{classPathFinder_a1ea7cda7d83a2474efa4af71f0025d94}{ComputeClosestAccessiblePoint} (const \hyperlink{structPathFinder_1_1Point}{Point} \&start, const \hyperlink{structPathFinder_1_1Point}{Point} \&end)
+\begin{DoxyCompactList}\small\item\em Computes the closest \hyperlink{structPathFinder_1_1Point}{point} to a given point, which is accessible from another point. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static \hyperlink{structPathFinder_1_1Point}{Point} \hyperlink{classPathFinder_a457592f3579bbe0c0527360c2c8a928a}{CreatePoint} (double x, double y)
+\begin{DoxyCompactList}\small\item\em Creates a \hyperlink{structPathFinder_1_1Point}{point}. This function should always be used to create points. \item\end{DoxyCompactList}\item 
+static \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{Path} \hyperlink{classPathFinder_a42e557e3fe4cd1b209a4722ecfbf876b}{CreatePath} (\hyperlink{structPathFinder_1_1Point}{Point} start, \hyperlink{structPathFinder_1_1Point}{Point} end)
+\begin{DoxyCompactList}\small\item\em Creates a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} with the two given \hyperlink{structPathFinder_1_1Point}{points}. \item\end{DoxyCompactList}\item 
+static std::vector$<$ Position $>$ $\ast$ \hyperlink{classPathFinder_aba7f833c9bb8de011c62a1f01fb26144}{ConvertPathToReal} (const \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{Path} path, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$calibrer=NULL)
+\begin{DoxyCompactList}\small\item\em Converts a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} to a list of positions. \item\end{DoxyCompactList}\item 
+static void \hyperlink{classPathFinder_a3306e3d1bb0ae88e236eb7cabbfce835}{DestroyPolygonsList} (\hyperlink{classPathFinder_a16ed073fa542c82fd09e582cb4fbed24}{PolygonsList} list)
+\begin{DoxyCompactList}\small\item\em Frees every \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} in a given list. \item\end{DoxyCompactList}\item 
+static bool \hyperlink{classPathFinder_a87a4f6d236e4b386e8b727e465f802be}{DoSegmentsIntersect} (\hyperlink{structPathFinder_1_1Segment}{Segment} seg1, \hyperlink{structPathFinder_1_1Segment}{Segment} seg2)
+\begin{DoxyCompactList}\small\item\em Tells if two \hyperlink{structPathFinder_1_1Segment}{line segments} intersect each other. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const double \hyperlink{classPathFinder_a341ee3901465d58e8aad2fc0dd227168}{INFINI\_\-TY} = 10e6
+\end{DoxyCompactItemize}
+\subsection*{Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{classPathFinder_ab8c06520b832da1cda6f781177af982b}{ReadPointsVisibility} (const \hyperlink{structPathFinder_1_1Point}{Point} $\ast$p1, const \hyperlink{structPathFinder_1_1Point}{Point} $\ast$p2)
+\begin{DoxyCompactList}\small\item\em Tells if two \hyperlink{structPathFinder_1_1Point}{points} are visible from each other in the path finder's world. \item\end{DoxyCompactList}\item 
+void \hyperlink{classPathFinder_ae567b0e270b68f6b38e9b2fafccdc9ef}{ComputeVisibilityMap} (\hyperlink{structPathFinder_1_1Point}{Point} $\ast$point)
+\begin{DoxyCompactList}\small\item\em Computes and registers the list of all \hyperlink{structPathFinder_1_1Point}{points} visible from a given point in the path finder's world. \item\end{DoxyCompactList}\item 
+int \hyperlink{classPathFinder_ad12ed53e6e67ee4408a757bbca18058d}{DoesPointBelongToPolygon} (const \hyperlink{structPathFinder_1_1Point}{Point} $\ast$point, const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$polygon)
+\begin{DoxyCompactList}\small\item\em Tells if a given \hyperlink{structPathFinder_1_1Point}{point} belongs to a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon}. \item\end{DoxyCompactList}\item 
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} $\ast$ \hyperlink{classPathFinder_a465f6557bd6f5462dc0c363426f43322}{IsPointInsideSomePolygon} (const \hyperlink{structPathFinder_1_1Point}{Point} \&point)
+\begin{DoxyCompactList}\small\item\em Tells if a given \hyperlink{structPathFinder_1_1Point}{point} is inside any \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} in the path finder's world. \item\end{DoxyCompactList}\item 
+bool \hyperlink{classPathFinder_a12fb7b7f54766d8bbf5753a5a036a5f0}{CheckPointsVisibility\_\-p} (const \hyperlink{structPathFinder_1_1Point}{Point} $\ast$p1, const \hyperlink{structPathFinder_1_1Point}{Point} $\ast$p2)
+\begin{DoxyCompactList}\small\item\em Tells if two \hyperlink{structPathFinder_1_1Point}{points} are visible from each other in the path finder's world. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Static Private Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{classPathFinder_a35649ba9507af0f7c450932ae92a149f}{ComparePoints} (\hyperlink{structPathFinder_1_1Point}{Point} $\ast$pt1, \hyperlink{structPathFinder_1_1Point}{Point} $\ast$pt2)
+\begin{DoxyCompactList}\small\item\em Compare the score of two \hyperlink{structPathFinder_1_1Point}{points} for the Dijkstra's Algorithm. \item\end{DoxyCompactList}\item 
+static \hyperlink{structPathFinder_1_1Rectangle}{Rectangle} \hyperlink{classPathFinder_aff7a6dc34e3075686230ac4c64632c38}{getBoundingBox} (\hyperlink{structPathFinder_1_1Segment}{Segment} seg)
+\begin{DoxyCompactList}\small\item\em Gets the bounding box of a given \hyperlink{structPathFinder_1_1Segment}{line segment}. \item\end{DoxyCompactList}\item 
+static bool \hyperlink{classPathFinder_af0e8090b3bb9516751093f99a7376453}{doRectanglesIntersect} (\hyperlink{structPathFinder_1_1Rectangle}{PathFinder::Rectangle} a, \hyperlink{structPathFinder_1_1Rectangle}{PathFinder::Rectangle} b)
+\begin{DoxyCompactList}\small\item\em Tells if two \hyperlink{structPathFinder_1_1Rectangle}{rectangles} intersect each other. \item\end{DoxyCompactList}\item 
+static int \hyperlink{classPathFinder_a00ffa1d61e4ecdb8238d462c584f4007}{orientation} (\hyperlink{structPathFinder_1_1Segment}{Segment} seg, const \hyperlink{structPathFinder_1_1Point}{Point} \&pt)
+\begin{DoxyCompactList}\small\item\em Computes the \char`\"{}orientation\char`\"{} (internal measurement) of a \hyperlink{structPathFinder_1_1Point}{point} against a \hyperlink{structPathFinder_1_1Segment}{line segment}. \item\end{DoxyCompactList}\item 
+static double \hyperlink{classPathFinder_a6757759823a710c8159d2d5f25912a62}{sqDistBetweenPoints} (const \hyperlink{structPathFinder_1_1Point}{Point} \&a, const \hyperlink{structPathFinder_1_1Point}{Point} \&b)
+\begin{DoxyCompactList}\small\item\em Computes the square of the distance between two \hyperlink{structPathFinder_1_1Point}{points}. \item\end{DoxyCompactList}\item 
+static bool \hyperlink{classPathFinder_a06935489b090eb301d58a27a461c556f}{isPointInsidePolygon} (const \hyperlink{structPathFinder_1_1Point}{Point} \&point, const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} \&polygon)
+\begin{DoxyCompactList}\small\item\em Tells if a \hyperlink{structPathFinder_1_1Point}{point} is inside a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon}. \item\end{DoxyCompactList}\item 
+static double \hyperlink{classPathFinder_acd6d78c6d37c94e7ba8da35b02ed9a09}{sqDistToSegment} (const \hyperlink{structPathFinder_1_1Point}{Point} \&a, \hyperlink{structPathFinder_1_1Segment}{Segment} seg, \hyperlink{structPathFinder_1_1Point}{Point} $\ast$isect)
+\begin{DoxyCompactList}\small\item\em Computes the square of the distance of a \hyperlink{structPathFinder_1_1Point}{point} to a given \hyperlink{structPathFinder_1_1Segment}{line segment}. \item\end{DoxyCompactList}\item 
+static double \hyperlink{classPathFinder_a3589d5058e4a670c525379ae3474ddcc}{sqDistToPolygon} (const \hyperlink{structPathFinder_1_1Point}{Point} \&a, const \hyperlink{structPathFinder_1_1ConvexPolygon}{ConvexPolygon} \&polygon, \hyperlink{structPathFinder_1_1Point}{Point} $\ast$isect)
+\begin{DoxyCompactList}\small\item\em Computes the square of the distance of a \hyperlink{structPathFinder_1_1Point}{point} to a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon}. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Private Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classPathFinder_a16ed073fa542c82fd09e582cb4fbed24}{PolygonsList} \hyperlink{classPathFinder_a4cce0fd97519e8e9974c9f6a5f046f7f}{m\_\-polygons}
+\item 
+\hyperlink{classPathFinder_a792a34ce673309f873090141c3d96f1c}{PointsList} \hyperlink{classPathFinder_a90258ce800e2b170754c4779b66020ef}{m\_\-points}
+\item 
+pthread\_\-mutex\_\-t \hyperlink{classPathFinder_a4a70aef3998ffdbcbf20bb67a0f884e2}{m\_\-mutex}
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class used to find the shortest path in a given environment. The path finder works in a theoritically infinite world which can be populated by obstacles represented as convex polygons (see \hyperlink{classPathFinder_ae167f12c8466a501a5a54068f92328c7}{PathFinder::AddPolygon()}). It can find the shortest path between two random points in this world by computing a visibility map for every point and using the Dijkstra's algorithm. The path finding itself is very quick if there are not too many polygons in the worlds, but the computation of the visibility map is slower: consequently, it is better not to modify the polygons too often. In practice, the world's dimensions should not exceed \hyperlink{classPathFinder_a341ee3901465d58e8aad2fc0dd227168}{PathFinder::INFINI\_\-TY}. 
+
+\subsection{Member Typedef Documentation}
+\hypertarget{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{
+\index{PathFinder@{PathFinder}!Path@{Path}}
+\index{Path@{Path}!PathFinder@{PathFinder}}
+\subsubsection[{Path}]{\setlength{\rightskip}{0pt plus 5cm}typedef std::vector$<${\bf Point}$>$$\ast$ {\bf PathFinder::Path}}}
+\label{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}
+
+
+Type used to represent a full path. Pointer to a list of \hyperlink{structPathFinder_1_1Point}{points}. 
+
+As this type is a pointer, it must be instantiated with new and freed with delete. \hypertarget{classPathFinder_a792a34ce673309f873090141c3d96f1c}{
+\index{PathFinder@{PathFinder}!PointsList@{PointsList}}
+\index{PointsList@{PointsList}!PathFinder@{PathFinder}}
+\subsubsection[{PointsList}]{\setlength{\rightskip}{0pt plus 5cm}typedef std::vector$<${\bf Point}$\ast$$>$ {\bf PathFinder::PointsList}}}
+\label{classPathFinder_a792a34ce673309f873090141c3d96f1c}
+
+
+Type to store a list of \hyperlink{structPathFinder_1_1Point}{points}. Stores pointers to the points. 
+
+\hypertarget{classPathFinder_a16ed073fa542c82fd09e582cb4fbed24}{
+\index{PathFinder@{PathFinder}!PolygonsList@{PolygonsList}}
+\index{PolygonsList@{PolygonsList}!PathFinder@{PathFinder}}
+\subsubsection[{PolygonsList}]{\setlength{\rightskip}{0pt plus 5cm}typedef std::vector$<${\bf ConvexPolygon}$\ast$$>$ {\bf PathFinder::PolygonsList}}}
+\label{classPathFinder_a16ed073fa542c82fd09e582cb4fbed24}
+
+
+Type to store a list of \hyperlink{structPathFinder_1_1ConvexPolygon}{convex polygons}. Stores pointers to the polygons. 
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{classPathFinder_a0761f248c1ebaacf3e47a4021ca25256}{
+\index{PathFinder@{PathFinder}!PathFinder@{PathFinder}}
+\index{PathFinder@{PathFinder}!PathFinder@{PathFinder}}
+\subsubsection[{PathFinder}]{\setlength{\rightskip}{0pt plus 5cm}PathFinder::PathFinder ()}}
+\label{classPathFinder_a0761f248c1ebaacf3e47a4021ca25256}
+
+
+Default (and unique) constructor for the path finder. 
+
+\hypertarget{classPathFinder_acc04bc8bcddfda54da6a2905b256cf90}{
+\index{PathFinder@{PathFinder}!$\sim$PathFinder@{$\sim$PathFinder}}
+\index{$\sim$PathFinder@{$\sim$PathFinder}!PathFinder@{PathFinder}}
+\subsubsection[{$\sim$PathFinder}]{\setlength{\rightskip}{0pt plus 5cm}PathFinder::$\sim$PathFinder ()}}
+\label{classPathFinder_acc04bc8bcddfda54da6a2905b256cf90}
+
+
+Destructor of the path finder. 
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{classPathFinder_a85d6d0654ad55f798c4ecc826f7f63de}{
+\index{PathFinder@{PathFinder}!AddParallelogram@{AddParallelogram}}
+\index{AddParallelogram@{AddParallelogram}!PathFinder@{PathFinder}}
+\subsubsection[{AddParallelogram}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon} $\ast$ PathFinder::AddParallelogram (const {\bf Point} \& {\em ul0}, \/  const {\bf Point} \& {\em ur0}, \/  const {\bf Point} \& {\em ll0})}}
+\label{classPathFinder_a85d6d0654ad55f798c4ecc826f7f63de}
+
+
+Adds a parallelogram to the path finder's world. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ul0}]The \char`\"{}upper left\char`\"{} corner of the parallelogram to add. \item[{\em ur0}]The \char`\"{}upper right\char`\"{} corner of the parallelogram to add. \item[{\em ll0}]The \char`\"{}lower left\char`\"{} corner of the parallelogram to add. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ The \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} actually added to the path finder's world. It should not be modified. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_ae167f12c8466a501a5a54068f92328c7}{
+\index{PathFinder@{PathFinder}!AddPolygon@{AddPolygon}}
+\index{AddPolygon@{AddPolygon}!PathFinder@{PathFinder}}
+\subsubsection[{AddPolygon}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon} $\ast$ PathFinder::AddPolygon (const {\bf ConvexPolygon} \& {\em p})}}
+\label{classPathFinder_ae167f12c8466a501a5a54068f92328c7}
+
+
+Adds a \hyperlink{structPathFinder_1_1ConvexPolygon}{convex polygon} to the path finder's world. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em p}]The polygon to add. The polygon itself is copied, but not the points it contains. Consequently, the points should have been allocated with new: \hyperlink{structPathFinder_1_1Point}{Point} $\ast$pt = new \hyperlink{structPathFinder_1_1Point}{Point}(PathFinder::CreatePoint(x,y)) \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ The \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} actually added to the path finder's world. It should not be modified. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a7b703516042173b63c24759b600d655e}{
+\index{PathFinder@{PathFinder}!AddRectangle@{AddRectangle}}
+\index{AddRectangle@{AddRectangle}!PathFinder@{PathFinder}}
+\subsubsection[{AddRectangle}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon} $\ast$ PathFinder::AddRectangle (const {\bf Point} \& {\em ul0}, \/  const {\bf Point} \& {\em lr0})}}
+\label{classPathFinder_a7b703516042173b63c24759b600d655e}
+
+
+Adds a horizontal rectangle to the path finder's world. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ul0}]The upper left corner of the rectangle to add. \item[{\em lr0}]The lower right corner of the rectangle to add. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ The \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} actually added to the path finder's world. It should not be modified. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a78778ee12c740256f30907e660c563b3}{
+\index{PathFinder@{PathFinder}!AddThickLine@{AddThickLine}}
+\index{AddThickLine@{AddThickLine}!PathFinder@{PathFinder}}
+\subsubsection[{AddThickLine}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon} $\ast$ PathFinder::AddThickLine (const {\bf Point} \& {\em pt1}, \/  const {\bf Point} \& {\em pt2}, \/  double {\em thickness})}}
+\label{classPathFinder_a78778ee12c740256f30907e660c563b3}
+
+
+Adds a \char`\"{}thick line\char`\"{} (rotated rectangle) to the path finder's world. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pt1}]The first point of the line segment. \item[{\em pt2}]The second point of the line segment. \item[{\em thickness}]The thickness of the line segment. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ The \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} actually added to the path finder's world. It should not be modified. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a6d04d3b16677670873ea607c7966f49f}{
+\index{PathFinder@{PathFinder}!CheckPointsVisibility@{CheckPointsVisibility}}
+\index{CheckPointsVisibility@{CheckPointsVisibility}!PathFinder@{PathFinder}}
+\subsubsection[{CheckPointsVisibility}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::CheckPointsVisibility (const {\bf Point} $\ast$ {\em p1}, \/  const {\bf Point} $\ast$ {\em p2})}}
+\label{classPathFinder_a6d04d3b16677670873ea607c7966f49f}
+
+
+Thread-\/safe wrapper for \hyperlink{classPathFinder_a12fb7b7f54766d8bbf5753a5a036a5f0}{PathFinder::CheckPointsVisibility\_\-p()}. 
+
+\hypertarget{classPathFinder_a12fb7b7f54766d8bbf5753a5a036a5f0}{
+\index{PathFinder@{PathFinder}!CheckPointsVisibility\_\-p@{CheckPointsVisibility\_\-p}}
+\index{CheckPointsVisibility\_\-p@{CheckPointsVisibility\_\-p}!PathFinder@{PathFinder}}
+\subsubsection[{CheckPointsVisibility\_\-p}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::CheckPointsVisibility\_\-p (const {\bf Point} $\ast$ {\em p1}, \/  const {\bf Point} $\ast$ {\em p2})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPathFinder_a12fb7b7f54766d8bbf5753a5a036a5f0}
+
+
+Tells if two \hyperlink{structPathFinder_1_1Point}{points} are visible from each other in the path finder's world. 
+
+The points do not have to be registered in the path finder's world. If both are, you can use \hyperlink{classPathFinder_ab8c06520b832da1cda6f781177af982b}{PathFinder::ReadPointsVisibility()} for a faster computation.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em p1}]The first point to check. \item[{\em p2}]The second point to check. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the points can see each other, else False. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a35649ba9507af0f7c450932ae92a149f}{
+\index{PathFinder@{PathFinder}!ComparePoints@{ComparePoints}}
+\index{ComparePoints@{ComparePoints}!PathFinder@{PathFinder}}
+\subsubsection[{ComparePoints}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::ComparePoints ({\bf Point} $\ast$ {\em pt1}, \/  {\bf Point} $\ast$ {\em pt2})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classPathFinder_a35649ba9507af0f7c450932ae92a149f}
+
+
+Compare the score of two \hyperlink{structPathFinder_1_1Point}{points} for the Dijkstra's Algorithm. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pt1}]The first point to compare. \item[{\em pt2}]The second point to compare. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if pt1 has a bigger score than pt2, else False. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a1ea7cda7d83a2474efa4af71f0025d94}{
+\index{PathFinder@{PathFinder}!ComputeClosestAccessiblePoint@{ComputeClosestAccessiblePoint}}
+\index{ComputeClosestAccessiblePoint@{ComputeClosestAccessiblePoint}!PathFinder@{PathFinder}}
+\subsubsection[{ComputeClosestAccessiblePoint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PathFinder::Point} PathFinder::ComputeClosestAccessiblePoint (const {\bf Point} \& {\em start}, \/  const {\bf Point} \& {\em end})}}
+\label{classPathFinder_a1ea7cda7d83a2474efa4af71f0025d94}
+
+
+Computes the closest \hyperlink{structPathFinder_1_1Point}{point} to a given point, which is accessible from another point. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em start}]The point to be accessible from. \item[{\em end}]The point to get close to. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{structPathFinder_1_1Point}{PathFinder::Point} The closest accessible point. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a7d1904c4ee6abc79375356dc64cad995}{
+\index{PathFinder@{PathFinder}!ComputePath@{ComputePath}}
+\index{ComputePath@{ComputePath}!PathFinder@{PathFinder}}
+\subsubsection[{ComputePath}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PathFinder::Path} PathFinder::ComputePath ({\bf Point} {\em start}, \/  {\bf Point} {\em end})}}
+\label{classPathFinder_a7d1904c4ee6abc79375356dc64cad995}
+
+
+Computes the shortest path between two given \hyperlink{structPathFinder_1_1Point}{points} in the path finder's world. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em start}]The starting point. \item[{\em end}]The final point. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{PathFinder::Path} The resulting path, or NULL if no path was found. If not NULL, the path contains the starting point. Note that the end point can be different from the one specified in the case the starting point is inside an obstacle. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_ae567b0e270b68f6b38e9b2fafccdc9ef}{
+\index{PathFinder@{PathFinder}!ComputeVisibilityMap@{ComputeVisibilityMap}}
+\index{ComputeVisibilityMap@{ComputeVisibilityMap}!PathFinder@{PathFinder}}
+\subsubsection[{ComputeVisibilityMap}]{\setlength{\rightskip}{0pt plus 5cm}void PathFinder::ComputeVisibilityMap ({\bf Point} $\ast$ {\em point})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPathFinder_ae567b0e270b68f6b38e9b2fafccdc9ef}
+
+
+Computes and registers the list of all \hyperlink{structPathFinder_1_1Point}{points} visible from a given point in the path finder's world. 
+
+The point should be registered in the path finder's world as well.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em point}]The point to check. \end{DoxyParams}
+\hypertarget{classPathFinder_aba7f833c9bb8de011c62a1f01fb26144}{
+\index{PathFinder@{PathFinder}!ConvertPathToReal@{ConvertPathToReal}}
+\index{ConvertPathToReal@{ConvertPathToReal}!PathFinder@{PathFinder}}
+\subsubsection[{ConvertPathToReal}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ Position $>$ $\ast$ PathFinder::ConvertPathToReal (const {\bf Path} {\em path}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em calibrer} = {\ttfamily NULL})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classPathFinder_aba7f833c9bb8de011c62a1f01fb26144}
+
+
+Converts a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} to a list of positions. 
+
+This function takes a path, typically given by the \hyperlink{classPathFinder_a7d1904c4ee6abc79375356dc64cad995}{PathFinder::ComputePath()} function, and converts it to a list of positions. Every position is unnormalized by the given  \char`\"{}coordinates calibrer\char`\"{}.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em path}]The path to convert. \item[{\em calibrer}]The coordinates calibrer to use to unnormalize the positions. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector$<$Position$>$ The positions list. It must be freed with delete. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a42e557e3fe4cd1b209a4722ecfbf876b}{
+\index{PathFinder@{PathFinder}!CreatePath@{CreatePath}}
+\index{CreatePath@{CreatePath}!PathFinder@{PathFinder}}
+\subsubsection[{CreatePath}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PathFinder::Path} PathFinder::CreatePath ({\bf Point} {\em start}, \/  {\bf Point} {\em end})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classPathFinder_a42e557e3fe4cd1b209a4722ecfbf876b}
+
+
+Creates a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} with the two given \hyperlink{structPathFinder_1_1Point}{points}. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em start}]The first point of the path to create. \item[{\em end}]The second (and last) point of the path to create. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{PathFinder::Path} The created path. It must be freed with delete. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a457592f3579bbe0c0527360c2c8a928a}{
+\index{PathFinder@{PathFinder}!CreatePoint@{CreatePoint}}
+\index{CreatePoint@{CreatePoint}!PathFinder@{PathFinder}}
+\subsubsection[{CreatePoint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PathFinder::Point} PathFinder::CreatePoint (double {\em x}, \/  double {\em y})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classPathFinder_a457592f3579bbe0c0527360c2c8a928a}
+
+
+Creates a \hyperlink{structPathFinder_1_1Point}{point}. This function should always be used to create points. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em x}]The x coordinate of the point to create. \item[{\em y}]The y coordinate of the point to create. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{structPathFinder_1_1Point}{PathFinder::Point} The created point. It does not need to be freed. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a3306e3d1bb0ae88e236eb7cabbfce835}{
+\index{PathFinder@{PathFinder}!DestroyPolygonsList@{DestroyPolygonsList}}
+\index{DestroyPolygonsList@{DestroyPolygonsList}!PathFinder@{PathFinder}}
+\subsubsection[{DestroyPolygonsList}]{\setlength{\rightskip}{0pt plus 5cm}void PathFinder::DestroyPolygonsList ({\bf PolygonsList} {\em list})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classPathFinder_a3306e3d1bb0ae88e236eb7cabbfce835}
+
+
+Frees every \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} in a given list. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em list}]The list of polygons to free. \end{DoxyParams}
+\hypertarget{classPathFinder_ad12ed53e6e67ee4408a757bbca18058d}{
+\index{PathFinder@{PathFinder}!DoesPointBelongToPolygon@{DoesPointBelongToPolygon}}
+\index{DoesPointBelongToPolygon@{DoesPointBelongToPolygon}!PathFinder@{PathFinder}}
+\subsubsection[{DoesPointBelongToPolygon}]{\setlength{\rightskip}{0pt plus 5cm}int PathFinder::DoesPointBelongToPolygon (const {\bf Point} $\ast$ {\em point}, \/  const {\bf ConvexPolygon} $\ast$ {\em polygon})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPathFinder_ad12ed53e6e67ee4408a757bbca18058d}
+
+
+Tells if a given \hyperlink{structPathFinder_1_1Point}{point} belongs to a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon}. 
+
+Note that this does not depend on the point's coordinates, but only on the point's location in memory. Another point with the same coordinates can give a different result.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em point}]The point to check. \item[{\em polygon}]The polygon to check. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The index of the point in the polygon, or -\/1 if the point does not belong to the polygon. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_af0e8090b3bb9516751093f99a7376453}{
+\index{PathFinder@{PathFinder}!doRectanglesIntersect@{doRectanglesIntersect}}
+\index{doRectanglesIntersect@{doRectanglesIntersect}!PathFinder@{PathFinder}}
+\subsubsection[{doRectanglesIntersect}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::doRectanglesIntersect ({\bf PathFinder::Rectangle} {\em a}, \/  {\bf PathFinder::Rectangle} {\em b})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classPathFinder_af0e8090b3bb9516751093f99a7376453}
+
+
+Tells if two \hyperlink{structPathFinder_1_1Rectangle}{rectangles} intersect each other. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em a}]The first rectangle to check. \item[{\em b}]The second rectangle to check. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the two rectangles intersect each other, else False. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a87a4f6d236e4b386e8b727e465f802be}{
+\index{PathFinder@{PathFinder}!DoSegmentsIntersect@{DoSegmentsIntersect}}
+\index{DoSegmentsIntersect@{DoSegmentsIntersect}!PathFinder@{PathFinder}}
+\subsubsection[{DoSegmentsIntersect}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::DoSegmentsIntersect ({\bf Segment} {\em seg1}, \/  {\bf Segment} {\em seg2})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classPathFinder_a87a4f6d236e4b386e8b727e465f802be}
+
+
+Tells if two \hyperlink{structPathFinder_1_1Segment}{line segments} intersect each other. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em seg1}]The first line segment to check. \item[{\em seg2}]The second line segment to check. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the two line segments intersect each other, else False. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_aff7a6dc34e3075686230ac4c64632c38}{
+\index{PathFinder@{PathFinder}!getBoundingBox@{getBoundingBox}}
+\index{getBoundingBox@{getBoundingBox}!PathFinder@{PathFinder}}
+\subsubsection[{getBoundingBox}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PathFinder::Rectangle} PathFinder::getBoundingBox ({\bf Segment} {\em seg})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classPathFinder_aff7a6dc34e3075686230ac4c64632c38}
+
+
+Gets the bounding box of a given \hyperlink{structPathFinder_1_1Segment}{line segment}. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em seg}]The line segment. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+\hyperlink{structPathFinder_1_1Rectangle}{PathFinder::Rectangle} The bounding box. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a61256a9d84ff19f3471f0b22f69527e2}{
+\index{PathFinder@{PathFinder}!GetPolygons@{GetPolygons}}
+\index{GetPolygons@{GetPolygons}!PathFinder@{PathFinder}}
+\subsubsection[{GetPolygons}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::PolygonsList} \& PathFinder::GetPolygons () const}}
+\label{classPathFinder_a61256a9d84ff19f3471f0b22f69527e2}
+
+
+Returns a list of every \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} currently in the path finder's world. 
+
+\begin{DoxyReturn}{Returns}
+const \hyperlink{classPathFinder_a16ed073fa542c82fd09e582cb4fbed24}{PathFinder::PolygonsList} \& The list of polygons. It should not be modified, nor the polygons altered. If you want a mutable list, use \hyperlink{classPathFinder_a1341f2c71d9984cc73719c8d9aa6aaa2}{PathFinder::GetPolygonsCopy()}. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a1341f2c71d9984cc73719c8d9aa6aaa2}{
+\index{PathFinder@{PathFinder}!GetPolygonsCopy@{GetPolygonsCopy}}
+\index{GetPolygonsCopy@{GetPolygonsCopy}!PathFinder@{PathFinder}}
+\subsubsection[{GetPolygonsCopy}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PathFinder::PolygonsList} PathFinder::GetPolygonsCopy () const}}
+\label{classPathFinder_a1341f2c71d9984cc73719c8d9aa6aaa2}
+
+
+Returns a list of every \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} currently in the path finder's world. 
+
+\begin{DoxyReturn}{Returns}
+\hyperlink{classPathFinder_a16ed073fa542c82fd09e582cb4fbed24}{PathFinder::PolygonsList} The list of polygons. It is deeply copied and can therefore be modified at will. For an immutable but faster version, look at \hyperlink{classPathFinder_a61256a9d84ff19f3471f0b22f69527e2}{PathFinder::GetPolygons()}. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a06935489b090eb301d58a27a461c556f}{
+\index{PathFinder@{PathFinder}!isPointInsidePolygon@{isPointInsidePolygon}}
+\index{isPointInsidePolygon@{isPointInsidePolygon}!PathFinder@{PathFinder}}
+\subsubsection[{isPointInsidePolygon}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::isPointInsidePolygon (const {\bf Point} \& {\em point}, \/  const {\bf ConvexPolygon} \& {\em polygon})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classPathFinder_a06935489b090eb301d58a27a461c556f}
+
+
+Tells if a \hyperlink{structPathFinder_1_1Point}{point} is inside a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon}. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em point}]The point to check. \item[{\em polygon}]The polygon to check. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the point is inside the polygon, else False. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a465f6557bd6f5462dc0c363426f43322}{
+\index{PathFinder@{PathFinder}!IsPointInsideSomePolygon@{IsPointInsideSomePolygon}}
+\index{IsPointInsideSomePolygon@{IsPointInsideSomePolygon}!PathFinder@{PathFinder}}
+\subsubsection[{IsPointInsideSomePolygon}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf PathFinder::ConvexPolygon} $\ast$ PathFinder::IsPointInsideSomePolygon (const {\bf Point} \& {\em point})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPathFinder_a465f6557bd6f5462dc0c363426f43322}
+
+
+Tells if a given \hyperlink{structPathFinder_1_1Point}{point} is inside any \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} in the path finder's world. 
+
+The point does not have to be registered in the path finder's world.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em point}]The point to check. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} $\ast$ The first polygon in which the point lies, or NULL if the point is outside all registered polygons. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a6f0e23839f34803a1e712ff727ec734f}{
+\index{PathFinder@{PathFinder}!IsPointRegistered@{IsPointRegistered}}
+\index{IsPointRegistered@{IsPointRegistered}!PathFinder@{PathFinder}}
+\subsubsection[{IsPointRegistered}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::IsPointRegistered (const {\bf Point} $\ast$ {\em pt}) const}}
+\label{classPathFinder_a6f0e23839f34803a1e712ff727ec734f}
+
+
+Tells if a given \hyperlink{structPathFinder_1_1Point}{point} is currently in the path finder's world. 
+
+Note that this does not depend on the point's coordinates, but only on the point's location in memory. Another point with the same coordinates can give a different result.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em pt}]The point to check. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the point is in the world, False if not. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_ae4c46e0856f22121c4ac7bb07cc86dc1}{
+\index{PathFinder@{PathFinder}!IsPolygonRegistered@{IsPolygonRegistered}}
+\index{IsPolygonRegistered@{IsPolygonRegistered}!PathFinder@{PathFinder}}
+\subsubsection[{IsPolygonRegistered}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::IsPolygonRegistered (const {\bf ConvexPolygon} $\ast$ {\em poly}) const}}
+\label{classPathFinder_ae4c46e0856f22121c4ac7bb07cc86dc1}
+
+
+Tells if a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} is currenlty in the path finder's world. 
+
+Note that this does not depend on the polygon's coordinates, but only on the polygon's location in memory. Another polygon with the same coordinates can give a different result.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em poly}]The polygon to check. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the polygon is in the world, False if not. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a00ffa1d61e4ecdb8238d462c584f4007}{
+\index{PathFinder@{PathFinder}!orientation@{orientation}}
+\index{orientation@{orientation}!PathFinder@{PathFinder}}
+\subsubsection[{orientation}]{\setlength{\rightskip}{0pt plus 5cm}int PathFinder::orientation ({\bf Segment} {\em seg}, \/  const {\bf Point} \& {\em pt})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classPathFinder_a00ffa1d61e4ecdb8238d462c584f4007}
+
+
+Computes the \char`\"{}orientation\char`\"{} (internal measurement) of a \hyperlink{structPathFinder_1_1Point}{point} against a \hyperlink{structPathFinder_1_1Segment}{line segment}. 
+
+The \char`\"{}orientation\char`\"{} is defined as the sign of the cross product of the vectors AB and PB, where A and B are the line segment start and end (respectively) points, and P is the stand alone point. -\/1 means a negative orientation, +1 means a positive orientation, and 0 means colinearity.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em seg}]The line segment. \item[{\em pt}]The stand alone point. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int The orientation. Can be -\/1, 0 or +1. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_ab8c06520b832da1cda6f781177af982b}{
+\index{PathFinder@{PathFinder}!ReadPointsVisibility@{ReadPointsVisibility}}
+\index{ReadPointsVisibility@{ReadPointsVisibility}!PathFinder@{PathFinder}}
+\subsubsection[{ReadPointsVisibility}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::ReadPointsVisibility (const {\bf Point} $\ast$ {\em p1}, \/  const {\bf Point} $\ast$ {\em p2})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPathFinder_ab8c06520b832da1cda6f781177af982b}
+
+
+Tells if two \hyperlink{structPathFinder_1_1Point}{points} are visible from each other in the path finder's world. 
+
+The points have to be registered in the path finder's world already. If they are not, use \hyperlink{classPathFinder_a12fb7b7f54766d8bbf5753a5a036a5f0}{PathFinder::CheckPointsVisibility\_\-p()}.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em p1}]The first point to check. \item[{\em p2}]The second point to check. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the points can see each other, else False. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_adbc8795e40ef601769a2659c241b4cb9}{
+\index{PathFinder@{PathFinder}!RemovePolygon@{RemovePolygon}}
+\index{RemovePolygon@{RemovePolygon}!PathFinder@{PathFinder}}
+\subsubsection[{RemovePolygon}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::RemovePolygon (const {\bf ConvexPolygon} $\ast$ {\em poly})}}
+\label{classPathFinder_adbc8795e40ef601769a2659c241b4cb9}
+
+
+Removes and fully frees a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} from the path finder's world. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em poly}]The polygon to remove. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True on succes or if poly is NULL, False on failure (e.g. not found). 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a4707e0176f1a42c14f71fabc1cca4927}{
+\index{PathFinder@{PathFinder}!RemovePolygons@{RemovePolygons}}
+\index{RemovePolygons@{RemovePolygons}!PathFinder@{PathFinder}}
+\subsubsection[{RemovePolygons}]{\setlength{\rightskip}{0pt plus 5cm}bool PathFinder::RemovePolygons (const {\bf ConvexPolygon} $\ast$ {\em polys}\mbox{[}$\,$\mbox{]}, \/  int {\em n})}}
+\label{classPathFinder_a4707e0176f1a42c14f71fabc1cca4927}
+
+
+Removes and fully frees a list of \hyperlink{structPathFinder_1_1ConvexPolygon}{polygons} from the path finder's world. 
+
+This function calls \hyperlink{classPathFinder_adbc8795e40ef601769a2659c241b4cb9}{PathFinder::RemovePolygon()} internally.
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em polys\mbox{[}$\,$\mbox{]}}]The list of polygons to remove. \item[{\em n}]The number of polygons in the list. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True on success of every removal operation, False if one or more failed. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a6757759823a710c8159d2d5f25912a62}{
+\index{PathFinder@{PathFinder}!sqDistBetweenPoints@{sqDistBetweenPoints}}
+\index{sqDistBetweenPoints@{sqDistBetweenPoints}!PathFinder@{PathFinder}}
+\subsubsection[{sqDistBetweenPoints}]{\setlength{\rightskip}{0pt plus 5cm}double PathFinder::sqDistBetweenPoints (const {\bf Point} \& {\em a}, \/  const {\bf Point} \& {\em b})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classPathFinder_a6757759823a710c8159d2d5f25912a62}
+
+
+Computes the square of the distance between two \hyperlink{structPathFinder_1_1Point}{points}. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em a}]The first point. \item[{\em b}]The second point. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double The squared distance. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_a3589d5058e4a670c525379ae3474ddcc}{
+\index{PathFinder@{PathFinder}!sqDistToPolygon@{sqDistToPolygon}}
+\index{sqDistToPolygon@{sqDistToPolygon}!PathFinder@{PathFinder}}
+\subsubsection[{sqDistToPolygon}]{\setlength{\rightskip}{0pt plus 5cm}double PathFinder::sqDistToPolygon (const {\bf Point} \& {\em a}, \/  const {\bf ConvexPolygon} \& {\em polygon}, \/  {\bf Point} $\ast$ {\em isect})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classPathFinder_a3589d5058e4a670c525379ae3474ddcc}
+
+
+Computes the square of the distance of a \hyperlink{structPathFinder_1_1Point}{point} to a given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon}. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em a}]The point. \item[{\em polygon}]The polygon. \item[{\em isect}]A pointer to a point to store the closest point on the polygon. Can be NULL. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double The squared distance. 
+\end{DoxyReturn}
+\hypertarget{classPathFinder_acd6d78c6d37c94e7ba8da35b02ed9a09}{
+\index{PathFinder@{PathFinder}!sqDistToSegment@{sqDistToSegment}}
+\index{sqDistToSegment@{sqDistToSegment}!PathFinder@{PathFinder}}
+\subsubsection[{sqDistToSegment}]{\setlength{\rightskip}{0pt plus 5cm}double PathFinder::sqDistToSegment (const {\bf Point} \& {\em a}, \/  {\bf Segment} {\em seg}, \/  {\bf Point} $\ast$ {\em isect})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classPathFinder_acd6d78c6d37c94e7ba8da35b02ed9a09}
+
+
+Computes the square of the distance of a \hyperlink{structPathFinder_1_1Point}{point} to a given \hyperlink{structPathFinder_1_1Segment}{line segment}. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em a}]The point. \item[{\em seg}]The line segment. \item[{\em isect}]A pointer to a point to store the closest point on the line segment. Can be NULL. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+double The squared distance. 
+\end{DoxyReturn}
+
+
+\subsection{Member Data Documentation}
+\hypertarget{classPathFinder_a341ee3901465d58e8aad2fc0dd227168}{
+\index{PathFinder@{PathFinder}!INFINI\_\-TY@{INFINI\_\-TY}}
+\index{INFINI\_\-TY@{INFINI\_\-TY}!PathFinder@{PathFinder}}
+\subsubsection[{INFINI\_\-TY}]{\setlength{\rightskip}{0pt plus 5cm}const double {\bf PathFinder::INFINI\_\-TY} = 10e6\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
+\label{classPathFinder_a341ee3901465d58e8aad2fc0dd227168}
+Number used to represent the infinity in the path finder. \hypertarget{classPathFinder_a4a70aef3998ffdbcbf20bb67a0f884e2}{
+\index{PathFinder@{PathFinder}!m\_\-mutex@{m\_\-mutex}}
+\index{m\_\-mutex@{m\_\-mutex}!PathFinder@{PathFinder}}
+\subsubsection[{m\_\-mutex}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-mutex\_\-t {\bf PathFinder::m\_\-mutex}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPathFinder_a4a70aef3998ffdbcbf20bb67a0f884e2}
+Internal mutex used to prevent race conditions. \hypertarget{classPathFinder_a90258ce800e2b170754c4779b66020ef}{
+\index{PathFinder@{PathFinder}!m\_\-points@{m\_\-points}}
+\index{m\_\-points@{m\_\-points}!PathFinder@{PathFinder}}
+\subsubsection[{m\_\-points}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PointsList} {\bf PathFinder::m\_\-points}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPathFinder_a90258ce800e2b170754c4779b66020ef}
+List of all the points currently in the path finder's world. \hypertarget{classPathFinder_a4cce0fd97519e8e9974c9f6a5f046f7f}{
+\index{PathFinder@{PathFinder}!m\_\-polygons@{m\_\-polygons}}
+\index{m\_\-polygons@{m\_\-polygons}!PathFinder@{PathFinder}}
+\subsubsection[{m\_\-polygons}]{\setlength{\rightskip}{0pt plus 5cm}{\bf PolygonsList} {\bf PathFinder::m\_\-polygons}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
+\label{classPathFinder_a4cce0fd97519e8e9974c9f6a5f046f7f}
+List of the polygons currently in the path finder's world. 
+
+The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
+\item 
+src/\hyperlink{pathfinder_8h}{pathfinder.h}\item 
+src/\hyperlink{pathfinder_8cpp}{pathfinder.cpp}\end{DoxyCompactItemize}
