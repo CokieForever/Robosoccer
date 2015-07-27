@@ -1,9 +1,9 @@
 <map id="G" name="G">
 <area shape="rect" href="$classRoboControl.html" title="RoboControl" alt="" coords="7,32,97,61"/>
-<area shape="rect" href="$classNewRoboControl.html" title="NewRoboControl" alt="" coords="147,32,264,61"/>
-<area shape="rect" href="$classOpponentRobot.html" title="OpponentRobot" alt="" coords="312,5,424,35"/>
-<area shape="rect" href="$classTeamRobot.html" title="TeamRobot" alt="" coords="324,59,412,88"/>
-<area shape="rect" href="$classGoalkeeper.html" title="Goalkeeper" alt="" coords="472,5,560,35"/>
-<area shape="rect" href="$classPlayerMain.html" title="PlayerMain" alt="" coords="473,59,559,88"/>
-<area shape="rect" href="$classPlayerTwo.html" title="PlayerTwo" alt="" coords="475,112,557,141"/>
+<area shape="rect" href="$classNewRoboControl.html" title="Wrapper for the &quot;RoboControl&quot; class. Implements additional driving functions..." alt="" coords="147,32,264,61"/>
+<area shape="rect" href="$classOpponentRobot.html" title="Child class of NewRoboControl which desribes a robo of the other team." alt="" coords="312,5,424,35"/>
+<area shape="rect" href="$classTeamRobot.html" title="Abstract child class of NewRoboControl describing a robot from our team." alt="" coords="324,59,412,88"/>
+<area shape="rect" href="$classGoalkeeper.html" title="Child class of TeamRobot used for the goal keeper." alt="" coords="472,5,560,35"/>
+<area shape="rect" href="$classPlayerMain.html" title="Child class of TeamRobot which describes the main player." alt="" coords="473,59,559,88"/>
+<area shape="rect" href="$classPlayerTwo.html" title="Child class of TeamRobot which describes the second player." alt="" coords="475,112,557,141"/>
 </map>

@@ -12,8 +12,11 @@
 class RefereeDisplay;
 
 /**
- * @brief
+ * @brief Abstract child class of @ref NewRoboControl describing a robot from our team.
  *
+ * This class implements more high-level dring functions such as path computation / driving or kick functions.
+ * This class must be inherited to be constructed, and the child classes must implement the four virtual methods
+ * @ref TeamRobot::setNextCmd(), @ref TeamRobot::setCmdParam(), @ref TeamRobot::performCmd() and @ref TeamRobot::AddObstacleForFormation().
  */
 class TeamRobot : public NewRoboControl
 {

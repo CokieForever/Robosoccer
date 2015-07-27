@@ -45,22 +45,30 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <h1>Interpreter Class Reference</h1><!-- doxytag: class="Interpreter" -->
+<p>Class used to coordinates actions and strategies for all robots from a high level point of view.  
+<a href="#_details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="interpreter_8h_source.html">interpreter.h</a>&gt;</code></p>
 
 <p><a href="classInterpreter-members.html">List of all members.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInterpreter_1_1GameData.html">GameData</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Structure to gather data about the current game.  <a href="structInterpreter_1_1GameData.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInterpreter_1_1Point.html">Point</a></td></tr>
 <tr><td colspan="2"><h2>Public Types</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#ac7c3ba77d973ffbb84b12db662cfe643">KickTurn</a> { <a class="el" href="classInterpreter.html#ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe">OUR_TURN</a>, 
 <a class="el" href="classInterpreter.html#ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76">THEIR_TURN</a>
  }</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Enum to describe the team having the Kick off / Penalty shooting. </p>
+ <a href="classInterpreter.html#ac7c3ba77d973ffbb84b12db662cfe643">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#a0fb49436c8c14ca79e13f1cd78119088">Strategy</a> { <a class="el" href="classInterpreter.html#a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9">INIT</a>, 
 <a class="el" href="classInterpreter.html#a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4">ATK</a>, 
 <a class="el" href="classInterpreter.html#a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75">DEF</a>, 
 <a class="el" href="classInterpreter.html#a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187">MIX</a>
  }</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Enumeration of the possible playing strategies. </p>
+ <a href="classInterpreter.html#a0fb49436c8c14ca79e13f1cd78119088">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classMatrix.html">Matrix</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">Map</a></td></tr>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#aa43e2d0df9f986ef4bde498aa8eadc04">Interpreter</a> (eTeam x, Referee *y, <a class="el" href="classGoalkeeper.html">Goalkeeper</a> *z, <a class="el" href="classPlayerMain.html">PlayerMain</a> *p, <a class="el" href="classPlayerTwo.html">PlayerTwo</a> *t, <a class="el" href="classOpponentRobot.html">OpponentRobot</a> *a, <a class="el" href="classOpponentRobot.html">OpponentRobot</a> *b, <a class="el" href="classOpponentRobot.html">OpponentRobot</a> *c, RawBall *d, <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *e)</td></tr>
@@ -142,6 +150,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top">pthread_mutex_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#a849d1195573a32632ae33cd7ecd4bec7">m_p1MapMutex</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">pthread_mutex_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#a76012913dbff07096d081b2380c2c7a8">m_p2MapMutex</a></td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Class used to coordinates actions and strategies for all robots from a high level point of view. </p>
 <hr/><h2>Member Typedef Documentation</h2>
 <a class="anchor" id="a4c080f069f557cf92dfe803117a6ea53"></a><!-- doxytag: member="Interpreter::Map" ref="a4c080f069f557cf92dfe803117a6ea53" args="" -->
 <div class="memitem">
@@ -167,12 +177,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Enum to describe the team having the Kick off / Penalty shooting. </p>
 <dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
 <tr><td valign="top"><em><a class="anchor" id="ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe"></a><!-- doxytag: member="OUR_TURN" ref="ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe" args="" -->OUR_TURN</em>&nbsp;</td><td>
-<p>TODO </p>
+<p>We have the kick off / penalty shooting </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76"></a><!-- doxytag: member="THEIR_TURN" ref="ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76" args="" -->THEIR_TURN</em>&nbsp;</td><td>
-<p>TODO </p>
+<p>The other team has the kick off / penalty shooting </p>
 </td></tr>
 </table>
 </dd>
@@ -190,18 +202,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Enumeration of the possible playing strategies. </p>
 <dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
 <tr><td valign="top"><em><a class="anchor" id="a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9"></a><!-- doxytag: member="INIT" ref="a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9" args="" -->INIT</em>&nbsp;</td><td>
-<p>TODO </p>
+<p>Initial - used for the start of the programm, must not be used afterwards. </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4"></a><!-- doxytag: member="ATK" ref="a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4" args="" -->ATK</em>&nbsp;</td><td>
-<p>TODO </p>
+<p>Attacking strategy </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75"></a><!-- doxytag: member="DEF" ref="a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75" args="" -->DEF</em>&nbsp;</td><td>
-<p>TODO </p>
+<p>Defensive strategy </p>
 </td></tr>
 <tr><td valign="top"><em><a class="anchor" id="a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187"></a><!-- doxytag: member="MIX" ref="a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187" args="" -->MIX</em>&nbsp;</td><td>
-<p>TODO </p>
+<p>Mixed strategy </p>
 </td></tr>
 </table>
 </dd>
@@ -470,7 +484,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classOpponentRobot.html">OpponentRobot</a> * </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classOpponentRobot.html" title="Child class of NewRoboControl which desribes a robo of the other team.">OpponentRobot</a> * </dd></dl>
 
 </div>
 </div>
@@ -488,7 +502,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classOpponentRobot.html">OpponentRobot</a> * </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classOpponentRobot.html" title="Child class of NewRoboControl which desribes a robo of the other team.">OpponentRobot</a> * </dd></dl>
 
 </div>
 </div>
@@ -506,7 +520,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classOpponentRobot.html">OpponentRobot</a> * </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classOpponentRobot.html" title="Child class of NewRoboControl which desribes a robo of the other team.">OpponentRobot</a> * </dd></dl>
 
 </div>
 </div>
@@ -524,7 +538,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classGoalkeeper.html">Goalkeeper</a> * </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classGoalkeeper.html" title="Child class of TeamRobot used for the goal keeper.">Goalkeeper</a> * </dd></dl>
 
 </div>
 </div>
@@ -560,7 +574,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="structInterpreter_1_1GameData.html" title="Structure to gather data about the current game.">Interpreter::GameData</a> </dd></dl>
 
 </div>
 </div>
@@ -578,7 +592,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classPlayerMain.html">PlayerMain</a> * </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classPlayerMain.html" title="Child class of TeamRobot which describes the main player.">PlayerMain</a> * </dd></dl>
 
 </div>
 </div>
@@ -614,7 +628,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classPlayerTwo.html">PlayerTwo</a> * </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classPlayerTwo.html" title="Child class of TeamRobot which describes the second player.">PlayerTwo</a> * </dd></dl>
 
 </div>
 </div>
@@ -1668,7 +1682,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Sun Jul 19 14:50:35 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:34 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

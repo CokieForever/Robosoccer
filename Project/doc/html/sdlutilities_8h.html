@@ -81,10 +81,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structDragDrop.html">DragDrop</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#a1124418cf609bffdbf881c611d5e3140">CreateDragDrop</a> (SDL_Rect area, SDL_Surface *ghostSurf=NULL, SDL_Color colorHovered=CreateColor(255, 128, 0))</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="sdlutilities_8h.html#ad7cc824013c50c30499f86f74e1fd158">DragDropStatus</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#ad478d779cb62e93d23027391a3a7747e">ManageDragDrop</a> (<a class="el" href="structDragDrop.html">DragDrop</a> *dd, SDL_Event event)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#aba8437a6ae72cc4d20a11ea64d0ecd1d">ComputeVectorEnd</a> (double startX, double startY, double angle, double length, double *endX, double *endY)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes the end of a vector given a start point an angle and length of the vector.  <a href="#aba8437a6ae72cc4d20a11ea64d0ecd1d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#a512d15babba853acb04a750ba53acabc">ComputeVectorEnd</a> (double startX, double startY, double cosAngle, double sinAngle, double length, double *endX, double *endY)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes the end of a vector given a start point a cosinus and sinus of an angle and length of the vector.  <a href="#a512d15babba853acb04a750ba53acabc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#a6b8202f8d9804b9022a48aacf37d0ca0">ComputeLineAngle</a> (double startX, double startY, double endX, double endY, double *angle)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes the angle between a vector and the x axis.  <a href="#a6b8202f8d9804b9022a48aacf37d0ca0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#afe75a7c8895bb2eba05584de1f3ed44b">ComputeLineAngle</a> (double startX, double startY, double endX, double endY, double *cosAngle, double *sinAngle)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes the cosinus and sinus of the angle between a vector and the x axis.  <a href="#afe75a7c8895bb2eba05584de1f3ed44b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#a54faa5caaaed0bdbb910b05ab4d73b09">ComputeThickLineRect</a> (double startX, double startY, double endX, double endY, double thickness, double(&amp;rectX)[4], double(&amp;rectY)[4])</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function computes the coordinates of the 4 corners of a rectangle.  <a href="#a54faa5caaaed0bdbb910b05ab4d73b09"></a><br/></td></tr>
 </table>
 <hr/><h2>Define Documentation</h2>
 <a class="anchor" id="aff495e864e5e2d0f4368c89ca2e6e5a6"></a><!-- doxytag: member="sdlutilities.h::ALPHA_MASK" ref="aff495e864e5e2d0f4368c89ca2e6e5a6" args="" -->
@@ -270,14 +275,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes the cosinus and sinus of the angle between a vector and the x axis. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>cosAngle</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>sinAngle</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td>x coordinate of the origin of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td>y coordinate of the origin of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td>x coordinate of the end of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td>y coordinate of the end of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cosAngle</em>&nbsp;</td><td>Cosinus of the angle between the vector and x axis. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sinAngle</em>&nbsp;</td><td>Sinus of the angle between the vector and x axis. </td></tr>
   </table>
   </dd>
 </dl>
@@ -326,13 +333,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes the angle between a vector and the x axis. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td>x coordinate of the origin of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td>y coordinate of the origin of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td>x coordinate of the end of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td>y coordinate of the end of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td>The angle between the vector and the x axis. </td></tr>
   </table>
   </dd>
 </dl>
@@ -393,15 +402,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes the coordinates of the 4 corners of a rectangle. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>thickness</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>(rectX)[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>(rectY)[]</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td>Coordinate x of the first corner in in the rectangle. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td>Coordinate y of the first corner in in the rectangle. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td>Coordinate x of the last corner in in the rectangle. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td>Coordinate y of the first corner in in the rectangle. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>thickness</em>&nbsp;</td><td>Thickness of the lines that lie the corners. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>(rectX)[]</em>&nbsp;</td><td>x coordinates of the four corners in the rectangle. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>(rectY)[]</em>&nbsp;</td><td>y coordinates of the four corners in the rectangle. </td></tr>
   </table>
   </dd>
 </dl>
@@ -462,15 +473,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes the end of a vector given a start point a cosinus and sinus of an angle and length of the vector. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>cosAngle</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>sinAngle</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>length</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td>Coordinate x of the start point (origin of the vector). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td>Coordinate y of the start point (origin of the vector). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cosAngle</em>&nbsp;</td><td>Cosinus of the angle between the vector and the x axis. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sinAngle</em>&nbsp;</td><td>Sinus of the angle between the vector and the x axis. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>length</em>&nbsp;</td><td>Length of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td>Coordinate x of the end point (end of the vector). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td>Coordinate y of the end point (end of the vector). </td></tr>
   </table>
   </dd>
 </dl>
@@ -525,14 +538,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function computes the end of a vector given a start point an angle and length of the vector. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>length</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td>Coordinate x of the start point (origin of the vector). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td>Coordinate y of the start point (origin of the vector). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td>Angle between the vector and the x axis. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>length</em>&nbsp;</td><td>Length of the vector. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td>Coordinate x of the end point (end of the vector). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td>Coordinate y of the end point (end of the vector). </td></tr>
   </table>
   </dd>
 </dl>
@@ -969,7 +984,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Sun Jul 19 14:50:34 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:33 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

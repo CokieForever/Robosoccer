@@ -45,6 +45,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <h1>CoordinatesCalibrer Class Reference</h1><!-- doxytag: class="CoordinatesCalibrer" -->
+<p>Class used to convert real field coordinates to normalized coordinates and vice-versa.  
+<a href="#_details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="coordinates_8h_source.html">coordinates.h</a>&gt;</code></p>
 
 <p><a href="classCoordinatesCalibrer-members.html">List of all members.</a></p>
@@ -94,6 +97,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top">pthread_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#aa2b792c4284dc94338c9acbd26ea2c3a">m_calibrationThread</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classNewRoboControl.html">NewRoboControl</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#aebcdb5e598d2af268ab93a0271c245b6">m_robots</a> [2]</td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Class used to convert real field coordinates to normalized coordinates and vice-versa. </p>
+<p>This class is intended to be used as a wrapper for Positions given by the Robosoccer system. After being instantiated, the calibration data can be computed automatically by calling the <a class="el" href="classCoordinatesCalibrer.html#a2087994adbb8651efcb06e3d7a2315da">CoordinatesCalibrer::StartCoordCalibration()</a> function, which will move the provided robots to measure the field. The calibration data can also be entered manually by calling the <a class="el" href="classCoordinatesCalibrer.html#a006c18905b14e4780b9fc74fe26649fc">CoordinatesCalibrer::SetManualCoordCalibration()</a> function. Once the calibration data is set, use the <a class="el" href="classCoordinatesCalibrer.html#ad6519b69842756c256922d14d1e248ce">CoordinatesCalibrer::NormalizePosition()</a> and <a class="el" href="classCoordinatesCalibrer.html#a8522193b13196313d001c589e7845bd3">CoordinatesCalibrer::UnnormalizePosition()</a> to switch between normalized and real field coordinates. </p>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ac9a522299ada8f2e58ed8f0c91f4f396"></a><!-- doxytag: member="CoordinatesCalibrer::CoordinatesCalibrer" ref="ac9a522299ada8f2e58ed8f0c91f4f396" args="()" -->
 <div class="memitem">
@@ -623,7 +629,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<p>Indicates if the calibration is successful. </p>
+<p>Indicates if the automatic calibration is successful. </p>
 
 </div>
 </div>
@@ -637,7 +643,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<p>The thread of calibration. </p>
+<p>The thread of automatic calibration. </p>
 
 </div>
 </div>
@@ -665,7 +671,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<p>Indicates if the calibration is still going on. </p>
+<p>Indicates if the automatic calibration is still going on. </p>
 
 </div>
 </div>
@@ -707,7 +713,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<p>Rhe robots. </p>
+<p>The robots used for the automatic calibration. </p>
 
 </div>
 </div>
@@ -735,7 +741,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<p>Indicates if the calibration should be stopped. </p>
+<p>Indicates if the automatic calibration should be stopped. </p>
 
 </div>
 </div>
@@ -800,7 +806,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Sun Jul 19 14:50:34 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:33 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -5,6 +5,18 @@
 #include <time.h>
 #include "newrobocontrol.h"
 
+/**
+ * @brief Class used to convert real field coordinates to normalized coordinates and vice-versa.
+ *
+ * This class is intended to be used as a wrapper for Positions given by the Robosoccer system.
+ * After being instantiated, the calibration data can be computed automatically by calling the
+ * @ref CoordinatesCalibrer::StartCoordCalibration() function, which will move the provided robots
+ * to measure the field. The calibration data can also be entered manually by calling the
+ * @ref CoordinatesCalibrer::SetManualCoordCalibration() function.
+ * Once the calibration data is set, use the @ref CoordinatesCalibrer::NormalizePosition() and
+ * @ref CoordinatesCalibrer::UnnormalizePosition() to switch between normalized and real field
+ * coordinates.
+ */
 class CoordinatesCalibrer
 {
 
@@ -37,11 +49,11 @@ private:
     double m_theta;                 /**< TODO */
     double m_kx;                    /**< TODO */
     double m_ky;                    /**< TODO */
-    bool m_isCalibrating;           /**< Indicates if the calibration is still going on. */
-    bool m_calibrationSuccessful;   /**< Indicates if the calibration is successful. */
-    bool m_stopCalibrating;         /**< Indicates if the calibration should be stopped. */
-    pthread_t m_calibrationThread;  /**< The thread of calibration. */
-    NewRoboControl *m_robots[2];    /**< Rhe robots. */
+    bool m_isCalibrating;           /**< Indicates if the automatic calibration is still going on. */
+    bool m_calibrationSuccessful;   /**< Indicates if the automatic calibration is successful. */
+    bool m_stopCalibrating;         /**< Indicates if the automatic calibration should be stopped. */
+    pthread_t m_calibrationThread;  /**< The thread of automatic calibration. */
+    NewRoboControl *m_robots[2];    /**< The robots used for the automatic calibration. */
 
     void Init();
 

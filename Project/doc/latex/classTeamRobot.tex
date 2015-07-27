@@ -4,6 +4,11 @@
 }
 
 
+Abstract child class of \hyperlink{classNewRoboControl}{NewRoboControl} describing a robot from our team.  
+
+
+
+
 {\ttfamily \#include $<$teamrobot.h$>$}
 
 
@@ -146,6 +151,9 @@ bool \hyperlink{classTeamRobot_ac4229cdeb227ab578cfe38023af2db59}{m\_\-checkSpee
 double \hyperlink{classTeamRobot_aaea621727542377ed5d5e1a316c5293c}{m\_\-targetSpeed}
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Abstract child class of \hyperlink{classNewRoboControl}{NewRoboControl} describing a robot from our team. This class implements more high-\/level dring functions such as path computation / driving or kick functions. This class must be inherited to be constructed, and the child classes must implement the four virtual methods \hyperlink{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}{TeamRobot::setNextCmd()}, \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{TeamRobot::setCmdParam()}, \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobot::performCmd()} and \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{TeamRobot::AddObstacleForFormation()}. 
 
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classTeamRobot_a4b116f58f0a1568a886d03b0c71df20c}{

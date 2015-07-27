@@ -26,14 +26,14 @@ enum \hyperlink{log_8h_aca1fd1d8935433e6ba2e3918214e07f9}{LogLevel} \{ \hyperlin
 \hyperlink{log_8h_aca1fd1d8935433e6ba2e3918214e07f9a2fd6f336d08340583bd620a7f5694c90}{ERROR}, 
 \hyperlink{log_8h_aca1fd1d8935433e6ba2e3918214e07f9a0593585da9181e972974c1274d8f2b4f}{DEBUG}
  \}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Enumerations of the possible log priorities. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{log_8h_a09e92668a3d6b4c98ad25b46d1d44e25}{Log\_\-def} (std::string message, std::string funcName, int line, \hyperlink{log_8h_aca1fd1d8935433e6ba2e3918214e07f9}{LogLevel} level=INFO)
 \item 
 {\footnotesize template$<$typename T $>$ }\\std::string \hyperlink{log_8h_a8afc02ebefe2d86199cb3fd3a256165f}{ToString} (T t)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Converts anything to a string. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Define Documentation}
@@ -70,6 +70,10 @@ void \hyperlink{log_8h_a09e92668a3d6b4c98ad25b46d1d44e25}{Log\_\-def} (std::stri
 \index{LogLevel@{LogLevel}!log.h@{log.h}}
 \subsubsection[{LogLevel}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf LogLevel}}}
 \label{log_8h_aca1fd1d8935433e6ba2e3918214e07f9}
+
+
+Enumerations of the possible log priorities. 
+
 \begin{Desc}
 \item[Enumerator: ]\par
 \begin{description}
@@ -106,8 +110,12 @@ DEBUG}
 \subsubsection[{ToString}]{\setlength{\rightskip}{0pt plus 5cm}template$<$typename T $>$ std::string ToString (T {\em t})\hspace{0.3cm}{\ttfamily  \mbox{[}inline\mbox{]}}}}
 \label{log_8h_a8afc02ebefe2d86199cb3fd3a256165f}
 
+
+Converts anything to a string. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em t}]\end{DoxyParams}
+\item[{\em t}]The object to convert. Must be usable in a std::ostringstream. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-std::string 
+std::string The string. 
 \end{DoxyReturn}

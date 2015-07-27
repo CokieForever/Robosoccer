@@ -8,19 +8,19 @@
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{geometry_8cpp_aba8437a6ae72cc4d20a11ea64d0ecd1d}{ComputeVectorEnd} (double startX, double startY, double angle, double length, double $\ast$endX, double $\ast$endY)
-\item 
+\begin{DoxyCompactList}\small\item\em This function computes the end of a vector given a start point an angle and length of the vector. \item\end{DoxyCompactList}\item 
 void \hyperlink{geometry_8cpp_a512d15babba853acb04a750ba53acabc}{ComputeVectorEnd} (double startX, double startY, double cosAngle, double sinAngle, double length, double $\ast$endX, double $\ast$endY)
-\item 
+\begin{DoxyCompactList}\small\item\em This function computes the end of a vector given a start point a cosinus and sinus of an angle and length of the vector. \item\end{DoxyCompactList}\item 
 void \hyperlink{geometry_8cpp_a6b8202f8d9804b9022a48aacf37d0ca0}{ComputeLineAngle} (double startX, double startY, double endX, double endY, double $\ast$angle)
-\item 
+\begin{DoxyCompactList}\small\item\em This function computes the angle between a vector and the x axis. \item\end{DoxyCompactList}\item 
 void \hyperlink{geometry_8cpp_afe75a7c8895bb2eba05584de1f3ed44b}{ComputeLineAngle} (double startX, double startY, double endX, double endY, double $\ast$cosAngle, double $\ast$sinAngle)
-\item 
+\begin{DoxyCompactList}\small\item\em This function computes the cosinus and sinus of the angle between a vector and the x axis. \item\end{DoxyCompactList}\item 
 void \hyperlink{geometry_8cpp_a54faa5caaaed0bdbb910b05ab4d73b09}{ComputeThickLineRect} (double startX, double startY, double endX, double endY, double thickness, double(\&rectX)\mbox{[}4\mbox{]}, double(\&rectY)\mbox{[}4\mbox{]})
-\item 
+\begin{DoxyCompactList}\small\item\em This function computes the coordinates of the 4 corners of a rectangle. \item\end{DoxyCompactList}\item 
 bool \hyperlink{geometry_8cpp_ae65f60ceab6aa42ab861d2f6af36e422}{DoSegmentsIntersect} (double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
-\item 
+\begin{DoxyCompactList}\small\item\em This function tells us if there is an intersection between two segments defined by two points each. \item\end{DoxyCompactList}\item 
 bool \hyperlink{geometry_8cpp_a7878a33e61fea07c6b4fe52e43080bb5}{ComputeLinesIntersection} (double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, double $\ast$isectX, double $\ast$isectY)
-\item 
+\begin{DoxyCompactList}\small\item\em This function tells us if there is an intersection between two segments defined by two points each and give the coordinates of the intersection point if there is an intersection. \item\end{DoxyCompactList}\item 
 bool \hyperlink{geometry_8cpp_ab24247edc041b0fb264e2ab9997a0c55}{GetLineRectIntersections} (double xMin, double yMin, double xMax, double yMax, double a, double b, double(\&isectX)\mbox{[}2\mbox{]}, double(\&isectY)\mbox{[}2\mbox{]})
 \item 
 int \hyperlink{geometry_8cpp_a483709399e1a247906bf8c47315ceef8}{GetSegmentRectIntersections} (double ulX, double ulY, double lrX, double lrY, double startX, double startY, double endX, double endY, double(\&isectX)\mbox{[}2\mbox{]}, double(\&isectY)\mbox{[}2\mbox{]})
@@ -34,24 +34,36 @@ int \hyperlink{geometry_8cpp_a483709399e1a247906bf8c47315ceef8}{GetSegmentRectIn
 \subsubsection[{ComputeLineAngle}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeLineAngle (double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double $\ast$ {\em cosAngle}, \/  double $\ast$ {\em sinAngle})}}
 \label{geometry_8cpp_afe75a7c8895bb2eba05584de1f3ed44b}
 
+
+This function computes the cosinus and sinus of the angle between a vector and the x axis. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em cosAngle}]\item[{\em sinAngle}]\end{DoxyParams}
+\item[{\em startX}]x coordinate of the origin of the vector. \item[{\em startY}]y coordinate of the origin of the vector. \item[{\em endX}]x coordinate of the end of the vector. \item[{\em endY}]y coordinate of the end of the vector. \item[{\em cosAngle}]Cosinus of the angle between the vector and x axis. \item[{\em sinAngle}]Sinus of the angle between the vector and x axis. \end{DoxyParams}
 \hypertarget{geometry_8cpp_a6b8202f8d9804b9022a48aacf37d0ca0}{
 \index{geometry.cpp@{geometry.cpp}!ComputeLineAngle@{ComputeLineAngle}}
 \index{ComputeLineAngle@{ComputeLineAngle}!geometry.cpp@{geometry.cpp}}
 \subsubsection[{ComputeLineAngle}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeLineAngle (double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double $\ast$ {\em angle})}}
 \label{geometry_8cpp_a6b8202f8d9804b9022a48aacf37d0ca0}
 
+
+This function computes the angle between a vector and the x axis. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em angle}]\end{DoxyParams}
+\item[{\em startX}]x coordinate of the origin of the vector. \item[{\em startY}]y coordinate of the origin of the vector. \item[{\em endX}]x coordinate of the end of the vector. \item[{\em endY}]y coordinate of the end of the vector. \item[{\em angle}]The angle between the vector and the x axis. \end{DoxyParams}
 \hypertarget{geometry_8cpp_a7878a33e61fea07c6b4fe52e43080bb5}{
 \index{geometry.cpp@{geometry.cpp}!ComputeLinesIntersection@{ComputeLinesIntersection}}
 \index{ComputeLinesIntersection@{ComputeLinesIntersection}!geometry.cpp@{geometry.cpp}}
 \subsubsection[{ComputeLinesIntersection}]{\setlength{\rightskip}{0pt plus 5cm}bool ComputeLinesIntersection (double {\em x1}, \/  double {\em y1}, \/  double {\em x2}, \/  double {\em y2}, \/  double {\em x3}, \/  double {\em y3}, \/  double {\em x4}, \/  double {\em y4}, \/  double $\ast$ {\em isectX}, \/  double $\ast$ {\em isectY})}}
 \label{geometry_8cpp_a7878a33e61fea07c6b4fe52e43080bb5}
 
+
+This function tells us if there is an intersection between two segments defined by two points each and give the coordinates of the intersection point if there is an intersection. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em x1}]\item[{\em y1}]\item[{\em x2}]\item[{\em y2}]\item[{\em x3}]\item[{\em y3}]\item[{\em x4}]\item[{\em y4}]\item[{\em isectX}]\item[{\em isectY}]\end{DoxyParams}
+\item[{\em x1}]x coordinate of the first point in the first segment. \item[{\em y1}]y coordinate of the first point in the first segment. \item[{\em x2}]x coordinate of the second point in the first segment. \item[{\em y2}]y coordinate of the second point in the first segment. \item[{\em x3}]x coordinate of the first point in the second segment. \item[{\em y3}]y coordinate of the first point in the second segment. \item[{\em x4}]x coordinate of the second point in the second segment. \item[{\em y4}]y coordinate of the second point in the second segment. \item[{\em isectX}]\item[{\em isectY}]\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 bool 
 \end{DoxyReturn}
@@ -61,34 +73,50 @@ bool
 \subsubsection[{ComputeThickLineRect}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeThickLineRect (double {\em startX}, \/  double {\em startY}, \/  double {\em endX}, \/  double {\em endY}, \/  double {\em thickness}, \/  double(\&) {\em rectX}\mbox{[}4\mbox{]}, \/  double(\&) {\em rectY}\mbox{[}4\mbox{]})}}
 \label{geometry_8cpp_a54faa5caaaed0bdbb910b05ab4d73b09}
 
+
+This function computes the coordinates of the 4 corners of a rectangle. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em startX}]\item[{\em startY}]\item[{\em endX}]\item[{\em endY}]\item[{\em thickness}]\item[{\em (rectX)\mbox{[}$\,$\mbox{]}}]\item[{\em (rectY)\mbox{[}$\,$\mbox{]}}]\end{DoxyParams}
+\item[{\em startX}]Coordinate x of the first corner in in the rectangle. \item[{\em startY}]Coordinate y of the first corner in in the rectangle. \item[{\em endX}]Coordinate x of the last corner in in the rectangle. \item[{\em endY}]Coordinate y of the first corner in in the rectangle. \item[{\em thickness}]Thickness of the lines that lie the corners. \item[{\em (rectX)\mbox{[}$\,$\mbox{]}}]x coordinates of the four corners in the rectangle. \item[{\em (rectY)\mbox{[}$\,$\mbox{]}}]y coordinates of the four corners in the rectangle. \end{DoxyParams}
 \hypertarget{geometry_8cpp_a512d15babba853acb04a750ba53acabc}{
 \index{geometry.cpp@{geometry.cpp}!ComputeVectorEnd@{ComputeVectorEnd}}
 \index{ComputeVectorEnd@{ComputeVectorEnd}!geometry.cpp@{geometry.cpp}}
 \subsubsection[{ComputeVectorEnd}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeVectorEnd (double {\em startX}, \/  double {\em startY}, \/  double {\em cosAngle}, \/  double {\em sinAngle}, \/  double {\em length}, \/  double $\ast$ {\em endX}, \/  double $\ast$ {\em endY})}}
 \label{geometry_8cpp_a512d15babba853acb04a750ba53acabc}
 
+
+This function computes the end of a vector given a start point a cosinus and sinus of an angle and length of the vector. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em startX}]\item[{\em startY}]\item[{\em cosAngle}]\item[{\em sinAngle}]\item[{\em length}]\item[{\em endX}]\item[{\em endY}]\end{DoxyParams}
+\item[{\em startX}]Coordinate x of the start point (origin of the vector). \item[{\em startY}]Coordinate y of the start point (origin of the vector). \item[{\em cosAngle}]Cosinus of the angle between the vector and the x axis. \item[{\em sinAngle}]Sinus of the angle between the vector and the x axis. \item[{\em length}]Length of the vector. \item[{\em endX}]Coordinate x of the end point (end of the vector). \item[{\em endY}]Coordinate y of the end point (end of the vector). \end{DoxyParams}
 \hypertarget{geometry_8cpp_aba8437a6ae72cc4d20a11ea64d0ecd1d}{
 \index{geometry.cpp@{geometry.cpp}!ComputeVectorEnd@{ComputeVectorEnd}}
 \index{ComputeVectorEnd@{ComputeVectorEnd}!geometry.cpp@{geometry.cpp}}
 \subsubsection[{ComputeVectorEnd}]{\setlength{\rightskip}{0pt plus 5cm}void ComputeVectorEnd (double {\em startX}, \/  double {\em startY}, \/  double {\em angle}, \/  double {\em length}, \/  double $\ast$ {\em endX}, \/  double $\ast$ {\em endY})}}
 \label{geometry_8cpp_aba8437a6ae72cc4d20a11ea64d0ecd1d}
 
+
+This function computes the end of a vector given a start point an angle and length of the vector. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em startX}]\item[{\em startY}]\item[{\em angle}]\item[{\em length}]\item[{\em endX}]\item[{\em endY}]\end{DoxyParams}
+\item[{\em startX}]Coordinate x of the start point (origin of the vector). \item[{\em startY}]Coordinate y of the start point (origin of the vector). \item[{\em angle}]Angle between the vector and the x axis. \item[{\em length}]Length of the vector. \item[{\em endX}]Coordinate x of the end point (end of the vector). \item[{\em endY}]Coordinate y of the end point (end of the vector). \end{DoxyParams}
 \hypertarget{geometry_8cpp_ae65f60ceab6aa42ab861d2f6af36e422}{
 \index{geometry.cpp@{geometry.cpp}!DoSegmentsIntersect@{DoSegmentsIntersect}}
 \index{DoSegmentsIntersect@{DoSegmentsIntersect}!geometry.cpp@{geometry.cpp}}
 \subsubsection[{DoSegmentsIntersect}]{\setlength{\rightskip}{0pt plus 5cm}bool DoSegmentsIntersect (double {\em x1}, \/  double {\em y1}, \/  double {\em x2}, \/  double {\em y2}, \/  double {\em x3}, \/  double {\em y3}, \/  double {\em x4}, \/  double {\em y4})}}
 \label{geometry_8cpp_ae65f60ceab6aa42ab861d2f6af36e422}
 
+
+This function tells us if there is an intersection between two segments defined by two points each. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em x1}]\item[{\em y1}]\item[{\em x2}]\item[{\em y2}]\item[{\em x3}]\item[{\em y3}]\item[{\em x4}]\item[{\em y4}]\end{DoxyParams}
+\item[{\em x1}]x coordinate of the first point in the first segment. \item[{\em y1}]y coordinate of the first point in the first segment. \item[{\em x2}]x coordinate of the second point in the first segment. \item[{\em y2}]y coordinate of the second point in the first segment. \item[{\em x3}]x coordinate of the first point in the second segment. \item[{\em y3}]y coordinate of the first point in the second segment. \item[{\em x4}]x coordinate of the second point in the second segment. \item[{\em y4}]y coordinate of the second point in the second segment. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool True if there is intersection. False if not. 
 \end{DoxyReturn}
 \hypertarget{geometry_8cpp_ab24247edc041b0fb264e2ab9997a0c55}{
 \index{geometry.cpp@{geometry.cpp}!GetLineRectIntersections@{GetLineRectIntersections}}

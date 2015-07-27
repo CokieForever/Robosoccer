@@ -15,7 +15,7 @@
 #include <vector>
 
 /**
- * @brief
+ * @brief Class used to create a window and display visual information in it. Also implements a basic interface system.
  *
  */
 class RefereeDisplay

@@ -45,13 +45,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <h1>PlayerMain Class Reference</h1><!-- doxytag: class="PlayerMain" --><!-- doxytag: inherits="TeamRobot" -->
+<p>Child class of <a class="el" href="classTeamRobot.html">TeamRobot</a> which describes the main player.  
+<a href="#_details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="playermain_8h_source.html">playermain.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for PlayerMain:</div>
 <div class="dynsection">
 <div class="center"><img src="classPlayerMain__inherit__graph.png" border="0" usemap="#PlayerMain_inherit__map" alt="Inheritance graph"/></div>
 <map name="PlayerMain_inherit__map" id="PlayerMain_inherit__map">
-<area shape="rect" href="classTeamRobot.html" title="{TeamRobot\n|# m_defaultPos\l# m_coordCalib\l# m_map\l# m_ball\l# m_pathFinder\l# m_display\l# m_roboObstacles\l# m_roboObstaclePos\l# m_ballObstacles\l# m_ballObstaclePos\l# m_penaltyAreaObstacles\l# m_borderObstacles\l# m_pathFinderPath\l# m_prevFormation\l# m_areaObstacle\l# m_path\l# m_q\l# m_actionPerformed\l# m_go_x\l# m_go_y\l# m_ballPm\l&#45; m_thread\l&#45; m_targetPos\l&#45; m_checkSpeedFinishNow\l&#45; m_targetSpeed\l|+ TeamRobot()\l+ ~TeamRobot()\l+ getDefaultPosition()\l+ setDefaultPositionX()\l+ setDefaultPositionY()\l+ setDefaultPosition()\l+ getCoordinatesCalibrer()\l+ getBall()\l+ getMapValue()\l+ getMap()\l+ setMapValue()\l+ setMap()\l+ GiveDisplay()\l+ KickOff()\l+ KickPenalty()\l+ Rotation()\l+ KickBall()\l+ KickMovingBall()\l+ ShouldKick()\l+ ShouldGoalKick()\l+ setNextCmd()\l+ setCmdParam()\l+ performCmd()\l# AddBorderObstaclesToPathFinder()\l# UpdatePathFinder()\l# ComputePath()\l# FollowPath()\l# AddObstacleForFormation()\l# IsPathOK()\l# AngleDiff()\l&#45; Checkspeed()\l}" alt="" coords="5,557,240,1653"/><area shape="rect" href="classNewRoboControl.html" title="{NewRoboControl\n|&#45; m_stopCruisingNow\l&#45; m_isCruising\l&#45; m_cruiseThread\l|+ NewRoboControl()\l+ ~NewRoboControl()\l+ IsOnTarget()\l+ cruisetoBias()\l+ RandomMove()\l+ drivePath()\l+ setSpeed()\l+ getDirection()\l+ getDiffAngle()\l+ getSpeedP()\l+ getSpeedPt()\l+ getSpeedT()\l+ degToRad()\l+ IsOnTarget()\l}" alt="" coords="51,141,195,509"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="77,5,168,93"/></map>
+<area shape="rect" href="classTeamRobot.html" title="Abstract child class of NewRoboControl describing a robot from our team." alt="" coords="5,557,240,1653"/><area shape="rect" href="classNewRoboControl.html" title="Wrapper for the &quot;RoboControl&quot; class. Implements additional driving functions..." alt="" coords="51,141,195,509"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="77,5,168,93"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 
 <p><a href="classPlayerMain-members.html">List of all members.</a></p>
@@ -66,14 +69,17 @@ Inheritance diagram for PlayerMain:</div>
 &nbsp;&nbsp;<a class="el" href="classPlayerMain.html#af07f952a547b2902a452c1413f26dae2a19eca8a0a0720f6c698f344b4e6ffb72">FOLLOWPATH</a>
 <br/>
  }</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Enumeration of the possible orders for the player. </p>
+ <a href="classPlayerMain.html#af07f952a547b2902a452c1413f26dae2">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a12957aeecc6902370f03ff2ffbb0551d">PlayerMain</a> (RTDBConn &amp;DBC, const int deviceNr, const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *c, RawBall *b, <a class="el" href="classBallMonitor.html">BallMonitor</a> *ballPm, <a class="el" href="classRefereeDisplay.html">RefereeDisplay</a> *display=NULL)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor of <a class="el" href="classPlayerMain.html" title="Child class of TeamRobot which describes the main player.">PlayerMain</a> class.  <a href="#a12957aeecc6902370f03ff2ffbb0551d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a8f0320189df15529662c7f16d2f74084">setNextCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function give the robot the position that it should move to depending on the commands of the referee  <a href="#a8f0320189df15529662c7f16d2f74084"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Set next Command for <a class="el" href="classPlayerTwo.html" title="Child class of TeamRobot which describes the second player.">PlayerTwo</a>, depending on the command of <a class="el" href="classInterpreter.html" title="Class used to coordinates actions and strategies for all robots from a high level...">Interpreter</a> a case (strategy) is selected.  <a href="#a8f0320189df15529662c7f16d2f74084"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a5c4af159392663660f91809052422945">setCmdParam</a> (const <a class="el" href="classInterpreter.html">Interpreter</a> &amp;interpreter)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function set the value of parameters for each commands from the referee  <a href="#a5c4af159392663660f91809052422945"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function set the value of parameters depending on the selected strategy  <a href="#a5c4af159392663660f91809052422945"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#af12a95c226ce973056681a138b55fb6c">performCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">the robot perform based on the command of the referee  <a href="#af12a95c226ce973056681a138b55fb6c"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">the robot performs command based on selected strategy  <a href="#af12a95c226ce973056681a138b55fb6c"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a978b3ce16f5d8e5d1cb9ef70f387227e">AddObstacleForFormation</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">in different play strategy, the robots are supposed to move only in certain area. This function is used to limit the movement of the robots  <a href="#a978b3ce16f5d8e5d1cb9ef70f387227e"></a><br/></td></tr>
@@ -85,6 +91,9 @@ Inheritance diagram for PlayerMain:</div>
 <tr><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classNewRoboControl.html">NewRoboControl</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a020813a869e52dc7368ba9216b10e3d8">m_otherRobots</a> [5]</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classPlayerMain.html#a859b462c123135acc3ad88b092429611">m_defendp2</a></td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Child class of <a class="el" href="classTeamRobot.html">TeamRobot</a> which describes the main player. </p>
+<p>The main player is responsible for kick-off and penalty shootings, and its game behavior is slightly different from its brother <a class="el" href="classPlayerTwo.html">player two</a>. </p>
 <hr/><h2>Member Enumeration Documentation</h2>
 <a class="anchor" id="af07f952a547b2902a452c1413f26dae2"></a><!-- doxytag: member="PlayerMain::ActionPlayerMain" ref="af07f952a547b2902a452c1413f26dae2" args="" -->
 <div class="memitem">
@@ -96,6 +105,8 @@ Inheritance diagram for PlayerMain:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Enumeration of the possible orders for the player. </p>
 <dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
 <tr><td valign="top"><em><a class="anchor" id="af07f952a547b2902a452c1413f26dae2ad110267c0dfd47655250b6e11cb333ed"></a><!-- doxytag: member="GO_TO_DEF_POS" ref="af07f952a547b2902a452c1413f26dae2ad110267c0dfd47655250b6e11cb333ed" args="" -->GO_TO_DEF_POS</em>&nbsp;</td><td>
 <p>TODO </p>
@@ -167,14 +178,16 @@ Inheritance diagram for PlayerMain:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Constructor of <a class="el" href="classPlayerMain.html" title="Child class of TeamRobot which describes the main player.">PlayerMain</a> class. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>DBC</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>deviceNr</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>c</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ballPm</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>display</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>DBC</em>&nbsp;</td><td>Database connexion </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>deviceNr</em>&nbsp;</td><td>Number of the robot </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>c</em>&nbsp;</td><td>Coordinates calibrator </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td>Ball data </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ballPm</em>&nbsp;</td><td>Monitoring the ball </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>display</em>&nbsp;</td><td>Display paths, robots ball </td></tr>
   </table>
   </dd>
 </dl>
@@ -246,10 +259,10 @@ Inheritance diagram for PlayerMain:</div>
 </div>
 <div class="memdoc">
 
-<p>the robot perform based on the command of the referee </p>
+<p>the robot performs command based on selected strategy </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>current playmode defined by referee </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>current playmode defined by referee, needed for side informations </td></tr>
   </table>
   </dd>
 </dl>
@@ -274,10 +287,10 @@ Inheritance diagram for PlayerMain:</div>
 </div>
 <div class="memdoc">
 
-<p>this function set the value of parameters for each commands from the referee </p>
+<p>this function set the value of parameters depending on the selected strategy </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td>is pointer to the <a class="el" href="classInterpreter.html">Interpreter</a> </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td>is pointer to the <a class="el" href="classInterpreter.html" title="Class used to coordinates actions and strategies for all robots from a high level...">Interpreter</a> to get side informations </td></tr>
   </table>
   </dd>
 </dl>
@@ -302,7 +315,7 @@ Inheritance diagram for PlayerMain:</div>
 </div>
 <div class="memdoc">
 
-<p>this function give the robot the position that it should move to depending on the commands of the referee </p>
+<p>Set next Command for <a class="el" href="classPlayerTwo.html" title="Child class of TeamRobot which describes the second player.">PlayerTwo</a>, depending on the command of <a class="el" href="classInterpreter.html" title="Class used to coordinates actions and strategies for all robots from a high level...">Interpreter</a> a case (strategy) is selected. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>playmode of referee </td></tr>
@@ -390,7 +403,7 @@ Inheritance diagram for PlayerMain:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Sun Jul 19 14:50:35 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:36 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

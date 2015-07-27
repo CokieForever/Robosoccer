@@ -4,13 +4,18 @@
 }
 
 
+Class used as a wrapper for a \char`\"{}RawBall\char`\"{} instance.  
+
+
+
+
 {\ttfamily \#include $<$ballmonitor.h$>$}
 
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \hyperlink{structBallMonitor_1_1Angle}{Angle}
-\begin{DoxyCompactList}\small\item\em This structure contains the value and is of an angle. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Describes an angle. \item\end{DoxyCompactList}\item 
 struct \hyperlink{structBallMonitor_1_1Direction}{Direction}
 \begin{DoxyCompactList}\small\item\em This structure contains the direction coordinates of the ball. \item\end{DoxyCompactList}\item 
 struct \hyperlink{structBallMonitor_1_1PosTime}{PosTime}
@@ -59,7 +64,7 @@ typedef bool($\ast$ \hyperlink{classBallMonitor_a5ad781c99d5b43bee7c838de9da7552
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classBallMonitor_a09ed61cf1852d45f03e7aacdebfe0175}{ResetPosTimeList} ()
-\item 
+\begin{DoxyCompactList}\small\item\em This unlocks the Ball Monitoring thread. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classBallMonitor_a49645db55ca752adbc2a5a074c7314be}{ComputeLinearRegression} (double $\ast$a, double $\ast$b, int precision=2) const 
 \begin{DoxyCompactList}\small\item\em This function computes a linear regression of the ball's position. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Private Member Functions}
@@ -109,6 +114,9 @@ int \hyperlink{classBallMonitor_a80d4362976840374c4e5c207e6a38c86}{m\_\-nbBallPo
 \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ \hyperlink{classBallMonitor_addde606e4f6cd92dc43efd3342ce5f60}{m\_\-coordCalibrer}
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Class used as a wrapper for a \char`\"{}RawBall\char`\"{} instance. This class provides useful functions to do some computations relative to a given \char`\"{}RawBall\char`\"{}. For example you can use it to retrieve the ball position and speed, or to predict the ball trajectory. The instance must be initialized via the constructor \hyperlink{classBallMonitor_a176a257973eefa572b6972aa6b5a605d}{BallMonitor::BallMonitor()} and then started with the \hyperlink{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}{BallMonitor::StartMonitoring()} function. When you do not need it anymore, do not forget to stop it with the \hyperlink{classBallMonitor_af71db12abeb1f10f7be58eb7591910a3}{BallMonitor::StopMonitoring()} function. 
 
 \subsection{Member Typedef Documentation}
 \hypertarget{classBallMonitor_a5ad781c99d5b43bee7c838de9da75527}{
@@ -368,6 +376,10 @@ bool True if the linear trajectory was predicted. False if not.
 \index{ResetPosTimeList@{ResetPosTimeList}!BallMonitor@{BallMonitor}}
 \subsubsection[{ResetPosTimeList}]{\setlength{\rightskip}{0pt plus 5cm}void BallMonitor::ResetPosTimeList ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classBallMonitor_a09ed61cf1852d45f03e7aacdebfe0175}
+
+
+This unlocks the Ball Monitoring thread. 
+
 \hypertarget{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}{
 \index{BallMonitor@{BallMonitor}!StartMonitoring@{StartMonitoring}}
 \index{StartMonitoring@{StartMonitoring}!BallMonitor@{BallMonitor}}
@@ -468,7 +480,7 @@ TODO \hypertarget{classBallMonitor_a6603291a8d6c6a2de7b378ece54d5e2b}{
 \index{NB\_\-POSTIME@{NB\_\-POSTIME}!BallMonitor@{BallMonitor}}
 \subsubsection[{NB\_\-POSTIME}]{\setlength{\rightskip}{0pt plus 5cm}const int {\bf BallMonitor::NB\_\-POSTIME} = 10\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{classBallMonitor_a6603291a8d6c6a2de7b378ece54d5e2b}
-TODO 
+Number of past ball positions to be kept in memory. 
 
 The documentation for this class was generated from the following files:\begin{DoxyCompactItemize}
 \item 

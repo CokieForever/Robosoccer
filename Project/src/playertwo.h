@@ -10,8 +10,9 @@
 
 
 /**
- * @brief
+ * @brief  Child class of @ref TeamRobot which describes the second player.
  *
+ * The game behavior of the second player is slightly different from its brother @ref PlayerMain "player main".
  */
 class PlayerTwo : public TeamRobot
 {

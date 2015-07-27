@@ -10,12 +10,16 @@
 #include "ballmonitor.h"
 
 
+/**
+ * @brief Child class of @ref TeamRobot used for the goal keeper.
+ *
+ */
 class Goalkeeper : public TeamRobot
 {
 
   public:
     /**
-     * @brief
+     * @brief Enumeration of the possible orders for the goal keeper.
      *
      */
     enum ActionGk

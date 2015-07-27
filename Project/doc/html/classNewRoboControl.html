@@ -45,13 +45,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <h1>NewRoboControl Class Reference</h1><!-- doxytag: class="NewRoboControl" --><!-- doxytag: inherits="RoboControl" -->
+<p>Wrapper for the "RoboControl" class. Implements additional driving functions.  
+<a href="#_details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="newrobocontrol_8h_source.html">newrobocontrol.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for NewRoboControl:</div>
 <div class="dynsection">
 <div class="center"><img src="classNewRoboControl__inherit__graph.png" border="0" usemap="#NewRoboControl_inherit__map" alt="Inheritance graph"/></div>
 <map name="NewRoboControl_inherit__map" id="NewRoboControl_inherit__map">
-<area shape="rect" href="classOpponentRobot.html" title="{OpponentRobot\n||+ OpponentRobot()\l}" alt="" coords="41,1061,172,1149"/><area shape="rect" href="classTeamRobot.html" title="{TeamRobot\n|# m_defaultPos\l# m_coordCalib\l# m_map\l# m_ball\l# m_pathFinder\l# m_display\l# m_roboObstacles\l# m_roboObstaclePos\l# m_ballObstacles\l# m_ballObstaclePos\l# m_penaltyAreaObstacles\l# m_borderObstacles\l# m_pathFinderPath\l# m_prevFormation\l# m_areaObstacle\l# m_path\l# m_q\l# m_actionPerformed\l# m_go_x\l# m_go_y\l# m_ballPm\l&#45; m_thread\l&#45; m_targetPos\l&#45; m_checkSpeedFinishNow\l&#45; m_targetSpeed\l|+ TeamRobot()\l+ ~TeamRobot()\l+ getDefaultPosition()\l+ setDefaultPositionX()\l+ setDefaultPositionY()\l+ setDefaultPosition()\l+ getCoordinatesCalibrer()\l+ getBall()\l+ getMapValue()\l+ getMap()\l+ setMapValue()\l+ setMap()\l+ GiveDisplay()\l+ KickOff()\l+ KickPenalty()\l+ Rotation()\l+ KickBall()\l+ KickMovingBall()\l+ ShouldKick()\l+ ShouldGoalKick()\l+ setNextCmd()\l+ setCmdParam()\l+ performCmd()\l# AddBorderObstaclesToPathFinder()\l# UpdatePathFinder()\l# ComputePath()\l# FollowPath()\l# AddObstacleForFormation()\l# IsPathOK()\l# AngleDiff()\l&#45; Checkspeed()\l}" alt="" coords="196,557,431,1653"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="164,5,255,93"/><area shape="rect" href="classGoalkeeper.html" title="{Goalkeeper\n|&#45; m_nextCmd\l&#45; m_preventGoalParam\l&#45; m_ballgk\l|+ Goalkeeper()\l+ setNextCmd()\l+ setCmdParam()\l+ performCmd()\l&#45; AddObstacleForFormation()\l}" alt="" coords="5,1748,195,1948"/><area shape="rect" href="classPlayerMain.html" title="{PlayerMain\n|&#45; m_nextCmd\l&#45; m_ballpm\l&#45; m_otherRobots\l&#45; m_defendp2\l|+ PlayerMain()\l+ setNextCmd()\l+ setCmdParam()\l+ performCmd()\l&#45; AddObstacleForFormation()\l&#45; defend_p2()\l}" alt="" coords="219,1729,408,1967"/><area shape="rect" href="classPlayerTwo.html" title="{PlayerTwo\n|&#45; m_ballpt\l&#45; m_q\l&#45; m_path\l&#45; m_nextCmd\l&#45; m_kickPenaltyParam\l&#45; m_kickOffParam\l&#45; m_defendpm\l&#45; DEFENSE_LINE\l|+ PlayerTwo()\l+ setNextCmd()\l+ setCmdParam()\l+ performCmd()\l&#45; AddObstacleForFormation()\l}" alt="" coords="432,1701,621,1995"/></map>
+<area shape="rect" href="classOpponentRobot.html" title="Child class of NewRoboControl which desribes a robo of the other team." alt="" coords="41,1061,172,1149"/><area shape="rect" href="classTeamRobot.html" title="Abstract child class of NewRoboControl describing a robot from our team." alt="" coords="196,557,431,1653"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="164,5,255,93"/><area shape="rect" href="classGoalkeeper.html" title="Child class of TeamRobot used for the goal keeper." alt="" coords="5,1748,195,1948"/><area shape="rect" href="classPlayerMain.html" title="Child class of TeamRobot which describes the main player." alt="" coords="219,1729,408,1967"/><area shape="rect" href="classPlayerTwo.html" title="Child class of TeamRobot which describes the second player." alt="" coords="432,1701,621,1995"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 
 <p><a href="classNewRoboControl-members.html">List of all members.</a></p>
@@ -60,6 +63,8 @@ Inheritance diagram for NewRoboControl:</div>
 <tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a077fa253b827c190e82c1ce1e4c8d18f">eDirection</a> { <a class="el" href="classNewRoboControl.html#a077fa253b827c190e82c1ce1e4c8d18fac7af9b70b7504bd260f486172de934d9">FORWARD</a>, 
 <a class="el" href="classNewRoboControl.html#a077fa253b827c190e82c1ce1e4c8d18faa55a679c9e8fbc7400c88ce3cab09c48">BACKWARD</a>
  }</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Enumeration for the driving directions. </p>
+ <a href="classNewRoboControl.html#a077fa253b827c190e82c1ce1e4c8d18f">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a81f7ad52f88ea8fb90eeff5650efa1c5">NewRoboControl</a> (RTDBConn &amp;DBC, const int deviceNr)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#ae63cbd6c60d37882d176e9e7d60b11ba">~NewRoboControl</a> ()=0</td></tr>
@@ -87,6 +92,9 @@ Inheritance diagram for NewRoboControl:</div>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#aa83c55c4b75ef04c909038e2ad581e3b">m_isCruising</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">pthread_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classNewRoboControl.html#a285a033aa3238a589d78243ce7cdb620">m_cruiseThread</a></td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Wrapper for the "RoboControl" class. Implements additional driving functions. </p>
+<p>In order to avoid confusion, this class was made abstract. </p>
 <hr/><h2>Member Enumeration Documentation</h2>
 <a class="anchor" id="a077fa253b827c190e82c1ce1e4c8d18f"></a><!-- doxytag: member="NewRoboControl::eDirection" ref="a077fa253b827c190e82c1ce1e4c8d18f" args="" -->
 <div class="memitem">
@@ -98,6 +106,8 @@ Inheritance diagram for NewRoboControl:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Enumeration for the driving directions. </p>
 <dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
 <tr><td valign="top"><em><a class="anchor" id="a077fa253b827c190e82c1ce1e4c8d18fac7af9b70b7504bd260f486172de934d9"></a><!-- doxytag: member="FORWARD" ref="a077fa253b827c190e82c1ce1e4c8d18fac7af9b70b7504bd260f486172de934d9" args="" -->FORWARD</em>&nbsp;</td><td>
 <p>TODO </p>
@@ -657,7 +667,7 @@ Inheritance diagram for NewRoboControl:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Sun Jul 19 14:50:35 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:36 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

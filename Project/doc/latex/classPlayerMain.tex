@@ -4,6 +4,11 @@
 }
 
 
+Child class of \hyperlink{classTeamRobot}{TeamRobot} which describes the main player.  
+
+
+
+
 {\ttfamily \#include $<$playermain.h$>$}
 
 
@@ -26,18 +31,18 @@ enum \hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2}{ActionPlayerM
 \par
 \hyperlink{classPlayerMain_af07f952a547b2902a452c1413f26dae2a19eca8a0a0720f6c698f344b4e6ffb72}{FOLLOWPATH}
  \}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Enumeration of the possible orders for the player. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classPlayerMain_a12957aeecc6902370f03ff2ffbb0551d}{PlayerMain} (RTDBConn \&DBC, const int deviceNr, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$c, RawBall $\ast$b, \hyperlink{classBallMonitor}{BallMonitor} $\ast$ballPm, \hyperlink{classRefereeDisplay}{RefereeDisplay} $\ast$display=NULL)
-\item 
+\begin{DoxyCompactList}\small\item\em Constructor of \hyperlink{classPlayerMain}{PlayerMain} class. \item\end{DoxyCompactList}\item 
 void \hyperlink{classPlayerMain_a8f0320189df15529662c7f16d2f74084}{setNextCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\begin{DoxyCompactList}\small\item\em this function give the robot the position that it should move to depending on the commands of the referee \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Set next Command for \hyperlink{classPlayerTwo}{PlayerTwo}, depending on the command of \hyperlink{classInterpreter}{Interpreter} a case (strategy) is selected. \item\end{DoxyCompactList}\item 
 void \hyperlink{classPlayerMain_a5c4af159392663660f91809052422945}{setCmdParam} (const \hyperlink{classInterpreter}{Interpreter} \&interpreter)
-\begin{DoxyCompactList}\small\item\em this function set the value of parameters for each commands from the referee \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em this function set the value of parameters depending on the selected strategy \item\end{DoxyCompactList}\item 
 void \hyperlink{classPlayerMain_af12a95c226ce973056681a138b55fb6c}{performCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\begin{DoxyCompactList}\small\item\em the robot perform based on the command of the referee \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em the robot performs command based on selected strategy \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -58,12 +63,19 @@ Position \hyperlink{classPlayerMain_a859b462c123135acc3ad88b092429611}{m\_\-defe
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+Child class of \hyperlink{classTeamRobot}{TeamRobot} which describes the main player. The main player is responsible for kick-\/off and penalty shootings, and its game behavior is slightly different from its brother \hyperlink{classPlayerTwo}{player two}. 
+
 \subsection{Member Enumeration Documentation}
 \hypertarget{classPlayerMain_af07f952a547b2902a452c1413f26dae2}{
 \index{PlayerMain@{PlayerMain}!ActionPlayerMain@{ActionPlayerMain}}
 \index{ActionPlayerMain@{ActionPlayerMain}!PlayerMain@{PlayerMain}}
 \subsubsection[{ActionPlayerMain}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf PlayerMain::ActionPlayerMain}}}
 \label{classPlayerMain_af07f952a547b2902a452c1413f26dae2}
+
+
+Enumeration of the possible orders for the player. 
+
 \begin{Desc}
 \item[Enumerator: ]\par
 \begin{description}
@@ -99,8 +111,12 @@ FOLLOWPATH}
 \subsubsection[{PlayerMain}]{\setlength{\rightskip}{0pt plus 5cm}PlayerMain::PlayerMain (RTDBConn \& {\em DBC}, \/  const int {\em deviceNr}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em c}, \/  RawBall $\ast$ {\em b}, \/  {\bf BallMonitor} $\ast$ {\em ballPm}, \/  {\bf RefereeDisplay} $\ast$ {\em display} = {\ttfamily NULL})}}
 \label{classPlayerMain_a12957aeecc6902370f03ff2ffbb0551d}
 
+
+Constructor of \hyperlink{classPlayerMain}{PlayerMain} class. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em DBC}]\item[{\em deviceNr}]\item[{\em c}]\item[{\em b}]\item[{\em ballPm}]\item[{\em display}]\end{DoxyParams}
+\item[{\em DBC}]Database connexion \item[{\em deviceNr}]Number of the robot \item[{\em c}]Coordinates calibrator \item[{\em b}]Ball data \item[{\em ballPm}]Monitoring the ball \item[{\em display}]Display paths, robots ball \end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
@@ -136,11 +152,11 @@ this function moves the robot to a specified position to carry out defense
 \label{classPlayerMain_af12a95c226ce973056681a138b55fb6c}
 
 
-the robot perform based on the command of the referee 
+the robot performs command based on selected strategy 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]current playmode defined by referee \end{DoxyParams}
+\item[{\em info}]current playmode defined by referee, needed for side informations \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobot}.
@@ -152,11 +168,11 @@ Implements \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{TeamRobo
 \label{classPlayerMain_a5c4af159392663660f91809052422945}
 
 
-this function set the value of parameters for each commands from the referee 
+this function set the value of parameters depending on the selected strategy 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em interpreter}]is pointer to the \hyperlink{classInterpreter}{Interpreter} \end{DoxyParams}
+\item[{\em interpreter}]is pointer to the \hyperlink{classInterpreter}{Interpreter} to get side informations \end{DoxyParams}
 
 
 Implements \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{TeamRobot}.
@@ -168,7 +184,7 @@ Implements \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{TeamRobo
 \label{classPlayerMain_a8f0320189df15529662c7f16d2f74084}
 
 
-this function give the robot the position that it should move to depending on the commands of the referee 
+Set next Command for \hyperlink{classPlayerTwo}{PlayerTwo}, depending on the command of \hyperlink{classInterpreter}{Interpreter} a case (strategy) is selected. 
 
 
 \begin{DoxyParams}{Parameters}

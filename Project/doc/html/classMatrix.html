@@ -45,6 +45,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <h1>Matrix Class Reference</h1><!-- doxytag: class="Matrix" -->
+<p>Class describing a basic integers matrix.  
+<a href="#_details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="matrix_8h_source.html">matrix.h</a>&gt;</code></p>
 
 <p><a href="classMatrix-members.html">List of all members.</a></p>
@@ -60,14 +63,20 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a2b1fedfb1b076d4ae504d2c61019871f">Matrix</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;matrix)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classMatrix.html">Matrix</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a45e4814b752129bed1f1316632f8543a">operator=</a> (const <a class="el" href="classMatrix.html">Matrix</a> &amp;matrix)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Uint8 &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a06fc8df480cd88daf69eaa05867cb7bd">Get</a> (int i, int j) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets an element of the matrix.  <a href="#a06fc8df480cd88daf69eaa05867cb7bd"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a4a7c3875be94e94786db920c441973e6">Fill</a> (Uint8 number)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a55977ba3ee91f352759f446a5092ea23">DrawRectangle</a> (<a class="el" href="structMatrix_1_1Point.html">Point</a> ul, <a class="el" href="structMatrix_1_1Point.html">Point</a> lr, Uint8 number)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function draw a rectangle on the map. The rectangle could be used to restrict the moving area of a robot in different strategy  <a href="#a55977ba3ee91f352759f446a5092ea23"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a8aecf2d42e65b27f051c8af79aeeb467">DrawThickLine</a> (<a class="el" href="structMatrix_1_1Point.html">Point</a> start, <a class="el" href="structMatrix_1_1Point.html">Point</a> end, int thickness, Uint8 number)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function is used to draw lines. The movement of the robot should not cross this line  <a href="#a8aecf2d42e65b27f051c8af79aeeb467"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a9dd7af97fcc825ca07a64b28050cb44f">DrawCircle</a> (<a class="el" href="structMatrix_1_1Point.html">Point</a> center, int radius, Uint8 number)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function is used to draw a circle on the matrix  <a href="#a9dd7af97fcc825ca07a64b28050cb44f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a3b2f9c59a4cc8da933de12f4ccb867f6">DrawPolygon</a> (<a class="el" href="structMatrix_1_1Point.html">Point</a> *points, int n, Uint8 number)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function is used to draw a polygon on the robot. This polygon serves as a barrier. In the pathfinding, the path will avoid the polygon so that robots would not collide.  <a href="#a3b2f9c59a4cc8da933de12f4ccb867f6"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a7209ed0123ff3686f0d0f7f4e6ac7094">FloodFill</a> (<a class="el" href="structMatrix_1_1Point.html">Point</a> start, Uint8 number)</td></tr>
 <tr><td colspan="2"><h2>Static Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static <a class="el" href="structMatrix_1_1Point.html">Point</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a39929c70aea7926beaf183b374239558">CreatePoint</a> (int x, int y)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">create a point in normalized map  <a href="#a39929c70aea7926beaf183b374239558"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#aaa3962d9bf27f654bd6771a8d5bfaeac">flood_AddNextLine</a> (int newY, bool isNext, bool downwards, int minX, int maxX, int i, int number, <a class="el" href="structMatrix_1_1FloodFillStruct.html">FloodFillStruct</a> ffs, std::queue&lt; <a class="el" href="structMatrix_1_1FloodFillStruct.html">FloodFillStruct</a> &gt; &amp;ranges)</td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
@@ -76,6 +85,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td colspan="2"><h2>Static Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static Uint8&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classMatrix.html#a128eca9782b86bae0eed3d1d0967249e">m_default</a> = 0</td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Class describing a basic integers matrix. </p>
+<p>This class can be used for drawing operations on matrices. You can for example draw a polygon or a circle inside the matrix by just calling the appropriate functions. The data type is Uint8. Elements can be accessed by either the <a class="el" href="classMatrix.html#a06fc8df480cd88daf69eaa05867cb7bd" title="Gets an element of the matrix.">Matrix::Get()</a> function or the overloaded [] operator ([row][column]). The class is thread-safe except for the access methods. </p>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a1cf5bd8134711df6f63e1dbef1912b86"></a><!-- doxytag: member="Matrix::Matrix" ref="a1cf5bd8134711df6f63e1dbef1912b86" args="(int height=0, int width=0)" -->
 <div class="memitem">
@@ -177,10 +189,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>create a point in normalized map </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>value on x axis </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td>value on y axis </td></tr>
   </table>
   </dd>
 </dl>
@@ -218,10 +232,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>this function is used to draw a circle on the matrix </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>center</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>radius</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>center</em>&nbsp;</td><td>is the centre of the circle </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>radius</em>&nbsp;</td><td>is the radius of the circle </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td></td></tr>
   </table>
   </dd>
@@ -259,10 +275,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>this function is used to draw a polygon on the robot. This polygon serves as a barrier. In the pathfinding, the path will avoid the polygon so that robots would not collide. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>points</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>n</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>points</em>&nbsp;</td><td>are points of the polygon </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>n</em>&nbsp;</td><td>is the number of the points of the polygon </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td></td></tr>
   </table>
   </dd>
@@ -300,10 +318,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>this function draw a rectangle on the map. The rectangle could be used to restrict the moving area of a robot in different strategy </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>ul</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>lr</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ul</em>&nbsp;</td><td>upper left point of the rectangle </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>lr</em>&nbsp;</td><td>lower right point of the rectangle </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td></td></tr>
   </table>
   </dd>
@@ -347,10 +367,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>this function is used to draw lines. The movement of the robot should not cross this line </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>start</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>end</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>start</em>&nbsp;</td><td>start point of the line </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>end</em>&nbsp;</td><td>end point of the line </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>thickness</em>&nbsp;</td><td></td></tr>
     <tr><td valign="top"></td><td valign="top"><em>number</em>&nbsp;</td><td></td></tr>
   </table>
@@ -510,14 +532,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Gets an element of the matrix. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>x-coordinates of the element to retrieve </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td>y-coordinates of the element to retrieve </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Uint8 &amp; </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Uint8 &amp; The element. If coordinates are out of range, a reference to an internal garbage value is returned. </dd></dl>
 
 </div>
 </div>
@@ -542,7 +566,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classMatrix.html">Matrix</a> &amp; Matrix::operator </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="classMatrix.html" title="Class describing a basic integers matrix.">Matrix</a> &amp; Matrix::operator </dd></dl>
 
 </div>
 </div>
@@ -633,7 +657,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Sun Jul 19 14:50:35 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:34 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

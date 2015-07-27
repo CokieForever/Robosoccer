@@ -19,7 +19,7 @@ class Goalkeeper;
 class TeamRobot;
 
 /**
- * @brief
+ * @brief Class used to coordinates actions and strategies for all robots from a high level point of view.
  *
  */
 class Interpreter
@@ -27,29 +27,29 @@ class Interpreter
 
 public:
     /**
-     * @brief
+     * @brief Enum to describe the team having the Kick off / Penalty shooting.
      *
      */
     enum KickTurn
     {
-        OUR_TURN,   /**< TODO */
-        THEIR_TURN  /**< TODO */
+        OUR_TURN,   /**< We have the kick off / penalty shooting */
+        THEIR_TURN  /**< The other team has the kick off / penalty shooting */
     };
 
     /**
-     * @brief
+     * @brief Enumeration of the possible playing strategies.
      *
      */
     enum Strategy
     {
-        INIT,   /**< TODO */
-        ATK,    /**< TODO */
-        DEF,    /**< TODO */
-        MIX     /**< TODO */
+        INIT,   /**< Initial - used for the start of the programm, must not be used afterwards. */
+        ATK,    /**< Attacking strategy */
+        DEF,    /**< Defensive strategy */
+        MIX     /**< Mixed strategy */
     };
 
     /**
-     * @brief
+     * @brief Structure to gather data about the current game.
      *
      */
     struct GameData

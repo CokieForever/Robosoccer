@@ -6,7 +6,7 @@
 #include <sstream>
 
 /**
- * @brief
+ * @brief Enumerations of the possible log priorities.
  *
  */
 typedef enum
@@ -30,10 +30,10 @@ void Log_def(std::string message, std::string funcName, int line, LogLevel level
 
 
 /**
- * @brief
+ * @brief Converts anything to a string.
  *
- * @param t
- * @return std::string
+ * @param t The object to convert. Must be usable in a @ref std::ostringstream.
+ * @return std::string The string.
  */
 template<typename T> std::string ToString(T t)
 {

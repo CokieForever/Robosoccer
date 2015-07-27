@@ -45,13 +45,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <h1>OpponentRobot Class Reference</h1><!-- doxytag: class="OpponentRobot" --><!-- doxytag: inherits="NewRoboControl" -->
+<p>Child class of <a class="el" href="classNewRoboControl.html">NewRoboControl</a> which desribes a robo of the other team.  
+<a href="#_details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="opponentrobot_8h_source.html">opponentrobot.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for OpponentRobot:</div>
 <div class="dynsection">
 <div class="center"><img src="classOpponentRobot__inherit__graph.png" border="0" usemap="#OpponentRobot_inherit__map" alt="Inheritance graph"/></div>
 <map name="OpponentRobot_inherit__map" id="OpponentRobot_inherit__map">
-<area shape="rect" href="classNewRoboControl.html" title="{NewRoboControl\n|&#45; m_stopCruisingNow\l&#45; m_isCruising\l&#45; m_cruiseThread\l|+ NewRoboControl()\l+ ~NewRoboControl()\l+ IsOnTarget()\l+ cruisetoBias()\l+ RandomMove()\l+ drivePath()\l+ setSpeed()\l+ getDirection()\l+ getDiffAngle()\l+ getSpeedP()\l+ getSpeedPt()\l+ getSpeedT()\l+ degToRad()\l+ IsOnTarget()\l}" alt="" coords="5,141,149,509"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="32,5,123,93"/></map>
+<area shape="rect" href="classNewRoboControl.html" title="Wrapper for the &quot;RoboControl&quot; class. Implements additional driving functions..." alt="" coords="5,141,149,509"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="32,5,123,93"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 
 <p><a href="classOpponentRobot-members.html">List of all members.</a></p>
@@ -59,6 +62,9 @@ Inheritance diagram for OpponentRobot:</div>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classOpponentRobot.html#a315c08a9f17d278b1bb8067929b38f83">OpponentRobot</a> (RTDBConn &amp;DBC, const int deviceNr)</td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Child class of <a class="el" href="classNewRoboControl.html">NewRoboControl</a> which desribes a robo of the other team. </p>
+<p>This class does not implement anything and is just used to make the distinction with a <a class="el" href="classTeamRobot.html">TeamRobot</a>. It is however still possible to use the driving functions of the parents <a class="el" href="classNewRoboControl.html">NewRoboControl</a> and "RoboControl", but this should be avoided as it is forbidden by the game rules. </p>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="a315c08a9f17d278b1bb8067929b38f83"></a><!-- doxytag: member="OpponentRobot::OpponentRobot" ref="a315c08a9f17d278b1bb8067929b38f83" args="(RTDBConn &amp;DBC, const int deviceNr)" -->
 <div class="memitem">
@@ -113,7 +119,7 @@ Inheritance diagram for OpponentRobot:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Sun Jul 19 14:50:35 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:36 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -288,11 +288,11 @@ void Matrix::flood_AddNextLine(int newY, bool isNext, bool downwards, int minX, 
 }
 
 /**
- * @brief unnormalize the point of the matrix to the point on real map
+ * @brief Gets an element of the matrix.
  *
- * @param x the value on x axis
- * @param y the value on y axis
- * @return Uint8 &
+ * @param x x-coordinates of the element to retrieve
+ * @param y y-coordinates of the element to retrieve
+ * @return Uint8 & The element. If coordinates are out of range, a reference to an internal garbage value is returned.
  */
 Uint8& Matrix::Get(int x, int y) const
 {

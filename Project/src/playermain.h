@@ -8,15 +8,17 @@
 
 
 /**
- * @brief
+ * @brief Child class of @ref TeamRobot which describes the main player.
  *
+ * The main player is responsible for kick-off and penalty shootings, and its game behavior is slightly different
+ * from its brother @ref PlayerTwo "player two".
  */
 class PlayerMain : public TeamRobot
 {
 
   public:
     /**
-     * @brief
+     * @brief Enumeration of the possible orders for the player.
      *
      */
     enum ActionPlayerMain

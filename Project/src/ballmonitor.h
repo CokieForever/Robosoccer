@@ -9,12 +9,21 @@
 #include <vector>
 #include <queue>
 
+/**
+ * @brief Class used as a wrapper for a "RawBall" instance.
+ *
+ * This class provides useful functions to do some computations relative to a given "RawBall".
+ * For example you can use it to retrieve the ball position and speed, or to predict the ball trajectory.
+ * The instance must be initialized via the constructor @ref BallMonitor::BallMonitor()
+ * and then started with the @ref BallMonitor::StartMonitoring() function. When you do not need it anymore,
+ * do not forget to stop it with the @ref BallMonitor::StopMonitoring() function.
+ */
 class BallMonitor
 {
 
 public:
 
-    static const int NB_POSTIME  = 10; /**< TODO */
+    static const int NB_POSTIME  = 10; /**< Number of past ball positions to be kept in memory. */
 
     /**
      * @brief This structure contains the direction coordinates of the ball
@@ -22,8 +31,8 @@ public:
      */
     typedef struct
     {
-        double x;   /**< TODO */
-        double y;   /**< TODO */
+        double x;   /**< x-coordinate */
+        double y;   /**< y-coordinate */
     } Direction;
 
     /**
@@ -32,8 +41,8 @@ public:
      */
     typedef struct
     {
-        Position pos;   /**< TODO */
-        clock_t time;   /**< TODO */
+        Position pos;   /**< Ball position */
+        clock_t time;   /**< Time at which the position was registered */
     } PosTime;
 
     static std::vector<double> ComputeVisibilityMap(int maxLevel, Position pos, const Position *robotPos, int nbPos, eSide ourSide);
@@ -54,13 +63,13 @@ public:
 
 private:
     /**
-     * @brief This structure contains the value and is of an angle.
+     * @brief Describes an angle.
      *
      */
     struct Angle
     {
-        double val; /**< TODO */
-        int id;     /**< TODO */
+        double val; /**< The angle value (in radians) */
+        int id;     /**< The ID of the angle */
     };
 
     static void* BallMonitoringFn(void *data);

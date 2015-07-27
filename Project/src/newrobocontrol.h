@@ -16,15 +16,16 @@
 #include <vector>
 
 /**
- * @brief
+ * @brief Wrapper for the "RoboControl" class. Implements additional driving functions.
  *
+ * In order to avoid confusion, this class was made abstract.
  */
 class NewRoboControl : public RoboControl
 {
 
 public:
     /**
-     * @brief
+     * @brief Enumeration for the driving directions.
      *
      */
     enum eDirection

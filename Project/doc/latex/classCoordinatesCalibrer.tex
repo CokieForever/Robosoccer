@@ -4,6 +4,11 @@
 }
 
 
+Class used to convert real field coordinates to normalized coordinates and vice-\/versa.  
+
+
+
+
 {\ttfamily \#include $<$coordinates.h$>$}
 
 \subsection*{Public Member Functions}
@@ -73,6 +78,9 @@ pthread\_\-t \hyperlink{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c
 \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$ \hyperlink{classCoordinatesCalibrer_aebcdb5e598d2af268ab93a0271c245b6}{m\_\-robots} \mbox{[}2\mbox{]}
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Class used to convert real field coordinates to normalized coordinates and vice-\/versa. This class is intended to be used as a wrapper for Positions given by the Robosoccer system. After being instantiated, the calibration data can be computed automatically by calling the \hyperlink{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}{CoordinatesCalibrer::StartCoordCalibration()} function, which will move the provided robots to measure the field. The calibration data can also be entered manually by calling the \hyperlink{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{CoordinatesCalibrer::SetManualCoordCalibration()} function. Once the calibration data is set, use the \hyperlink{classCoordinatesCalibrer_ad6519b69842756c256922d14d1e248ce}{CoordinatesCalibrer::NormalizePosition()} and \hyperlink{classCoordinatesCalibrer_a8522193b13196313d001c589e7845bd3}{CoordinatesCalibrer::UnnormalizePosition()} to switch between normalized and real field coordinates. 
 
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classCoordinatesCalibrer_ac9a522299ada8f2e58ed8f0c91f4f396}{
@@ -285,12 +293,12 @@ bool True if the coordinates caliration is still not finished. False if it is st
 \index{m\_\-calibrationSuccessful@{m\_\-calibrationSuccessful}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-calibrationSuccessful}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf CoordinatesCalibrer::m\_\-calibrationSuccessful}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_aade3d6c933ebb71c197061828ca6b951}
-Indicates if the calibration is successful. \hypertarget{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c3a}{
+Indicates if the automatic calibration is successful. \hypertarget{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c3a}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-calibrationThread@{m\_\-calibrationThread}}
 \index{m\_\-calibrationThread@{m\_\-calibrationThread}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-calibrationThread}]{\setlength{\rightskip}{0pt plus 5cm}pthread\_\-t {\bf CoordinatesCalibrer::m\_\-calibrationThread}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c3a}
-The thread of calibration. \hypertarget{classCoordinatesCalibrer_a0fd71c87e90fc61802942e22c9584fb9}{
+The thread of automatic calibration. \hypertarget{classCoordinatesCalibrer_a0fd71c87e90fc61802942e22c9584fb9}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-cosTheta@{m\_\-cosTheta}}
 \index{m\_\-cosTheta@{m\_\-cosTheta}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-cosTheta}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf CoordinatesCalibrer::m\_\-cosTheta}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
@@ -300,7 +308,7 @@ TODO \hypertarget{classCoordinatesCalibrer_a2d3543afab02c87d0e06861d064bd265}{
 \index{m\_\-isCalibrating@{m\_\-isCalibrating}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-isCalibrating}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf CoordinatesCalibrer::m\_\-isCalibrating}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_a2d3543afab02c87d0e06861d064bd265}
-Indicates if the calibration is still going on. \hypertarget{classCoordinatesCalibrer_a337af708f5dc1bfca0d191b988d8ab49}{
+Indicates if the automatic calibration is still going on. \hypertarget{classCoordinatesCalibrer_a337af708f5dc1bfca0d191b988d8ab49}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-kx@{m\_\-kx}}
 \index{m\_\-kx@{m\_\-kx}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-kx}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf CoordinatesCalibrer::m\_\-kx}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
@@ -315,7 +323,7 @@ TODO \hypertarget{classCoordinatesCalibrer_aebcdb5e598d2af268ab93a0271c245b6}{
 \index{m\_\-robots@{m\_\-robots}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-robots}]{\setlength{\rightskip}{0pt plus 5cm}{\bf NewRoboControl}$\ast$ {\bf CoordinatesCalibrer::m\_\-robots}\mbox{[}2\mbox{]}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_aebcdb5e598d2af268ab93a0271c245b6}
-Rhe robots. \hypertarget{classCoordinatesCalibrer_af2675b7f9f8612eb53e81a5268501180}{
+The robots used for the automatic calibration. \hypertarget{classCoordinatesCalibrer_af2675b7f9f8612eb53e81a5268501180}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-sinTheta@{m\_\-sinTheta}}
 \index{m\_\-sinTheta@{m\_\-sinTheta}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-sinTheta}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf CoordinatesCalibrer::m\_\-sinTheta}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
@@ -325,7 +333,7 @@ TODO \hypertarget{classCoordinatesCalibrer_ac8da80d736936d73e78f21a7f046855d}{
 \index{m\_\-stopCalibrating@{m\_\-stopCalibrating}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-stopCalibrating}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf CoordinatesCalibrer::m\_\-stopCalibrating}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classCoordinatesCalibrer_ac8da80d736936d73e78f21a7f046855d}
-Indicates if the calibration should be stopped. \hypertarget{classCoordinatesCalibrer_a039975d1cf826afcb960e77f8f957f91}{
+Indicates if the automatic calibration should be stopped. \hypertarget{classCoordinatesCalibrer_a039975d1cf826afcb960e77f8f957f91}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!m\_\-theta@{m\_\-theta}}
 \index{m\_\-theta@{m\_\-theta}!CoordinatesCalibrer@{CoordinatesCalibrer}}
 \subsubsection[{m\_\-theta}]{\setlength{\rightskip}{0pt plus 5cm}double {\bf CoordinatesCalibrer::m\_\-theta}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}

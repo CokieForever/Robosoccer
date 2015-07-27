@@ -4,13 +4,18 @@
 }
 
 
+Class used to coordinates actions and strategies for all robots from a high level point of view.  
+
+
+
+
 {\ttfamily \#include $<$interpreter.h$>$}
 
 \subsection*{Classes}
 \begin{DoxyCompactItemize}
 \item 
 struct \hyperlink{structInterpreter_1_1GameData}{GameData}
-\item 
+\begin{DoxyCompactList}\small\item\em Structure to gather data about the current game. \item\end{DoxyCompactList}\item 
 struct \hyperlink{structInterpreter_1_1Point}{Point}
 \end{DoxyCompactItemize}
 \subsection*{Public Types}
@@ -19,13 +24,13 @@ struct \hyperlink{structInterpreter_1_1Point}{Point}
 enum \hyperlink{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643}{KickTurn} \{ \hyperlink{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe}{OUR\_\-TURN}, 
 \hyperlink{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76}{THEIR\_\-TURN}
  \}
-\item 
+\begin{DoxyCompactList}\small\item\em Enum to describe the team having the Kick off / Penalty shooting. \item\end{DoxyCompactList}\item 
 enum \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}{Strategy} \{ \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9}{INIT}, 
 \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}{ATK}, 
 \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75}{DEF}, 
 \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187}{MIX}
  \}
-\item 
+\begin{DoxyCompactList}\small\item\em Enumeration of the possible playing strategies. \item\end{DoxyCompactList}\item 
 typedef \hyperlink{classMatrix}{Matrix} \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{Map}
 \end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
@@ -185,6 +190,9 @@ pthread\_\-mutex\_\-t \hyperlink{classInterpreter_a76012913dbff07096d081b2380c2c
 \end{DoxyCompactItemize}
 
 
+\subsection{Detailed Description}
+Class used to coordinates actions and strategies for all robots from a high level point of view. 
+
 \subsection{Member Typedef Documentation}
 \hypertarget{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{
 \index{Interpreter@{Interpreter}!Map@{Map}}
@@ -199,6 +207,10 @@ pthread\_\-mutex\_\-t \hyperlink{classInterpreter_a76012913dbff07096d081b2380c2c
 \index{KickTurn@{KickTurn}!Interpreter@{Interpreter}}
 \subsubsection[{KickTurn}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Interpreter::KickTurn}}}
 \label{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643}
+
+
+Enum to describe the team having the Kick off / Penalty shooting. 
+
 \begin{Desc}
 \item[Enumerator: ]\par
 \begin{description}
@@ -206,11 +218,11 @@ pthread\_\-mutex\_\-t \hyperlink{classInterpreter_a76012913dbff07096d081b2380c2c
 \hypertarget{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe}{
 OUR\_\-TURN}
 \label{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe}
-}]TODO \index{THEIR\_\-TURN@{THEIR\_\-TURN}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!THEIR\_\-TURN@{THEIR\_\-TURN}}\item[{\em 
+}]We have the kick off / penalty shooting \index{THEIR\_\-TURN@{THEIR\_\-TURN}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!THEIR\_\-TURN@{THEIR\_\-TURN}}\item[{\em 
 \hypertarget{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76}{
 THEIR\_\-TURN}
 \label{classInterpreter_ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76}
-}]TODO \end{description}
+}]The other team has the kick off / penalty shooting \end{description}
 \end{Desc}
 
 \hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}{
@@ -218,6 +230,10 @@ THEIR\_\-TURN}
 \index{Strategy@{Strategy}!Interpreter@{Interpreter}}
 \subsubsection[{Strategy}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Interpreter::Strategy}}}
 \label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}
+
+
+Enumeration of the possible playing strategies. 
+
 \begin{Desc}
 \item[Enumerator: ]\par
 \begin{description}
@@ -225,19 +241,19 @@ THEIR\_\-TURN}
 \hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9}{
 INIT}
 \label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088af1c3928f408be0d85ce73e1686e519d9}
-}]TODO \index{ATK@{ATK}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!ATK@{ATK}}\item[{\em 
+}]Initial -\/ used for the start of the programm, must not be used afterwards. \index{ATK@{ATK}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!ATK@{ATK}}\item[{\em 
 \hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}{
 ATK}
 \label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a8bf993c8b673e31f609171552d65c4c4}
-}]TODO \index{DEF@{DEF}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!DEF@{DEF}}\item[{\em 
+}]Attacking strategy \index{DEF@{DEF}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!DEF@{DEF}}\item[{\em 
 \hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75}{
 DEF}
 \label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088ae58df17fd988314c295b980f6a5a6a75}
-}]TODO \index{MIX@{MIX}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!MIX@{MIX}}\item[{\em 
+}]Defensive strategy \index{MIX@{MIX}!Interpreter@{Interpreter}}\index{Interpreter@{Interpreter}!MIX@{MIX}}\item[{\em 
 \hypertarget{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187}{
 MIX}
 \label{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088a5509091a7f3746995da83c92dd449187}
-}]TODO \end{description}
+}]Mixed strategy \end{description}
 \end{Desc}
 
 

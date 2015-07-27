@@ -45,13 +45,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="contents">
 <h1>Goalkeeper Class Reference</h1><!-- doxytag: class="Goalkeeper" --><!-- doxytag: inherits="TeamRobot" -->
+<p>Child class of <a class="el" href="classTeamRobot.html">TeamRobot</a> used for the goal keeper.  
+<a href="#_details">More...</a></p>
+
 <p><code>#include &lt;<a class="el" href="goalkeeper_8h_source.html">goalkeeper.h</a>&gt;</code></p>
 <div class="dynheader">
 Inheritance diagram for Goalkeeper:</div>
 <div class="dynsection">
 <div class="center"><img src="classGoalkeeper__inherit__graph.png" border="0" usemap="#Goalkeeper_inherit__map" alt="Inheritance graph"/></div>
 <map name="Goalkeeper_inherit__map" id="Goalkeeper_inherit__map">
-<area shape="rect" href="classTeamRobot.html" title="{TeamRobot\n|# m_defaultPos\l# m_coordCalib\l# m_map\l# m_ball\l# m_pathFinder\l# m_display\l# m_roboObstacles\l# m_roboObstaclePos\l# m_ballObstacles\l# m_ballObstaclePos\l# m_penaltyAreaObstacles\l# m_borderObstacles\l# m_pathFinderPath\l# m_prevFormation\l# m_areaObstacle\l# m_path\l# m_q\l# m_actionPerformed\l# m_go_x\l# m_go_y\l# m_ballPm\l&#45; m_thread\l&#45; m_targetPos\l&#45; m_checkSpeedFinishNow\l&#45; m_targetSpeed\l|+ TeamRobot()\l+ ~TeamRobot()\l+ getDefaultPosition()\l+ setDefaultPositionX()\l+ setDefaultPositionY()\l+ setDefaultPosition()\l+ getCoordinatesCalibrer()\l+ getBall()\l+ getMapValue()\l+ getMap()\l+ setMapValue()\l+ setMap()\l+ GiveDisplay()\l+ KickOff()\l+ KickPenalty()\l+ Rotation()\l+ KickBall()\l+ KickMovingBall()\l+ ShouldKick()\l+ ShouldGoalKick()\l+ setNextCmd()\l+ setCmdParam()\l+ performCmd()\l# AddBorderObstaclesToPathFinder()\l# UpdatePathFinder()\l# ComputePath()\l# FollowPath()\l# AddObstacleForFormation()\l# IsPathOK()\l# AngleDiff()\l&#45; Checkspeed()\l}" alt="" coords="5,557,240,1653"/><area shape="rect" href="classNewRoboControl.html" title="{NewRoboControl\n|&#45; m_stopCruisingNow\l&#45; m_isCruising\l&#45; m_cruiseThread\l|+ NewRoboControl()\l+ ~NewRoboControl()\l+ IsOnTarget()\l+ cruisetoBias()\l+ RandomMove()\l+ drivePath()\l+ setSpeed()\l+ getDirection()\l+ getDiffAngle()\l+ getSpeedP()\l+ getSpeedPt()\l+ getSpeedT()\l+ degToRad()\l+ IsOnTarget()\l}" alt="" coords="51,141,195,509"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="77,5,168,93"/></map>
+<area shape="rect" href="classTeamRobot.html" title="Abstract child class of NewRoboControl describing a robot from our team." alt="" coords="5,557,240,1653"/><area shape="rect" href="classNewRoboControl.html" title="Wrapper for the &quot;RoboControl&quot; class. Implements additional driving functions..." alt="" coords="51,141,195,509"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="77,5,168,93"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 
 <p><a href="classGoalkeeper-members.html">List of all members.</a></p>
@@ -62,9 +65,11 @@ Inheritance diagram for Goalkeeper:</div>
 <a class="el" href="classGoalkeeper.html#a25db0bed632b4bdb87532b0fbbf45855a96b7bc8aa3f3a4d1b68955f8d757e9c1">PREVENT_GOAL</a>, 
 <a class="el" href="classGoalkeeper.html#a25db0bed632b4bdb87532b0fbbf45855a7940a4d0074c5f5bb33743797387c2c1">STOP</a>
  }</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Enumeration of the possible orders for the goal keeper. </p>
+ <a href="classGoalkeeper.html#a25db0bed632b4bdb87532b0fbbf45855">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#a7ad214162340c37a695ba00d4576c3c4">Goalkeeper</a> (RTDBConn &amp;DBC, const int deviceNr, const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *coordCalib, RawBall *ball, <a class="el" href="classBallMonitor.html">BallMonitor</a> *ballgk)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is the constructor of <a class="el" href="classGoalkeeper.html">Goalkeeper</a> class.  <a href="#a7ad214162340c37a695ba00d4576c3c4"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This is the constructor of <a class="el" href="classGoalkeeper.html" title="Child class of TeamRobot used for the goal keeper.">Goalkeeper</a> class.  <a href="#a7ad214162340c37a695ba00d4576c3c4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#abc394351f7c0d552c6e96da422c772ec">setNextCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the next command for the goalkeeper.  <a href="#abc394351f7c0d552c6e96da422c772ec"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#acfa6fbad0f6b1627fd59cc7cce6ff321">setCmdParam</a> (const <a class="el" href="classInterpreter.html">Interpreter</a> &amp;interpreter)</td></tr>
@@ -79,6 +84,8 @@ Inheritance diagram for Goalkeeper:</div>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#a04b3ca2b51698e36928ccce7569842eb">m_preventGoalParam</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBallMonitor.html">BallMonitor</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#a8fc8e75ffc8d3582d293b0fe42a0c073">m_ballgk</a></td></tr>
 </table>
+<hr/><a name="_details"></a><h2>Detailed Description</h2>
+<p>Child class of <a class="el" href="classTeamRobot.html">TeamRobot</a> used for the goal keeper. </p>
 <hr/><h2>Member Enumeration Documentation</h2>
 <a class="anchor" id="a25db0bed632b4bdb87532b0fbbf45855"></a><!-- doxytag: member="Goalkeeper::ActionGk" ref="a25db0bed632b4bdb87532b0fbbf45855" args="" -->
 <div class="memitem">
@@ -90,6 +97,8 @@ Inheritance diagram for Goalkeeper:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Enumeration of the possible orders for the goal keeper. </p>
 <dl><dt><b>Enumerator: </b></dt><dd><table border="0" cellspacing="2" cellpadding="0">
 <tr><td valign="top"><em><a class="anchor" id="a25db0bed632b4bdb87532b0fbbf45855af1fa8ff07676a5e27f9cc78f6811c704"></a><!-- doxytag: member="GO_TO_DEF_POS" ref="a25db0bed632b4bdb87532b0fbbf45855af1fa8ff07676a5e27f9cc78f6811c704" args="" -->GO_TO_DEF_POS</em>&nbsp;</td><td>
 <p>Go to default position </p>
@@ -153,7 +162,7 @@ Inheritance diagram for Goalkeeper:</div>
 </div>
 <div class="memdoc">
 
-<p>This is the constructor of <a class="el" href="classGoalkeeper.html">Goalkeeper</a> class. </p>
+<p>This is the constructor of <a class="el" href="classGoalkeeper.html" title="Child class of TeamRobot used for the goal keeper.">Goalkeeper</a> class. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>DBC</em>&nbsp;</td><td>Database connexion. </td></tr>
@@ -342,7 +351,7 @@ Inheritance diagram for Goalkeeper:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Sun Jul 19 14:50:35 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:34 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

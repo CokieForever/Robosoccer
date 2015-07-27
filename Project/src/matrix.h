@@ -7,8 +7,13 @@
 class Interpreter;
 
 /**
- * @brief
+ * @brief Class describing a basic integers matrix.
  *
+ * This class can be used for drawing operations on matrices.
+ * You can for example draw a polygon or a circle inside the matrix by just calling the appropriate functions.
+ * The data type is @ref Uint8.
+ * Elements can be accessed by either the Matrix::Get() function or the overloaded [] operator ([row][column]).
+ * The class is thread-safe except for the access methods.
  */
 class Matrix
 {

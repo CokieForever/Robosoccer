@@ -4,6 +4,11 @@
 }
 
 
+Class describing a basic integers matrix.  
+
+
+
+
 {\ttfamily \#include $<$matrix.h$>$}
 
 \subsection*{Classes}
@@ -29,24 +34,24 @@ struct \hyperlink{structMatrix_1_1Point}{Point}
 \hyperlink{classMatrix}{Matrix} \& \hyperlink{classMatrix_a45e4814b752129bed1f1316632f8543a}{operator=} (const \hyperlink{classMatrix}{Matrix} \&matrix)
 \item 
 Uint8 \& \hyperlink{classMatrix_a06fc8df480cd88daf69eaa05867cb7bd}{Get} (int i, int j) const 
-\item 
+\begin{DoxyCompactList}\small\item\em Gets an element of the matrix. \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a4a7c3875be94e94786db920c441973e6}{Fill} (Uint8 number)
 \item 
 void \hyperlink{classMatrix_a55977ba3ee91f352759f446a5092ea23}{DrawRectangle} (\hyperlink{structMatrix_1_1Point}{Point} ul, \hyperlink{structMatrix_1_1Point}{Point} lr, Uint8 number)
-\item 
+\begin{DoxyCompactList}\small\item\em this function draw a rectangle on the map. The rectangle could be used to restrict the moving area of a robot in different strategy \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a8aecf2d42e65b27f051c8af79aeeb467}{DrawThickLine} (\hyperlink{structMatrix_1_1Point}{Point} start, \hyperlink{structMatrix_1_1Point}{Point} end, int thickness, Uint8 number)
-\item 
+\begin{DoxyCompactList}\small\item\em this function is used to draw lines. The movement of the robot should not cross this line \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a9dd7af97fcc825ca07a64b28050cb44f}{DrawCircle} (\hyperlink{structMatrix_1_1Point}{Point} center, int radius, Uint8 number)
-\item 
+\begin{DoxyCompactList}\small\item\em this function is used to draw a circle on the matrix \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a3b2f9c59a4cc8da933de12f4ccb867f6}{DrawPolygon} (\hyperlink{structMatrix_1_1Point}{Point} $\ast$points, int n, Uint8 number)
-\item 
+\begin{DoxyCompactList}\small\item\em this function is used to draw a polygon on the robot. This polygon serves as a barrier. In the pathfinding, the path will avoid the polygon so that robots would not collide. \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a7209ed0123ff3686f0d0f7f4e6ac7094}{FloodFill} (\hyperlink{structMatrix_1_1Point}{Point} start, Uint8 number)
 \end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static \hyperlink{structMatrix_1_1Point}{Point} \hyperlink{classMatrix_a39929c70aea7926beaf183b374239558}{CreatePoint} (int x, int y)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em create a point in normalized map \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -65,6 +70,9 @@ pthread\_\-mutex\_\-t \hyperlink{classMatrix_aba01078d3f7abfceae9f6ce1913bbdc3}{
 static Uint8 \hyperlink{classMatrix_a128eca9782b86bae0eed3d1d0967249e}{m\_\-default} = 0
 \end{DoxyCompactItemize}
 
+
+\subsection{Detailed Description}
+Class describing a basic integers matrix. This class can be used for drawing operations on matrices. You can for example draw a polygon or a circle inside the matrix by just calling the appropriate functions. The data type is Uint8. Elements can be accessed by either the \hyperlink{classMatrix_a06fc8df480cd88daf69eaa05867cb7bd}{Matrix::Get()} function or the overloaded \mbox{[}\mbox{]} operator (\mbox{[}row\mbox{]}\mbox{[}column\mbox{]}). The class is thread-\/safe except for the access methods. 
 
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classMatrix_a1cf5bd8134711df6f63e1dbef1912b86}{
@@ -97,8 +105,12 @@ static Uint8 \hyperlink{classMatrix_a128eca9782b86bae0eed3d1d0967249e}{m\_\-defa
 \subsubsection[{CreatePoint}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix::Point} Matrix::CreatePoint (int {\em x}, \/  int {\em y})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{classMatrix_a39929c70aea7926beaf183b374239558}
 
+
+create a point in normalized map 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em x}]\item[{\em y}]\end{DoxyParams}
+\item[{\em x}]value on x axis \item[{\em y}]value on y axis \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 \hyperlink{structMatrix_1_1Point}{Matrix::Point} 
 \end{DoxyReturn}
@@ -108,32 +120,48 @@ static Uint8 \hyperlink{classMatrix_a128eca9782b86bae0eed3d1d0967249e}{m\_\-defa
 \subsubsection[{DrawCircle}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::DrawCircle ({\bf Point} {\em center}, \/  int {\em radius}, \/  Uint8 {\em number})}}
 \label{classMatrix_a9dd7af97fcc825ca07a64b28050cb44f}
 
+
+this function is used to draw a circle on the matrix 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em center}]\item[{\em radius}]\item[{\em number}]\end{DoxyParams}
+\item[{\em center}]is the centre of the circle \item[{\em radius}]is the radius of the circle \item[{\em number}]\end{DoxyParams}
 \hypertarget{classMatrix_a3b2f9c59a4cc8da933de12f4ccb867f6}{
 \index{Matrix@{Matrix}!DrawPolygon@{DrawPolygon}}
 \index{DrawPolygon@{DrawPolygon}!Matrix@{Matrix}}
 \subsubsection[{DrawPolygon}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::DrawPolygon ({\bf Point} $\ast$ {\em points}, \/  int {\em n}, \/  Uint8 {\em number})}}
 \label{classMatrix_a3b2f9c59a4cc8da933de12f4ccb867f6}
 
+
+this function is used to draw a polygon on the robot. This polygon serves as a barrier. In the pathfinding, the path will avoid the polygon so that robots would not collide. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em points}]\item[{\em n}]\item[{\em number}]\end{DoxyParams}
+\item[{\em points}]are points of the polygon \item[{\em n}]is the number of the points of the polygon \item[{\em number}]\end{DoxyParams}
 \hypertarget{classMatrix_a55977ba3ee91f352759f446a5092ea23}{
 \index{Matrix@{Matrix}!DrawRectangle@{DrawRectangle}}
 \index{DrawRectangle@{DrawRectangle}!Matrix@{Matrix}}
 \subsubsection[{DrawRectangle}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::DrawRectangle ({\bf Point} {\em ul}, \/  {\bf Point} {\em lr}, \/  Uint8 {\em number})}}
 \label{classMatrix_a55977ba3ee91f352759f446a5092ea23}
 
+
+this function draw a rectangle on the map. The rectangle could be used to restrict the moving area of a robot in different strategy 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em ul}]\item[{\em lr}]\item[{\em number}]\end{DoxyParams}
+\item[{\em ul}]upper left point of the rectangle \item[{\em lr}]lower right point of the rectangle \item[{\em number}]\end{DoxyParams}
 \hypertarget{classMatrix_a8aecf2d42e65b27f051c8af79aeeb467}{
 \index{Matrix@{Matrix}!DrawThickLine@{DrawThickLine}}
 \index{DrawThickLine@{DrawThickLine}!Matrix@{Matrix}}
 \subsubsection[{DrawThickLine}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::DrawThickLine ({\bf Point} {\em start}, \/  {\bf Point} {\em end}, \/  int {\em thickness}, \/  Uint8 {\em number})}}
 \label{classMatrix_a8aecf2d42e65b27f051c8af79aeeb467}
 
+
+this function is used to draw lines. The movement of the robot should not cross this line 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em start}]\item[{\em end}]\item[{\em thickness}]\item[{\em number}]\end{DoxyParams}
+\item[{\em start}]start point of the line \item[{\em end}]end point of the line \item[{\em thickness}]\item[{\em number}]\end{DoxyParams}
 \hypertarget{classMatrix_a4a7c3875be94e94786db920c441973e6}{
 \index{Matrix@{Matrix}!Fill@{Fill}}
 \index{Fill@{Fill}!Matrix@{Matrix}}
@@ -161,10 +189,14 @@ static Uint8 \hyperlink{classMatrix_a128eca9782b86bae0eed3d1d0967249e}{m\_\-defa
 \subsubsection[{Get}]{\setlength{\rightskip}{0pt plus 5cm}Uint8 \& Matrix::Get (int {\em x}, \/  int {\em y}) const}}
 \label{classMatrix_a06fc8df480cd88daf69eaa05867cb7bd}
 
+
+Gets an element of the matrix. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em x}]\item[{\em y}]\end{DoxyParams}
+\item[{\em x}]x-\/coordinates of the element to retrieve \item[{\em y}]y-\/coordinates of the element to retrieve \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Uint8 \& 
+Uint8 \& The element. If coordinates are out of range, a reference to an internal garbage value is returned. 
 \end{DoxyReturn}
 \hypertarget{classMatrix_a45e4814b752129bed1f1316632f8543a}{
 \index{Matrix@{Matrix}!operator=@{operator=}}
