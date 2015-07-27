@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="tabs">
     <ul>
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -54,35 +55,37 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#ac9a522299ada8f2e58ed8f0c91f4f396">CoordinatesCalibrer</a> ()</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initializing constructor.  <a href="#ac9a522299ada8f2e58ed8f0c91f4f396"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Default empty constructor. The calibration data must be set either with <a class="el" href="classCoordinatesCalibrer.html#a006c18905b14e4780b9fc74fe26649fc">CoordinatesCalibrer::SetManualCoordCalibration()</a> or <a class="el" href="classCoordinatesCalibrer.html#a2087994adbb8651efcb06e3d7a2315da">CoordinatesCalibrer::StartCoordCalibration()</a> before using the instance.  <a href="#ac9a522299ada8f2e58ed8f0c91f4f396"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a3b6304945fa64ac97a1b0bbc78753155">CoordinatesCalibrer</a> (Position a, Position b, Position c, Position d)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor of the coordinates calibrer based on 4 positions in the field.  <a href="#a3b6304945fa64ac97a1b0bbc78753155"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Constructor with calibration data (see <a class="el" href="classCoordinatesCalibrer.html#a006c18905b14e4780b9fc74fe26649fc">CoordinatesCalibrer::SetManualCoordCalibration()</a> for details).  <a href="#a3b6304945fa64ac97a1b0bbc78753155"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a006c18905b14e4780b9fc74fe26649fc">SetManualCoordCalibration</a> (Position a, Position b, Position c, Position d)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">sets manually the coodinates calibrer based on 4 positions  <a href="#a006c18905b14e4780b9fc74fe26649fc"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets manually the calibration data based on 4 positions.  <a href="#a006c18905b14e4780b9fc74fe26649fc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#ad6519b69842756c256922d14d1e248ce">NormalizePosition</a> (Position pos) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It normalizes a position (real field -&gt; normalized).  <a href="#ad6519b69842756c256922d14d1e248ce"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a034180f011c23565b9b5907ce0219fbf">NormalizePosition</a> (Position pos, double phi) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It normalizes a position.  <a href="#a034180f011c23565b9b5907ce0219fbf"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It normalizes a position (real field -&gt; normalized).  <a href="#a034180f011c23565b9b5907ce0219fbf"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a8522193b13196313d001c589e7845bd3">UnnormalizePosition</a> (Position pos) const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It unnormalizes a position (normalized -&gt; real field).  <a href="#a8522193b13196313d001c589e7845bd3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a19035a69d4d571e5e1d4baa4ba10baee">UnnormalizePosition</a> (Position pos, double phi) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It unnormalizes a position.  <a href="#a19035a69d4d571e5e1d4baa4ba10baee"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It unnormalizes a position (normalized -&gt; real field).  <a href="#a19035a69d4d571e5e1d4baa4ba10baee"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#acae6b5f07cf198f9c85a1b09e9a275dc">NormalizeAngle</a> (double angle) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It normalizes an angle to an angle between -M_PI and M_PI.  <a href="#acae6b5f07cf198f9c85a1b09e9a275dc"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Normalizes an angle.  <a href="#acae6b5f07cf198f9c85a1b09e9a275dc"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#ab97fd4d3f3930aaff39cee1543022cb6">UnnormalizeAngle</a> (double angle) const </td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It unnormalizes an angle.  <a href="#ab97fd4d3f3930aaff39cee1543022cb6"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a2087994adbb8651efcb06e3d7a2315da">StartCoordCalibration</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robot1, <a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robot2)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function starts the coordinates calibration.  <a href="#a2087994adbb8651efcb06e3d7a2315da"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function starts the automatic coordinates calibration.  <a href="#a2087994adbb8651efcb06e3d7a2315da"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a99563ba6e43f839bf1b10f55cf155125">WaitForCoordCalibrationEnd</a> (bool stopNow=false)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It waits for the end of the coordinates calibration before ending it.  <a href="#a99563ba6e43f839bf1b10f55cf155125"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It waits for the end of the automatic coordinates calibration.  <a href="#a99563ba6e43f839bf1b10f55cf155125"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a92672252bda26bddd9b8c73bc6395ea3">GetCoordCalibrationResults</a> (double *tx, double *ty, double *theta, double *kx, double *ky) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It gets the results of coordinates calibration.  <a href="#a92672252bda26bddd9b8c73bc6395ea3"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*).  <a href="#a92672252bda26bddd9b8c73bc6395ea3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a1a3ae703556c2f4c4455792a43fed987">GetCoordCalibrationResults</a> (double *xMax, double *xMin, double *yMax, double *yMin) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function gets the results of coordinates calibration.  <a href="#a1a3ae703556c2f4c4455792a43fed987"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*, double*).  <a href="#a1a3ae703556c2f4c4455792a43fed987"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a19faab9e443f7ef64462a36c19baf6bc">Init</a> ()</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initializes the parameters for the Coordinates calibrer class.  <a href="#a19faab9e443f7ef64462a36c19baf6bc"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initializes the parameters for a <a class="el" href="classCoordinatesCalibrer.html" title="Class used to convert real field coordinates to normalized coordinates and vice-versa...">CoordinatesCalibrer</a> instance.  <a href="#a19faab9e443f7ef64462a36c19baf6bc"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a4ce4c153ae8c3e50faccfba40e6bc4ea">CalibrationFn</a> (void *data)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function realizes the calibration of robots coordinates.  <a href="#a4ce4c153ae8c3e50faccfba40e6bc4ea"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Function called to do the automatic coordinates calibration.  <a href="#a4ce4c153ae8c3e50faccfba40e6bc4ea"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#ad3dcf12acb15253d8467440ccf917581">m_tx</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a7e9c56017cf2f279564f2aba38aa146b">m_ty</a></td></tr>
@@ -99,7 +102,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </table>
 <hr/><a name="_details"></a><h2>Detailed Description</h2>
 <p>Class used to convert real field coordinates to normalized coordinates and vice-versa. </p>
-<p>This class is intended to be used as a wrapper for Positions given by the Robosoccer system. After being instantiated, the calibration data can be computed automatically by calling the <a class="el" href="classCoordinatesCalibrer.html#a2087994adbb8651efcb06e3d7a2315da">CoordinatesCalibrer::StartCoordCalibration()</a> function, which will move the provided robots to measure the field. The calibration data can also be entered manually by calling the <a class="el" href="classCoordinatesCalibrer.html#a006c18905b14e4780b9fc74fe26649fc">CoordinatesCalibrer::SetManualCoordCalibration()</a> function. Once the calibration data is set, use the <a class="el" href="classCoordinatesCalibrer.html#ad6519b69842756c256922d14d1e248ce">CoordinatesCalibrer::NormalizePosition()</a> and <a class="el" href="classCoordinatesCalibrer.html#a8522193b13196313d001c589e7845bd3">CoordinatesCalibrer::UnnormalizePosition()</a> to switch between normalized and real field coordinates. </p>
+<p>This class is intended to be used as a wrapper for Positions given by the Robosoccer system. After being instantiated, the calibration data can be computed automatically by calling the <a class="el" href="classCoordinatesCalibrer.html#a2087994adbb8651efcb06e3d7a2315da">CoordinatesCalibrer::StartCoordCalibration()</a> function, which will move the provided robots to measure the field. The calibration data can also be entered manually by calling the <a class="el" href="classCoordinatesCalibrer.html#a006c18905b14e4780b9fc74fe26649fc">CoordinatesCalibrer::SetManualCoordCalibration()</a> function. Once the calibration data is set, use the <a class="el" href="classCoordinatesCalibrer.html#ad6519b69842756c256922d14d1e248ce">CoordinatesCalibrer::NormalizePosition()</a> and <a class="el" href="classCoordinatesCalibrer.html#a8522193b13196313d001c589e7845bd3">CoordinatesCalibrer::UnnormalizePosition()</a> to switch between normalized and real field coordinates. The calibrator uses a rotation, a translation and a scaling transform to convert to normalized coordinates. It does not support non linear transformations (e.g. optic transformations). </p>
 <hr/><h2>Constructor &amp; Destructor Documentation</h2>
 <a class="anchor" id="ac9a522299ada8f2e58ed8f0c91f4f396"></a><!-- doxytag: member="CoordinatesCalibrer::CoordinatesCalibrer" ref="ac9a522299ada8f2e58ed8f0c91f4f396" args="()" -->
 <div class="memitem">
@@ -116,7 +119,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>Initializing constructor. </p>
+<p>Default empty constructor. The calibration data must be set either with <a class="el" href="classCoordinatesCalibrer.html#a006c18905b14e4780b9fc74fe26649fc">CoordinatesCalibrer::SetManualCoordCalibration()</a> or <a class="el" href="classCoordinatesCalibrer.html#a2087994adbb8651efcb06e3d7a2315da">CoordinatesCalibrer::StartCoordCalibration()</a> before using the instance. </p>
 
 </div>
 </div>
@@ -157,7 +160,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>Constructor of the coordinates calibrer based on 4 positions in the field. </p>
+<p>Constructor with calibration data (see <a class="el" href="classCoordinatesCalibrer.html#a006c18905b14e4780b9fc74fe26649fc">CoordinatesCalibrer::SetManualCoordCalibration()</a> for details). </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>First position </td></tr>
@@ -187,10 +190,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>This function realizes the calibration of robots coordinates. </p>
+<p>Function called to do the automatic coordinates calibration. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>Data needed for calibration. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>Pointer to the associated <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> instance. </td></tr>
   </table>
   </dd>
 </dl>
@@ -234,17 +237,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>This function gets the results of coordinates calibration. </p>
+<p>This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*, double*). </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>xMax</em>&nbsp;</td><td>The maximum value os x. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>xMin</em>&nbsp;</td><td>The minimum value os x. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>yMax</em>&nbsp;</td><td>The maximum value os y. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>yMin</em>&nbsp;</td><td>The minimum value os y. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>xMax</em>&nbsp;</td><td>A pointer to receive the maximum value for the x coordinate. Can be NULL. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>xMin</em>&nbsp;</td><td>A pointer to receive the minimum value for the x coordinate. Can be NULL. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>yMax</em>&nbsp;</td><td>A pointer to receive the maximum value for the y coordinate. Can be NULL. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>yMin</em>&nbsp;</td><td>A pointer to receive the minimum value for the y coordinate. Can be NULL. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the calibration results are got. Flase if not. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the calibration was actually done, False if not (in this case data stays unchanged). </dd></dl>
 
 </div>
 </div>
@@ -291,18 +294,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>It gets the results of coordinates calibration. </p>
+<p>It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*). </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>tx</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ty</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>theta</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>kx</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ky</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>tx</em>&nbsp;</td><td>Pointer to receive the X translation setting. Can be NULL. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ty</em>&nbsp;</td><td>Pointer to receive the Y translation setting. Can be NULL. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>theta</em>&nbsp;</td><td>Pointer to receive the rotation setting (in radians). Can be NULL. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>kx</em>&nbsp;</td><td>Pointer to receive the X scaling setting. Can be NULL. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ky</em>&nbsp;</td><td>Pointer to receive the Y scaling setting. Can be NULL. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the calibration was actually done, False if not (in this case data stays unchanged). </dd></dl>
 
 </div>
 </div>
@@ -321,7 +324,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>Initializes the parameters for the Coordinates calibrer class. </p>
+<p>Initializes the parameters for a <a class="el" href="classCoordinatesCalibrer.html" title="Class used to convert real field coordinates to normalized coordinates and vice-versa...">CoordinatesCalibrer</a> instance. </p>
 
 </div>
 </div>
@@ -341,7 +344,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>It normalizes an angle to an angle between -M_PI and M_PI. </p>
+<p>Normalizes an angle. </p>
+<p>As the coordinates normalization involves scaling and rotation, the angles values might change when switching between the coordinates systems. This function converts an angle computed in real field coordinates to the same angle in normalized coordinates.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td>Angle to be normalized. </td></tr>
@@ -377,15 +381,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>It normalizes a position. </p>
+<p>It normalizes a position (real field -&gt; normalized). </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Not supported anymore. Use CoordinatesCalibrer::NormalizePosition(Position) instead.</dd></dl>
+<p>Normalized coordinates are in [-1 ; 1].</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>phi</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>The real field position. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>phi</em>&nbsp;</td><td>The angle of the robot associated with the position, as returned by the GetPhi() function. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Position </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Position The normalized position. </dd></dl>
 
 </div>
 </div>
@@ -404,13 +410,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>It normalizes a position (real field -&gt; normalized). </p>
+<p>Normalized coordinates are in [-1 ; 1].</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>The real field position. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Position </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Position The normalized position. </dd></dl>
 
 </div>
 </div>
@@ -451,8 +460,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>sets manually the coodinates calibrer based on 4 positions </p>
-<dl><dt><b>Parameters:</b></dt><dd>
+<p>Sets manually the calibration data based on 4 positions. </p>
+<div class="fragment"><pre class="fragment">
+
+ ********** A **********
+ *                     *
+ D          O          B
+ *                     *
+ ********** C **********
+ </pre></div><dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>a</em>&nbsp;</td><td>First position </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td>Second position </td></tr>
@@ -490,15 +506,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>This function starts the coordinates calibration. </p>
+<p>This function starts the automatic coordinates calibration. </p>
+<p>This function will move the robots on the field to determine the field's limits. You should not give order to the robots while the process is in progress. You can call the <a class="el" href="classCoordinatesCalibrer.html#a99563ba6e43f839bf1b10f55cf155125">CoordinatesCalibrer::WaitForCoordCalibrationEnd()</a> function to wait for the end of the process.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robot1</em>&nbsp;</td><td>First robot. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>robot2</em>&nbsp;</td><td>Second robot. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robot1</em>&nbsp;</td><td>First robot to use for the calibration. NULL can possibly lead to segfault. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robot2</em>&nbsp;</td><td>Second robot to use for the calibration. NULL can possibly lead to segfault. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if thr coordinates calibration was started. False if not. </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the coordinates calibration was started. False if not. </dd></dl>
 
 </div>
 </div>
@@ -519,6 +536,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="memdoc">
 
 <p>It unnormalizes an angle. </p>
+<p>Reverse of <a class="el" href="classCoordinatesCalibrer.html#acae6b5f07cf198f9c85a1b09e9a275dc">CoordinatesCalibrer::NormalizeAngle()</a>.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td>Angle to be unnormalized. </td></tr>
@@ -554,15 +572,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>It unnormalizes a position. </p>
+<p>It unnormalizes a position (normalized -&gt; real field). </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>Not supported anymore. Use CoordinatesCalibrer::UnnormalizePosition(Position) instead.</dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>The normalized position. Coordinates outside the range [-1,1] will be converted into real positions outside the field. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>phi</em>&nbsp;</td><td>UNNORMALIZED orientation of the robot, typically given by RoboControl::GetPhi(). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Position </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Position The unnormalized position. </dd></dl>
 
 </div>
 </div>
@@ -581,13 +600,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>It unnormalizes a position (normalized -&gt; real field). </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>The normalized position. Coordinates outside the range [-1,1] will be converted into real positions outside the field. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Position </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Position The unnormalized position. </dd></dl>
 
 </div>
 </div>
@@ -607,7 +628,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>It waits for the end of the coordinates calibration before ending it. </p>
+<p>It waits for the end of the automatic coordinates calibration. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>stopNow</em>&nbsp;</td><td>True if the coordinates calbration should stop immediately. False if not. </td></tr>
@@ -806,7 +827,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:33 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

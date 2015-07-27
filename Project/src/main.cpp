@@ -65,7 +65,7 @@ void exitHandler(int signal, siginfo_t* info, void* sigcontext)
 using namespace std;
 
 /**
- * @brief
+ * @brief Structure used to gather data to be given to the main loop thread.
  *
  */
 typedef struct
@@ -77,18 +77,18 @@ typedef struct
 
 static void* MainLoop(void* data);
 
-const eTeam team = RED_TEAM;    /**< TODO */
+const eTeam team = RED_TEAM;    /**< Our team! */
 
 #ifdef SIMULATION
-const unsigned int refreshWait = 500;   /**< TODO */
+const unsigned int refreshWait = 500;   /**< Minimal waiting time between two updates of the system (in ms). */
 #else
-const unsigned int refreshWait = 20;    /**< TODO */
+const unsigned int refreshWait = 20;    /**< Minimal waiting time between two updates of the system (in ms). */
 #endif
 
 /**
- * @brief
+ * @brief Main function of the program.
  *
- * @return int
+ * @return int 0 on success.
  */
 int main(void)
 {
@@ -209,9 +209,9 @@ int main(void)
 
 
 /**
- * @brief
+ * @brief Main loop used to constantly give order to a specific robot.
  *
- * @param data
+ * @param data Pointer to a @ref MainLoopDataStruct containing necessary information.
  */
 static void* MainLoop(void* data)
 {

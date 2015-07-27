@@ -5,11 +5,11 @@
 #include <queue>
 
 /**
- * @brief create a point in normalized map
+ * @brief Wrapper to create a @ref Matrix::Point
  *
- * @param x value on x axis
- * @param y value on y axis
- * @return Matrix::Point
+ * @param x coordinate
+ * @param y coordinate
+ * @return Matrix::Point Point
  */
 Matrix::Point Matrix::CreatePoint(int x, int y)
 {
@@ -18,10 +18,10 @@ Matrix::Point Matrix::CreatePoint(int x, int y)
 }
 
 /**
- * @brief
+ * @brief Basic constructor.
  *
- * @param height
- * @param width
+ * @param height Matrix height. Default to Interpreter::MAP_HEIGHT.
+ * @param width Matrix width. Default to Interpreter::MAP_WIDTH.
  */
 Matrix::Matrix(int height, int width)
 {
@@ -38,7 +38,7 @@ Matrix::Matrix(int height, int width)
 }
 
 /**
- * @brief
+ * @brief Copy constructor
  *
  * @param matrix
  */
@@ -55,7 +55,7 @@ Matrix::Matrix(const Matrix& matrix)
 }
 
 /**
- * @brief
+ * @brief Destructor
  *
  */
 Matrix::~Matrix()
@@ -66,7 +66,7 @@ Matrix::~Matrix()
 }
 
 /**
- * @brief
+ * @brief Copy operator overload
  *
  * @param matrix
  * @return Matrix & Matrix::operator
@@ -96,9 +96,9 @@ Matrix& Matrix::operator=(const Matrix& matrix)
 }
 
 /**
- * @brief
+ * @brief Fills the whole matrix with the given number.
  *
- * @param number
+ * @param number The number to use to fill the matrix.
  */
 void Matrix::Fill(Uint8 number)
 {
@@ -110,11 +110,11 @@ void Matrix::Fill(Uint8 number)
 }
 
 /**
- * @brief this function draw a rectangle on the map. The rectangle could be used to restrict the moving
- * area of a robot in different strategy
- * @param ul upper left point of the rectangle
- * @param lr lower right point of the rectangle
- * @param number
+ * @brief This function draws a filled rectangle in the matrix.
+ *
+ * @param ul Upper left corner of the rectangle
+ * @param lr Lower right corner of the rectangle
+ * @param number The number to use to fill the rectangle.
  */
 void Matrix::DrawRectangle(Point ul, Point lr, Uint8 number)
 {
@@ -127,12 +127,12 @@ void Matrix::DrawRectangle(Point ul, Point lr, Uint8 number)
 }
 
 /**
- * @brief this function is used to draw lines. The movement of the robot should not cross this line
+ * @brief This function draws a filled thick line (rotated rectangle) in the matrix.
  *
- * @param start start point of the line
- * @param end end point of the line
- * @param thickness
- * @param number
+ * @param start Start point of the line.
+ * @param end End point of the line.
+ * @param thickness Thickness of the line.
+ * @param number The number to use to fill the thick line.
  */
 void Matrix::DrawThickLine(Point start, Point end, int thickness, Uint8 number)
 {
@@ -142,11 +142,11 @@ void Matrix::DrawThickLine(Point start, Point end, int thickness, Uint8 number)
 }
 
 /**
- * @brief this function is used to draw a circle on the matrix
+ * @brief This function draws a filled circle in the matrix.
  *
- * @param center is the centre of the circle
- * @param radius is the radius of the circle
- * @param number
+ * @param center The centre of the circle.
+ * @param radius The radius of the circle.
+ * @param number The number to use to fill the circle.
  */
 void Matrix::DrawCircle(Point center, int radius, Uint8 number)
 {
@@ -155,11 +155,10 @@ void Matrix::DrawCircle(Point center, int radius, Uint8 number)
 }
 
 /**
- * @brief this function is used to draw a polygon on the robot. This polygon serves as a barrier. In the
- * pathfinding, the path will avoid the polygon so that robots would not collide.
- * @param points are points of the polygon
- * @param n is the number of the points of the polygon
- * @param number
+ * @brief This function draws a filled polygon in the matrix.
+ * @param points Vertices of the polygon.
+ * @param n Number of vertices in the array "points".
+ * @param number The number to use to fill the polygon.
  */
 void Matrix::DrawPolygon(Point *points, int n, Uint8 number)
 {
@@ -179,10 +178,10 @@ void Matrix::DrawPolygon(Point *points, int n, Uint8 number)
 
 //From http://will.thimbleby.net/scanline-flood-fill/
 /**
- * @brief
+ * @brief Performs a flood fill in the matrix from the given starting point. The "accessible" values are the ones equal to the one at the starting point.
  *
- * @param start
- * @param number
+ * @param start The starting point.
+ * @param number The number to use to fill the matrix.
  */
 void Matrix::FloodFill(Point start, Uint8 number)
 {

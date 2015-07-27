@@ -6,7 +6,7 @@
  *
  * @param startX Coordinate x of the start point (origin of the vector).
  * @param startY Coordinate y of the start point (origin of the vector).
- * @param angle Angle between the vector and the x axis.
+ * @param angle Angle between the vector and the x axis (clockwise).
  * @param length Length of the vector.
  * @param endX Coordinate x of the end point (end of the vector).
  * @param endY Coordinate y of the end point (end of the vector).
@@ -21,8 +21,8 @@ void ComputeVectorEnd(double startX, double startY, double angle, double length,
  *
  * @param startX Coordinate x of the start point (origin of the vector).
  * @param startY Coordinate y of the start point (origin of the vector).
- * @param cosAngle Cosinus of the angle between the vector and the x axis.
- * @param sinAngle Sinus of the angle between the vector and the x axis.
+ * @param cosAngle Cosinus of the angle between the vector and the x axis (clockwise).
+ * @param sinAngle Sinus of the angle between the vector and the x axis (clockwise).
  * @param length Length of the vector.
  * @param endX Coordinate x of the end point (end of the vector).
  * @param endY Coordinate y of the end point (end of the vector).
@@ -40,7 +40,7 @@ void ComputeVectorEnd(double startX, double startY, double cosAngle, double sinA
  * @param startY y coordinate of the origin of the vector.
  * @param endX x coordinate of the end of the vector.
  * @param endY y coordinate of the end of the vector.
- * @param angle The angle between the vector and the x axis.
+ * @param angle Pointer to receive the angle between the vector and the x axis. NULL will lead to segfault.
  */
 void ComputeLineAngle(double startX, double startY, double endX, double endY, double *angle)
 {
@@ -58,8 +58,8 @@ void ComputeLineAngle(double startX, double startY, double endX, double endY, do
  * @param startY y coordinate of the origin of the vector.
  * @param endX x coordinate of the end of the vector.
  * @param endY y coordinate of the end of the vector.
- * @param cosAngle Cosinus of the angle between the vector and x axis.
- * @param sinAngle Sinus of the angle between the vector and  x axis.
+ * @param cosAngle Pointer to receive the cosinus of the angle between the vector and x axis. NULL will lead to segfault.
+ * @param sinAngle Pointer to receive the sinus of the angle between the vector and x axis. NULL will lead to segfault.
  */
 void ComputeLineAngle(double startX, double startY, double endX, double endY, double *cosAngle, double *sinAngle)
 {
@@ -121,9 +121,9 @@ bool DoSegmentsIntersect(double x1, double y1, double x2, double y2, double x3, 
  * @param y3 y coordinate of the first point in the second segment.
  * @param x4 x coordinate of the second point in the second segment.
  * @param y4 y coordinate of the second point in the second segment.
- * @param isectX
- * @param isectY
- * @return bool
+ * @param isectX Pointer to receive the x coordinate of the intersection point, if any. NULL can lead to segfault.
+ * @param isectY Pointer to receive the y coordinate of the intersection point, if any. NULL can lead to segfault.
+ * @return bool True if there is an intersection, False if not (in this case the data stays unchanged).
  */
 bool ComputeLinesIntersection(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4, double *isectX, double *isectY)
 {
@@ -137,17 +137,17 @@ bool ComputeLinesIntersection(double x1, double y1, double x2, double y2, double
 }
 
 /**
- * @brief
+ * @brief Computes the intersection of a line with a rectangle.
  *
- * @param xMin
- * @param yMin
- * @param xMax
- * @param yMax
- * @param a
- * @param b
- * @param (isectX)[]
- * @param (isectY)[]
- * @return bool
+ * @param xMin The x coordinate of the upper-left corner of the rectangle.
+ * @param yMin The y coordinate of the upper-left corner of the rectangle.
+ * @param xMax The x coordinate of the lower-right corner of the rectangle.
+ * @param yMax The y coordinate of the lower-right corner of the rectangle.
+ * @param a The slope of the line (y = a*x + b)
+ * @param b The offset of the line (y = a*x + b)
+ * @param (isectX)[] The x coordinates of the intersection points, if any.
+ * @param (isectY)[] The y coordinates of the intersection points, if any.
+ * @return bool True if there is an intersection, False if no intersection.
  */
 bool GetLineRectIntersections(double xMin, double yMin, double xMax, double yMax, double a, double b, double (&isectX)[2], double (&isectY)[2])
 {
@@ -208,18 +208,18 @@ bool GetLineRectIntersections(double xMin, double yMin, double xMax, double yMax
 }
 
 /**
- * @brief
+ * @brief Computes the intersection of a line segment with a rectangle.
  *
- * @param ulX
- * @param ulY
- * @param lrX
- * @param lrY
- * @param startX
- * @param startY
- * @param endX
- * @param endY
- * @param (isectX)[]
- * @param (isectY)[]
+ * @param ulX The x coordinate of the upper-left corner of the rectangle.
+ * @param ulY The x coordinate of the upper-left corner of the rectangle.
+ * @param lrX The x coordinate of the lower-right corner of the rectangle.
+ * @param lrY The y coordinate of the lower-right corner of the rectangle.
+ * @param startX The x coordinate of the first point of the line segment.
+ * @param startY The y coordinate of the first point of the line segment.
+ * @param endX The x coordinate of the second point of the line segment.
+ * @param endY The y coordinate of the second point of the line segment.
+ * @param (isectX)[] The x coordinates of the intersection points, if any.
+ * @param (isectY)[] The y coordinates of the intersection points, if any.
  * @return int
  */
 int GetSegmentRectIntersections(double ulX, double ulY, double lrX, double lrY, double startX, double startY, double endX, double endY, double (&isectX)[2], double (&isectY)[2])

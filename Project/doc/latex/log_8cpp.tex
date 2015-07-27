@@ -8,9 +8,9 @@
 \begin{DoxyCompactItemize}
 \item 
 static string \hyperlink{log_8cpp_ae67eb683acf497ecb5da53dc8158a851}{levelString} (\hyperlink{log_8h_aca1fd1d8935433e6ba2e3918214e07f9}{LogLevel} level)
-\item 
+\begin{DoxyCompactList}\small\item\em Get the string representation of a \hyperlink{log_8h_aca1fd1d8935433e6ba2e3918214e07f9}{log level}. \item\end{DoxyCompactList}\item 
 void \hyperlink{log_8cpp_a8d904f67bc3e0b8169f1e84331b13e92}{Log\_\-def} (string message, string funcName, int line, \hyperlink{log_8h_aca1fd1d8935433e6ba2e3918214e07f9}{LogLevel} level)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Prints a message in the log (console). \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 
 
 \subsection{Function Documentation}
@@ -20,10 +20,14 @@ void \hyperlink{log_8cpp_a8d904f67bc3e0b8169f1e84331b13e92}{Log\_\-def} (string 
 \subsubsection[{levelString}]{\setlength{\rightskip}{0pt plus 5cm}static string levelString ({\bf LogLevel} {\em level})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{log_8cpp_ae67eb683acf497ecb5da53dc8158a851}
 
+
+Get the string representation of a \hyperlink{log_8h_aca1fd1d8935433e6ba2e3918214e07f9}{log level}. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em level}]\end{DoxyParams}
+\item[{\em level}]The log level. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-string 
+string The string representation. 
 \end{DoxyReturn}
 \hypertarget{log_8cpp_a8d904f67bc3e0b8169f1e84331b13e92}{
 \index{log.cpp@{log.cpp}!Log\_\-def@{Log\_\-def}}
@@ -31,5 +35,9 @@ string
 \subsubsection[{Log\_\-def}]{\setlength{\rightskip}{0pt plus 5cm}void Log\_\-def (string {\em message}, \/  string {\em funcName}, \/  int {\em line}, \/  {\bf LogLevel} {\em level})}}
 \label{log_8cpp_a8d904f67bc3e0b8169f1e84331b13e92}
 
+
+Prints a message in the log (console). 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em message}]\item[{\em funcName}]\item[{\em line}]\item[{\em level}]\end{DoxyParams}
+\item[{\em message}]The message to print. \item[{\em funcName}]The string representation of the calling function. \item[{\em line}]The line at which the function was called. \item[{\em level}]The level of the message. \end{DoxyParams}

@@ -37,7 +37,7 @@ PlayerMain::PlayerMain(RTDBConn& DBC, const int deviceNr, const CoordinatesCalib
 /**
  * @brief Set next Command for PlayerTwo, depending on the command of Interpreter a case (strategy) is selected 
  *
- * @param info playmode of referee
+ * @param info Information about the gameplay
  */
 void PlayerMain::setNextCmd(const Interpreter::GameData& info)
 {

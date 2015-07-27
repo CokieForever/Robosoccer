@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="tabs">
     <ul>
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -98,17 +99,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00073"></a><a class="code" href="structDragDrop.html#a41aaa4bda1eed39e08b926b46101c723">00073</a>     <span class="keywordtype">bool</span> dragged;
 <a name="l00074"></a>00074 } <a class="code" href="structDragDrop.html">DragDrop</a>;
 <a name="l00075"></a>00075 
-<a name="l00076"></a>00076 <span class="keywordtype">void</span> <a class="code" href="sdlutilities_8cpp.html#ab604c81393ea6333d015ae0c1c1075a8">DrawLine</a>(SDL_Surface *surf, <span class="keywordtype">float</span> x1, <span class="keywordtype">float</span> y1, <span class="keywordtype">float</span> x2, <span class="keywordtype">float</span> y2, SDL_Color color);
-<a name="l00077"></a>00077 SDL_Color <a class="code" href="sdlutilities_8cpp.html#a786a9b7496a20e91df1553d7f79c3b3a">CreateColor</a>(<span class="keywordtype">int</span> r, <span class="keywordtype">int</span> g, <span class="keywordtype">int</span> b);
-<a name="l00078"></a>00078 Uint32 <a class="code" href="sdlutilities_8cpp.html#a699c4f67ee37b01814cf3551d956be18">GetPixel</a>(SDL_Surface *surface, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);
-<a name="l00079"></a>00079 <span class="keywordtype">bool</span> <a class="code" href="sdlutilities_8cpp.html#a2cc0a8d028036f42805a47db21a200c9">PutPixelCheck</a>(SDL_Surface *surf, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, Uint32 pixel);
-<a name="l00080"></a>00080 <span class="keywordtype">void</span> <a class="code" href="sdlutilities_8cpp.html#ac5a13add388bb77a96185c429c1de3ab">PutPixel</a>(SDL_Surface *surface, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, Uint32 pixel);
-<a name="l00081"></a>00081 SDL_Rect <a class="code" href="sdlutilities_8cpp.html#abc22a51dfc872179f787dad9e77baaa9">GetMousePos</a>();
+<a name="l00076"></a>00076 <span class="keywordtype">void</span> <a class="code" href="sdlutilities_8cpp.html#ab604c81393ea6333d015ae0c1c1075a8" title="Draws a line segment on a surface.">DrawLine</a>(SDL_Surface *surf, <span class="keywordtype">float</span> x1, <span class="keywordtype">float</span> y1, <span class="keywordtype">float</span> x2, <span class="keywordtype">float</span> y2, SDL_Color color);
+<a name="l00077"></a>00077 SDL_Color <a class="code" href="sdlutilities_8cpp.html#a786a9b7496a20e91df1553d7f79c3b3a" title="Wrapper to create a SDL_Color.">CreateColor</a>(<span class="keywordtype">int</span> r, <span class="keywordtype">int</span> g, <span class="keywordtype">int</span> b);
+<a name="l00078"></a>00078 Uint32 <a class="code" href="sdlutilities_8cpp.html#a699c4f67ee37b01814cf3551d956be18" title="Returns the pixel value of the surface at the given point. The surface should be...">GetPixel</a>(SDL_Surface *surface, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y);
+<a name="l00079"></a>00079 <span class="keywordtype">bool</span> <a class="code" href="sdlutilities_8cpp.html#a2cc0a8d028036f42805a47db21a200c9" title="Sets the pixel value of the surface at the given point. The surface should be locked...">PutPixelCheck</a>(SDL_Surface *surf, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, Uint32 pixel);
+<a name="l00080"></a>00080 <span class="keywordtype">void</span> <a class="code" href="sdlutilities_8cpp.html#ac5a13add388bb77a96185c429c1de3ab" title="Sets the pixel value of the surface at the given point. The surface should be locked...">PutPixel</a>(SDL_Surface *surface, <span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, Uint32 pixel);
+<a name="l00081"></a>00081 SDL_Rect <a class="code" href="sdlutilities_8cpp.html#abc22a51dfc872179f787dad9e77baaa9" title="Gets the mouse position in the SDL window.">GetMousePos</a>();
 <a name="l00082"></a>00082 
-<a name="l00083"></a>00083 <a class="code" href="structButton.html">Button</a> <a class="code" href="sdlutilities_8cpp.html#a8b255c0694b31a7e1d16e06cf59d40da">CreateButton</a>(SDL_Rect area, SDL_Color colorHovered = <a class="code" href="sdlutilities_8cpp.html#a786a9b7496a20e91df1553d7f79c3b3a">CreateColor</a>(255,128,0), SDL_Color colorPushed = <a class="code" href="sdlutilities_8cpp.html#a786a9b7496a20e91df1553d7f79c3b3a">CreateColor</a>(255,0,0));
+<a name="l00083"></a>00083 <a class="code" href="structButton.html">Button</a> <a class="code" href="sdlutilities_8cpp.html#a8b255c0694b31a7e1d16e06cf59d40da">CreateButton</a>(SDL_Rect area, SDL_Color colorHovered = <a class="code" href="sdlutilities_8cpp.html#a786a9b7496a20e91df1553d7f79c3b3a" title="Wrapper to create a SDL_Color.">CreateColor</a>(255,128,0), SDL_Color colorPushed = <a class="code" href="sdlutilities_8cpp.html#a786a9b7496a20e91df1553d7f79c3b3a" title="Wrapper to create a SDL_Color.">CreateColor</a>(255,0,0));
 <a name="l00084"></a>00084 <a class="code" href="sdlutilities_8h.html#afe6d83475fb68420baa7ec0175dea26e">ButtonStatus</a> <a class="code" href="sdlutilities_8cpp.html#aeb2158707833303973276d21160abe3c">ManageButton</a>(<a class="code" href="structButton.html">Button</a> *button, SDL_Event event);
 <a name="l00085"></a>00085 
-<a name="l00086"></a>00086 <a class="code" href="structDragDrop.html">DragDrop</a> <a class="code" href="sdlutilities_8cpp.html#a4245a7db0d4b7a85377c3974a4796c4f">CreateDragDrop</a>(SDL_Rect area, SDL_Surface *ghostSurf = NULL, SDL_Color colorHovered = <a class="code" href="sdlutilities_8cpp.html#a786a9b7496a20e91df1553d7f79c3b3a">CreateColor</a>(255,128,0));
+<a name="l00086"></a>00086 <a class="code" href="structDragDrop.html">DragDrop</a> <a class="code" href="sdlutilities_8cpp.html#a4245a7db0d4b7a85377c3974a4796c4f">CreateDragDrop</a>(SDL_Rect area, SDL_Surface *ghostSurf = NULL, SDL_Color colorHovered = <a class="code" href="sdlutilities_8cpp.html#a786a9b7496a20e91df1553d7f79c3b3a" title="Wrapper to create a SDL_Color.">CreateColor</a>(255,128,0));
 <a name="l00087"></a>00087 <a class="code" href="sdlutilities_8h.html#ad7cc824013c50c30499f86f74e1fd158">DragDropStatus</a> <a class="code" href="sdlutilities_8cpp.html#ad478d779cb62e93d23027391a3a7747e">ManageDragDrop</a>(<a class="code" href="structDragDrop.html">DragDrop</a> *dd, SDL_Event event);
 <a name="l00088"></a>00088 
 <a name="l00089"></a>00089 <span class="keywordtype">void</span> <a class="code" href="geometry_8cpp.html#aba8437a6ae72cc4d20a11ea64d0ecd1d" title="This function computes the end of a vector given a start point an angle and length...">ComputeVectorEnd</a>(<span class="keywordtype">double</span> startX, <span class="keywordtype">double</span> startY, <span class="keywordtype">double</span> angle, <span class="keywordtype">double</span> length, <span class="keywordtype">double</span> *endX, <span class="keywordtype">double</span> *endY);
@@ -133,7 +134,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:33 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -1,7 +1,7 @@
 #include "opponentrobot.h"
 
 /**
- * @brief
+ * @brief Basic constructor
  *
  * @param DBC
  * @param deviceNr

@@ -16,6 +16,8 @@
  * Once the calibration data is set, use the @ref CoordinatesCalibrer::NormalizePosition() and
  * @ref CoordinatesCalibrer::UnnormalizePosition() to switch between normalized and real field
  * coordinates.
+ * The calibrator uses a rotation, a translation and a scaling transform to convert to normalized coordinates.
+ * It does not support non linear transformations (e.g. optic transformations).
  */
 class CoordinatesCalibrer
 {

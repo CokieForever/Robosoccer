@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="tabs">
     <ul>
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -76,9 +77,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Classes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structMainLoopDataStruct.html">MainLoopDataStruct</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Structure used to gather data to be given to the main loop thread.  <a href="structMainLoopDataStruct.html#_details">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#ac0306f3effc25621909ef1556ee70e9c">MainLoop</a> (void *data)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Main loop used to constantly give order to a specific robot.  <a href="#ac0306f3effc25621909ef1556ee70e9c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a840291bc02cba5474a4cb46a9b9566fe">main</a> (void)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Main function of the program.  <a href="#a840291bc02cba5474a4cb46a9b9566fe"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const eTeam&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#aecb451e9fb0319481387340ad6c13bd7">team</a> = RED_TEAM</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const unsigned int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cpp.html#a3d93cd9d9299d6710eb0415a7868b3a1">refreshWait</a> = 20</td></tr>
@@ -99,7 +103,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+
+<p>Main function of the program. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int 0 on success. </dd></dl>
 
 </div>
 </div>
@@ -118,9 +124,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Main loop used to constantly give order to a specific robot. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>Pointer to a <a class="el" href="structMainLoopDataStruct.html">MainLoopDataStruct</a> containing necessary information. </td></tr>
   </table>
   </dd>
 </dl>
@@ -138,7 +146,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<p>TODO </p>
+<p>Minimal waiting time between two updates of the system (in ms). </p>
 
 </div>
 </div>
@@ -152,7 +160,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<p>TODO </p>
+<p>Our team! </p>
 
 </div>
 </div>
@@ -171,7 +179,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:33 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

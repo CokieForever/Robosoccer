@@ -24,11 +24,11 @@ struct \hyperlink{structBallMonitor_1_1PosTime}{PosTime}
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classBallMonitor_a176a257973eefa572b6972aa6b5a605d}{BallMonitor} (\hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalibrer, RawBall $\ast$ball=NULL)
-\begin{DoxyCompactList}\small\item\em creates a \hyperlink{classBallMonitor}{BallMonitor} . This is the constructor of ball monitor class \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Main (and only) constructor. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}{StartMonitoring} (RawBall $\ast$ball=NULL)
-\begin{DoxyCompactList}\small\item\em This function starts the monitoring of the ball.It creates a new thread to monitor the ball. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function starts the monitoring of the ball. It creates a new thread to monitor the ball. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classBallMonitor_af71db12abeb1f10f7be58eb7591910a3}{StopMonitoring} ()
-\begin{DoxyCompactList}\small\item\em This function stops the monitoring of the ball.It destroys the thread created to monitor the ball. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function stops the monitoring of the ball. It destroys the thread created to monitor the ball. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classBallMonitor_aab81815271c442087c15bc8f6843d092}{GetBallPosition} (Position $\ast$pos) const 
 \begin{DoxyCompactList}\small\item\em This function gets the position of the ball. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classBallMonitor_a3cd2fe1ed297c468634fbb390ca088bd}{GetBallDirection} (\hyperlink{structBallMonitor_1_1Direction}{Direction} $\ast$dir) const 
@@ -38,16 +38,16 @@ bool \hyperlink{classBallMonitor_a914053314023ea79ee691a3031e355bf}{PredictBallP
 bool \hyperlink{classBallMonitor_a8995e71b82d80987984dd6b1ed89c0a0}{IsBallMoving} () const 
 \begin{DoxyCompactList}\small\item\em Tells if the ball is moving on the field or not. \item\end{DoxyCompactList}\item 
 std::vector$<$ double $>$ \hyperlink{classBallMonitor_aad046acf9df6b0381ab3b1b8351e97c5}{ComputeVisibilityMap} (int maxLevel, const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robot\mbox{[}6\mbox{]}, eSide ourSide, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalib) const 
-\begin{DoxyCompactList}\small\item\em This function computes the visibility map based on the position of other robots and on our side. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function computes the visibility map of the ball based on the position of other robots and on our side. \item\end{DoxyCompactList}\item 
 std::vector$<$ double $>$ \hyperlink{classBallMonitor_ac30119e22cfe4814670c4eae8c6b5495}{ComputeVisibilityMap} (const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robot\mbox{[}6\mbox{]}, eSide ourSide, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalib) const 
-\begin{DoxyCompactList}\small\item\em This function computes the visibility map based on the position of other robots and on our side. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em This function computes the visibility map based on the position of other robots and on our side, without taking rebounds into account. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a0d2ef73ba2b0573021c800c311e08245}{ComputeVisibilityMap} (int maxLevel, Position pos, const Position $\ast$robotPos, int nbPos, eSide ourSide)
-\begin{DoxyCompactList}\small\item\em This function computes the visibility map based on the position of other robots and on our side. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function computes the visibility map of the ball based on the position of other robots and on our side. \item\end{DoxyCompactList}\item 
 static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a53e07299cf403dd036cab543d37fbf92}{ComputeVisibilityMap} (Position pos, const Position $\ast$robotPos, int nbPos, eSide ourSide)
-\begin{DoxyCompactList}\small\item\em This function computes the visibility map based on the position of other robots and on our side. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function computes the visibility map based on the position of other robots and on our side, without taking rebounds into account. \item\end{DoxyCompactList}\item 
 static double \hyperlink{classBallMonitor_a9045d5d3abf9c9b549303c831b3387e0}{GetBestDirection} (std::vector$<$ double $>$ visibilityMap, eSide ourSide)
 \begin{DoxyCompactList}\small\item\em Gives the best direction to shoot the ball. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Public Attributes}
@@ -64,24 +64,24 @@ typedef bool($\ast$ \hyperlink{classBallMonitor_a5ad781c99d5b43bee7c838de9da7552
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classBallMonitor_a09ed61cf1852d45f03e7aacdebfe0175}{ResetPosTimeList} ()
-\begin{DoxyCompactList}\small\item\em This unlocks the Ball Monitoring thread. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This erases the old ball positions in memory. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classBallMonitor_a49645db55ca752adbc2a5a074c7314be}{ComputeLinearRegression} (double $\ast$a, double $\ast$b, int precision=2) const 
 \begin{DoxyCompactList}\small\item\em This function computes a linear regression of the ball's position. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static void $\ast$ \hyperlink{classBallMonitor_af76da8bc13e92d9083a9a77469c472df}{BallMonitoringFn} (void $\ast$data)
-\begin{DoxyCompactList}\small\item\em This function realizes the ball monitoring. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Ball monitoring thread, launched by \hyperlink{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}{BallMonitor::StartMonitoring()}. \item\end{DoxyCompactList}\item 
 static void $\ast$ \hyperlink{classBallMonitor_a2ca3e25f437b5aabb3bc88e0f84cf9a5}{BallFollowingFn} (void $\ast$data)
 \item 
 static bool \hyperlink{classBallMonitor_a78114ec7fc20317f84491e428dd8c126}{CompareAngles} (const \hyperlink{structBallMonitor_1_1Angle}{Angle} \&a1, const \hyperlink{structBallMonitor_1_1Angle}{Angle} \&a2)
-\begin{DoxyCompactList}\small\item\em This function compares two angles. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function compares two \hyperlink{structBallMonitor_1_1Angle}{angles}. \item\end{DoxyCompactList}\item 
 static \hyperlink{structBallMonitor_1_1Angle}{Angle} \hyperlink{classBallMonitor_a805b7229e7db773c56e9987d794ada9a}{CreateAngle} (double val, int id)
 \begin{DoxyCompactList}\small\item\em This function creates an angle of a given value and id. \item\end{DoxyCompactList}\item 
 static double \hyperlink{classBallMonitor_a32d7b6d877b84c7d7fd9bc9ffe659562}{AngleVertMirror} (double angle)
-\begin{DoxyCompactList}\small\item\em This function returns an angle which is perpendicular to a given angle. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Computes f(a) = M\_\-PI -\/ a (mirror to the vertical axis) for an angle a in \mbox{[}-\/M\_\-PI ; M\_\-PI\mbox{]} and returns an angle in the same interval. \item\end{DoxyCompactList}\item 
 static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a74f8a1ce881528e475269fa1c964fa61}{MergeVisibilityMaps} (std::vector$<$ double $>$ \&map1, std::vector$<$ double $>$ \&map2)
-\begin{DoxyCompactList}\small\item\em This function merges two visibility maps. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function merges two visibility maps, typically computed by \hyperlink{classBallMonitor_a0d2ef73ba2b0573021c800c311e08245}{BallMonitor::ComputeVisibilityMap()}. \item\end{DoxyCompactList}\item 
 static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a8f3198b6b4ef8eb52c0ff04afd33cc8f}{AnglesToMap} (std::priority\_\-queue$<$ \hyperlink{structBallMonitor_1_1Angle}{Angle}, std::vector$<$ \hyperlink{structBallMonitor_1_1Angle}{Angle} $>$, \hyperlink{classBallMonitor_a5ad781c99d5b43bee7c838de9da75527}{CompareFn} $>$ angles, double minAngle, double maxAngle)
 \end{DoxyCompactItemize}
 \subsection*{Private Attributes}
@@ -134,11 +134,11 @@ Class used as a wrapper for a \char`\"{}RawBall\char`\"{} instance. This class p
 \label{classBallMonitor_a176a257973eefa572b6972aa6b5a605d}
 
 
-creates a \hyperlink{classBallMonitor}{BallMonitor} . This is the constructor of ball monitor class 
+Main (and only) constructor. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em coordCalibrer}]the coordinates calibrator \item[{\em ball}]The ball \end{DoxyParams}
+\item[{\em coordCalibrer}]The coordinates calibrator \item[{\em ball}]The ball \end{DoxyParams}
 
 
 \subsection{Member Function Documentation}
@@ -154,13 +154,13 @@ creates a \hyperlink{classBallMonitor}{BallMonitor} . This is the constructor of
 \label{classBallMonitor_a32d7b6d877b84c7d7fd9bc9ffe659562}
 
 
-This function returns an angle which is perpendicular to a given angle. 
+Computes f(a) = M\_\-PI -\/ a (mirror to the vertical axis) for an angle a in \mbox{[}-\/M\_\-PI ; M\_\-PI\mbox{]} and returns an angle in the same interval. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em angle}]The given angle. \end{DoxyParams}
+\item[{\em angle}]The initial angle. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-double The value of the perpendicular angle. 
+double The mirrored angle. 
 \end{DoxyReturn}
 \hypertarget{classBallMonitor_a2ca3e25f437b5aabb3bc88e0f84cf9a5}{
 \index{BallMonitor@{BallMonitor}!BallFollowingFn@{BallFollowingFn}}
@@ -174,11 +174,11 @@ double The value of the perpendicular angle.
 \label{classBallMonitor_af76da8bc13e92d9083a9a77469c472df}
 
 
-This function realizes the ball monitoring. 
+Ball monitoring thread, launched by \hyperlink{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}{BallMonitor::StartMonitoring()}. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em data}]The data needed for monitoring. \end{DoxyParams}
+\item[{\em data}]Pointer to the associated \hyperlink{classBallMonitor}{BallMonitor} instance. \end{DoxyParams}
 \hypertarget{classBallMonitor_a78114ec7fc20317f84491e428dd8c126}{
 \index{BallMonitor@{BallMonitor}!CompareAngles@{CompareAngles}}
 \index{CompareAngles@{CompareAngles}!BallMonitor@{BallMonitor}}
@@ -186,7 +186,7 @@ This function realizes the ball monitoring.
 \label{classBallMonitor_a78114ec7fc20317f84491e428dd8c126}
 
 
-This function compares two angles. 
+This function compares two \hyperlink{structBallMonitor_1_1Angle}{angles}. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -205,9 +205,9 @@ This function computes a linear regression of the ball's position.
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em a}]The solpe of the line describing the trajectory of the ball. \item[{\em b}]The intercept the line describing the trajectory of the ball. \item[{\em precision}]The precision with which thr line trajectory of the ball is computed. \end{DoxyParams}
+\item[{\em a}]The slope of the line describing the trajectory of the ball (f(x) = a$\ast$x + b). \item[{\em b}]The intercept the line describing the trajectory of the ball (f(x) = a$\ast$x + b). \item[{\em precision}]The precision with which the regression is computed (= number of points used for the regression). \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool True if the linear regression was computed. False if not. 
+bool True if the linear regression was computed. False if not (vertical line). 
 \end{DoxyReturn}
 \hypertarget{classBallMonitor_ac30119e22cfe4814670c4eae8c6b5495}{
 \index{BallMonitor@{BallMonitor}!ComputeVisibilityMap@{ComputeVisibilityMap}}
@@ -216,11 +216,11 @@ bool True if the linear regression was computed. False if not.
 \label{classBallMonitor_ac30119e22cfe4814670c4eae8c6b5495}
 
 
-This function computes the visibility map based on the position of other robots and on our side. 
+This function computes the visibility map based on the position of other robots and on our side, without taking rebounds into account. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em robot\mbox{[}$\,$\mbox{]}}]Array of robots. \item[{\em ourSide}]The side in which our team plays. \item[{\em coordCalib}]The coordinates calibrator. \end{DoxyParams}
+\item[{\em robot\mbox{[}$\,$\mbox{]}}]Array of all six robots. \item[{\em ourSide}]The side in which our team plays. \item[{\em coordCalib}]The coordinates calibrator. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 std::vector$<$double$>$ The visibility map. 
 \end{DoxyReturn}
@@ -231,11 +231,11 @@ std::vector$<$double$>$ The visibility map.
 \label{classBallMonitor_aad046acf9df6b0381ab3b1b8351e97c5}
 
 
-This function computes the visibility map based on the position of other robots and on our side. 
+This function computes the visibility map of the ball based on the position of other robots and on our side. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em maxLevel}]The maximum level of recursion. \item[{\em robot\mbox{[}$\,$\mbox{]}}]An array of robots. \item[{\em ourSide}]The side in which our team plays. \item[{\em coordCalib}]The calibrator of coordinates \end{DoxyParams}
+\item[{\em maxLevel}]The maximum level of recursion (= number of rebounds against the walls). Note that this function is not optimized and consequently values greater than 5 should be avoided. \item[{\em robot\mbox{[}$\,$\mbox{]}}]All six robots present on the field. \item[{\em ourSide}]The side in which our team plays. \item[{\em coordCalib}]The coordinates calibrator \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 std::vector$<$double$>$ The visibility map. 
 \end{DoxyReturn}
@@ -246,11 +246,11 @@ std::vector$<$double$>$ The visibility map.
 \label{classBallMonitor_a53e07299cf403dd036cab543d37fbf92}
 
 
-This function computes the visibility map based on the position of other robots and on our side. 
+This function computes the visibility map based on the position of other robots and on our side, without taking rebounds into account. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em pos}]Ball position. \item[{\em robotPos}]Position of our robot. \item[{\em nbPos}]Number of robots. \item[{\em ourSide}]The side in which our team plays. \end{DoxyParams}
+\item[{\em pos}]Ball position. \item[{\em robotPos}]The positions of other robots. \item[{\em nbPos}]Number of positions in the robotPos array. \item[{\em ourSide}]The side in which our team plays. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 std::vector$<$double$>$ The visibility map. 
 \end{DoxyReturn}
@@ -261,11 +261,11 @@ std::vector$<$double$>$ The visibility map.
 \label{classBallMonitor_a0d2ef73ba2b0573021c800c311e08245}
 
 
-This function computes the visibility map based on the position of other robots and on our side. 
+This function computes the visibility map of the ball based on the position of other robots and on our side. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em maxLevel}]The maximum level of recursion. \item[{\em pos}]Position Position of the ball. \item[{\em robotPos}]The position of our robot. \item[{\em nbPos}]Number of robots. \item[{\em ourSide}]The side in which we play. \end{DoxyParams}
+\item[{\em maxLevel}]The maximum level of recursion (= number of rebounds against the walls). Note that this function is not optimized and consequently values greater than 5 should be avoided. \item[{\em pos}]Position Position of the ball. \item[{\em robotPos}]The positions of other robots. \item[{\em nbPos}]Number of positions in the robotPos array. \item[{\em ourSide}]The side in which we play. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 std::vector$<$double$>$ The visibility map. 
 \end{DoxyReturn}
@@ -325,9 +325,9 @@ Gives the best direction to shoot the ball.
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em visibilityMap}]The visibility map of the robot. It is the beam in which it is possible to shoot the ball. \item[{\em ourSide}]The side where our team plays. \end{DoxyParams}
+\item[{\em visibilityMap}]The visibility map for the ball, as typically computed by \hyperlink{classBallMonitor_a0d2ef73ba2b0573021c800c311e08245}{BallMonitor::ComputeVisibilityMap()}. \item[{\em ourSide}]The side where our team plays. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-double The angle inside the beam in which it is better to shoot the ball. 
+double The best angle to shoot the ball (in radians, between -\/M\_\-PI and M\_\-PI). 
 \end{DoxyReturn}
 \hypertarget{classBallMonitor_a8995e71b82d80987984dd6b1ed89c0a0}{
 \index{BallMonitor@{BallMonitor}!IsBallMoving@{IsBallMoving}}
@@ -338,7 +338,7 @@ double The angle inside the beam in which it is better to shoot the ball.
 
 Tells if the ball is moving on the field or not. 
 
-\begin{DoxyReturn}{Returns}
+Note that because of the noise, the ball could be identified as \char`\"{}moving\char`\"{} while it's actually not moving. \begin{DoxyReturn}{Returns}
 bool True if the ball is moving. False if not. 
 \end{DoxyReturn}
 \hypertarget{classBallMonitor_a74f8a1ce881528e475269fa1c964fa61}{
@@ -348,7 +348,7 @@ bool True if the ball is moving. False if not.
 \label{classBallMonitor_a74f8a1ce881528e475269fa1c964fa61}
 
 
-This function merges two visibility maps. 
+This function merges two visibility maps, typically computed by \hyperlink{classBallMonitor_a0d2ef73ba2b0573021c800c311e08245}{BallMonitor::ComputeVisibilityMap()}. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -367,7 +367,7 @@ This funtion predicts the linear trajectory of a moving ball with a certain prec
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em a}]The solpe of the line describing the predicted trajectory of the ball. \item[{\em b}]The intercept the line describing the predicted trajectory of the ball. \item[{\em precision}]The precision with which thr line trajectory of the ball is predicted. \end{DoxyParams}
+\item[{\em a}]The slope of the line describing the predicted trajectory of the ball (f(x) = a$\ast$x + b). Can be \hyperlink{classPathFinder_a341ee3901465d58e8aad2fc0dd227168}{PathFinder::INFINI\_\-TY} (vertical line). \item[{\em b}]The intercept the line describing the predicted trajectory of the ball (f(x) = a$\ast$x + b). Can be \hyperlink{classPathFinder_a341ee3901465d58e8aad2fc0dd227168}{PathFinder::INFINI\_\-TY} (vertical line). \item[{\em precision}]The precision with which the line trajectory of the ball is predicted (= number of positions taken for the linear regression) \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 bool True if the linear trajectory was predicted. False if not. 
 \end{DoxyReturn}
@@ -378,7 +378,7 @@ bool True if the linear trajectory was predicted. False if not.
 \label{classBallMonitor_a09ed61cf1852d45f03e7aacdebfe0175}
 
 
-This unlocks the Ball Monitoring thread. 
+This erases the old ball positions in memory. 
 
 \hypertarget{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}{
 \index{BallMonitor@{BallMonitor}!StartMonitoring@{StartMonitoring}}
@@ -387,13 +387,13 @@ This unlocks the Ball Monitoring thread.
 \label{classBallMonitor_a4d2b3aa764f5d4f4d5f58b7530565f90}
 
 
-This function starts the monitoring of the ball.It creates a new thread to monitor the ball. 
+This function starts the monitoring of the ball. It creates a new thread to monitor the ball. 
 
 
 \begin{DoxyParams}{Parameters}
 \item[{\em ball}]The ball . \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool It tells us if the monitoring was done or not. 
+bool It tells us if the monitoring was actually launched (you cannot launch it twice) or not. 
 \end{DoxyReturn}
 \hypertarget{classBallMonitor_af71db12abeb1f10f7be58eb7591910a3}{
 \index{BallMonitor@{BallMonitor}!StopMonitoring@{StopMonitoring}}
@@ -402,10 +402,10 @@ bool It tells us if the monitoring was done or not.
 \label{classBallMonitor_af71db12abeb1f10f7be58eb7591910a3}
 
 
-This function stops the monitoring of the ball.It destroys the thread created to monitor the ball. 
+This function stops the monitoring of the ball. It destroys the thread created to monitor the ball. 
 
 \begin{DoxyReturn}{Returns}
-bool It tells if the monitoring was stopped or not. 
+bool It tells if the monitoring was actually stopped or not. 
 \end{DoxyReturn}
 
 

@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="tabs">
     <ul>
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -71,11 +72,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
  }</td></tr>
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#ab604c81393ea6333d015ae0c1c1075a8">DrawLine</a> (SDL_Surface *surf, float x1, float y1, float x2, float y2, SDL_Color color)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Draws a line segment on a surface.  <a href="#ab604c81393ea6333d015ae0c1c1075a8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">SDL_Color&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#a786a9b7496a20e91df1553d7f79c3b3a">CreateColor</a> (int r, int g, int b)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Wrapper to create a SDL_Color.  <a href="#a786a9b7496a20e91df1553d7f79c3b3a"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Uint32&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#a699c4f67ee37b01814cf3551d956be18">GetPixel</a> (SDL_Surface *surface, int x, int y)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the pixel value of the surface at the given point. The surface should be locked with SDL_LockSurface() before calling this function.  <a href="#a699c4f67ee37b01814cf3551d956be18"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#a2cc0a8d028036f42805a47db21a200c9">PutPixelCheck</a> (SDL_Surface *surf, int x, int y, Uint32 pixel)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the pixel value of the surface at the given point. The surface should be locked with SDL_LockSurface() before calling this function.  <a href="#a2cc0a8d028036f42805a47db21a200c9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#ac5a13add388bb77a96185c429c1de3ab">PutPixel</a> (SDL_Surface *surface, int x, int y, Uint32 pixel)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the pixel value of the surface at the given point. The surface should be locked with SDL_LockSurface() before calling this function.  <a href="#ac5a13add388bb77a96185c429c1de3ab"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">SDL_Rect&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#abc22a51dfc872179f787dad9e77baaa9">GetMousePos</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the mouse position in the SDL window.  <a href="#abc22a51dfc872179f787dad9e77baaa9"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structButton.html">Button</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#a7d8c26bda8b890d58bb106d28e0e448a">CreateButton</a> (SDL_Rect area, SDL_Color colorHovered=CreateColor(255, 128, 0), SDL_Color colorPushed=CreateColor(255, 0, 0))</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="sdlutilities_8h.html#afe6d83475fb68420baa7ec0175dea26e">ButtonStatus</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#aeb2158707833303973276d21160abe3c">ManageButton</a> (<a class="el" href="structButton.html">Button</a> *button, SDL_Event event)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="structDragDrop.html">DragDrop</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="sdlutilities_8h.html#a1124418cf609bffdbf881c611d5e3140">CreateDragDrop</a> (SDL_Rect area, SDL_Surface *ghostSurf=NULL, SDL_Color colorHovered=CreateColor(255, 128, 0))</td></tr>
@@ -283,8 +290,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td>y coordinate of the origin of the vector. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td>x coordinate of the end of the vector. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td>y coordinate of the end of the vector. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>cosAngle</em>&nbsp;</td><td>Cosinus of the angle between the vector and x axis. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>sinAngle</em>&nbsp;</td><td>Sinus of the angle between the vector and x axis. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cosAngle</em>&nbsp;</td><td>Pointer to receive the cosinus of the angle between the vector and x axis. NULL will lead to segfault. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sinAngle</em>&nbsp;</td><td>Pointer to receive the sinus of the angle between the vector and x axis. NULL will lead to segfault. </td></tr>
   </table>
   </dd>
 </dl>
@@ -341,7 +348,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
     <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td>y coordinate of the origin of the vector. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td>x coordinate of the end of the vector. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td>y coordinate of the end of the vector. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td>The angle between the vector and the x axis. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td>Pointer to receive the angle between the vector and the x axis. NULL will lead to segfault. </td></tr>
   </table>
   </dd>
 </dl>
@@ -479,8 +486,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td>Coordinate x of the start point (origin of the vector). </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td>Coordinate y of the start point (origin of the vector). </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>cosAngle</em>&nbsp;</td><td>Cosinus of the angle between the vector and the x axis. </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>sinAngle</em>&nbsp;</td><td>Sinus of the angle between the vector and the x axis. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>cosAngle</em>&nbsp;</td><td>Cosinus of the angle between the vector and the x axis (clockwise). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>sinAngle</em>&nbsp;</td><td>Sinus of the angle between the vector and the x axis (clockwise). </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>length</em>&nbsp;</td><td>Length of the vector. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td>Coordinate x of the end point (end of the vector). </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td>Coordinate y of the end point (end of the vector). </td></tr>
@@ -544,7 +551,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>startX</em>&nbsp;</td><td>Coordinate x of the start point (origin of the vector). </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>startY</em>&nbsp;</td><td>Coordinate y of the start point (origin of the vector). </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td>Angle between the vector and the x axis. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>angle</em>&nbsp;</td><td>Angle between the vector and the x axis (clockwise). </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>length</em>&nbsp;</td><td>Length of the vector. </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>endX</em>&nbsp;</td><td>Coordinate x of the end point (end of the vector). </td></tr>
     <tr><td valign="top"></td><td valign="top"><em>endY</em>&nbsp;</td><td>Coordinate y of the end point (end of the vector). </td></tr>
@@ -626,15 +633,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Wrapper to create a SDL_Color. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>r</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>g</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>r</em>&nbsp;</td><td>Red component (0 to 255). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>g</em>&nbsp;</td><td>Green component (0 to 255). </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>b</em>&nbsp;</td><td>Blue component (0 to 255). </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>SDL_Color </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>SDL_Color The SDL_Color </dd></dl>
 
 </div>
 </div>
@@ -728,14 +737,16 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Draws a line segment on a surface. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>surf</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>x1</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>y1</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>x2</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>y2</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>color</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>surf</em>&nbsp;</td><td>The target surface. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>x1</em>&nbsp;</td><td>The x coordinate of the first point of the line segment. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>y1</em>&nbsp;</td><td>The y coordinate of the first point of the line segment. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>x2</em>&nbsp;</td><td>The x coordinate of the second point of the line segment. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>y2</em>&nbsp;</td><td>The y coordinate of the second point of the line segment. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>color</em>&nbsp;</td><td>The color to use when drawing. </td></tr>
   </table>
   </dd>
 </dl>
@@ -756,7 +767,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>SDL_Rect </dd></dl>
+
+<p>Gets the mouse position in the SDL window. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>SDL_Rect The mouse position. </dd></dl>
 
 </div>
 </div>
@@ -790,15 +803,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Returns the pixel value of the surface at the given point. The surface should be locked with SDL_LockSurface() before calling this function. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>surface</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>surface</em>&nbsp;</td><td>The surface </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>x coordinate of the point </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td>y coordinate of the point </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Uint32 </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Uint32 The pixel value </dd></dl>
 
 </div>
 </div>
@@ -908,12 +923,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Sets the pixel value of the surface at the given point. The surface should be locked with SDL_LockSurface() before calling this function. </p>
+<p>No check is done before trying to set the value: invalid coordinates can possibly lead to segfault or memory corruption. For a safer version, use <a class="el" href="sdlutilities_8cpp.html#a2cc0a8d028036f42805a47db21a200c9">PutPixelCheck()</a>.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>surface</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pixel</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>surface</em>&nbsp;</td><td>The target surface </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>x coordinate of the point </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td>y coordinate of the point </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pixel</em>&nbsp;</td><td>The value to set for the pixel </td></tr>
   </table>
   </dd>
 </dl>
@@ -956,16 +974,19 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Sets the pixel value of the surface at the given point. The surface should be locked with SDL_LockSurface() before calling this function. </p>
+<p>The coordinates are checked before setting the value. For a faster version, use <a class="el" href="sdlutilities_8cpp.html#ac5a13add388bb77a96185c429c1de3ab">PutPixel()</a>.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>surf</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>pixel</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>surf</em>&nbsp;</td><td>The target surface </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>x coordinate of the point </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td>y coordinate of the point </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pixel</em>&nbsp;</td><td>The value to set for the pixel </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True on success, False if invalid coordinates. </dd></dl>
 
 </div>
 </div>
@@ -984,7 +1005,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:33 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

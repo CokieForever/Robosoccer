@@ -4,9 +4,9 @@
 #include "geometry.h"
 
 /**
- * @brief creates a @ref BallMonitor . This is the constructor of ball monitor class
+ * @brief Main (and only) constructor.
  *
- * @param coordCalibrer the coordinates calibrator
+ * @param coordCalibrer The coordinates calibrator
  * @param ball The ball
  */
 BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball)
@@ -25,10 +25,10 @@ BallMonitor::BallMonitor(CoordinatesCalibrer *coordCalibrer, RawBall *ball)
 }
 
 /**
- * @brief This function starts the monitoring of the ball.It creates a new thread to monitor the ball.
+ * @brief This function starts the monitoring of the ball. It creates a new thread to monitor the ball.
  *
  * @param ball The ball .
- * @return bool It tells us if the monitoring was done or not.
+ * @return bool It tells us if the monitoring was actually launched (you cannot launch it twice) or not.
  */
 bool BallMonitor::StartMonitoring(RawBall *ball)
 {
@@ -49,9 +49,9 @@ bool BallMonitor::StartMonitoring(RawBall *ball)
 }
 
 /**
- * @brief This function stops the monitoring of the ball.It destroys the thread created to monitor the ball.
+ * @brief This function stops the monitoring of the ball. It destroys the thread created to monitor the ball.
  *
- * @return bool It tells if the monitoring was stopped or not.
+ * @return bool It tells if the monitoring was actually stopped or not.
  */
 bool BallMonitor::StopMonitoring()
 {
@@ -124,9 +124,9 @@ bool BallMonitor::GetBallDirection(Direction *dir) const
  * @brief This funtion predicts the linear trajectory of a moving ball with a certain precision
  *  based on two positions of the ball in two different times.
  *
- * @param a The solpe of the line describing the predicted trajectory of the ball.
- * @param b The intercept the line describing the predicted trajectory of the ball.
- * @param precision The precision with which thr line trajectory of the ball is predicted.
+ * @param a The slope of the line describing the predicted trajectory of the ball (f(x) = a*x + b). Can be @ref PathFinder::INFINI_TY (vertical line).
+ * @param b The intercept the line describing the predicted trajectory of the ball (f(x) = a*x + b). Can be @ref PathFinder::INFINI_TY (vertical line).
+ * @param precision The precision with which the line trajectory of the ball is predicted (= number of positions taken for the linear regression)
  * @return bool True if the linear trajectory was predicted. False if not.
  */
 bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
@@ -168,6 +168,7 @@ bool BallMonitor::PredictBallPosition(double *a, double *b, int precision)
 /**
  * @brief Tells if the ball is moving on the field or not.
  *
+ * Note that because of the noise, the ball could be identified as "moving" while it's actually not moving.
  * @return bool True if the ball is moving. False if not.
  */
 bool BallMonitor::IsBallMoving() const
@@ -189,9 +190,9 @@ bool BallMonitor::IsBallMoving() const
 /**
  * @brief Gives the best direction to shoot the ball
  *
- * @param visibilityMap The visibility map of the robot. It is the beam in which it is possible to shoot the ball.
+ * @param visibilityMap The visibility map for the ball, as typically computed by @ref BallMonitor::ComputeVisibilityMap().
  * @param ourSide The side where our team plays.
- * @return double The angle inside the beam in which it is better to shoot the ball.
+ * @return double The best angle to shoot the ball (in radians, between -M_PI and M_PI).
  */
 double BallMonitor::GetBestDirection(std::vector<double> visibilityMap, eSide ourSide)
 {
@@ -245,12 +246,12 @@ double BallMonitor::GetBestDirection(std::vector<double> visibilityMap, eSide ou
 }
 
 /**
- * @brief This function computes the visibility map based on the position of other robots and on our side.
+ * @brief This function computes the visibility map of the ball based on the position of other robots and on our side.
  *
- * @param maxLevel The maximum level of recursion.
- * @param robot[] An array of robots.
+ * @param maxLevel The maximum level of recursion (= number of rebounds against the walls). Note that this function is not optimized and consequently values greater than 5 should be avoided.
+ * @param robot[] All six robots present on the field.
  * @param ourSide The side in which our team plays.
- * @param coordCalib The calibrator of coordinates
+ * @param coordCalib The coordinates calibrator
  * @return std::vector<double> The visibility map.
  */
 std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, const NewRoboControl* robot[6], eSide ourSide, const CoordinatesCalibrer *coordCalib) const
@@ -266,12 +267,12 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, const NewRob
 }
 
 /**
- * @brief This function computes the visibility map based on the position of other robots and on our side.
+ * @brief This function computes the visibility map of the ball based on the position of other robots and on our side.
  *
- * @param maxLevel The maximum level of recursion.
+ * @param maxLevel The maximum level of recursion (= number of rebounds against the walls). Note that this function is not optimized and consequently values greater than 5 should be avoided.
  * @param pos Position Position of the ball.
- * @param robotPos The position of our robot.
- * @param nbPos Number of robots.
+ * @param robotPos The positions of other robots.
+ * @param nbPos Number of positions in the robotPos array.
  * @param ourSide The side in which we play.
  * @return std::vector<double> The visibility map.
  */
@@ -393,9 +394,9 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(int maxLevel, Position pos
 }
 
 /**
- * @brief This function computes the visibility map based on the position of other robots and on our side.
+ * @brief This function computes the visibility map based on the position of other robots and on our side, without taking rebounds into account.
  *
- * @param robot[] Array of robots.
+ * @param robot[] Array of all six robots.
  * @param ourSide The side in which our team plays.
  * @param coordCalib The coordinates calibrator.
  * @return std::vector<double> The visibility map.
@@ -413,11 +414,11 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(const NewRoboControl* robo
 }
 
 /**
- * @brief This function computes the visibility map based on the position of other robots and on our side.
+ * @brief This function computes the visibility map based on the position of other robots and on our side, without taking rebounds into account.
  *
  * @param pos Ball position.
- * @param robotPos Position of our robot.
- * @param nbPos Number of robots.
+ * @param robotPos The positions of other robots.
+ * @param nbPos Number of positions in the robotPos array.
  * @param ourSide The side in which our team plays.
  * @return std::vector<double> The visibility map.
  */
@@ -476,16 +477,14 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, const Positi
 }
 
 /**
- * @brief This function inserts angles into the visibilty map
+ * @brief This function converts a list of @ref BallMonitor::Angle "angles" into a visibility map.
  *
- * @param priority_queue<Angle Priority queue of angles to be converted into the map.
- * @param std::vector<Angle> Vector of angles.
- * @param angles A list of angles.
- * @param minAngle Mininmal angle.
- * @param maxAngle Maximum angle.
+ * @param angles Priority queue of angles to be converted into the map.
+ * @param minAngle Minimal angle to be taken into account.
+ * @param maxAngle Maximal angle to be taken into account.
  * @return std::vector<double> Visibility map.
  */
-std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<Angle>, CompareFn> angles, double minAngle, double maxAngle)
+std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle,std::vector<Angle>,CompareFn> angles, double minAngle, double maxAngle)
 {
     std::vector<int> currentIds;
     std::vector<double> map;
@@ -526,7 +525,7 @@ std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle, std::vector<A
 }
 
 /**
- * @brief This function compares two angles.
+ * @brief This function compares two @ref BallMonitor::Angle "angles".
  *
  * @param a1 First angle.
  * @param a2 Second angle.
@@ -551,10 +550,10 @@ BallMonitor::Angle BallMonitor::CreateAngle(double val, int id)
 }
 
 /**
- * @brief This function returns an angle which is perpendicular to a given angle.
+ * @brief Computes f(a) = M_PI - a (mirror to the vertical axis) for an angle a in [-M_PI ; M_PI] and returns an angle in the same interval.
  *
- * @param angle The given angle.
- * @return double The value of the perpendicular angle.
+ * @param angle The initial angle.
+ * @return double The mirrored angle.
  */
 double BallMonitor::AngleVertMirror(double angle)
 {
@@ -562,7 +561,7 @@ double BallMonitor::AngleVertMirror(double angle)
 }
 
 /**
- * @brief This function merges two visibility maps.
+ * @brief This function merges two visibility maps, typically computed by @ref BallMonitor::ComputeVisibilityMap().
  *
  * @param map1 First visibility map.
  * @param map2 Second visibility map.
@@ -612,10 +611,10 @@ std::vector<double> BallMonitor::MergeVisibilityMaps(std::vector<double>& map1, 
 /**
  * @brief This function computes a linear regression of the ball's position.
  *
- * @param a The solpe of the line describing the trajectory of the ball.
- * @param b The intercept the line describing the trajectory of the ball.
- * @param precision The precision with which thr line trajectory of the ball is computed.
- * @return bool True if the linear regression was computed. False if not.
+ * @param a The slope of the line describing the trajectory of the ball (f(x) = a*x + b).
+ * @param b The intercept the line describing the trajectory of the ball (f(x) = a*x + b).
+ * @param precision The precision with which the regression is computed (= number of points used for the regression).
+ * @return bool True if the linear regression was computed. False if not (vertical line).
  */
 bool BallMonitor::ComputeLinearRegression(double *a, double *b, int precision) const
 {
@@ -654,7 +653,7 @@ bool BallMonitor::ComputeLinearRegression(double *a, double *b, int precision) c
 }
 
 /**
- * @brief This unlocks the Ball Monitoring thread.
+ * @brief This erases the old ball positions in memory.
  *
  */
 void BallMonitor::ResetPosTimeList()
@@ -665,9 +664,9 @@ void BallMonitor::ResetPosTimeList()
 }
 
 /**
- * @brief This function realizes the ball monitoring
+ * @brief Ball monitoring thread, launched by @ref BallMonitor::StartMonitoring().
  *
- * @param data The data needed for monitoring.
+ * @param data Pointer to the associated @ref BallMonitor instance.
  */
 void* BallMonitor::BallMonitoringFn(void *data)
 {

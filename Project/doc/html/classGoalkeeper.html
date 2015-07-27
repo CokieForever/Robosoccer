@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="tabs">
     <ul>
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li class="current"><a href="annotated.html"><span>Classes</span></a></li>
       <li><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -73,9 +74,9 @@ Inheritance diagram for Goalkeeper:</div>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#abc394351f7c0d552c6e96da422c772ec">setNextCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the next command for the goalkeeper.  <a href="#abc394351f7c0d552c6e96da422c772ec"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#acfa6fbad0f6b1627fd59cc7cce6ff321">setCmdParam</a> (const <a class="el" href="classInterpreter.html">Interpreter</a> &amp;interpreter)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the next command for the goalkeeper.  <a href="#acfa6fbad0f6b1627fd59cc7cce6ff321"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function sets the next command settings for the goalkeeper.  <a href="#acfa6fbad0f6b1627fd59cc7cce6ff321"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#ab850d0d2278730bebc5479f1a339a925">performCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">perform the commands for the goalkeeper.  <a href="#ab850d0d2278730bebc5479f1a339a925"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">perform the commands set by <a class="el" href="classGoalkeeper.html#abc394351f7c0d552c6e96da422c772ec">Goalkeeper::setNextCmd()</a>  <a href="#ab850d0d2278730bebc5479f1a339a925"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGoalkeeper.html#a5287a2e74795bbec8f0ead767655da5d">AddObstacleForFormation</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This methods adds obstacles where the goalkeeper shouln't go.  <a href="#a5287a2e74795bbec8f0ead767655da5d"></a><br/></td></tr>
@@ -221,7 +222,7 @@ Inheritance diagram for Goalkeeper:</div>
 </div>
 <div class="memdoc">
 
-<p>perform the commands for the goalkeeper. </p>
+<p>perform the commands set by <a class="el" href="classGoalkeeper.html#abc394351f7c0d552c6e96da422c772ec">Goalkeeper::setNextCmd()</a> </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>Information about the playmode given by the interpreter. </td></tr>
@@ -249,7 +250,7 @@ Inheritance diagram for Goalkeeper:</div>
 </div>
 <div class="memdoc">
 
-<p>This function sets the next command for the goalkeeper. </p>
+<p>This function sets the next command settings for the goalkeeper. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td>The interpreter </td></tr>
@@ -351,7 +352,7 @@ Inheritance diagram for Goalkeeper:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:34 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

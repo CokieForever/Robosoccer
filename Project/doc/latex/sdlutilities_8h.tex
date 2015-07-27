@@ -44,17 +44,17 @@ enum \hyperlink{sdlutilities_8h_ad7cc824013c50c30499f86f74e1fd158}{DragDropStatu
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{sdlutilities_8h_ab604c81393ea6333d015ae0c1c1075a8}{DrawLine} (SDL\_\-Surface $\ast$surf, float x1, float y1, float x2, float y2, SDL\_\-Color color)
-\item 
+\begin{DoxyCompactList}\small\item\em Draws a line segment on a surface. \item\end{DoxyCompactList}\item 
 SDL\_\-Color \hyperlink{sdlutilities_8h_a786a9b7496a20e91df1553d7f79c3b3a}{CreateColor} (int r, int g, int b)
-\item 
+\begin{DoxyCompactList}\small\item\em Wrapper to create a SDL\_\-Color. \item\end{DoxyCompactList}\item 
 Uint32 \hyperlink{sdlutilities_8h_a699c4f67ee37b01814cf3551d956be18}{GetPixel} (SDL\_\-Surface $\ast$surface, int x, int y)
-\item 
+\begin{DoxyCompactList}\small\item\em Returns the pixel value of the surface at the given point. The surface should be locked with SDL\_\-LockSurface() before calling this function. \item\end{DoxyCompactList}\item 
 bool \hyperlink{sdlutilities_8h_a2cc0a8d028036f42805a47db21a200c9}{PutPixelCheck} (SDL\_\-Surface $\ast$surf, int x, int y, Uint32 pixel)
-\item 
+\begin{DoxyCompactList}\small\item\em Sets the pixel value of the surface at the given point. The surface should be locked with SDL\_\-LockSurface() before calling this function. \item\end{DoxyCompactList}\item 
 void \hyperlink{sdlutilities_8h_ac5a13add388bb77a96185c429c1de3ab}{PutPixel} (SDL\_\-Surface $\ast$surface, int x, int y, Uint32 pixel)
-\item 
+\begin{DoxyCompactList}\small\item\em Sets the pixel value of the surface at the given point. The surface should be locked with SDL\_\-LockSurface() before calling this function. \item\end{DoxyCompactList}\item 
 SDL\_\-Rect \hyperlink{sdlutilities_8h_abc22a51dfc872179f787dad9e77baaa9}{GetMousePos} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the mouse position in the SDL window. \item\end{DoxyCompactList}\item 
 \hyperlink{structButton}{Button} \hyperlink{sdlutilities_8h_a7d8c26bda8b890d58bb106d28e0e448a}{CreateButton} (SDL\_\-Rect area, SDL\_\-Color colorHovered=CreateColor(255, 128, 0), SDL\_\-Color colorPushed=CreateColor(255, 0, 0))
 \item 
 \hyperlink{sdlutilities_8h_afe6d83475fb68420baa7ec0175dea26e}{ButtonStatus} \hyperlink{sdlutilities_8h_aeb2158707833303973276d21160abe3c}{ManageButton} (\hyperlink{structButton}{Button} $\ast$button, SDL\_\-Event event)
@@ -172,7 +172,7 @@ This function computes the cosinus and sinus of the angle between a vector and t
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em startX}]x coordinate of the origin of the vector. \item[{\em startY}]y coordinate of the origin of the vector. \item[{\em endX}]x coordinate of the end of the vector. \item[{\em endY}]y coordinate of the end of the vector. \item[{\em cosAngle}]Cosinus of the angle between the vector and x axis. \item[{\em sinAngle}]Sinus of the angle between the vector and x axis. \end{DoxyParams}
+\item[{\em startX}]x coordinate of the origin of the vector. \item[{\em startY}]y coordinate of the origin of the vector. \item[{\em endX}]x coordinate of the end of the vector. \item[{\em endY}]y coordinate of the end of the vector. \item[{\em cosAngle}]Pointer to receive the cosinus of the angle between the vector and x axis. NULL will lead to segfault. \item[{\em sinAngle}]Pointer to receive the sinus of the angle between the vector and x axis. NULL will lead to segfault. \end{DoxyParams}
 \hypertarget{sdlutilities_8h_a6b8202f8d9804b9022a48aacf37d0ca0}{
 \index{sdlutilities.h@{sdlutilities.h}!ComputeLineAngle@{ComputeLineAngle}}
 \index{ComputeLineAngle@{ComputeLineAngle}!sdlutilities.h@{sdlutilities.h}}
@@ -184,7 +184,7 @@ This function computes the angle between a vector and the x axis.
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em startX}]x coordinate of the origin of the vector. \item[{\em startY}]y coordinate of the origin of the vector. \item[{\em endX}]x coordinate of the end of the vector. \item[{\em endY}]y coordinate of the end of the vector. \item[{\em angle}]The angle between the vector and the x axis. \end{DoxyParams}
+\item[{\em startX}]x coordinate of the origin of the vector. \item[{\em startY}]y coordinate of the origin of the vector. \item[{\em endX}]x coordinate of the end of the vector. \item[{\em endY}]y coordinate of the end of the vector. \item[{\em angle}]Pointer to receive the angle between the vector and the x axis. NULL will lead to segfault. \end{DoxyParams}
 \hypertarget{sdlutilities_8h_a54faa5caaaed0bdbb910b05ab4d73b09}{
 \index{sdlutilities.h@{sdlutilities.h}!ComputeThickLineRect@{ComputeThickLineRect}}
 \index{ComputeThickLineRect@{ComputeThickLineRect}!sdlutilities.h@{sdlutilities.h}}
@@ -208,7 +208,7 @@ This function computes the end of a vector given a start point a cosinus and sin
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em startX}]Coordinate x of the start point (origin of the vector). \item[{\em startY}]Coordinate y of the start point (origin of the vector). \item[{\em cosAngle}]Cosinus of the angle between the vector and the x axis. \item[{\em sinAngle}]Sinus of the angle between the vector and the x axis. \item[{\em length}]Length of the vector. \item[{\em endX}]Coordinate x of the end point (end of the vector). \item[{\em endY}]Coordinate y of the end point (end of the vector). \end{DoxyParams}
+\item[{\em startX}]Coordinate x of the start point (origin of the vector). \item[{\em startY}]Coordinate y of the start point (origin of the vector). \item[{\em cosAngle}]Cosinus of the angle between the vector and the x axis (clockwise). \item[{\em sinAngle}]Sinus of the angle between the vector and the x axis (clockwise). \item[{\em length}]Length of the vector. \item[{\em endX}]Coordinate x of the end point (end of the vector). \item[{\em endY}]Coordinate y of the end point (end of the vector). \end{DoxyParams}
 \hypertarget{sdlutilities_8h_aba8437a6ae72cc4d20a11ea64d0ecd1d}{
 \index{sdlutilities.h@{sdlutilities.h}!ComputeVectorEnd@{ComputeVectorEnd}}
 \index{ComputeVectorEnd@{ComputeVectorEnd}!sdlutilities.h@{sdlutilities.h}}
@@ -220,7 +220,7 @@ This function computes the end of a vector given a start point an angle and leng
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em startX}]Coordinate x of the start point (origin of the vector). \item[{\em startY}]Coordinate y of the start point (origin of the vector). \item[{\em angle}]Angle between the vector and the x axis. \item[{\em length}]Length of the vector. \item[{\em endX}]Coordinate x of the end point (end of the vector). \item[{\em endY}]Coordinate y of the end point (end of the vector). \end{DoxyParams}
+\item[{\em startX}]Coordinate x of the start point (origin of the vector). \item[{\em startY}]Coordinate y of the start point (origin of the vector). \item[{\em angle}]Angle between the vector and the x axis (clockwise). \item[{\em length}]Length of the vector. \item[{\em endX}]Coordinate x of the end point (end of the vector). \item[{\em endY}]Coordinate y of the end point (end of the vector). \end{DoxyParams}
 \hypertarget{sdlutilities_8h_a7d8c26bda8b890d58bb106d28e0e448a}{
 \index{sdlutilities.h@{sdlutilities.h}!CreateButton@{CreateButton}}
 \index{CreateButton@{CreateButton}!sdlutilities.h@{sdlutilities.h}}
@@ -238,10 +238,14 @@ This function computes the end of a vector given a start point an angle and leng
 \subsubsection[{CreateColor}]{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Color CreateColor (int {\em r}, \/  int {\em g}, \/  int {\em b})}}
 \label{sdlutilities_8h_a786a9b7496a20e91df1553d7f79c3b3a}
 
+
+Wrapper to create a SDL\_\-Color. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em r}]\item[{\em g}]\item[{\em b}]\end{DoxyParams}
+\item[{\em r}]Red component (0 to 255). \item[{\em g}]Green component (0 to 255). \item[{\em b}]Blue component (0 to 255). \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-SDL\_\-Color 
+SDL\_\-Color The SDL\_\-Color 
 \end{DoxyReturn}
 \hypertarget{sdlutilities_8h_a1124418cf609bffdbf881c611d5e3140}{
 \index{sdlutilities.h@{sdlutilities.h}!CreateDragDrop@{CreateDragDrop}}
@@ -260,15 +264,23 @@ SDL\_\-Color
 \subsubsection[{DrawLine}]{\setlength{\rightskip}{0pt plus 5cm}void DrawLine (SDL\_\-Surface $\ast$ {\em surf}, \/  float {\em x1}, \/  float {\em y1}, \/  float {\em x2}, \/  float {\em y2}, \/  SDL\_\-Color {\em color})}}
 \label{sdlutilities_8h_ab604c81393ea6333d015ae0c1c1075a8}
 
+
+Draws a line segment on a surface. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em surf}]\item[{\em x1}]\item[{\em y1}]\item[{\em x2}]\item[{\em y2}]\item[{\em color}]\end{DoxyParams}
+\item[{\em surf}]The target surface. \item[{\em x1}]The x coordinate of the first point of the line segment. \item[{\em y1}]The y coordinate of the first point of the line segment. \item[{\em x2}]The x coordinate of the second point of the line segment. \item[{\em y2}]The y coordinate of the second point of the line segment. \item[{\em color}]The color to use when drawing. \end{DoxyParams}
 \hypertarget{sdlutilities_8h_abc22a51dfc872179f787dad9e77baaa9}{
 \index{sdlutilities.h@{sdlutilities.h}!GetMousePos@{GetMousePos}}
 \index{GetMousePos@{GetMousePos}!sdlutilities.h@{sdlutilities.h}}
 \subsubsection[{GetMousePos}]{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Rect GetMousePos ()}}
 \label{sdlutilities_8h_abc22a51dfc872179f787dad9e77baaa9}
+
+
+Gets the mouse position in the SDL window. 
+
 \begin{DoxyReturn}{Returns}
-SDL\_\-Rect 
+SDL\_\-Rect The mouse position. 
 \end{DoxyReturn}
 \hypertarget{sdlutilities_8h_a699c4f67ee37b01814cf3551d956be18}{
 \index{sdlutilities.h@{sdlutilities.h}!GetPixel@{GetPixel}}
@@ -276,10 +288,14 @@ SDL\_\-Rect
 \subsubsection[{GetPixel}]{\setlength{\rightskip}{0pt plus 5cm}Uint32 GetPixel (SDL\_\-Surface $\ast$ {\em surface}, \/  int {\em x}, \/  int {\em y})}}
 \label{sdlutilities_8h_a699c4f67ee37b01814cf3551d956be18}
 
+
+Returns the pixel value of the surface at the given point. The surface should be locked with SDL\_\-LockSurface() before calling this function. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em surface}]\item[{\em x}]\item[{\em y}]\end{DoxyParams}
+\item[{\em surface}]The surface \item[{\em x}]x coordinate of the point \item[{\em y}]y coordinate of the point \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Uint32 
+Uint32 The pixel value 
 \end{DoxyReturn}
 \hypertarget{sdlutilities_8h_aeb2158707833303973276d21160abe3c}{
 \index{sdlutilities.h@{sdlutilities.h}!ManageButton@{ManageButton}}
@@ -309,16 +325,28 @@ DragDropStatus
 \subsubsection[{PutPixel}]{\setlength{\rightskip}{0pt plus 5cm}void PutPixel (SDL\_\-Surface $\ast$ {\em surface}, \/  int {\em x}, \/  int {\em y}, \/  Uint32 {\em pixel})}}
 \label{sdlutilities_8h_ac5a13add388bb77a96185c429c1de3ab}
 
+
+Sets the pixel value of the surface at the given point. The surface should be locked with SDL\_\-LockSurface() before calling this function. 
+
+No check is done before trying to set the value: invalid coordinates can possibly lead to segfault or memory corruption. For a safer version, use \hyperlink{sdlutilities_8cpp_a2cc0a8d028036f42805a47db21a200c9}{PutPixelCheck()}.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em surface}]\item[{\em x}]\item[{\em y}]\item[{\em pixel}]\end{DoxyParams}
+\item[{\em surface}]The target surface \item[{\em x}]x coordinate of the point \item[{\em y}]y coordinate of the point \item[{\em pixel}]The value to set for the pixel \end{DoxyParams}
 \hypertarget{sdlutilities_8h_a2cc0a8d028036f42805a47db21a200c9}{
 \index{sdlutilities.h@{sdlutilities.h}!PutPixelCheck@{PutPixelCheck}}
 \index{PutPixelCheck@{PutPixelCheck}!sdlutilities.h@{sdlutilities.h}}
 \subsubsection[{PutPixelCheck}]{\setlength{\rightskip}{0pt plus 5cm}bool PutPixelCheck (SDL\_\-Surface $\ast$ {\em surf}, \/  int {\em x}, \/  int {\em y}, \/  Uint32 {\em pixel})}}
 \label{sdlutilities_8h_a2cc0a8d028036f42805a47db21a200c9}
 
+
+Sets the pixel value of the surface at the given point. The surface should be locked with SDL\_\-LockSurface() before calling this function. 
+
+The coordinates are checked before setting the value. For a faster version, use \hyperlink{sdlutilities_8cpp_ac5a13add388bb77a96185c429c1de3ab}{PutPixel()}.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em surf}]\item[{\em x}]\item[{\em y}]\item[{\em pixel}]\end{DoxyParams}
+\item[{\em surf}]The target surface \item[{\em x}]x coordinate of the point \item[{\em y}]y coordinate of the point \item[{\em pixel}]The value to set for the pixel \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool True on success, False if invalid coordinates. 
 \end{DoxyReturn}

@@ -15,41 +15,41 @@ Class used to convert real field coordinates to normalized coordinates and vice-
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classCoordinatesCalibrer_ac9a522299ada8f2e58ed8f0c91f4f396}{CoordinatesCalibrer} ()
-\begin{DoxyCompactList}\small\item\em Initializing constructor. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Default empty constructor. The calibration data must be set either with \hyperlink{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{CoordinatesCalibrer::SetManualCoordCalibration()} or \hyperlink{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}{CoordinatesCalibrer::StartCoordCalibration()} before using the instance. \item\end{DoxyCompactList}\item 
 \hyperlink{classCoordinatesCalibrer_a3b6304945fa64ac97a1b0bbc78753155}{CoordinatesCalibrer} (Position a, Position b, Position c, Position d)
-\begin{DoxyCompactList}\small\item\em Constructor of the coordinates calibrer based on 4 positions in the field. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Constructor with calibration data (see \hyperlink{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{CoordinatesCalibrer::SetManualCoordCalibration()} for details). \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{SetManualCoordCalibration} (Position a, Position b, Position c, Position d)
-\begin{DoxyCompactList}\small\item\em sets manually the coodinates calibrer based on 4 positions \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Sets manually the calibration data based on 4 positions. \item\end{DoxyCompactList}\item 
 Position \hyperlink{classCoordinatesCalibrer_ad6519b69842756c256922d14d1e248ce}{NormalizePosition} (Position pos) const 
-\item 
+\begin{DoxyCompactList}\small\item\em It normalizes a position (real field -\/$>$ normalized). \item\end{DoxyCompactList}\item 
 Position \hyperlink{classCoordinatesCalibrer_a034180f011c23565b9b5907ce0219fbf}{NormalizePosition} (Position pos, double phi) const 
-\begin{DoxyCompactList}\small\item\em It normalizes a position. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em It normalizes a position (real field -\/$>$ normalized). \item\end{DoxyCompactList}\item 
 Position \hyperlink{classCoordinatesCalibrer_a8522193b13196313d001c589e7845bd3}{UnnormalizePosition} (Position pos) const 
-\item 
+\begin{DoxyCompactList}\small\item\em It unnormalizes a position (normalized -\/$>$ real field). \item\end{DoxyCompactList}\item 
 Position \hyperlink{classCoordinatesCalibrer_a19035a69d4d571e5e1d4baa4ba10baee}{UnnormalizePosition} (Position pos, double phi) const 
-\begin{DoxyCompactList}\small\item\em It unnormalizes a position. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em It unnormalizes a position (normalized -\/$>$ real field). \item\end{DoxyCompactList}\item 
 double \hyperlink{classCoordinatesCalibrer_acae6b5f07cf198f9c85a1b09e9a275dc}{NormalizeAngle} (double angle) const 
-\begin{DoxyCompactList}\small\item\em It normalizes an angle to an angle between -\/M\_\-PI and M\_\-PI. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Normalizes an angle. \item\end{DoxyCompactList}\item 
 double \hyperlink{classCoordinatesCalibrer_ab97fd4d3f3930aaff39cee1543022cb6}{UnnormalizeAngle} (double angle) const 
 \begin{DoxyCompactList}\small\item\em It unnormalizes an angle. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}{StartCoordCalibration} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robot1, \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robot2)
-\begin{DoxyCompactList}\small\item\em This function starts the coordinates calibration. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function starts the automatic coordinates calibration. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a99563ba6e43f839bf1b10f55cf155125}{WaitForCoordCalibrationEnd} (bool stopNow=false)
-\begin{DoxyCompactList}\small\item\em It waits for the end of the coordinates calibration before ending it. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em It waits for the end of the automatic coordinates calibration. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}{GetCoordCalibrationResults} (double $\ast$tx, double $\ast$ty, double $\ast$theta, double $\ast$kx, double $\ast$ky) const 
-\begin{DoxyCompactList}\small\item\em It gets the results of coordinates calibration. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$). \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}{GetCoordCalibrationResults} (double $\ast$xMax, double $\ast$xMin, double $\ast$yMax, double $\ast$yMin) const 
-\begin{DoxyCompactList}\small\item\em This function gets the results of coordinates calibration. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$, double$\ast$). \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classCoordinatesCalibrer_a19faab9e443f7ef64462a36c19baf6bc}{Init} ()
-\begin{DoxyCompactList}\small\item\em Initializes the parameters for the Coordinates calibrer class. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Initializes the parameters for a \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} instance. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static void $\ast$ \hyperlink{classCoordinatesCalibrer_a4ce4c153ae8c3e50faccfba40e6bc4ea}{CalibrationFn} (void $\ast$data)
-\begin{DoxyCompactList}\small\item\em This function realizes the calibration of robots coordinates. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Function called to do the automatic coordinates calibration. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -80,7 +80,7 @@ pthread\_\-t \hyperlink{classCoordinatesCalibrer_aa2b792c4284dc94338c9acbd26ea2c
 
 
 \subsection{Detailed Description}
-Class used to convert real field coordinates to normalized coordinates and vice-\/versa. This class is intended to be used as a wrapper for Positions given by the Robosoccer system. After being instantiated, the calibration data can be computed automatically by calling the \hyperlink{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}{CoordinatesCalibrer::StartCoordCalibration()} function, which will move the provided robots to measure the field. The calibration data can also be entered manually by calling the \hyperlink{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{CoordinatesCalibrer::SetManualCoordCalibration()} function. Once the calibration data is set, use the \hyperlink{classCoordinatesCalibrer_ad6519b69842756c256922d14d1e248ce}{CoordinatesCalibrer::NormalizePosition()} and \hyperlink{classCoordinatesCalibrer_a8522193b13196313d001c589e7845bd3}{CoordinatesCalibrer::UnnormalizePosition()} to switch between normalized and real field coordinates. 
+Class used to convert real field coordinates to normalized coordinates and vice-\/versa. This class is intended to be used as a wrapper for Positions given by the Robosoccer system. After being instantiated, the calibration data can be computed automatically by calling the \hyperlink{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}{CoordinatesCalibrer::StartCoordCalibration()} function, which will move the provided robots to measure the field. The calibration data can also be entered manually by calling the \hyperlink{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{CoordinatesCalibrer::SetManualCoordCalibration()} function. Once the calibration data is set, use the \hyperlink{classCoordinatesCalibrer_ad6519b69842756c256922d14d1e248ce}{CoordinatesCalibrer::NormalizePosition()} and \hyperlink{classCoordinatesCalibrer_a8522193b13196313d001c589e7845bd3}{CoordinatesCalibrer::UnnormalizePosition()} to switch between normalized and real field coordinates. The calibrator uses a rotation, a translation and a scaling transform to convert to normalized coordinates. It does not support non linear transformations (e.g. optic transformations). 
 
 \subsection{Constructor \& Destructor Documentation}
 \hypertarget{classCoordinatesCalibrer_ac9a522299ada8f2e58ed8f0c91f4f396}{
@@ -90,7 +90,7 @@ Class used to convert real field coordinates to normalized coordinates and vice-
 \label{classCoordinatesCalibrer_ac9a522299ada8f2e58ed8f0c91f4f396}
 
 
-Initializing constructor. 
+Default empty constructor. The calibration data must be set either with \hyperlink{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{CoordinatesCalibrer::SetManualCoordCalibration()} or \hyperlink{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}{CoordinatesCalibrer::StartCoordCalibration()} before using the instance. 
 
 \hypertarget{classCoordinatesCalibrer_a3b6304945fa64ac97a1b0bbc78753155}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!CoordinatesCalibrer@{CoordinatesCalibrer}}
@@ -99,7 +99,7 @@ Initializing constructor.
 \label{classCoordinatesCalibrer_a3b6304945fa64ac97a1b0bbc78753155}
 
 
-Constructor of the coordinates calibrer based on 4 positions in the field. 
+Constructor with calibration data (see \hyperlink{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{CoordinatesCalibrer::SetManualCoordCalibration()} for details). 
 
 
 \begin{DoxyParams}{Parameters}
@@ -114,11 +114,11 @@ Constructor of the coordinates calibrer based on 4 positions in the field.
 \label{classCoordinatesCalibrer_a4ce4c153ae8c3e50faccfba40e6bc4ea}
 
 
-This function realizes the calibration of robots coordinates. 
+Function called to do the automatic coordinates calibration. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em data}]Data needed for calibration. \end{DoxyParams}
+\item[{\em data}]Pointer to the associated \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} instance. \end{DoxyParams}
 \hypertarget{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!GetCoordCalibrationResults@{GetCoordCalibrationResults}}
 \index{GetCoordCalibrationResults@{GetCoordCalibrationResults}!CoordinatesCalibrer@{CoordinatesCalibrer}}
@@ -126,13 +126,13 @@ This function realizes the calibration of robots coordinates.
 \label{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}
 
 
-This function gets the results of coordinates calibration. 
+This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$, double$\ast$). 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em xMax}]The maximum value os x. \item[{\em xMin}]The minimum value os x. \item[{\em yMax}]The maximum value os y. \item[{\em yMin}]The minimum value os y. \end{DoxyParams}
+\item[{\em xMax}]A pointer to receive the maximum value for the x coordinate. Can be NULL. \item[{\em xMin}]A pointer to receive the minimum value for the x coordinate. Can be NULL. \item[{\em yMax}]A pointer to receive the maximum value for the y coordinate. Can be NULL. \item[{\em yMin}]A pointer to receive the minimum value for the y coordinate. Can be NULL. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool True if the calibration results are got. Flase if not. 
+bool True if the calibration was actually done, False if not (in this case data stays unchanged). 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!GetCoordCalibrationResults@{GetCoordCalibrationResults}}
@@ -141,13 +141,13 @@ bool True if the calibration results are got. Flase if not.
 \label{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}
 
 
-It gets the results of coordinates calibration. 
+It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$). 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em tx}]\item[{\em ty}]\item[{\em theta}]\item[{\em kx}]\item[{\em ky}]\end{DoxyParams}
+\item[{\em tx}]Pointer to receive the X translation setting. Can be NULL. \item[{\em ty}]Pointer to receive the Y translation setting. Can be NULL. \item[{\em theta}]Pointer to receive the rotation setting (in radians). Can be NULL. \item[{\em kx}]Pointer to receive the X scaling setting. Can be NULL. \item[{\em ky}]Pointer to receive the Y scaling setting. Can be NULL. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool True if the calibration was actually done, False if not (in this case data stays unchanged). 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_a19faab9e443f7ef64462a36c19baf6bc}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!Init@{Init}}
@@ -156,7 +156,7 @@ bool
 \label{classCoordinatesCalibrer_a19faab9e443f7ef64462a36c19baf6bc}
 
 
-Initializes the parameters for the Coordinates calibrer class. 
+Initializes the parameters for a \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} instance. 
 
 \hypertarget{classCoordinatesCalibrer_acae6b5f07cf198f9c85a1b09e9a275dc}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!NormalizeAngle@{NormalizeAngle}}
@@ -165,7 +165,9 @@ Initializes the parameters for the Coordinates calibrer class.
 \label{classCoordinatesCalibrer_acae6b5f07cf198f9c85a1b09e9a275dc}
 
 
-It normalizes an angle to an angle between -\/M\_\-PI and M\_\-PI. 
+Normalizes an angle. 
+
+As the coordinates normalization involves scaling and rotation, the angles values might change when switching between the coordinates systems. This function converts an angle computed in real field coordinates to the same angle in normalized coordinates.
 
 
 \begin{DoxyParams}{Parameters}
@@ -180,13 +182,17 @@ double Normalized Angle.
 \label{classCoordinatesCalibrer_a034180f011c23565b9b5907ce0219fbf}
 
 
-It normalizes a position. 
+It normalizes a position (real field -\/$>$ normalized). 
+
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000001}{Deprecated}]Not supported anymore. Use CoordinatesCalibrer::NormalizePosition(Position) instead.\end{Desc}
+Normalized coordinates are in \mbox{[}-\/1 ; 1\mbox{]}.
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em pos}]\item[{\em phi}]\end{DoxyParams}
+\item[{\em pos}]The real field position. \item[{\em phi}]The angle of the robot associated with the position, as returned by the GetPhi() function. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Position 
+Position The normalized position. 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_ad6519b69842756c256922d14d1e248ce}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!NormalizePosition@{NormalizePosition}}
@@ -194,10 +200,16 @@ Position
 \subsubsection[{NormalizePosition}]{\setlength{\rightskip}{0pt plus 5cm}Position CoordinatesCalibrer::NormalizePosition (Position {\em pos}) const}}
 \label{classCoordinatesCalibrer_ad6519b69842756c256922d14d1e248ce}
 
+
+It normalizes a position (real field -\/$>$ normalized). 
+
+Normalized coordinates are in \mbox{[}-\/1 ; 1\mbox{]}.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em pos}]\end{DoxyParams}
+\item[{\em pos}]The real field position. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Position 
+Position The normalized position. 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!SetManualCoordCalibration@{SetManualCoordCalibration}}
@@ -206,7 +218,17 @@ Position
 \label{classCoordinatesCalibrer_a006c18905b14e4780b9fc74fe26649fc}
 
 
-sets manually the coodinates calibrer based on 4 positions 
+Sets manually the calibration data based on 4 positions. 
+
+\begin{DoxyVerb}
+
+ ********** A **********
+ *                     *
+ D          O          B
+ *                     *
+ ********** C **********
+ \end{DoxyVerb}
+
 
 
 \begin{DoxyParams}{Parameters}
@@ -221,13 +243,15 @@ bool
 \label{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}
 
 
-This function starts the coordinates calibration. 
+This function starts the automatic coordinates calibration. 
+
+This function will move the robots on the field to determine the field's limits. You should not give order to the robots while the process is in progress. You can call the \hyperlink{classCoordinatesCalibrer_a99563ba6e43f839bf1b10f55cf155125}{CoordinatesCalibrer::WaitForCoordCalibrationEnd()} function to wait for the end of the process.
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em robot1}]First robot. \item[{\em robot2}]Second robot. \end{DoxyParams}
+\item[{\em robot1}]First robot to use for the calibration. NULL can possibly lead to segfault. \item[{\em robot2}]Second robot to use for the calibration. NULL can possibly lead to segfault. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool True if thr coordinates calibration was started. False if not. 
+bool True if the coordinates calibration was started. False if not. 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_ab97fd4d3f3930aaff39cee1543022cb6}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!UnnormalizeAngle@{UnnormalizeAngle}}
@@ -237,6 +261,8 @@ bool True if thr coordinates calibration was started. False if not.
 
 
 It unnormalizes an angle. 
+
+Reverse of \hyperlink{classCoordinatesCalibrer_acae6b5f07cf198f9c85a1b09e9a275dc}{CoordinatesCalibrer::NormalizeAngle()}.
 
 
 \begin{DoxyParams}{Parameters}
@@ -251,13 +277,15 @@ double The unnormalized angle.
 \label{classCoordinatesCalibrer_a19035a69d4d571e5e1d4baa4ba10baee}
 
 
-It unnormalizes a position. 
+It unnormalizes a position (normalized -\/$>$ real field). 
 
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000002}{Deprecated}]Not supported anymore. Use CoordinatesCalibrer::UnnormalizePosition(Position) instead.\end{Desc}
 
 \begin{DoxyParams}{Parameters}
-\item[{\em pos}]\item[{\em phi}]UNNORMALIZED orientation of the robot, typically given by RoboControl::GetPhi(). \end{DoxyParams}
+\item[{\em pos}]The normalized position. Coordinates outside the range \mbox{[}-\/1,1\mbox{]} will be converted into real positions outside the field. \item[{\em phi}]UNNORMALIZED orientation of the robot, typically given by RoboControl::GetPhi(). \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Position 
+Position The unnormalized position. 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_a8522193b13196313d001c589e7845bd3}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!UnnormalizePosition@{UnnormalizePosition}}
@@ -265,10 +293,14 @@ Position
 \subsubsection[{UnnormalizePosition}]{\setlength{\rightskip}{0pt plus 5cm}Position CoordinatesCalibrer::UnnormalizePosition (Position {\em pos}) const}}
 \label{classCoordinatesCalibrer_a8522193b13196313d001c589e7845bd3}
 
+
+It unnormalizes a position (normalized -\/$>$ real field). 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em pos}]\end{DoxyParams}
+\item[{\em pos}]The normalized position. Coordinates outside the range \mbox{[}-\/1,1\mbox{]} will be converted into real positions outside the field. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Position 
+Position The unnormalized position. 
 \end{DoxyReturn}
 \hypertarget{classCoordinatesCalibrer_a99563ba6e43f839bf1b10f55cf155125}{
 \index{CoordinatesCalibrer@{CoordinatesCalibrer}!WaitForCoordCalibrationEnd@{WaitForCoordCalibrationEnd}}
@@ -277,7 +309,7 @@ Position
 \label{classCoordinatesCalibrer_a99563ba6e43f839bf1b10f55cf155125}
 
 
-It waits for the end of the coordinates calibration before ending it. 
+It waits for the end of the automatic coordinates calibration. 
 
 
 \begin{DoxyParams}{Parameters}

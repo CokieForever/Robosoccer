@@ -26,32 +26,32 @@ struct \hyperlink{structMatrix_1_1Point}{Point}
 \hyperlink{classMatrix_1_1MatrixProxy}{MatrixProxy} \hyperlink{classMatrix_ab54bf109f85ced0472a7e0c03d16471c}{operator\mbox{[}$\,$\mbox{]}} (int i) const 
 \item 
 \hyperlink{classMatrix_a1cf5bd8134711df6f63e1dbef1912b86}{Matrix} (int height=0, int width=0)
-\item 
+\begin{DoxyCompactList}\small\item\em Basic constructor. \item\end{DoxyCompactList}\item 
 \hyperlink{classMatrix_a9b1c3627f573d78a2f08623fdfef990f}{$\sim$Matrix} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Destructor. \item\end{DoxyCompactList}\item 
 \hyperlink{classMatrix_a2b1fedfb1b076d4ae504d2c61019871f}{Matrix} (const \hyperlink{classMatrix}{Matrix} \&matrix)
-\item 
+\begin{DoxyCompactList}\small\item\em Copy constructor. \item\end{DoxyCompactList}\item 
 \hyperlink{classMatrix}{Matrix} \& \hyperlink{classMatrix_a45e4814b752129bed1f1316632f8543a}{operator=} (const \hyperlink{classMatrix}{Matrix} \&matrix)
-\item 
+\begin{DoxyCompactList}\small\item\em Copy operator overload. \item\end{DoxyCompactList}\item 
 Uint8 \& \hyperlink{classMatrix_a06fc8df480cd88daf69eaa05867cb7bd}{Get} (int i, int j) const 
 \begin{DoxyCompactList}\small\item\em Gets an element of the matrix. \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a4a7c3875be94e94786db920c441973e6}{Fill} (Uint8 number)
-\item 
+\begin{DoxyCompactList}\small\item\em Fills the whole matrix with the given number. \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a55977ba3ee91f352759f446a5092ea23}{DrawRectangle} (\hyperlink{structMatrix_1_1Point}{Point} ul, \hyperlink{structMatrix_1_1Point}{Point} lr, Uint8 number)
-\begin{DoxyCompactList}\small\item\em this function draw a rectangle on the map. The rectangle could be used to restrict the moving area of a robot in different strategy \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function draws a filled rectangle in the matrix. \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a8aecf2d42e65b27f051c8af79aeeb467}{DrawThickLine} (\hyperlink{structMatrix_1_1Point}{Point} start, \hyperlink{structMatrix_1_1Point}{Point} end, int thickness, Uint8 number)
-\begin{DoxyCompactList}\small\item\em this function is used to draw lines. The movement of the robot should not cross this line \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function draws a filled thick line (rotated rectangle) in the matrix. \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a9dd7af97fcc825ca07a64b28050cb44f}{DrawCircle} (\hyperlink{structMatrix_1_1Point}{Point} center, int radius, Uint8 number)
-\begin{DoxyCompactList}\small\item\em this function is used to draw a circle on the matrix \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function draws a filled circle in the matrix. \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a3b2f9c59a4cc8da933de12f4ccb867f6}{DrawPolygon} (\hyperlink{structMatrix_1_1Point}{Point} $\ast$points, int n, Uint8 number)
-\begin{DoxyCompactList}\small\item\em this function is used to draw a polygon on the robot. This polygon serves as a barrier. In the pathfinding, the path will avoid the polygon so that robots would not collide. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em This function draws a filled polygon in the matrix. \item\end{DoxyCompactList}\item 
 void \hyperlink{classMatrix_a7209ed0123ff3686f0d0f7f4e6ac7094}{FloodFill} (\hyperlink{structMatrix_1_1Point}{Point} start, Uint8 number)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Performs a flood fill in the matrix from the given starting point. The \char`\"{}accessible\char`\"{} values are the ones equal to the one at the starting point. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static \hyperlink{structMatrix_1_1Point}{Point} \hyperlink{classMatrix_a39929c70aea7926beaf183b374239558}{CreatePoint} (int x, int y)
-\begin{DoxyCompactList}\small\item\em create a point in normalized map \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Wrapper to create a \hyperlink{structMatrix_1_1Point}{Matrix::Point}. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -81,18 +81,30 @@ Class describing a basic integers matrix. This class can be used for drawing ope
 \subsubsection[{Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Matrix::Matrix (int {\em height} = {\ttfamily 0}, \/  int {\em width} = {\ttfamily 0})}}
 \label{classMatrix_a1cf5bd8134711df6f63e1dbef1912b86}
 
+
+Basic constructor. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em height}]\item[{\em width}]\end{DoxyParams}
+\item[{\em height}]\hyperlink{classMatrix}{Matrix} height. Default to \hyperlink{classInterpreter_abda6b21064d50acd844bda3ed551e263}{Interpreter::MAP\_\-HEIGHT}. \item[{\em width}]\hyperlink{classMatrix}{Matrix} width. Default to \hyperlink{classInterpreter_a30c4dceff341b5e7cd36fdaba21aeaa9}{Interpreter::MAP\_\-WIDTH}. \end{DoxyParams}
 \hypertarget{classMatrix_a9b1c3627f573d78a2f08623fdfef990f}{
 \index{Matrix@{Matrix}!$\sim$Matrix@{$\sim$Matrix}}
 \index{$\sim$Matrix@{$\sim$Matrix}!Matrix@{Matrix}}
 \subsubsection[{$\sim$Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Matrix::$\sim$Matrix ()}}
 \label{classMatrix_a9b1c3627f573d78a2f08623fdfef990f}
+
+
+Destructor. 
+
 \hypertarget{classMatrix_a2b1fedfb1b076d4ae504d2c61019871f}{
 \index{Matrix@{Matrix}!Matrix@{Matrix}}
 \index{Matrix@{Matrix}!Matrix@{Matrix}}
 \subsubsection[{Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Matrix::Matrix (const {\bf Matrix} \& {\em matrix})}}
 \label{classMatrix_a2b1fedfb1b076d4ae504d2c61019871f}
+
+
+Copy constructor. 
+
 
 \begin{DoxyParams}{Parameters}
 \item[{\em matrix}]\end{DoxyParams}
@@ -106,13 +118,13 @@ Class describing a basic integers matrix. This class can be used for drawing ope
 \label{classMatrix_a39929c70aea7926beaf183b374239558}
 
 
-create a point in normalized map 
+Wrapper to create a \hyperlink{structMatrix_1_1Point}{Matrix::Point}. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em x}]value on x axis \item[{\em y}]value on y axis \end{DoxyParams}
+\item[{\em x}]coordinate \item[{\em y}]coordinate \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-\hyperlink{structMatrix_1_1Point}{Matrix::Point} 
+\hyperlink{structMatrix_1_1Point}{Matrix::Point} \hyperlink{structMatrix_1_1Point}{Point} 
 \end{DoxyReturn}
 \hypertarget{classMatrix_a9dd7af97fcc825ca07a64b28050cb44f}{
 \index{Matrix@{Matrix}!DrawCircle@{DrawCircle}}
@@ -121,11 +133,11 @@ create a point in normalized map
 \label{classMatrix_a9dd7af97fcc825ca07a64b28050cb44f}
 
 
-this function is used to draw a circle on the matrix 
+This function draws a filled circle in the matrix. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em center}]is the centre of the circle \item[{\em radius}]is the radius of the circle \item[{\em number}]\end{DoxyParams}
+\item[{\em center}]The centre of the circle. \item[{\em radius}]The radius of the circle. \item[{\em number}]The number to use to fill the circle. \end{DoxyParams}
 \hypertarget{classMatrix_a3b2f9c59a4cc8da933de12f4ccb867f6}{
 \index{Matrix@{Matrix}!DrawPolygon@{DrawPolygon}}
 \index{DrawPolygon@{DrawPolygon}!Matrix@{Matrix}}
@@ -133,11 +145,11 @@ this function is used to draw a circle on the matrix
 \label{classMatrix_a3b2f9c59a4cc8da933de12f4ccb867f6}
 
 
-this function is used to draw a polygon on the robot. This polygon serves as a barrier. In the pathfinding, the path will avoid the polygon so that robots would not collide. 
+This function draws a filled polygon in the matrix. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em points}]are points of the polygon \item[{\em n}]is the number of the points of the polygon \item[{\em number}]\end{DoxyParams}
+\item[{\em points}]Vertices of the polygon. \item[{\em n}]Number of vertices in the array \char`\"{}points\char`\"{}. \item[{\em number}]The number to use to fill the polygon. \end{DoxyParams}
 \hypertarget{classMatrix_a55977ba3ee91f352759f446a5092ea23}{
 \index{Matrix@{Matrix}!DrawRectangle@{DrawRectangle}}
 \index{DrawRectangle@{DrawRectangle}!Matrix@{Matrix}}
@@ -145,11 +157,11 @@ this function is used to draw a polygon on the robot. This polygon serves as a b
 \label{classMatrix_a55977ba3ee91f352759f446a5092ea23}
 
 
-this function draw a rectangle on the map. The rectangle could be used to restrict the moving area of a robot in different strategy 
+This function draws a filled rectangle in the matrix. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em ul}]upper left point of the rectangle \item[{\em lr}]lower right point of the rectangle \item[{\em number}]\end{DoxyParams}
+\item[{\em ul}]Upper left corner of the rectangle \item[{\em lr}]Lower right corner of the rectangle \item[{\em number}]The number to use to fill the rectangle. \end{DoxyParams}
 \hypertarget{classMatrix_a8aecf2d42e65b27f051c8af79aeeb467}{
 \index{Matrix@{Matrix}!DrawThickLine@{DrawThickLine}}
 \index{DrawThickLine@{DrawThickLine}!Matrix@{Matrix}}
@@ -157,19 +169,23 @@ this function draw a rectangle on the map. The rectangle could be used to restri
 \label{classMatrix_a8aecf2d42e65b27f051c8af79aeeb467}
 
 
-this function is used to draw lines. The movement of the robot should not cross this line 
+This function draws a filled thick line (rotated rectangle) in the matrix. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em start}]start point of the line \item[{\em end}]end point of the line \item[{\em thickness}]\item[{\em number}]\end{DoxyParams}
+\item[{\em start}]Start point of the line. \item[{\em end}]End point of the line. \item[{\em thickness}]Thickness of the line. \item[{\em number}]The number to use to fill the thick line. \end{DoxyParams}
 \hypertarget{classMatrix_a4a7c3875be94e94786db920c441973e6}{
 \index{Matrix@{Matrix}!Fill@{Fill}}
 \index{Fill@{Fill}!Matrix@{Matrix}}
 \subsubsection[{Fill}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::Fill (Uint8 {\em number})}}
 \label{classMatrix_a4a7c3875be94e94786db920c441973e6}
 
+
+Fills the whole matrix with the given number. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em number}]\end{DoxyParams}
+\item[{\em number}]The number to use to fill the matrix. \end{DoxyParams}
 \hypertarget{classMatrix_aaa3962d9bf27f654bd6771a8d5bfaeac}{
 \index{Matrix@{Matrix}!flood\_\-AddNextLine@{flood\_\-AddNextLine}}
 \index{flood\_\-AddNextLine@{flood\_\-AddNextLine}!Matrix@{Matrix}}
@@ -181,8 +197,12 @@ this function is used to draw lines. The movement of the robot should not cross 
 \subsubsection[{FloodFill}]{\setlength{\rightskip}{0pt plus 5cm}void Matrix::FloodFill ({\bf Point} {\em start}, \/  Uint8 {\em number})}}
 \label{classMatrix_a7209ed0123ff3686f0d0f7f4e6ac7094}
 
+
+Performs a flood fill in the matrix from the given starting point. The \char`\"{}accessible\char`\"{} values are the ones equal to the one at the starting point. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em start}]\item[{\em number}]\end{DoxyParams}
+\item[{\em start}]The starting point. \item[{\em number}]The number to use to fill the matrix. \end{DoxyParams}
 \hypertarget{classMatrix_a06fc8df480cd88daf69eaa05867cb7bd}{
 \index{Matrix@{Matrix}!Get@{Get}}
 \index{Get@{Get}!Matrix@{Matrix}}
@@ -203,6 +223,10 @@ Uint8 \& The element. If coordinates are out of range, a reference to an interna
 \index{operator=@{operator=}!Matrix@{Matrix}}
 \subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Matrix} \& Matrix::operator= (const {\bf Matrix} \& {\em matrix})}}
 \label{classMatrix_a45e4814b752129bed1f1316632f8543a}
+
+
+Copy operator overload. 
+
 
 \begin{DoxyParams}{Parameters}
 \item[{\em matrix}]\end{DoxyParams}

@@ -4,14 +4,14 @@
 
 //From here: http://stackoverflow.com/questions/11737988/how-to-draw-a-line-using-sdl-without-using-external-libraries
 /**
- * @brief
+ * @brief Draws a line segment on a surface.
  *
- * @param surf
- * @param x1
- * @param y1
- * @param x2
- * @param y2
- * @param color
+ * @param surf The target surface.
+ * @param x1 The x coordinate of the first point of the line segment.
+ * @param y1 The y coordinate of the first point of the line segment.
+ * @param x2 The x coordinate of the second point of the line segment.
+ * @param y2 The y coordinate of the second point of the line segment.
+ * @param color The color to use when drawing.
  */
 void DrawLine(SDL_Surface *surf, float x1, float y1, float x2, float y2, SDL_Color color)
 {
@@ -61,12 +61,12 @@ void DrawLine(SDL_Surface *surf, float x1, float y1, float x2, float y2, SDL_Col
 }
 
 /**
- * @brief
+ * @brief Wrapper to create a SDL_Color.
  *
- * @param r
- * @param g
- * @param b
- * @return SDL_Color
+ * @param r Red component (0 to 255).
+ * @param g Green component (0 to 255).
+ * @param b Blue component (0 to 255).
+ * @return SDL_Color The SDL_Color
  */
 SDL_Color CreateColor(int r, int g, int b)
 {
@@ -74,17 +74,14 @@ SDL_Color CreateColor(int r, int g, int b)
     return color;
 }
 
-/*
- * Return the pixel value at (x, y)
- * NOTE: The surface must be locked before calling this!
- */
+
 /**
- * @brief
+ * @brief Returns the pixel value of the surface at the given point. The surface should be locked with SDL_LockSurface() before calling this function.
  *
- * @param surface
- * @param x
- * @param y
- * @return Uint32
+ * @param surface The surface
+ * @param x x coordinate of the point
+ * @param y y coordinate of the point
+ * @return Uint32 The pixel value
  */
 Uint32 GetPixel(SDL_Surface *surface, int x, int y)
 {
@@ -114,13 +111,16 @@ Uint32 GetPixel(SDL_Surface *surface, int x, int y)
 }
 
 /**
- * @brief
+ * @brief Sets the pixel value of the surface at the given point. The surface should be locked with SDL_LockSurface() before calling this function.
  *
- * @param surf
- * @param x
- * @param y
- * @param pixel
- * @return bool
+ * The coordinates are checked before setting the value.
+ * For a faster version, use @ref PutPixel().
+ *
+ * @param surf The target surface
+ * @param x x coordinate of the point
+ * @param y y coordinate of the point
+ * @param pixel The value to set for the pixel
+ * @return bool True on success, False if invalid coordinates.
  */
 bool PutPixelCheck(SDL_Surface *surf, int x, int y, Uint32 pixel)
 {
@@ -130,17 +130,17 @@ bool PutPixelCheck(SDL_Surface *surf, int x, int y, Uint32 pixel)
     return true;
 }
 
-/*
- * Set the pixel at (x, y) to the given value
- * NOTE: The surface must be locked before calling this!
- */
+
 /**
- * @brief
+ * @brief Sets the pixel value of the surface at the given point. The surface should be locked with SDL_LockSurface() before calling this function.
  *
- * @param surface
- * @param x
- * @param y
- * @param pixel
+ * No check is done before trying to set the value: invalid coordinates can possibly lead to segfault or memory corruption.
+ * For a safer version, use @ref PutPixelCheck().
+ *
+ * @param surface The target surface
+ * @param x x coordinate of the point
+ * @param y y coordinate of the point
+ * @param pixel The value to set for the pixel
  */
 void PutPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 {
@@ -176,11 +176,11 @@ void PutPixel(SDL_Surface *surface, int x, int y, Uint32 pixel)
 }
 
 /**
- * @brief
+ * @brief Draws an (unfilled) rectangle on a given surface.
  *
- * @param surf
- * @param rect
- * @param color
+ * @param surf The target surface.
+ * @param rect The rectangle to draw.
+ * @param color The color to use when drawing.
  */
 void DrawRect(SDL_Surface *surf, SDL_Rect rect, SDL_Color color)
 {
@@ -203,9 +203,9 @@ void DrawRect(SDL_Surface *surf, SDL_Rect rect, SDL_Color color)
 }
 
 /**
- * @brief
+ * @brief Gets the mouse position in the SDL window.
  *
- * @return SDL_Rect
+ * @return SDL_Rect The mouse position.
  */
 SDL_Rect GetMousePos()
 {

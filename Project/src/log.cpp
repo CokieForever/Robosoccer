@@ -3,22 +3,16 @@
 
 using namespace std;
 
-/**
- * @brief
- *
- * @param level
- * @return string
- */
 static string levelString(LogLevel level);
 
 
 /**
- * @brief
+ * @brief Prints a message in the log (console).
  *
- * @param message
- * @param funcName
- * @param line
- * @param level
+ * @param message The message to print.
+ * @param funcName The string representation of the calling function.
+ * @param line The line at which the function was called.
+ * @param level The level of the message.
  */
 void Log_def(string message, string funcName, int line, LogLevel level)
 {
@@ -57,10 +51,10 @@ void Log_def(string message, string funcName, int line, LogLevel level)
 }
 
 /**
- * @brief
+ * @brief Get the string representation of a @ref LogLevel "log level".
  *
- * @param level
- * @return string
+ * @param level The log level.
+ * @return string The string representation.
  */
 static string levelString(LogLevel level)
 {

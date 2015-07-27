@@ -67,7 +67,7 @@ void Goalkeeper::setNextCmd(const Interpreter::GameData& info)
 }
 
 /**
- * @brief This function sets the next command for the goalkeeper.
+ * @brief This function sets the next command settings for the goalkeeper.
  *
  * @param interpreter The interpreter
  */
@@ -122,7 +122,7 @@ void Goalkeeper::setCmdParam(const Interpreter& interpreter)
 }
 
 /**
- * @brief perform the commands for the goalkeeper.
+ * @brief perform the commands set by @ref Goalkeeper::setNextCmd()
  *
  * @param info Information about the playmode given by the interpreter.
  */

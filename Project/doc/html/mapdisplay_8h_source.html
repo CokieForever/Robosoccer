@@ -18,6 +18,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   <div class="tabs">
     <ul>
       <li><a href="index.html"><span>Main&nbsp;Page</span></a></li>
+      <li><a href="pages.html"><span>Related&nbsp;Pages</span></a></li>
       <li><a href="annotated.html"><span>Classes</span></a></li>
       <li class="current"><a href="files.html"><span>Files</span></a></li>
       <li>
@@ -58,7 +59,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00019"></a>00019     <a class="code" href="classMapDisplay.html#a3af0dfed1bf4e41a1fe810271593729d" title="Constructor of the mapdisplay class. Initializes the variables.">MapDisplay</a>(<span class="keyword">const</span> <a class="code" href="classMatrix.html" title="Class describing a basic integers matrix.">Interpreter::Map</a>&amp; map, <span class="keywordtype">int</span> screenW, <span class="keywordtype">int</span> screenH);
 <a name="l00020"></a>00020     <a class="code" href="classMapDisplay.html#a95dc44c5a18970df2131eeb10b59cd21" title="Destructor of the class mapdisplay.">~MapDisplay</a>();
 <a name="l00021"></a>00021 
-<a name="l00022"></a>00022     SDL_Surface* <a class="code" href="classMapDisplay.html#a346dbbf98f1ab76cddab55dfb9c07b27" title="This function gets the SDL surface.">GetDisplay</a>() <span class="keyword">const</span>;
+<a name="l00022"></a>00022     SDL_Surface* <a class="code" href="classMapDisplay.html#a346dbbf98f1ab76cddab55dfb9c07b27" title="This function gets the SDL_surface on which the map is drawn.">GetDisplay</a>() <span class="keyword">const</span>;
 <a name="l00023"></a>00023     SDL_Surface* <a class="code" href="classMapDisplay.html#a1f8666a47c77fe1294af449e746430dc" title="This function updates the SDL surface.">UpdateDisplay</a>();
 <a name="l00024"></a>00024 
 <a name="l00025"></a>00025 <span class="keyword">private</span>:
@@ -66,7 +67,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00027"></a><a class="code" href="classMapDisplay.html#a31f9d5788c440d1ef0fca5729103ab05">00027</a>     <span class="keywordtype">int</span> <a class="code" href="classMapDisplay.html#a31f9d5788c440d1ef0fca5729103ab05">m_screenW</a>;                  
 <a name="l00028"></a><a class="code" href="classMapDisplay.html#a3a6a2f7b6501945628fbfe022914daed">00028</a>     <span class="keywordtype">int</span> <a class="code" href="classMapDisplay.html#a3a6a2f7b6501945628fbfe022914daed">m_screenH</a>;                  
 <a name="l00029"></a><a class="code" href="classMapDisplay.html#a8c4cc4b6d6a5f1608ca2a3eb9a5e3290">00029</a>     SDL_Surface *<a class="code" href="classMapDisplay.html#a8c4cc4b6d6a5f1608ca2a3eb9a5e3290">m_bgSurf</a>;          
-<a name="l00031"></a>00031     <span class="keywordtype">void</span> <a class="code" href="classMapDisplay.html#afd0ef9d9c11103bd966d27a12cd84ed7" title="This function converts screen coordinates into marix coordinates.">ConvertScreenCoordToMatrixCoord</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> *i, <span class="keywordtype">int</span> *j);
+<a name="l00031"></a>00031     <span class="keywordtype">void</span> <a class="code" href="classMapDisplay.html#afd0ef9d9c11103bd966d27a12cd84ed7" title="This function converts surface coordinates into matrix coordinates.">ConvertScreenCoordToMatrixCoord</a>(<span class="keywordtype">int</span> x, <span class="keywordtype">int</span> y, <span class="keywordtype">int</span> *i, <span class="keywordtype">int</span> *j);
 <a name="l00032"></a>00032 
 <a name="l00033"></a>00033 };
 <a name="l00034"></a>00034 
@@ -86,7 +87,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 12:05:33 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>
