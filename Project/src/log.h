@@ -32,7 +32,7 @@ void Log_def(std::string message, std::string funcName, int line, LogLevel level
 /**
  * @brief Converts anything to a string.
  *
- * @param t The object to convert. Must be usable in a @ref std::ostringstream.
+ * @param t The object to convert. Must be usable in a std::ostringstream.
  * @return std::string The string.
  */
 template<typename T> std::string ToString(T t)

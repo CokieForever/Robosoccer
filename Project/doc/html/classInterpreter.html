@@ -57,6 +57,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInterpreter_1_1GameData.html">GameData</a></td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Structure to gather data about the current game.  <a href="structInterpreter_1_1GameData.html#_details">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">struct &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="structInterpreter_1_1Point.html">Point</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Structure to describe a simple point with integer coordinates.  <a href="structInterpreter_1_1Point.html#_details">More...</a><br/></td></tr>
 <tr><td colspan="2"><h2>Public Types</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">enum &nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#ac7c3ba77d973ffbb84b12db662cfe643">KickTurn</a> { <a class="el" href="classInterpreter.html#ac7c3ba77d973ffbb84b12db662cfe643a8c18a3c8b220a0c8166c1ee4b3504ebe">OUR_TURN</a>, 
 <a class="el" href="classInterpreter.html#ac7c3ba77d973ffbb84b12db662cfe643ac196847925fbe4bc38ee72b9b97d0f76">THEIR_TURN</a>
@@ -71,6 +72,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight"><p>Enumeration of the possible playing strategies. </p>
  <a href="classInterpreter.html#a0fb49436c8c14ca79e13f1cd78119088">More...</a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">typedef <a class="el" href="classMatrix.html">Matrix</a>&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">Map</a></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Class to describe an obstacles map. Only used with the A* path planning algorithm.  <a href="#a4c080f069f557cf92dfe803117a6ea53"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#aa43e2d0df9f986ef4bde498aa8eadc04">Interpreter</a> (eTeam x, Referee *y, <a class="el" href="classGoalkeeper.html">Goalkeeper</a> *z, <a class="el" href="classPlayerMain.html">PlayerMain</a> *p, <a class="el" href="classPlayerTwo.html">PlayerTwo</a> *t, <a class="el" href="classOpponentRobot.html">OpponentRobot</a> *a, <a class="el" href="classOpponentRobot.html">OpponentRobot</a> *b, <a class="el" href="classOpponentRobot.html">OpponentRobot</a> *c, RawBall *d, <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *e)</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classInterpreter.html#a0f96b57f8126e2b5bc63390121e4b5b1">~Interpreter</a> ()</td></tr>
@@ -164,6 +166,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Class to describe an obstacles map. Only used with the A* path planning algorithm. </p>
 
 </div>
 </div>
@@ -467,7 +471,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="structInterpreter_1_1Point.html">Interpreter::Point</a> * </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd><a class="el" href="structInterpreter_1_1Point.html" title="Structure to describe a simple point with integer coordinates.">Interpreter::Point</a> * </dd></dl>
 
 </div>
 </div>
@@ -1683,7 +1687,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 28 14:41:59 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -20,11 +20,6 @@ Inheritance diagram for PlayerTwo:\nopagebreak
 \includegraphics[height=400pt]{classPlayerTwo__inherit__graph}
 \end{center}
 \end{figure}
-\subsection*{Classes}
-\begin{DoxyCompactItemize}
-\item 
-struct \hyperlink{structPlayerTwo_1_1KickParam}{KickParam}
-\end{DoxyCompactItemize}
 \subsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -33,7 +28,7 @@ enum \hyperlink{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2}{ActionPlayerTw
 \hyperlink{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2aebb0cbac0bcb8fb7439a980dcc792638}{STOP}, 
 \hyperlink{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2a891b5407c8423ecb7d65df3a7da9b334}{DEFENSE}
  \}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Enumeration of the possible orders for the player two. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -61,8 +56,6 @@ string \hyperlink{classPlayerTwo_af9880885ced53351b52dcc949f6df162}{m\_\-path}
 \item 
 \hyperlink{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2}{ActionPlayerTwo} \hyperlink{classPlayerTwo_a35bab8a32976849cd72828a1a1fe8504}{m\_\-nextCmd}
 \item 
-\hyperlink{structPlayerTwo_1_1KickParam}{KickParam} \hyperlink{classPlayerTwo_ac0b6376133a18b87e4fa14036a32f0ff}{m\_\-kickPenaltyParam}
-\item 
 Position \hyperlink{classPlayerTwo_af294f3bef80e0df881b4452c1272376a}{m\_\-kickOffParam}
 \item 
 Position \hyperlink{classPlayerTwo_aa6b42d687884c55d1dd30034e7952605}{m\_\-defendpm}
@@ -83,6 +76,10 @@ Child class of \hyperlink{classTeamRobot}{TeamRobot} which describes the second 
 \index{ActionPlayerTwo@{ActionPlayerTwo}!PlayerTwo@{PlayerTwo}}
 \subsubsection[{ActionPlayerTwo}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf PlayerTwo::ActionPlayerTwo}}}
 \label{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2}
+
+
+Enumeration of the possible orders for the player two. 
+
 \begin{Desc}
 \item[Enumerator: ]\par
 \begin{description}
@@ -90,19 +87,19 @@ Child class of \hyperlink{classTeamRobot}{TeamRobot} which describes the second 
 \hypertarget{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2a1ee0927d53a79a9c07f3e8347b65ec6e}{
 GO\_\-TO\_\-DEF\_\-POS}
 \label{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2a1ee0927d53a79a9c07f3e8347b65ec6e}
-}]TODO \index{FOLLOWPATH@{FOLLOWPATH}!PlayerTwo@{PlayerTwo}}\index{PlayerTwo@{PlayerTwo}!FOLLOWPATH@{FOLLOWPATH}}\item[{\em 
+}]Go to the default position \index{FOLLOWPATH@{FOLLOWPATH}!PlayerTwo@{PlayerTwo}}\index{PlayerTwo@{PlayerTwo}!FOLLOWPATH@{FOLLOWPATH}}\item[{\em 
 \hypertarget{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2abd5fef2f14d18f78f33c6e946f1c9cd7}{
 FOLLOWPATH}
 \label{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2abd5fef2f14d18f78f33c6e946f1c9cd7}
-}]TODO \index{STOP@{STOP}!PlayerTwo@{PlayerTwo}}\index{PlayerTwo@{PlayerTwo}!STOP@{STOP}}\item[{\em 
+}]Use the path planning \index{STOP@{STOP}!PlayerTwo@{PlayerTwo}}\index{PlayerTwo@{PlayerTwo}!STOP@{STOP}}\item[{\em 
 \hypertarget{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2aebb0cbac0bcb8fb7439a980dcc792638}{
 STOP}
 \label{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2aebb0cbac0bcb8fb7439a980dcc792638}
-}]TODO \index{DEFENSE@{DEFENSE}!PlayerTwo@{PlayerTwo}}\index{PlayerTwo@{PlayerTwo}!DEFENSE@{DEFENSE}}\item[{\em 
+}]Stop \index{DEFENSE@{DEFENSE}!PlayerTwo@{PlayerTwo}}\index{PlayerTwo@{PlayerTwo}!DEFENSE@{DEFENSE}}\item[{\em 
 \hypertarget{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2a891b5407c8423ecb7d65df3a7da9b334}{
 DEFENSE}
 \label{classPlayerTwo_a6dd2b1afb179fe02b677dd71ec5703d2a891b5407c8423ecb7d65df3a7da9b334}
-}]TODO \end{description}
+}]Protect the first defense line \end{description}
 \end{Desc}
 
 
@@ -210,11 +207,6 @@ TODO \hypertarget{classPlayerTwo_af294f3bef80e0df881b4452c1272376a}{
 \index{m\_\-kickOffParam@{m\_\-kickOffParam}!PlayerTwo@{PlayerTwo}}
 \subsubsection[{m\_\-kickOffParam}]{\setlength{\rightskip}{0pt plus 5cm}Position {\bf PlayerTwo::m\_\-kickOffParam}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classPlayerTwo_af294f3bef80e0df881b4452c1272376a}
-TODO \hypertarget{classPlayerTwo_ac0b6376133a18b87e4fa14036a32f0ff}{
-\index{PlayerTwo@{PlayerTwo}!m\_\-kickPenaltyParam@{m\_\-kickPenaltyParam}}
-\index{m\_\-kickPenaltyParam@{m\_\-kickPenaltyParam}!PlayerTwo@{PlayerTwo}}
-\subsubsection[{m\_\-kickPenaltyParam}]{\setlength{\rightskip}{0pt plus 5cm}{\bf KickParam} {\bf PlayerTwo::m\_\-kickPenaltyParam}\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
-\label{classPlayerTwo_ac0b6376133a18b87e4fa14036a32f0ff}
 TODO \hypertarget{classPlayerTwo_a35bab8a32976849cd72828a1a1fe8504}{
 \index{PlayerTwo@{PlayerTwo}!m\_\-nextCmd@{m\_\-nextCmd}}
 \index{m\_\-nextCmd@{m\_\-nextCmd}!PlayerTwo@{PlayerTwo}}

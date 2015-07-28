@@ -77,9 +77,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a99563ba6e43f839bf1b10f55cf155125">WaitForCoordCalibrationEnd</a> (bool stopNow=false)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It waits for the end of the automatic coordinates calibration.  <a href="#a99563ba6e43f839bf1b10f55cf155125"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a92672252bda26bddd9b8c73bc6395ea3">GetCoordCalibrationResults</a> (double *tx, double *ty, double *theta, double *kx, double *ky) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*).  <a href="#a92672252bda26bddd9b8c73bc6395ea3"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">It gets the current calibration data. A handier version is <a class="el" href="classCoordinatesCalibrer.html#a1a3ae703556c2f4c4455792a43fed987" title="This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::G...">CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*) const</a>.  <a href="#a92672252bda26bddd9b8c73bc6395ea3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a1a3ae703556c2f4c4455792a43fed987">GetCoordCalibrationResults</a> (double *xMax, double *xMin, double *yMax, double *yMin) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*, double*).  <a href="#a1a3ae703556c2f4c4455792a43fed987"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function gets the current calibration data. More readable alternative to <a class="el" href="classCoordinatesCalibrer.html#a92672252bda26bddd9b8c73bc6395ea3" title="It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationR...">CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*, double*) const</a>.  <a href="#a1a3ae703556c2f4c4455792a43fed987"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCoordinatesCalibrer.html#a19faab9e443f7ef64462a36c19baf6bc">Init</a> ()</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Initializes the parameters for a <a class="el" href="classCoordinatesCalibrer.html" title="Class used to convert real field coordinates to normalized coordinates and vice-versa...">CoordinatesCalibrer</a> instance.  <a href="#a19faab9e443f7ef64462a36c19baf6bc"></a><br/></td></tr>
@@ -237,7 +237,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*, double*). </p>
+<p>This function gets the current calibration data. More readable alternative to <a class="el" href="classCoordinatesCalibrer.html#a92672252bda26bddd9b8c73bc6395ea3" title="It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationR...">CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*, double*) const</a>. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>xMax</em>&nbsp;</td><td>A pointer to receive the maximum value for the x coordinate. Can be NULL. </td></tr>
@@ -294,7 +294,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
-<p>It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*). </p>
+<p>It gets the current calibration data. A handier version is <a class="el" href="classCoordinatesCalibrer.html#a1a3ae703556c2f4c4455792a43fed987" title="This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::G...">CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*) const</a>. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>tx</em>&nbsp;</td><td>Pointer to receive the X translation setting. Can be NULL. </td></tr>
@@ -382,7 +382,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="memdoc">
 
 <p>It normalizes a position (real field -&gt; normalized). </p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Not supported anymore. Use CoordinatesCalibrer::NormalizePosition(Position) instead.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000001">Deprecated:</a></b></dt><dd>Not supported anymore. Use <a class="el" href="classCoordinatesCalibrer.html#ad6519b69842756c256922d14d1e248ce" title="It normalizes a position (real field -&gt; normalized).">CoordinatesCalibrer::NormalizePosition(Position) const </a>instead.</dd></dl>
 <p>Normalized coordinates are in [-1 ; 1].</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
@@ -573,7 +573,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="memdoc">
 
 <p>It unnormalizes a position (normalized -&gt; real field). </p>
-<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>Not supported anymore. Use CoordinatesCalibrer::UnnormalizePosition(Position) instead.</dd></dl>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000002">Deprecated:</a></b></dt><dd>Not supported anymore. Use <a class="el" href="classCoordinatesCalibrer.html#a8522193b13196313d001c589e7845bd3" title="It unnormalizes a position (normalized -&gt; real field).">CoordinatesCalibrer::UnnormalizePosition(Position) const </a>instead.</dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>The normalized position. Coordinates outside the range [-1,1] will be converted into real positions outside the field. </td></tr>
@@ -827,7 +827,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 28 14:41:59 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -6,14 +6,17 @@
 #include "geometry.h"
 
 /**
- * @brief
+ * @brief Standard constructor.
  *
- * @param ballMonitor
- * @param coordCalibrer
- * @param screenW
- * @param screenH
- * @param robots
- * @param interpreter
+ * Once the instance is created, you must call the @ref RefereeDisplay::StartDisplay() function to create the display's window.
+ * Once the window is created, you must call the @ref RefereeDisplay::StopDisplay() function to destroy it before destroying the object.
+ *
+ * @param ballMonitor A ball monitoring system. The display uses it to display the ball.
+ * @param coordCalibrer A coordinates calibrator.
+ * @param screenW The width of the window you want, in pixels.
+ * @param screenH The height of the window you want, in pixels.
+ * @param robots An array containing the six robots. Can be NULL but in this case you will have to provide them when calling the @ref RefereeDisplay::StartDisplay() function.
+ * @param interpreter The interpreter ruling the game. Can be NULL but in this case you will have to provide it when calling the @ref RefereeDisplay::StartDisplay() function.
  */
 RefereeDisplay::RefereeDisplay(BallMonitor *ballMonitor, const CoordinatesCalibrer *coordCalibrer,
                                int screenW, int screenH, NewRoboControl **robots, const Interpreter *interpreter)
@@ -42,8 +45,10 @@ RefereeDisplay::RefereeDisplay(BallMonitor *ballMonitor, const CoordinatesCalibr
 }
 
 /**
- * @brief
+ * @brief Standard destructor.
  *
+ * This desctructor does not close the window and does not free the memory associated with the window.
+ * Consequently, the @ref RefereeDisplay::StopDisplay() function must be called before the destructor, if a window was created.
  */
 RefereeDisplay::~RefereeDisplay()
 {
@@ -53,12 +58,14 @@ RefereeDisplay::~RefereeDisplay()
 }
 
 /**
- * @brief
+ * @brief Creates a window and launches a thread to keep it updated with the game data.
  *
- * @param robots
- * @param interpreter
- * @param map
- * @return bool
+ * After creating a window, the @ref RefereeDisplay::StopDisplay() function must be called before destroying the instance.
+ *
+ * @param robots The 6 robots to display. Can be NULL if there were provided in the @ref RefereeDisplay::RefereeDisplay() "constructor".
+ * @param interpreter The interpreter ruling the game. Can be NULL if it was provided in the @ref RefereeDisplay::RefereeDisplay() "constructor".
+ * @param map A map representing the obstacles in the field. Can be NULL. If provided, the map must not be deleted before the instance.
+ * @return bool True if the window was actually created, False if not (missing data / already launched).
  */
 bool RefereeDisplay::StartDisplay(NewRoboControl **robots, const Interpreter *interpreter, const Interpreter::Map *map)
 {
@@ -81,9 +88,9 @@ bool RefereeDisplay::StartDisplay(NewRoboControl **robots, const Interpreter *in
 }
 
 /**
- * @brief
+ * @brief Destroys the display's window created by @ref RefereeDisplay::StartDisplay().
  *
- * @return bool
+ * @return bool True if the window was destroyed, False if not (not created yet).
  */
 bool RefereeDisplay::StopDisplay()
 {
@@ -95,9 +102,9 @@ bool RefereeDisplay::StopDisplay()
 }
 
 /**
- * @brief
+ * @brief Tells if the window is created and active.
  *
- * @return bool
+ * @return bool True if the window is active, False if not.
  */
 bool RefereeDisplay::IsActive() const
 {
@@ -105,9 +112,12 @@ bool RefereeDisplay::IsActive() const
 }
 
 /**
- * @brief
+ * @brief Adds the world of the provided @ref PathFinder "path finder" to the display.
  *
- * @param pathFinder
+ * Only one path finder can be displayed at a time.
+ * Note that displaying both an @ref Interpreter::Map "obstacles map" and a path finder world can make the display completely unreadable.
+ *
+ * @param pathFinder The path finder to display. It is not copied, so updates you make will be reported on the display.
  */
 void RefereeDisplay::DisplayPathFinder(PathFinder *pathFinder)
 {
@@ -115,9 +125,11 @@ void RefereeDisplay::DisplayPathFinder(PathFinder *pathFinder)
 }
 
 /**
- * @brief
+ * @brief Adds a @ref PathFinder::Path "path" to the display.
  *
- * @param path
+ * Only one path can be displayed at a time.
+ *
+ * @param path The path to display.
  */
 void RefereeDisplay::DisplayPath(const PathFinder::Path path)
 {
@@ -138,9 +150,11 @@ void RefereeDisplay::DisplayPath(const PathFinder::Path path)
 
 
 /**
- * @brief
+ * @brief Creates an internal @ref MapDisplay "display" for the given @ref Interpreter::Map "obstacles map".
  *
- * @param map
+ * Only one map display can be used at a time. The old map display is deleted, if any.
+ *
+ * @param map The obstacles map.
  */
 void RefereeDisplay::CreateMapDisplay(const Interpreter::Map *map)
 {
@@ -154,10 +168,10 @@ void RefereeDisplay::CreateMapDisplay(const Interpreter::Map *map)
 }
 
 /**
- * @brief
+ * @brief Displays the vertices links which are connected to the given @ref PathFinder::ConvexPolygon "polygon" in the world of the @ref PathFinder "path finder" of the display, if any.
  *
- * @param polygon
- * @param screen
+ * @param polygon The polygon.
+ * @param screen The surface of the display's window.
  */
 void RefereeDisplay::DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Surface *screen)
 {
@@ -198,9 +212,9 @@ void RefereeDisplay::DisplayWeb(const PathFinder::ConvexPolygon& polygon, SDL_Su
 }
 
 /**
- * @brief
+ * @brief Main display loop, designed to be launched in a separate thread.
  *
- * @param data
+ * @param data A pointer to the @ref RefereeDisplay instance.
  */
 void* RefereeDisplay::RefDisplayFn(void *data)
 {
@@ -466,12 +480,12 @@ void* RefereeDisplay::RefDisplayFn(void *data)
 }
 
 /**
- * @brief
+ * @brief Converts a NORMALIZED position (see @ref CoordinatesCalibrer for more info) to screen coordinates.
  *
- * @param pos
- * @param w
- * @param h
- * @return SDL_Rect
+ * @param pos The position to convert.
+ * @param w w/2 = horizontal offset (useful when displaying pictures of width w)
+ * @param h h/2 = vertical offset (useful when displaying pictures of heigth h)
+ * @return SDL_Rect The screen coordinates.
  */
 SDL_Rect RefereeDisplay::PosToRect(Position pos, int w, int h)
 {
@@ -480,10 +494,10 @@ SDL_Rect RefereeDisplay::PosToRect(Position pos, int w, int h)
 }
 
 /**
- * @brief
+ * @brief Converts screen coordinates to a normalized position (see @ref CoordinatesCalibrer for more info).
  *
- * @param rect
- * @return Position
+ * @param rect The screen coordinates.
+ * @return Position The normalized position.
  */
 Position RefereeDisplay::RectToPos(SDL_Rect rect)
 {
@@ -491,9 +505,10 @@ Position RefereeDisplay::RectToPos(SDL_Rect rect)
 }
 
 /**
- * @brief
+ * @brief Gets the unnormalized position of the ball, extracted from the internal
+ * @ref BallMonitor "ball monitoring system" (provided in the @ref RefereeDisplay::RefereeDisplay "constructor").
  *
- * @return Position
+ * @return Position The ball's position.
  */
 Position RefereeDisplay::GetBallPos()
 {

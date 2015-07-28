@@ -92,6 +92,7 @@ double NewRoboControl::getSpeedP(double nominal, double actual) // Drehgeschwind
  *
  * @param nominal
  * @param actual
+ * @param geschw
  * @return double
  */
 double NewRoboControl::getSpeedPt(double nominal, double actual, int geschw) // Drehgeschwindigkeit bei der Fahrt

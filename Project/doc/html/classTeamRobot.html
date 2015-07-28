@@ -55,55 +55,70 @@ Inheritance diagram for TeamRobot:</div>
 <div class="dynsection">
 <div class="center"><img src="classTeamRobot__inherit__graph.png" border="0" usemap="#TeamRobot_inherit__map" alt="Inheritance graph"/></div>
 <map name="TeamRobot_inherit__map" id="TeamRobot_inherit__map">
-<area shape="rect" href="classGoalkeeper.html" title="Child class of TeamRobot used for the goal keeper." alt="" coords="5,1748,195,1948"/><area shape="rect" href="classPlayerMain.html" title="Child class of TeamRobot which describes the main player." alt="" coords="219,1729,408,1967"/><area shape="rect" href="classPlayerTwo.html" title="Child class of TeamRobot which describes the second player." alt="" coords="432,1701,621,1995"/><area shape="rect" href="classNewRoboControl.html" title="Wrapper for the &quot;RoboControl&quot; class. Implements additional driving functions..." alt="" coords="241,141,385,509"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="268,5,359,93"/></map>
+<area shape="rect" href="classGoalkeeper.html" title="Child class of TeamRobot used for the goal keeper." alt="" coords="5,1739,195,1939"/><area shape="rect" href="classPlayerMain.html" title="Child class of TeamRobot which describes the main player." alt="" coords="219,1720,408,1957"/><area shape="rect" href="classPlayerTwo.html" title="Child class of TeamRobot which describes the second player." alt="" coords="432,1701,621,1976"/><area shape="rect" href="classNewRoboControl.html" title="Wrapper for the &quot;RoboControl&quot; class. Implements additional driving functions..." alt="" coords="241,141,385,509"/><area shape="rect" href="classRoboControl.html" title="{RoboControl\n||}" alt="" coords="268,5,359,93"/></map>
 <center><span class="legend">[<a href="graph_legend.html">legend</a>]</span></center></div>
 
 <p><a href="classTeamRobot-members.html">List of all members.</a></p>
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a4b116f58f0a1568a886d03b0c71df20c">TeamRobot</a> (RTDBConn &amp;DBC, const int deviceNr, const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *coordCalib, RawBall *ball, <a class="el" href="classBallMonitor.html">BallMonitor</a> *ballPm, <a class="el" href="classRefereeDisplay.html">RefereeDisplay</a> *display=NULL)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Standard constructor.  <a href="#a4b116f58f0a1568a886d03b0c71df20c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a7be9d5161b7524cbbb6ae486ad4a1b42">~TeamRobot</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Standard destuctor.  <a href="#a7be9d5161b7524cbbb6ae486ad4a1b42"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#acd11ff6d9651a8deddafa5bd9a30865c">getDefaultPosition</a> () const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">using this function the robot get the default position for the current situation  <a href="#acd11ff6d9651a8deddafa5bd9a30865c"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Returns the currently set default position for the robot.  <a href="#acd11ff6d9651a8deddafa5bd9a30865c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a527cefdb32f2bc0a4fa770207d4dc934">setDefaultPositionX</a> (double x)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function defines the x of the default position  <a href="#a527cefdb32f2bc0a4fa770207d4dc934"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function defines the x coordinate of the default position  <a href="#a527cefdb32f2bc0a4fa770207d4dc934"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#afeb86cb88b18030049d525d1d6790e6e">setDefaultPositionY</a> (double y)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function defines the x of the default position  <a href="#afeb86cb88b18030049d525d1d6790e6e"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function defines the y coordinate of the default position  <a href="#afeb86cb88b18030049d525d1d6790e6e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a322f046e260aedff6f2c8edc5730c9ac">setDefaultPosition</a> (Position pos)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function defines pos of the default position  <a href="#a322f046e260aedff6f2c8edc5730c9ac"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function defines the default position  <a href="#a322f046e260aedff6f2c8edc5730c9ac"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a3ef7d4538226085ed4d92b8bd2fce67d">getCoordinatesCalibrer</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the currently set <a class="el" href="classCoordinatesCalibrer.html">coordinates calibrator</a>.  <a href="#a3ef7d4538226085ed4d92b8bd2fce67d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">RawBall *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a86dbc3bbf6fdcebd4ae41a6f68d92a15">getBall</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the currently set ball.  <a href="#a86dbc3bbf6fdcebd4ae41a6f68d92a15"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">int&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#abc3a5d2d4cac44629a9d8851164b5eda">getMapValue</a> (int i, int j) const </td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function calculate the actual position in the map based on the pathfinder. it unnormalizes from pathfinder to real map  <a href="#abc3a5d2d4cac44629a9d8851164b5eda"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the value at the given position of the internal <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a>.  <a href="#abc3a5d2d4cac44629a9d8851164b5eda"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classMatrix.html">Interpreter::Map</a> &amp;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a8b5fa0d9f42166fc3339ec901fad5a91">getMap</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the internal <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a> of the robot.  <a href="#a8b5fa0d9f42166fc3339ec901fad5a91"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a28ee2460e7d465989bb0582782db851e">setMapValue</a> (int i, int j, int val)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets the value of the internal <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a> of the robot at the given position.  <a href="#a28ee2460e7d465989bb0582782db851e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#ab8c92b6228aed8eef31d0b1b0fce8690">setMap</a> (const <a class="el" href="classMatrix.html">Interpreter::Map</a> &amp;map)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Sets a new internal <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a> for the robot.  <a href="#ab8c92b6228aed8eef31d0b1b0fce8690"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a2caa2411b9972fa5caa595f568394ba0">GiveDisplay</a> (<a class="el" href="classRefereeDisplay.html">RefereeDisplay</a> *display)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gives the <a class="el" href="classRefereeDisplay.html">display system</a> to the robot to display its path finder world. The display should be given at only one robot at a time.  <a href="#a2caa2411b9972fa5caa595f568394ba0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a162c8b33d4315a61d8371dc9a923b37b">KickOff</a> (const <a class="el" href="classNewRoboControl.html">NewRoboControl</a> *otherRobots[5], eSide ourSide, bool likePenalty=false)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">High-level driving function to perform a Kick-Off.  <a href="#a162c8b33d4315a61d8371dc9a923b37b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#ad5755055df84960c8d1a0a40efe33668">KickPenalty</a> (const <a class="el" href="classNewRoboControl.html">NewRoboControl</a> *otherRobots[5])</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">High-level driving function to perform a penalty shooting.  <a href="#ad5755055df84960c8d1a0a40efe33668"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#aa1bb9ac05c067a68118c8646c8d71830">Rotation</a> (Position ballPos)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">High-level function to orientate the robot towards the ball.  <a href="#aa1bb9ac05c067a68118c8646c8d71830"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a36d006bfeadfcdd37bd1eeb47223bdba">KickBall</a> (Position ballPos, bool rotate=true, bool forward=true)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function calculate whether the robot should move forwards or backwards to kick the ball. Furthermore, it adjusts the angle of the robot so that the robot can hit the ball precisely.  <a href="#a36d006bfeadfcdd37bd1eeb47223bdba"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">High-level function to kick the ball. The ball is assumed to be static.  <a href="#a36d006bfeadfcdd37bd1eeb47223bdba"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a98d044ad3907493236b2d399a26cb9ac">KickMovingBall</a> (RawBall *ball)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">High-level function to kick the ball. The ball is assumed to be moving.  <a href="#a98d044ad3907493236b2d399a26cb9ac"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#ac979572f4899940e88f067102ac1ae46">ShouldKick</a> (Position ballPos, Position goalPos)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function calculate if the robot should kick the ball and kick the ball in the direction of the goal.  <a href="#ac979572f4899940e88f067102ac1ae46"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy goal.  <a href="#ac979572f4899940e88f067102ac1ae46"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#ae7f6fa303c865dad297b662731165883">ShouldGoalKick</a> (Position ballPos, eSide ourSide)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function let the robot kick the ball if the ball is on our side. in this way the potential dangerous is eliminated  <a href="#ae7f6fa303c865dad297b662731165883"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy side.  <a href="#ae7f6fa303c865dad297b662731165883"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a65f9a2b7464dfac3f4a0336810cf574f">setNextCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)=0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a34c0fd6986c510d4025e5752b3c0e49a">setCmdParam</a> (const <a class="el" href="classInterpreter.html">Interpreter</a> &amp;interpreter)=0</td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a9b84df51ca16a7203fdb6498ea6741da">performCmd</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)=0</td></tr>
 <tr><td colspan="2"><h2>Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#acf4c435c98bc406744a12cd140d6631d">AddBorderObstaclesToPathFinder</a> (bool small=false)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds the obstacles which limit the playing field (borders and penalty areas).  <a href="#acf4c435c98bc406744a12cd140d6631d"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a1216ffb71821002b6e6845390c990d5f">UpdatePathFinder</a> (const <a class="el" href="classNewRoboControl.html">NewRoboControl</a> *obstacles[5], const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">update the path based on current position of the robots  <a href="#a1216ffb71821002b6e6845390c990d5f"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">update the <a class="el" href="classPathFinder.html">path finder</a> world based on current position of the robots  <a href="#a1216ffb71821002b6e6845390c990d5f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a9ae431d9eeaa1d16fa28c636499ab553">ComputePath</a> (const <a class="el" href="classInterpreter.html">Interpreter</a> &amp;interpreter)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Computes the path to be followed by the robot, depending on the orders of the <a class="el" href="classInterpreter.html">Interpreter</a>.  <a href="#a9ae431d9eeaa1d16fa28c636499ab553"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a02df00aae0a514badc93a9b2593be85f">FollowPath</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function is carried out during the game and it allows the robot to attack and defense properly  <a href="#a02df00aae0a514badc93a9b2593be85f"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">High-level driving function to make the robot follow the given path.  <a href="#a02df00aae0a514badc93a9b2593be85f"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">virtual void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a71ec65db46db1ac511fe17b668d4f192">AddObstacleForFormation</a> (const <a class="el" href="structInterpreter_1_1GameData.html">Interpreter::GameData</a> &amp;info)=0</td></tr>
 <tr><td colspan="2"><h2>Static Protected Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#afb5f9191ca185053af37c1ae1f8dcb17">IsPathOK</a> (<a class="el" href="classPathFinder.html#a269aba09b7b3208092f67f2bc02cf63e">PathFinder::Path</a> path, <a class="el" href="structPathFinder_1_1Point.html">PathFinder::Point</a> &amp;tgt)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Checks if a path is valid and leads to the given point.  <a href="#afb5f9191ca185053af37c1ae1f8dcb17"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static double&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a45d5d631b1e1e28c9c0f4ecbd47fdbde">AngleDiff</a> (double angle1, double angle2)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function calculate the difference between 2 angles and return the difference value in the range of -PI to PI.  <a href="#a45d5d631b1e1e28c9c0f4ecbd47fdbde"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">this function calculate the difference between 2 angles in [-PI, PI] and return the difference value in the same interval.  <a href="#a45d5d631b1e1e28c9c0f4ecbd47fdbde"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Protected Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a5758854ca2d6a084bea074c39e75b5d3">m_defaultPos</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a3bfcb3cdeedcc11eaed1b5bce532560f">m_coordCalib</a></td></tr>
@@ -128,7 +143,7 @@ Inheritance diagram for TeamRobot:</div>
 <tr><td class="memItemLeft" align="right" valign="top"><a class="el" href="classBallMonitor.html">BallMonitor</a> *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a84b5181a2fadaf7653d32f04fa04d657">m_ballPm</a></td></tr>
 <tr><td colspan="2"><h2>Static Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#ac52f7f240fde40db09116e8639a53c21">Checkspeed</a> (void *data)</td></tr>
-<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">moves the robot to a random position if it stucks somewhere.  <a href="#ac52f7f240fde40db09116e8639a53c21"></a><br/></td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Randomly moves the robot if it stucks somewhere.  <a href="#ac52f7f240fde40db09116e8639a53c21"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">pthread_t&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#a3e9052964ba03b6dce4a34d1e45dbb1f">m_thread</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classTeamRobot.html#ab7446260b71870667a83b8c53e1274be">m_targetPos</a></td></tr>
@@ -187,14 +202,16 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Standard constructor. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>DBC</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>deviceNr</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>coordCalib</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ballPm</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>display</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>DBC</em>&nbsp;</td><td>The database connection. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>deviceNr</em>&nbsp;</td><td>The ID of the robot. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>coordCalib</em>&nbsp;</td><td>A coordinates calibrator. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball used in game. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ballPm</em>&nbsp;</td><td>A ball monitoring system. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>display</em>&nbsp;</td><td>A display system which will be updated with the robot's data (path finder world). Can be NULL. Only one robot at a time should get access to the display. </td></tr>
   </table>
   </dd>
 </dl>
@@ -216,6 +233,8 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
+<p>Standard destuctor. </p>
+
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
@@ -234,9 +253,11 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Adds the obstacles which limit the playing field (borders and penalty areas). </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>small</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>small</em>&nbsp;</td><td>False if you want to keep a safety margin, True if not. </td></tr>
   </table>
   </dd>
 </dl>
@@ -288,11 +309,11 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>this function calculate the difference between 2 angles and return the difference value in the range of -PI to PI. </p>
+<p>this function calculate the difference between 2 angles in [-PI, PI] and return the difference value in the same interval. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>angle1</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>angle2</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>angle1</em>&nbsp;</td><td>The first angle </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>angle2</em>&nbsp;</td><td>The second angle </td></tr>
   </table>
   </dd>
 </dl>
@@ -316,10 +337,11 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>moves the robot to a random position if it stucks somewhere. </p>
+<p>Randomly moves the robot if it stucks somewhere. </p>
+<dl class="deprecated"><dt><b><a class="el" href="deprecated.html#_deprecated000004">Deprecated:</a></b></dt><dd>This function is not tested and should not be used until further testing is done. </dd></dl>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>is the robot </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>Pointer to the <a class="el" href="classTeamRobot.html">TeamRobot</a>. </td></tr>
   </table>
   </dd>
 </dl>
@@ -341,9 +363,11 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Computes the path to be followed by the robot, depending on the orders of the <a class="el" href="classInterpreter.html">Interpreter</a>. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td>The interpreter. </td></tr>
   </table>
   </dd>
 </dl>
@@ -366,10 +390,10 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>this function is carried out during the game and it allows the robot to attack and defense properly </p>
+<p>High-level driving function to make the robot follow the given path. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>is current playmode of referee </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>Information about the current play mode. </td></tr>
   </table>
   </dd>
 </dl>
@@ -390,7 +414,9 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>RawBall * </dd></dl>
+
+<p>Gets the currently set ball. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>RawBall * The ball. </dd></dl>
 
 </div>
 </div>
@@ -408,7 +434,9 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classCoordinatesCalibrer.html" title="Class used to convert real field coordinates to normalized coordinates and vice-versa...">CoordinatesCalibrer</a> * </dd></dl>
+
+<p>Gets the currently set <a class="el" href="classCoordinatesCalibrer.html">coordinates calibrator</a>. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classCoordinatesCalibrer.html" title="Class used to convert real field coordinates to normalized coordinates and vice-versa...">CoordinatesCalibrer</a> * The coordinates calibrator. </dd></dl>
 
 </div>
 </div>
@@ -427,7 +455,7 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>using this function the robot get the default position for the current situation </p>
+<p>Returns the currently set default position for the robot. </p>
 <dl class="return"><dt><b>Returns:</b></dt><dd>Position is the default position. </dd></dl>
 
 </div>
@@ -446,7 +474,9 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">Interpreter::Map</a> &amp; </dd></dl>
+
+<p>Gets the internal <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a> of the robot. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>const <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53" title="Class to describe an obstacles map. Only used with the A* path planning algorithm...">Interpreter::Map</a> &amp; The map. It should not be modified. Use the <a class="el" href="classTeamRobot.html#a28ee2460e7d465989bb0582782db851e">TeamRobot::setMapValue()</a> function instead. </dd></dl>
 
 </div>
 </div>
@@ -475,15 +505,15 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>this function calculate the actual position in the map based on the pathfinder. it unnormalizes from pathfinder to real map </p>
+<p>Gets the value at the given position of the internal <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a>. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>i</em>&nbsp;</td><td>is value on x axis in pathfinder </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>j</em>&nbsp;</td><td>is value on y axis in pathfinder </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>i</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>j</em>&nbsp;</td><td></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>int </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>int The value. </dd></dl>
 
 </div>
 </div>
@@ -502,9 +532,11 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Gives the <a class="el" href="classRefereeDisplay.html">display system</a> to the robot to display its path finder world. The display should be given at only one robot at a time. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>display</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>display</em>&nbsp;</td><td>The display system. </td></tr>
   </table>
   </dd>
 </dl>
@@ -535,14 +567,16 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Checks if a path is valid and leads to the given point. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>tgt</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>The path. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>tgt</em>&nbsp;</td><td>The target point. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the path is valid, False if not. </dd></dl>
 
 </div>
 </div>
@@ -577,7 +611,7 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>this function calculate whether the robot should move forwards or backwards to kick the ball. Furthermore, it adjusts the angle of the robot so that the robot can hit the ball precisely. </p>
+<p>High-level function to kick the ball. The ball is assumed to be static. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>ballPos</em>&nbsp;</td><td>is the position of the ball </td></tr>
@@ -604,9 +638,11 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>High-level function to kick the ball. The ball is assumed to be moving. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball. </td></tr>
   </table>
   </dd>
 </dl>
@@ -643,11 +679,13 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>High-level driving function to perform a Kick-Off. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>otherRobots[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>likePenalty</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>otherRobots[]</em>&nbsp;</td><td>The other robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ourSide</em>&nbsp;</td><td>Our side. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>likePenalty</em>&nbsp;</td><td>True if the Kick-Off must be done similarly to the penalty shooting, that is by driving more carefully and with more precision. </td></tr>
   </table>
   </dd>
 </dl>
@@ -669,9 +707,11 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>High-level driving function to perform a penalty shooting. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>otherRobots[]</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>otherRobots[]</em>&nbsp;</td><td>The other robots. </td></tr>
   </table>
   </dd>
 </dl>
@@ -714,6 +754,15 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
+<p>High-level function to orientate the robot towards the ball. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>ballPos</em>&nbsp;</td><td>The ball position. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the ball is in front of the robot (forward kick), False if it is behind (backward kick). </dd></dl>
+
 </div>
 </div>
 <a class="anchor" id="a34c0fd6986c510d4025e5752b3c0e49a"></a><!-- doxytag: member="TeamRobot::setCmdParam" ref="a34c0fd6986c510d4025e5752b3c0e49a" args="(const Interpreter &amp;interpreter)=0" -->
@@ -752,10 +801,10 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>this function defines pos of the default position </p>
+<p>this function defines the default position </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>is the value of current default position </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>is the value of the new default position </td></tr>
   </table>
   </dd>
 </dl>
@@ -778,10 +827,10 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>this function defines the x of the default position </p>
+<p>this function defines the x coordinate of the default position </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>is the X value of current default position </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>x</em>&nbsp;</td><td>is the X value of the new default position </td></tr>
   </table>
   </dd>
 </dl>
@@ -804,10 +853,10 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>this function defines the x of the default position </p>
+<p>this function defines the y coordinate of the default position </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td>is the Y value of current default position </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>y</em>&nbsp;</td><td>is the Y value of the new default position </td></tr>
   </table>
   </dd>
 </dl>
@@ -829,9 +878,11 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Sets a new internal <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a> for the robot. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>map</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>map</em>&nbsp;</td><td>The new map. It is fully copied. </td></tr>
   </table>
   </dd>
 </dl>
@@ -868,15 +919,17 @@ Inheritance diagram for TeamRobot:</div>
       </table>
 </div>
 <div class="memdoc">
+
+<p>Sets the value of the internal <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a> of the robot at the given position. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>i</em>&nbsp;</td><td></td></tr>
     <tr><td valign="top"></td><td valign="top"><em>j</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>val</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>val</em>&nbsp;</td><td>The value to set. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True on success, False on failure. </dd></dl>
 
 </div>
 </div>
@@ -925,7 +978,8 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>this function let the robot kick the ball if the ball is on our side. in this way the potential dangerous is eliminated </p>
+<p>Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy side. </p>
+<p>Contrary to the <a class="el" href="classTeamRobot.html#ac979572f4899940e88f067102ac1ae46">TeamRobot::ShouldKick()</a> function, the goal is not to aim the enemy goal but rather to kick the ball out of our side: This is a defensive maneuver.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>ballPos</em>&nbsp;</td><td>is the position of the ball </td></tr>
@@ -933,7 +987,7 @@ Inheritance diagram for TeamRobot:</div>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool return false if ball is still far away from the robot </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the kick should be attempted, False if not. </dd></dl>
 
 </div>
 </div>
@@ -962,15 +1016,16 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>this function calculate if the robot should kick the ball and kick the ball in the direction of the goal. </p>
+<p>Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy goal. </p>
+<p>Contrary to the <a class="el" href="classTeamRobot.html#ae7f6fa303c865dad297b662731165883">TeamRobot::ShouldGoalKick()</a> function, the goal is to aim the enemy goal and to score a goal: This is an offensive maneuver.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>ballPos</em>&nbsp;</td><td>is the position of the ball </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>goalPos</em>&nbsp;</td><td>is the position of the goal </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>goalPos</em>&nbsp;</td><td>is the position of the enemy goal </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool is false if the ball is still far away from the robot </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the kick should be attempted, False if not. </dd></dl>
 
 </div>
 </div>
@@ -999,11 +1054,11 @@ Inheritance diagram for TeamRobot:</div>
 </div>
 <div class="memdoc">
 
-<p>update the path based on current position of the robots </p>
+<p>update the <a class="el" href="classPathFinder.html">path finder</a> world based on current position of the robots </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
     <tr><td valign="top"></td><td valign="top"><em>obstacles[]</em>&nbsp;</td><td>are all other robots </td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>is current playmode of referee </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>info</em>&nbsp;</td><td>information about the current play mode </td></tr>
   </table>
   </dd>
 </dl>
@@ -1380,7 +1435,7 @@ Inheritance diagram for TeamRobot:</div>
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:11 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 28 14:41:59 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

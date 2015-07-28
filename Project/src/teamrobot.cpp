@@ -8,11 +8,11 @@
 #include "geometry.h"
 
 /**
- * @brief
+ * @brief Checks if a path is valid and leads to the given point.
  *
- * @param path
- * @param tgt
- * @return bool
+ * @param path The path.
+ * @param tgt The target point.
+ * @return bool True if the path is valid, False if not.
  */
 bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
 {
@@ -24,14 +24,14 @@ bool TeamRobot::IsPathOK(PathFinder::Path path, PathFinder::Point& tgt)
 }
 
 /**
- * @brief
+ * @brief Standard constructor.
  *
- * @param DBC
- * @param deviceNr
- * @param coordCalib
- * @param ball
- * @param ballPm
- * @param display
+ * @param DBC The database connection.
+ * @param deviceNr The ID of the robot.
+ * @param coordCalib A coordinates calibrator.
+ * @param ball The ball used in game.
+ * @param ballPm A ball monitoring system.
+ * @param display A display system which will be updated with the robot's data (path finder world). Can be NULL. Only one robot at a time should get access to the display.
  */
 TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall *ball, BallMonitor *ballPm, RefereeDisplay *display) : NewRoboControl(DBC, deviceNr)
 {
@@ -72,9 +72,9 @@ TeamRobot::TeamRobot(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibre
 }
 
 /**
- * @brief
+ * @brief Adds the obstacles which limit the playing field (borders and penalty areas).
  *
- * @param small
+ * @param small False if you want to keep a safety margin, True if not.
  */
 void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
 {
@@ -100,7 +100,7 @@ void TeamRobot::AddBorderObstaclesToPathFinder(bool small)
 }
 
 /**
- * @brief
+ * @brief Standard destuctor.
  *
  */
 TeamRobot::~TeamRobot()
@@ -112,7 +112,7 @@ TeamRobot::~TeamRobot()
 }
 
 /**
- * @brief using this function the robot get the default position for the current situation
+ * @brief Returns the currently set default position for the robot.
  *
  * @return Position is the default position.
  */
@@ -122,9 +122,9 @@ Position TeamRobot::getDefaultPosition() const
 }
 
 /**
- * @brief this function defines the x of the default position
+ * @brief this function defines the x coordinate of the default position
  *
- * @param x is the X value of current default position
+ * @param x is the X value of the new default position
  */
 void TeamRobot::setDefaultPositionX(double x)
 {
@@ -132,9 +132,9 @@ void TeamRobot::setDefaultPositionX(double x)
 }
 
 /**
- * @brief this function defines the x of the default position
+ * @brief this function defines the y coordinate of the default position
  *
- * @param y is the Y value of current default position
+ * @param y is the Y value of the new default position
  */
 void TeamRobot::setDefaultPositionY(double y)
 {
@@ -142,9 +142,9 @@ void TeamRobot::setDefaultPositionY(double y)
 }
 
 /**
- * @brief this function defines pos of the default position
+ * @brief this function defines the default position
  *
- * @param pos is the value of current default position
+ * @param pos is the value of the new default position
  */
 void TeamRobot::setDefaultPosition(Position pos)
 {
@@ -152,9 +152,9 @@ void TeamRobot::setDefaultPosition(Position pos)
 }
 
 /**
- * @brief
+ * @brief Gets the currently set @ref CoordinatesCalibrer "coordinates calibrator".
  *
- * @return const CoordinatesCalibrer *
+ * @return const CoordinatesCalibrer * The coordinates calibrator.
  */
 const CoordinatesCalibrer* TeamRobot::getCoordinatesCalibrer() const
 {
@@ -162,9 +162,9 @@ const CoordinatesCalibrer* TeamRobot::getCoordinatesCalibrer() const
 }
 
 /**
- * @brief
+ * @brief Gets the currently set ball.
  *
- * @return RawBall *
+ * @return RawBall * The ball.
  */
 RawBall* TeamRobot::getBall() const
 {
@@ -172,11 +172,10 @@ RawBall* TeamRobot::getBall() const
 }
 
 /**
- * @brief this function calculate the actual position in the map based on the pathfinder.
- * it unnormalizes from pathfinder to real map
- * @param i is value on x axis in pathfinder
- * @param j is value on y axis in pathfinder
- * @return int
+ * @brief Gets the value at the given position of the internal @ref Interpreter::Map "obstacles map".
+ * @param i
+ * @param j
+ * @return int The value.
  */
 int TeamRobot::getMapValue(int i, int j) const
 {
@@ -184,9 +183,9 @@ int TeamRobot::getMapValue(int i, int j) const
 }
 
 /**
- * @brief
+ * @brief Gets the internal @ref Interpreter::Map "obstacles map" of the robot.
  *
- * @return const Interpreter::Map &
+ * @return const Interpreter::Map & The map. It should not be modified. Use the @ref TeamRobot::setMapValue() function instead.
  */
 const Interpreter::Map& TeamRobot::getMap() const
 {
@@ -194,12 +193,12 @@ const Interpreter::Map& TeamRobot::getMap() const
 }
 
 /**
- * @brief
+ * @brief Sets the value of the internal @ref Interpreter::Map "obstacles map" of the robot at the given position.
  *
  * @param i
  * @param j
- * @param val
- * @return bool
+ * @param val The value to set.
+ * @return bool True on success, False on failure.
  */
 bool TeamRobot::setMapValue(int i, int j, int val)
 {
@@ -212,9 +211,9 @@ bool TeamRobot::setMapValue(int i, int j, int val)
 }
 
 /**
- * @brief
+ * @brief Sets a new internal @ref Interpreter::Map "obstacles map" for the robot.
  *
- * @param map
+ * @param map The new map. It is fully copied.
  */
 void TeamRobot::setMap(const Interpreter::Map &map)
 {
@@ -222,9 +221,9 @@ void TeamRobot::setMap(const Interpreter::Map &map)
 }
 
 /**
- * @brief
+ * @brief Gives the @ref RefereeDisplay "display system" to the robot to display its path finder world. The display should be given at only one robot at a time.
  *
- * @param display
+ * @param display The display system.
  */
 void TeamRobot::GiveDisplay(RefereeDisplay *display)
 {
@@ -236,10 +235,10 @@ void TeamRobot::GiveDisplay(RefereeDisplay *display)
 }
 
 /**
- * @brief update the path based on current position of the robots
+ * @brief update the @ref PathFinder "path finder" world based on current position of the robots
  *
  * @param obstacles[] are all other robots
- * @param info is current playmode of referee
+ * @param info information about the current play mode
  */
 void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Interpreter::GameData& info)
 {
@@ -298,9 +297,9 @@ void TeamRobot::UpdatePathFinder(const NewRoboControl* obstacles[5], const Inter
 }
 
 /**
- * @brief
+ * @brief Computes the path to be followed by the robot, depending on the orders of the @ref Interpreter.
  *
- * @param interpreter
+ * @param interpreter The interpreter.
  */
 void TeamRobot::ComputePath(const Interpreter& interpreter)
 {
@@ -436,9 +435,9 @@ void TeamRobot::ComputePath(const Interpreter& interpreter)
 }
 
 /**
- * @brief this function is carried out during the game and it allows the robot to attack and defense properly
+ * @brief High-level driving function to make the robot follow the given path.
  *
- * @param info is current playmode of referee
+ * @param info Information about the current play mode.
  */
 void TeamRobot::FollowPath(const Interpreter::GameData& info)
 {
@@ -495,11 +494,11 @@ void TeamRobot::FollowPath(const Interpreter::GameData& info)
 
 
 /**
- * @brief
+ * @brief High-level driving function to perform a Kick-Off.
  *
- * @param otherRobots[]
- * @param ourSide
- * @param likePenalty
+ * @param otherRobots[] The other robots.
+ * @param ourSide Our side.
+ * @param likePenalty True if the Kick-Off must be done similarly to the penalty shooting, that is by driving more carefully and with more precision.
  */
 void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, bool likePenalty)
 {
@@ -548,9 +547,9 @@ void TeamRobot::KickOff(const NewRoboControl* otherRobots[5], eSide ourSide, boo
 }
 
 /**
- * @brief
+ * @brief High-level driving function to perform a penalty shooting.
  *
- * @param otherRobots[]
+ * @param otherRobots[] The other robots.
  */
 void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
 {
@@ -606,6 +605,12 @@ void TeamRobot::KickPenalty(const NewRoboControl* otherRobots[5])
     KickBall(ballPos, false, forward);
 }
 
+/**
+ * @brief High-level function to orientate the robot towards the ball.
+ *
+ * @param ballPos The ball position.
+ * @return bool True if the ball is in front of the robot (forward kick), False if it is behind (backward kick).
+ */
 bool TeamRobot::Rotation(Position ballPos)
 {
     double phi = GetPhi().Get();
@@ -651,7 +656,7 @@ bool TeamRobot::Rotation(Position ballPos)
 }
 
 /**
- * @brief this function calculate whether the robot should move forwards or backwards to kick the ball. Furthermore, it adjusts the angle of the robot so that the robot can hit the ball precisely.
+ * @brief High-level function to kick the ball. The ball is assumed to be static.
  *
  * @param ballPos is the position of the ball
  * @param rotate True if the robot should rotate towards the ball before kicking
@@ -675,9 +680,9 @@ void TeamRobot::KickBall(Position ballPos, bool rotate, bool forward)
 }
 
 /**
- * @brief
+ * @brief High-level function to kick the ball. The ball is assumed to be moving.
  *
- * @param ball
+ * @param ball The ball.
  */
 void TeamRobot::KickMovingBall(RawBall *ball)
 {
@@ -740,11 +745,14 @@ void TeamRobot::KickMovingBall(RawBall *ball)
 }
 
 /**
- * @brief this function calculate if the robot should kick the ball and kick the ball
- * in the direction of the goal.
+ * @brief Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy goal.
+ *
+ * Contrary to the @ref TeamRobot::ShouldGoalKick() function, the goal is to aim the enemy goal and to score a goal:
+ * This is an offensive maneuver.
+ *
  * @param ballPos is the position of the ball
- * @param goalPos is the position of the goal
- * @return bool is false if the ball is still far away from the robot
+ * @param goalPos is the position of the enemy goal
+ * @return bool True if the kick should be attempted, False if not.
  */
 bool TeamRobot::ShouldKick(Position ballPos, Position goalPos)
 {
@@ -764,12 +772,14 @@ bool TeamRobot::ShouldKick(Position ballPos, Position goalPos)
 }
 
 /**
- * @brief this function let the robot kick the ball if the ball is on our side.
- * in this way the potential dangerous is eliminated
+ * @brief Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy side.
+ *
+ * Contrary to the @ref TeamRobot::ShouldKick() function, the goal is not to aim the enemy goal but rather to kick the ball out of our side:
+ * This is a defensive maneuver.
  *
  * @param ballPos is the position of the ball
  * @param ourSide the side we are right now.
- * @return bool return false if ball is still far away from the robot
+ * @return bool True if the kick should be attempted, False if not.
  */
 bool TeamRobot::ShouldGoalKick(Position ballPos, eSide ourSide)
 {
@@ -789,10 +799,10 @@ bool TeamRobot::ShouldGoalKick(Position ballPos, eSide ourSide)
 }
 
 /**
- * @brief this function calculate the difference between 2 angles
- * and return the difference value in the range of -PI to PI.
- * @param angle1
- * @param angle2
+ * @brief this function calculate the difference between 2 angles in [-PI, PI]
+ * and return the difference value in the same interval.
+ * @param angle1 The first angle
+ * @param angle2 The second angle
  * @return double the difference between angle1 and angle2
  */
 double TeamRobot::AngleDiff(double angle1, double angle2)
@@ -805,9 +815,9 @@ double TeamRobot::AngleDiff(double angle1, double angle2)
 
 
 /**
- * @brief moves the robot to a random position if it stucks somewhere.
- *
- * @param data is the robot
+ * @brief Randomly moves the robot if it stucks somewhere.
+ * @deprecated This function is not tested and should not be used until further testing is done.
+ * @param data Pointer to the @ref TeamRobot.
  */
 void* TeamRobot::Checkspeed(void *data)
 {

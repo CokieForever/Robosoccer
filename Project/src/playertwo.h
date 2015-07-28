@@ -19,27 +19,15 @@ class PlayerTwo : public TeamRobot
 
   public:
     /**
-     * @brief
+     * @brief Enumeration of the possible orders for the player two.
      *
      */
     enum ActionPlayerTwo
     {
-        GO_TO_DEF_POS,  /**< TODO */
-        FOLLOWPATH,     /**< TODO */
-        STOP,           /**< TODO */
-        DEFENSE       /**< TODO */
-    };
-
-    /**
-     * @brief
-     *
-     */
-    struct KickParam
-    {
-      double turnAngle;     /**< TODO */
-      int force;            /**< TODO */
-      Position pos;         /**< TODO */
-
+        GO_TO_DEF_POS,  /**< Go to the default position */
+        FOLLOWPATH,     /**< Use the path planning */
+        STOP,           /**< Stop */
+        DEFENSE       /**< Protect the first defense line */
     };
 
     PlayerTwo(RTDBConn& DBC, const int deviceNr, const CoordinatesCalibrer *coordCalib, RawBall*, BallMonitor *ballPm, RefereeDisplay *display = NULL);
@@ -55,7 +43,6 @@ class PlayerTwo : public TeamRobot
     queue<int> m_q;                 /**< TODO */
     string m_path;                  /**< TODO */
     ActionPlayerTwo m_nextCmd;      /**< TODO */
-    KickParam m_kickPenaltyParam;   /**< TODO */
     Position m_kickOffParam;        /**< TODO */
     Position m_defendpm;            /**< TODO */
     

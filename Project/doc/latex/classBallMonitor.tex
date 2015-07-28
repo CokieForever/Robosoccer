@@ -82,8 +82,8 @@ static double \hyperlink{classBallMonitor_a32d7b6d877b84c7d7fd9bc9ffe659562}{Ang
 \begin{DoxyCompactList}\small\item\em Computes f(a) = M\_\-PI -\/ a (mirror to the vertical axis) for an angle a in \mbox{[}-\/M\_\-PI ; M\_\-PI\mbox{]} and returns an angle in the same interval. \item\end{DoxyCompactList}\item 
 static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a74f8a1ce881528e475269fa1c964fa61}{MergeVisibilityMaps} (std::vector$<$ double $>$ \&map1, std::vector$<$ double $>$ \&map2)
 \begin{DoxyCompactList}\small\item\em This function merges two visibility maps, typically computed by \hyperlink{classBallMonitor_a0d2ef73ba2b0573021c800c311e08245}{BallMonitor::ComputeVisibilityMap()}. \item\end{DoxyCompactList}\item 
-static std::vector$<$ double $>$ \hyperlink{classBallMonitor_a8f3198b6b4ef8eb52c0ff04afd33cc8f}{AnglesToMap} (std::priority\_\-queue$<$ \hyperlink{structBallMonitor_1_1Angle}{Angle}, std::vector$<$ \hyperlink{structBallMonitor_1_1Angle}{Angle} $>$, \hyperlink{classBallMonitor_a5ad781c99d5b43bee7c838de9da75527}{CompareFn} $>$ angles, double minAngle, double maxAngle)
-\end{DoxyCompactItemize}
+static std::vector$<$ double $>$ \hyperlink{classBallMonitor_acb5d7a14b07253e7db6b629878b25077}{AnglesToMap} (std::priority\_\-queue$<$ \hyperlink{structBallMonitor_1_1Angle}{Angle}, std::vector$<$ \hyperlink{structBallMonitor_1_1Angle}{Angle} $>$, \hyperlink{classBallMonitor_a5ad781c99d5b43bee7c838de9da75527}{CompareFn} $>$ angles, double minAngle, double maxAngle)
+\begin{DoxyCompactList}\small\item\em This function converts a list of \hyperlink{structBallMonitor_1_1Angle}{angles} into a visibility map. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -142,11 +142,21 @@ Main (and only) constructor.
 
 
 \subsection{Member Function Documentation}
-\hypertarget{classBallMonitor_a8f3198b6b4ef8eb52c0ff04afd33cc8f}{
+\hypertarget{classBallMonitor_acb5d7a14b07253e7db6b629878b25077}{
 \index{BallMonitor@{BallMonitor}!AnglesToMap@{AnglesToMap}}
 \index{AnglesToMap@{AnglesToMap}!BallMonitor@{BallMonitor}}
-\subsubsection[{AnglesToMap}]{\setlength{\rightskip}{0pt plus 5cm}static std::vector$<$double$>$ BallMonitor::AnglesToMap (std::priority\_\-queue$<$ {\bf Angle}, std::vector$<$ {\bf Angle} $>$, {\bf CompareFn} $>$ {\em angles}, \/  double {\em minAngle}, \/  double {\em maxAngle})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
-\label{classBallMonitor_a8f3198b6b4ef8eb52c0ff04afd33cc8f}
+\subsubsection[{AnglesToMap}]{\setlength{\rightskip}{0pt plus 5cm}std::vector$<$ double $>$ BallMonitor::AnglesToMap (std::priority\_\-queue$<$ {\bf Angle}, std::vector$<$ {\bf Angle} $>$, {\bf CompareFn} $>$ {\em angles}, \/  double {\em minAngle}, \/  double {\em maxAngle})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
+\label{classBallMonitor_acb5d7a14b07253e7db6b629878b25077}
+
+
+This function converts a list of \hyperlink{structBallMonitor_1_1Angle}{angles} into a visibility map. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em angles}]Priority queue of angles to be converted into the map. \item[{\em minAngle}]Minimal angle to be taken into account. \item[{\em maxAngle}]Maximal angle to be taken into account. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+std::vector$<$double$>$ Visibility map. 
+\end{DoxyReturn}
 \hypertarget{classBallMonitor_a32d7b6d877b84c7d7fd9bc9ffe659562}{
 \index{BallMonitor@{BallMonitor}!AngleVertMirror@{AngleVertMirror}}
 \index{AngleVertMirror@{AngleVertMirror}!BallMonitor@{BallMonitor}}

@@ -107,7 +107,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Computes f(a) = M_PI - a (mirror to the vertical axis) for an angle a in [-M_PI ; M_PI] and returns an angle in the same interval.  <a href="#a32d7b6d877b84c7d7fd9bc9ffe659562"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static std::vector&lt; double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a74f8a1ce881528e475269fa1c964fa61">MergeVisibilityMaps</a> (std::vector&lt; double &gt; &amp;map1, std::vector&lt; double &gt; &amp;map2)</td></tr>
 <tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function merges two visibility maps, typically computed by <a class="el" href="classBallMonitor.html#a0d2ef73ba2b0573021c800c311e08245">BallMonitor::ComputeVisibilityMap()</a>.  <a href="#a74f8a1ce881528e475269fa1c964fa61"></a><br/></td></tr>
-<tr><td class="memItemLeft" align="right" valign="top">static std::vector&lt; double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a8f3198b6b4ef8eb52c0ff04afd33cc8f">AnglesToMap</a> (std::priority_queue&lt; <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a>, std::vector&lt; <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a> &gt;, <a class="el" href="classBallMonitor.html#a5ad781c99d5b43bee7c838de9da75527">CompareFn</a> &gt; angles, double minAngle, double maxAngle)</td></tr>
+<tr><td class="memItemLeft" align="right" valign="top">static std::vector&lt; double &gt;&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#acb5d7a14b07253e7db6b629878b25077">AnglesToMap</a> (std::priority_queue&lt; <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a>, std::vector&lt; <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a> &gt;, <a class="el" href="classBallMonitor.html#a5ad781c99d5b43bee7c838de9da75527">CompareFn</a> &gt; angles, double minAngle, double maxAngle)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">This function converts a list of <a class="el" href="structBallMonitor_1_1Angle.html">angles</a> into a visibility map.  <a href="#acb5d7a14b07253e7db6b629878b25077"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">RawBall *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a4bd064999cb8ee1a286c8dd7ac11ce05">m_mainBall</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classBallMonitor.html#a2486fa4296de6308930dc3864e05b61a">m_stopBallMonitoring</a></td></tr>
@@ -178,12 +179,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
-<a class="anchor" id="a8f3198b6b4ef8eb52c0ff04afd33cc8f"></a><!-- doxytag: member="BallMonitor::AnglesToMap" ref="a8f3198b6b4ef8eb52c0ff04afd33cc8f" args="(std::priority_queue&lt; Angle, std::vector&lt; Angle &gt;, CompareFn &gt; angles, double minAngle, double maxAngle)" -->
+<a class="anchor" id="acb5d7a14b07253e7db6b629878b25077"></a><!-- doxytag: member="BallMonitor::AnglesToMap" ref="acb5d7a14b07253e7db6b629878b25077" args="(std::priority_queue&lt; Angle, std::vector&lt; Angle &gt;, CompareFn &gt; angles, double minAngle, double maxAngle)" -->
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">static std::vector&lt;double&gt; BallMonitor::AnglesToMap </td>
+          <td class="memname">std::vector&lt; double &gt; BallMonitor::AnglesToMap </td>
           <td>(</td>
           <td class="paramtype">std::priority_queue&lt; <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a>, std::vector&lt; <a class="el" href="structBallMonitor_1_1Angle.html">Angle</a> &gt;, <a class="el" href="classBallMonitor.html#a5ad781c99d5b43bee7c838de9da75527">CompareFn</a> &gt;&nbsp;</td>
           <td class="paramname"> <em>angles</em>, </td>
@@ -208,6 +209,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>This function converts a list of <a class="el" href="structBallMonitor_1_1Angle.html">angles</a> into a visibility map. </p>
+<dl><dt><b>Parameters:</b></dt><dd>
+  <table border="0" cellspacing="2" cellpadding="0">
+    <tr><td valign="top"></td><td valign="top"><em>angles</em>&nbsp;</td><td>Priority queue of angles to be converted into the map. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>minAngle</em>&nbsp;</td><td>Minimal angle to be taken into account. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>maxAngle</em>&nbsp;</td><td>Maximal angle to be taken into account. </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>std::vector&lt;double&gt; Visibility map. </dd></dl>
 
 </div>
 </div>
@@ -1079,7 +1091,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 28 14:41:59 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

@@ -201,7 +201,7 @@ void PlayerMain::AddObstacleForFormation(const Interpreter::GameData& info)
 //could be used in Defend Mode for P2
 /**
  * @brief this function moves the robot to a specified position to carry out defense
- *
+ * @deprecated This strategy is not used anymore.
  */
 void PlayerMain::defend_p2(void)
 {

@@ -37,9 +37,9 @@ bool \hyperlink{classCoordinatesCalibrer_a2087994adbb8651efcb06e3d7a2315da}{Star
 bool \hyperlink{classCoordinatesCalibrer_a99563ba6e43f839bf1b10f55cf155125}{WaitForCoordCalibrationEnd} (bool stopNow=false)
 \begin{DoxyCompactList}\small\item\em It waits for the end of the automatic coordinates calibration. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}{GetCoordCalibrationResults} (double $\ast$tx, double $\ast$ty, double $\ast$theta, double $\ast$kx, double $\ast$ky) const 
-\begin{DoxyCompactList}\small\item\em It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$). \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em It gets the current calibration data. A handier version is \hyperlink{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}{CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$) const}. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}{GetCoordCalibrationResults} (double $\ast$xMax, double $\ast$xMin, double $\ast$yMax, double $\ast$yMin) const 
-\begin{DoxyCompactList}\small\item\em This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$, double$\ast$). \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em This function gets the current calibration data. More readable alternative to \hyperlink{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}{CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$, double$\ast$) const}. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -126,7 +126,7 @@ Function called to do the automatic coordinates calibration.
 \label{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}
 
 
-This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$, double$\ast$). 
+This function gets the current calibration data. More readable alternative to \hyperlink{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}{CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$, double$\ast$) const}. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -141,7 +141,7 @@ bool True if the calibration was actually done, False if not (in this case data 
 \label{classCoordinatesCalibrer_a92672252bda26bddd9b8c73bc6395ea3}
 
 
-It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$). 
+It gets the current calibration data. A handier version is \hyperlink{classCoordinatesCalibrer_a1a3ae703556c2f4c4455792a43fed987}{CoordinatesCalibrer::GetCoordCalibrationResults(double$\ast$, double$\ast$, double$\ast$, double$\ast$) const}. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -185,7 +185,7 @@ double Normalized Angle.
 It normalizes a position (real field -\/$>$ normalized). 
 
 \begin{Desc}
-\item[\hyperlink{deprecated__deprecated000001}{Deprecated}]Not supported anymore. Use CoordinatesCalibrer::NormalizePosition(Position) instead.\end{Desc}
+\item[\hyperlink{deprecated__deprecated000001}{Deprecated}]Not supported anymore. Use \hyperlink{classCoordinatesCalibrer_ad6519b69842756c256922d14d1e248ce}{CoordinatesCalibrer::NormalizePosition(Position) const }instead.\end{Desc}
 Normalized coordinates are in \mbox{[}-\/1 ; 1\mbox{]}.
 
 
@@ -280,7 +280,7 @@ double The unnormalized angle.
 It unnormalizes a position (normalized -\/$>$ real field). 
 
 \begin{Desc}
-\item[\hyperlink{deprecated__deprecated000002}{Deprecated}]Not supported anymore. Use CoordinatesCalibrer::UnnormalizePosition(Position) instead.\end{Desc}
+\item[\hyperlink{deprecated__deprecated000002}{Deprecated}]Not supported anymore. Use \hyperlink{classCoordinatesCalibrer_a8522193b13196313d001c589e7845bd3}{CoordinatesCalibrer::UnnormalizePosition(Position) const }instead.\end{Desc}
 
 \begin{DoxyParams}{Parameters}
 \item[{\em pos}]The normalized position. Coordinates outside the range \mbox{[}-\/1,1\mbox{]} will be converted into real positions outside the field. \item[{\em phi}]UNNORMALIZED orientation of the robot, typically given by RoboControl::GetPhi(). \end{DoxyParams}

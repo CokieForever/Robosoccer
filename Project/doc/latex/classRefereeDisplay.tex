@@ -15,37 +15,37 @@ Class used to create a window and display visual information in it. Also impleme
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classRefereeDisplay_a8f7d4872a24b44b96a36a5bbf991f5d2}{RefereeDisplay} (\hyperlink{classBallMonitor}{BallMonitor} $\ast$ballMonitor, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalibrer, int screenW=800, int screenH=600, \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$$\ast$robots=NULL, const \hyperlink{classInterpreter}{Interpreter} $\ast$interpreter=NULL)
-\item 
+\begin{DoxyCompactList}\small\item\em Standard constructor. \item\end{DoxyCompactList}\item 
 \hyperlink{classRefereeDisplay_a5a9191c0d7f937df62ea9544d9e38f3b}{$\sim$RefereeDisplay} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Standard destructor. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}{StartDisplay} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$$\ast$robots=NULL, const \hyperlink{classInterpreter}{Interpreter} $\ast$interpreter=NULL, const \hyperlink{classMatrix}{Interpreter::Map} $\ast$map=NULL)
-\item 
+\begin{DoxyCompactList}\small\item\em Creates a window and launches a thread to keep it updated with the game data. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classRefereeDisplay_aafa710132ce88c4e6cb4d430baf26173}{StopDisplay} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Destroys the display's window created by \hyperlink{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}{RefereeDisplay::StartDisplay()}. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classRefereeDisplay_a216bbade42b7c7694f69d73c35620fc6}{IsActive} () const 
-\item 
+\begin{DoxyCompactList}\small\item\em Tells if the window is created and active. \item\end{DoxyCompactList}\item 
 void \hyperlink{classRefereeDisplay_a0ef334a53e0fde02da30460ed2fcbe06}{DisplayPathFinder} (\hyperlink{classPathFinder}{PathFinder} $\ast$pathFinder)
-\item 
+\begin{DoxyCompactList}\small\item\em Adds the world of the provided \hyperlink{classPathFinder}{path finder} to the display. \item\end{DoxyCompactList}\item 
 void \hyperlink{classRefereeDisplay_ad7f07077e92fd46956bf1aa25715e414}{DisplayPath} (const \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{PathFinder::Path} path)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Adds a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} to the display. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classRefereeDisplay_a9c18f26c62f9507f903ec9b29c1bfea8}{CreateMapDisplay} (const \hyperlink{classMatrix}{Interpreter::Map} $\ast$map)
-\item 
+\begin{DoxyCompactList}\small\item\em Creates an internal \hyperlink{classMapDisplay}{display} for the given \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map}. \item\end{DoxyCompactList}\item 
 void \hyperlink{classRefereeDisplay_ae40cc8040d1fe441a8f38fe2fc0b8974}{DisplayWeb} (const \hyperlink{structPathFinder_1_1ConvexPolygon}{PathFinder::ConvexPolygon} \&polygon, SDL\_\-Surface $\ast$screen)
-\item 
+\begin{DoxyCompactList}\small\item\em Displays the vertices links which are connected to the given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} in the world of the \hyperlink{classPathFinder}{path finder} of the display, if any. \item\end{DoxyCompactList}\item 
 SDL\_\-Rect \hyperlink{classRefereeDisplay_a56d7e17a5fb16cbe64fb7ef3e4f28af0}{PosToRect} (Position pos, int w=0, int h=0)
-\item 
+\begin{DoxyCompactList}\small\item\em Converts a NORMALIZED position (see \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} for more info) to screen coordinates. \item\end{DoxyCompactList}\item 
 Position \hyperlink{classRefereeDisplay_a4abb9b85d92cbdd30fe6fd29a17c3767}{RectToPos} (SDL\_\-Rect rect)
-\item 
+\begin{DoxyCompactList}\small\item\em Converts screen coordinates to a normalized position (see \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} for more info). \item\end{DoxyCompactList}\item 
 Position \hyperlink{classRefereeDisplay_afa7601bcd5b6361398f48f2fb1d6ead4}{GetBallPos} ()
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Gets the unnormalized position of the ball, extracted from the internal \hyperlink{classBallMonitor}{ball monitoring system} (provided in the \hyperlink{classRefereeDisplay_a8f7d4872a24b44b96a36a5bbf991f5d2}{constructor}). \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Static Private Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static void $\ast$ \hyperlink{classRefereeDisplay_a0aecfa7e27f573859a1bb037aca9693a}{RefDisplayFn} (void $\ast$data)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Main display loop, designed to be launched in a separate thread. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -89,14 +89,24 @@ Class used to create a window and display visual information in it. Also impleme
 \subsubsection[{RefereeDisplay}]{\setlength{\rightskip}{0pt plus 5cm}RefereeDisplay::RefereeDisplay ({\bf BallMonitor} $\ast$ {\em ballMonitor}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em coordCalibrer}, \/  int {\em screenW} = {\ttfamily 800}, \/  int {\em screenH} = {\ttfamily 600}, \/  {\bf NewRoboControl} $\ast$$\ast$ {\em robots} = {\ttfamily NULL}, \/  const {\bf Interpreter} $\ast$ {\em interpreter} = {\ttfamily NULL})}}
 \label{classRefereeDisplay_a8f7d4872a24b44b96a36a5bbf991f5d2}
 
+
+Standard constructor. 
+
+Once the instance is created, you must call the \hyperlink{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}{RefereeDisplay::StartDisplay()} function to create the display's window. Once the window is created, you must call the \hyperlink{classRefereeDisplay_aafa710132ce88c4e6cb4d430baf26173}{RefereeDisplay::StopDisplay()} function to destroy it before destroying the object.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em ballMonitor}]\item[{\em coordCalibrer}]\item[{\em screenW}]\item[{\em screenH}]\item[{\em robots}]\item[{\em interpreter}]\end{DoxyParams}
+\item[{\em ballMonitor}]A ball monitoring system. The display uses it to display the ball. \item[{\em coordCalibrer}]A coordinates calibrator. \item[{\em screenW}]The width of the window you want, in pixels. \item[{\em screenH}]The height of the window you want, in pixels. \item[{\em robots}]An array containing the six robots. Can be NULL but in this case you will have to provide them when calling the \hyperlink{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}{RefereeDisplay::StartDisplay()} function. \item[{\em interpreter}]The interpreter ruling the game. Can be NULL but in this case you will have to provide it when calling the \hyperlink{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}{RefereeDisplay::StartDisplay()} function. \end{DoxyParams}
 \hypertarget{classRefereeDisplay_a5a9191c0d7f937df62ea9544d9e38f3b}{
 \index{RefereeDisplay@{RefereeDisplay}!$\sim$RefereeDisplay@{$\sim$RefereeDisplay}}
 \index{$\sim$RefereeDisplay@{$\sim$RefereeDisplay}!RefereeDisplay@{RefereeDisplay}}
 \subsubsection[{$\sim$RefereeDisplay}]{\setlength{\rightskip}{0pt plus 5cm}RefereeDisplay::$\sim$RefereeDisplay ()}}
 \label{classRefereeDisplay_a5a9191c0d7f937df62ea9544d9e38f3b}
 
+
+Standard destructor. 
+
+This desctructor does not close the window and does not free the memory associated with the window. Consequently, the \hyperlink{classRefereeDisplay_aafa710132ce88c4e6cb4d430baf26173}{RefereeDisplay::StopDisplay()} function must be called before the destructor, if a window was created. 
 
 \subsection{Member Function Documentation}
 \hypertarget{classRefereeDisplay_a9c18f26c62f9507f903ec9b29c1bfea8}{
@@ -105,47 +115,77 @@ Class used to create a window and display visual information in it. Also impleme
 \subsubsection[{CreateMapDisplay}]{\setlength{\rightskip}{0pt plus 5cm}void RefereeDisplay::CreateMapDisplay (const {\bf Interpreter::Map} $\ast$ {\em map})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classRefereeDisplay_a9c18f26c62f9507f903ec9b29c1bfea8}
 
+
+Creates an internal \hyperlink{classMapDisplay}{display} for the given \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map}. 
+
+Only one map display can be used at a time. The old map display is deleted, if any.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em map}]\end{DoxyParams}
+\item[{\em map}]The obstacles map. \end{DoxyParams}
 \hypertarget{classRefereeDisplay_ad7f07077e92fd46956bf1aa25715e414}{
 \index{RefereeDisplay@{RefereeDisplay}!DisplayPath@{DisplayPath}}
 \index{DisplayPath@{DisplayPath}!RefereeDisplay@{RefereeDisplay}}
 \subsubsection[{DisplayPath}]{\setlength{\rightskip}{0pt plus 5cm}void RefereeDisplay::DisplayPath (const {\bf PathFinder::Path} {\em path})}}
 \label{classRefereeDisplay_ad7f07077e92fd46956bf1aa25715e414}
 
+
+Adds a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} to the display. 
+
+Only one path can be displayed at a time.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em path}]\end{DoxyParams}
+\item[{\em path}]The path to display. \end{DoxyParams}
 \hypertarget{classRefereeDisplay_a0ef334a53e0fde02da30460ed2fcbe06}{
 \index{RefereeDisplay@{RefereeDisplay}!DisplayPathFinder@{DisplayPathFinder}}
 \index{DisplayPathFinder@{DisplayPathFinder}!RefereeDisplay@{RefereeDisplay}}
 \subsubsection[{DisplayPathFinder}]{\setlength{\rightskip}{0pt plus 5cm}void RefereeDisplay::DisplayPathFinder ({\bf PathFinder} $\ast$ {\em pathFinder})}}
 \label{classRefereeDisplay_a0ef334a53e0fde02da30460ed2fcbe06}
 
+
+Adds the world of the provided \hyperlink{classPathFinder}{path finder} to the display. 
+
+Only one path finder can be displayed at a time. Note that displaying both an \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map} and a path finder world can make the display completely unreadable.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em pathFinder}]\end{DoxyParams}
+\item[{\em pathFinder}]The path finder to display. It is not copied, so updates you make will be reported on the display. \end{DoxyParams}
 \hypertarget{classRefereeDisplay_ae40cc8040d1fe441a8f38fe2fc0b8974}{
 \index{RefereeDisplay@{RefereeDisplay}!DisplayWeb@{DisplayWeb}}
 \index{DisplayWeb@{DisplayWeb}!RefereeDisplay@{RefereeDisplay}}
 \subsubsection[{DisplayWeb}]{\setlength{\rightskip}{0pt plus 5cm}void RefereeDisplay::DisplayWeb (const {\bf PathFinder::ConvexPolygon} \& {\em polygon}, \/  SDL\_\-Surface $\ast$ {\em screen})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classRefereeDisplay_ae40cc8040d1fe441a8f38fe2fc0b8974}
 
+
+Displays the vertices links which are connected to the given \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} in the world of the \hyperlink{classPathFinder}{path finder} of the display, if any. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em polygon}]\item[{\em screen}]\end{DoxyParams}
+\item[{\em polygon}]The polygon. \item[{\em screen}]The surface of the display's window. \end{DoxyParams}
 \hypertarget{classRefereeDisplay_afa7601bcd5b6361398f48f2fb1d6ead4}{
 \index{RefereeDisplay@{RefereeDisplay}!GetBallPos@{GetBallPos}}
 \index{GetBallPos@{GetBallPos}!RefereeDisplay@{RefereeDisplay}}
 \subsubsection[{GetBallPos}]{\setlength{\rightskip}{0pt plus 5cm}Position RefereeDisplay::GetBallPos ()\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classRefereeDisplay_afa7601bcd5b6361398f48f2fb1d6ead4}
+
+
+Gets the unnormalized position of the ball, extracted from the internal \hyperlink{classBallMonitor}{ball monitoring system} (provided in the \hyperlink{classRefereeDisplay_a8f7d4872a24b44b96a36a5bbf991f5d2}{constructor}). 
+
 \begin{DoxyReturn}{Returns}
-Position 
+Position The ball's position. 
 \end{DoxyReturn}
 \hypertarget{classRefereeDisplay_a216bbade42b7c7694f69d73c35620fc6}{
 \index{RefereeDisplay@{RefereeDisplay}!IsActive@{IsActive}}
 \index{IsActive@{IsActive}!RefereeDisplay@{RefereeDisplay}}
 \subsubsection[{IsActive}]{\setlength{\rightskip}{0pt plus 5cm}bool RefereeDisplay::IsActive () const}}
 \label{classRefereeDisplay_a216bbade42b7c7694f69d73c35620fc6}
+
+
+Tells if the window is created and active. 
+
 \begin{DoxyReturn}{Returns}
-bool 
+bool True if the window is active, False if not. 
 \end{DoxyReturn}
 \hypertarget{classRefereeDisplay_a56d7e17a5fb16cbe64fb7ef3e4f28af0}{
 \index{RefereeDisplay@{RefereeDisplay}!PosToRect@{PosToRect}}
@@ -153,10 +193,14 @@ bool
 \subsubsection[{PosToRect}]{\setlength{\rightskip}{0pt plus 5cm}SDL\_\-Rect RefereeDisplay::PosToRect (Position {\em pos}, \/  int {\em w} = {\ttfamily 0}, \/  int {\em h} = {\ttfamily 0})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classRefereeDisplay_a56d7e17a5fb16cbe64fb7ef3e4f28af0}
 
+
+Converts a NORMALIZED position (see \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} for more info) to screen coordinates. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em pos}]\item[{\em w}]\item[{\em h}]\end{DoxyParams}
+\item[{\em pos}]The position to convert. \item[{\em w}]w/2 = horizontal offset (useful when displaying pictures of width w) \item[{\em h}]h/2 = vertical offset (useful when displaying pictures of heigth h) \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-SDL\_\-Rect 
+SDL\_\-Rect The screen coordinates. 
 \end{DoxyReturn}
 \hypertarget{classRefereeDisplay_a4abb9b85d92cbdd30fe6fd29a17c3767}{
 \index{RefereeDisplay@{RefereeDisplay}!RectToPos@{RectToPos}}
@@ -164,10 +208,14 @@ SDL\_\-Rect
 \subsubsection[{RectToPos}]{\setlength{\rightskip}{0pt plus 5cm}Position RefereeDisplay::RectToPos (SDL\_\-Rect {\em rect})\hspace{0.3cm}{\ttfamily  \mbox{[}private\mbox{]}}}}
 \label{classRefereeDisplay_a4abb9b85d92cbdd30fe6fd29a17c3767}
 
+
+Converts screen coordinates to a normalized position (see \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} for more info). 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em rect}]\end{DoxyParams}
+\item[{\em rect}]The screen coordinates. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-Position 
+Position The normalized position. 
 \end{DoxyReturn}
 \hypertarget{classRefereeDisplay_a0aecfa7e27f573859a1bb037aca9693a}{
 \index{RefereeDisplay@{RefereeDisplay}!RefDisplayFn@{RefDisplayFn}}
@@ -175,26 +223,40 @@ Position
 \subsubsection[{RefDisplayFn}]{\setlength{\rightskip}{0pt plus 5cm}void $\ast$ RefereeDisplay::RefDisplayFn (void $\ast$ {\em data})\hspace{0.3cm}{\ttfamily  \mbox{[}static, private\mbox{]}}}}
 \label{classRefereeDisplay_a0aecfa7e27f573859a1bb037aca9693a}
 
+
+Main display loop, designed to be launched in a separate thread. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em data}]\end{DoxyParams}
+\item[{\em data}]A pointer to the \hyperlink{classRefereeDisplay}{RefereeDisplay} instance. \end{DoxyParams}
 \hypertarget{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}{
 \index{RefereeDisplay@{RefereeDisplay}!StartDisplay@{StartDisplay}}
 \index{StartDisplay@{StartDisplay}!RefereeDisplay@{RefereeDisplay}}
 \subsubsection[{StartDisplay}]{\setlength{\rightskip}{0pt plus 5cm}bool RefereeDisplay::StartDisplay ({\bf NewRoboControl} $\ast$$\ast$ {\em robots} = {\ttfamily NULL}, \/  const {\bf Interpreter} $\ast$ {\em interpreter} = {\ttfamily NULL}, \/  const {\bf Interpreter::Map} $\ast$ {\em map} = {\ttfamily NULL})}}
 \label{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}
 
+
+Creates a window and launches a thread to keep it updated with the game data. 
+
+After creating a window, the \hyperlink{classRefereeDisplay_aafa710132ce88c4e6cb4d430baf26173}{RefereeDisplay::StopDisplay()} function must be called before destroying the instance.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robots}]\item[{\em interpreter}]\item[{\em map}]\end{DoxyParams}
+\item[{\em robots}]The 6 robots to display. Can be NULL if there were provided in the \hyperlink{classRefereeDisplay_a8f7d4872a24b44b96a36a5bbf991f5d2}{constructor}. \item[{\em interpreter}]The interpreter ruling the game. Can be NULL if it was provided in the \hyperlink{classRefereeDisplay_a8f7d4872a24b44b96a36a5bbf991f5d2}{constructor}. \item[{\em map}]A map representing the obstacles in the field. Can be NULL. If provided, the map must not be deleted before the instance. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool True if the window was actually created, False if not (missing data / already launched). 
 \end{DoxyReturn}
 \hypertarget{classRefereeDisplay_aafa710132ce88c4e6cb4d430baf26173}{
 \index{RefereeDisplay@{RefereeDisplay}!StopDisplay@{StopDisplay}}
 \index{StopDisplay@{StopDisplay}!RefereeDisplay@{RefereeDisplay}}
 \subsubsection[{StopDisplay}]{\setlength{\rightskip}{0pt plus 5cm}bool RefereeDisplay::StopDisplay ()}}
 \label{classRefereeDisplay_aafa710132ce88c4e6cb4d430baf26173}
+
+
+Destroys the display's window created by \hyperlink{classRefereeDisplay_a6b789ef1ca73c72556cf5051a8a2b5a6}{RefereeDisplay::StartDisplay()}. 
+
 \begin{DoxyReturn}{Returns}
-bool 
+bool True if the window was destroyed, False if not (not created yet). 
 \end{DoxyReturn}
 
 

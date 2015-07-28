@@ -85,7 +85,7 @@ bool CoordinatesCalibrer::SetManualCoordCalibration(Position a, Position b, Posi
 
 /**
  * @brief It normalizes a position (real field -> normalized).
- * @deprecated Not supported anymore. Use @ref CoordinatesCalibrer::NormalizePosition(Position) instead.
+ * @deprecated Not supported anymore. Use CoordinatesCalibrer::NormalizePosition(Position) const instead.
  *
  * Normalized coordinates are in [-1 ; 1].
  *
@@ -131,10 +131,10 @@ Position CoordinatesCalibrer::NormalizePosition(Position pos) const
 
 /**
  * @brief It unnormalizes a position (normalized -> real field).
- * @deprecated Not supported anymore. Use @ref CoordinatesCalibrer::UnnormalizePosition(Position) instead.
+ * @deprecated Not supported anymore. Use CoordinatesCalibrer::UnnormalizePosition(Position) const instead.
  *
  * @param pos The normalized position. Coordinates outside the range  [-1,1] will be converted into real positions outside the field.
- * @param phi UNNORMALIZED orientation of the robot, typically given by @ref RoboControl::GetPhi().
+ * @param phi UNNORMALIZED orientation of the robot, typically given by RoboControl::GetPhi().
  * @return Position The unnormalized position.
  */
 Position CoordinatesCalibrer::UnnormalizePosition(Position pos, double phi) const
@@ -271,7 +271,7 @@ bool CoordinatesCalibrer::WaitForCoordCalibrationEnd(bool stopNow)
 }
 
 /**
- * @brief It gets the current calibration data. A handier version is @ref CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*).
+ * @brief It gets the current calibration data. A handier version is CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*) const.
  *
  * @param tx Pointer to receive the X translation setting. Can be NULL.
  * @param ty Pointer to receive the Y translation setting. Can be NULL.
@@ -300,7 +300,7 @@ bool CoordinatesCalibrer::GetCoordCalibrationResults(double *tx, double *ty, dou
 }
 
 /**
- * @brief This function gets the current calibration data. More readable alternative to @ref CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*, double*).
+ * @brief This function gets the current calibration data. More readable alternative to CoordinatesCalibrer::GetCoordCalibrationResults(double*, double*, double*, double*, double*) const.
  *
  * @param xMax A pointer to receive the maximum value for the x coordinate. Can be NULL.
  * @param xMin A pointer to receive the minimum value for the x coordinate. Can be NULL.

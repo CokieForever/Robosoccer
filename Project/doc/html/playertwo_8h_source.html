@@ -57,7 +57,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00018"></a>00018 {
 <a name="l00019"></a>00019 
 <a name="l00020"></a>00020   <span class="keyword">public</span>:
-<a name="l00025"></a><a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2">00025</a>     <span class="keyword">enum</span> <a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2">ActionPlayerTwo</a>
+<a name="l00025"></a><a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2">00025</a>     <span class="keyword">enum</span> <a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2" title="Enumeration of the possible orders for the player two.">ActionPlayerTwo</a>
 <a name="l00026"></a>00026     {
 <a name="l00027"></a><a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2a1ee0927d53a79a9c07f3e8347b65ec6e">00027</a>         <a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2a1ee0927d53a79a9c07f3e8347b65ec6e">GO_TO_DEF_POS</a>,  
 <a name="l00028"></a><a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2abd5fef2f14d18f78f33c6e946f1c9cd7">00028</a>         <a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2abd5fef2f14d18f78f33c6e946f1c9cd7">FOLLOWPATH</a>,     
@@ -65,32 +65,24 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <a name="l00030"></a><a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2a891b5407c8423ecb7d65df3a7da9b334">00030</a>         <a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2a891b5407c8423ecb7d65df3a7da9b334">DEFENSE</a>       
 <a name="l00031"></a>00031     };
 <a name="l00032"></a>00032 
-<a name="l00037"></a><a class="code" href="structPlayerTwo_1_1KickParam.html">00037</a>     <span class="keyword">struct </span><a class="code" href="structPlayerTwo_1_1KickParam.html">KickParam</a>
-<a name="l00038"></a>00038     {
-<a name="l00039"></a><a class="code" href="structPlayerTwo_1_1KickParam.html#a9f6966583c1546ba873b2ccd4c004765">00039</a>       <span class="keywordtype">double</span> <a class="code" href="structPlayerTwo_1_1KickParam.html#a9f6966583c1546ba873b2ccd4c004765">turnAngle</a>;     
-<a name="l00040"></a><a class="code" href="structPlayerTwo_1_1KickParam.html#a556489a5a486628f52c33e3788655c49">00040</a>       <span class="keywordtype">int</span> <a class="code" href="structPlayerTwo_1_1KickParam.html#a556489a5a486628f52c33e3788655c49">force</a>;            
-<a name="l00041"></a><a class="code" href="structPlayerTwo_1_1KickParam.html#a66b0456e842c959443ba5eb2df7221b4">00041</a>       Position <a class="code" href="structPlayerTwo_1_1KickParam.html#a66b0456e842c959443ba5eb2df7221b4">pos</a>;         
-<a name="l00043"></a>00043     };
-<a name="l00044"></a>00044 
-<a name="l00045"></a>00045     <a class="code" href="classPlayerTwo.html#ac69719e70c78f7dffa36300f833955b1" title="Constructor of PlayerTwo class.">PlayerTwo</a>(RTDBConn&amp; DBC, <span class="keyword">const</span> <span class="keywordtype">int</span> deviceNr, <span class="keyword">const</span> <a class="code" href="classCoordinatesCalibrer.html" title="Class used to convert real field coordinates to normalized coordinates and vice-versa...">CoordinatesCalibrer</a> *coordCalib, RawBall*, <a class="code" href="classBallMonitor.html" title="Class used as a wrapper for a &amp;quot;RawBall&amp;quot; instance.">BallMonitor</a> *ballPm, <a class="code" href="classRefereeDisplay.html" title="Class used to create a window and display visual information in it. Also implements...">RefereeDisplay</a> *display = NULL);
-<a name="l00046"></a>00046 
-<a name="l00047"></a>00047     <span class="keywordtype">void</span> <a class="code" href="classPlayerTwo.html#a7ac9a9a4f1dedee2006e6a0c79f37c0c" title="Set next Command for PlayerTwo, depending on the command of Interpreter a case (strategy)...">setNextCmd</a>(<span class="keyword">const</span> <a class="code" href="structInterpreter_1_1GameData.html" title="Structure to gather data about the current game.">Interpreter::GameData</a>&amp; info);
-<a name="l00048"></a>00048     <span class="keywordtype">void</span> <a class="code" href="classPlayerTwo.html#aa0294cf24297f66ffd92f1a250794340" title="this function sets the value of parameters depending on the selected strategy">setCmdParam</a>(<span class="keyword">const</span> <a class="code" href="classInterpreter.html" title="Class used to coordinates actions and strategies for all robots from a high level...">Interpreter</a>&amp; interpreter);
-<a name="l00049"></a>00049     <span class="keywordtype">void</span> <a class="code" href="classPlayerTwo.html#a56d794b718c60092a324f312b8333eb9" title="the robot performs the command based on selected strategy">performCmd</a>(<span class="keyword">const</span> <a class="code" href="structInterpreter_1_1GameData.html" title="Structure to gather data about the current game.">Interpreter::GameData</a>&amp; info);
+<a name="l00033"></a>00033     <a class="code" href="classPlayerTwo.html#ac69719e70c78f7dffa36300f833955b1" title="Constructor of PlayerTwo class.">PlayerTwo</a>(RTDBConn&amp; DBC, <span class="keyword">const</span> <span class="keywordtype">int</span> deviceNr, <span class="keyword">const</span> <a class="code" href="classCoordinatesCalibrer.html" title="Class used to convert real field coordinates to normalized coordinates and vice-versa...">CoordinatesCalibrer</a> *coordCalib, RawBall*, <a class="code" href="classBallMonitor.html" title="Class used as a wrapper for a &amp;quot;RawBall&amp;quot; instance.">BallMonitor</a> *ballPm, <a class="code" href="classRefereeDisplay.html" title="Class used to create a window and display visual information in it. Also implements...">RefereeDisplay</a> *display = NULL);
+<a name="l00034"></a>00034 
+<a name="l00035"></a>00035     <span class="keywordtype">void</span> <a class="code" href="classPlayerTwo.html#a7ac9a9a4f1dedee2006e6a0c79f37c0c" title="Set next Command for PlayerTwo, depending on the command of Interpreter a case (strategy)...">setNextCmd</a>(<span class="keyword">const</span> <a class="code" href="structInterpreter_1_1GameData.html" title="Structure to gather data about the current game.">Interpreter::GameData</a>&amp; info);
+<a name="l00036"></a>00036     <span class="keywordtype">void</span> <a class="code" href="classPlayerTwo.html#aa0294cf24297f66ffd92f1a250794340" title="this function sets the value of parameters depending on the selected strategy">setCmdParam</a>(<span class="keyword">const</span> <a class="code" href="classInterpreter.html" title="Class used to coordinates actions and strategies for all robots from a high level...">Interpreter</a>&amp; interpreter);
+<a name="l00037"></a>00037     <span class="keywordtype">void</span> <a class="code" href="classPlayerTwo.html#a56d794b718c60092a324f312b8333eb9" title="the robot performs the command based on selected strategy">performCmd</a>(<span class="keyword">const</span> <a class="code" href="structInterpreter_1_1GameData.html" title="Structure to gather data about the current game.">Interpreter::GameData</a>&amp; info);
+<a name="l00038"></a>00038 
+<a name="l00039"></a>00039   <span class="keyword">private</span>:
+<a name="l00040"></a><a class="code" href="classPlayerTwo.html#a86e1752bf84fab5d093f93633d3e51da">00040</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classPlayerTwo.html#a86e1752bf84fab5d093f93633d3e51da">DEFENSE_LINE</a> = 0.75;    
+<a name="l00042"></a><a class="code" href="classPlayerTwo.html#a14f2fe35deb15d4d45208273a51ec7eb">00042</a>     <a class="code" href="classBallMonitor.html" title="Class used as a wrapper for a &amp;quot;RawBall&amp;quot; instance.">BallMonitor</a>* <a class="code" href="classPlayerTwo.html#a14f2fe35deb15d4d45208273a51ec7eb">m_ballpt</a>;          
+<a name="l00043"></a><a class="code" href="classPlayerTwo.html#ac2f70709bd48ad9f5c2435cbff1e65b3">00043</a>     queue&lt;int&gt; <a class="code" href="classPlayerTwo.html#ac2f70709bd48ad9f5c2435cbff1e65b3">m_q</a>;                 
+<a name="l00044"></a><a class="code" href="classPlayerTwo.html#af9880885ced53351b52dcc949f6df162">00044</a>     <span class="keywordtype">string</span> <a class="code" href="classPlayerTwo.html#af9880885ced53351b52dcc949f6df162">m_path</a>;                  
+<a name="l00045"></a><a class="code" href="classPlayerTwo.html#a35bab8a32976849cd72828a1a1fe8504">00045</a>     <a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2" title="Enumeration of the possible orders for the player two.">ActionPlayerTwo</a> <a class="code" href="classPlayerTwo.html#a35bab8a32976849cd72828a1a1fe8504">m_nextCmd</a>;      
+<a name="l00046"></a><a class="code" href="classPlayerTwo.html#af294f3bef80e0df881b4452c1272376a">00046</a>     Position <a class="code" href="classPlayerTwo.html#af294f3bef80e0df881b4452c1272376a">m_kickOffParam</a>;        
+<a name="l00047"></a><a class="code" href="classPlayerTwo.html#aa6b42d687884c55d1dd30034e7952605">00047</a>     Position <a class="code" href="classPlayerTwo.html#aa6b42d687884c55d1dd30034e7952605">m_defendpm</a>;            
+<a name="l00049"></a>00049     <span class="keywordtype">void</span> <a class="code" href="classPlayerTwo.html#a9e3341541658f54a2dfb0491a774b4d4" title="in different play strategy, the robots are supposed to move only in certain area...">AddObstacleForFormation</a>(<span class="keyword">const</span> <a class="code" href="structInterpreter_1_1GameData.html" title="Structure to gather data about the current game.">Interpreter::GameData</a>&amp; info);
 <a name="l00050"></a>00050 
-<a name="l00051"></a>00051   <span class="keyword">private</span>:
-<a name="l00052"></a><a class="code" href="classPlayerTwo.html#a86e1752bf84fab5d093f93633d3e51da">00052</a>     <span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">double</span> <a class="code" href="classPlayerTwo.html#a86e1752bf84fab5d093f93633d3e51da">DEFENSE_LINE</a> = 0.75;    
-<a name="l00054"></a><a class="code" href="classPlayerTwo.html#a14f2fe35deb15d4d45208273a51ec7eb">00054</a>     <a class="code" href="classBallMonitor.html" title="Class used as a wrapper for a &amp;quot;RawBall&amp;quot; instance.">BallMonitor</a>* <a class="code" href="classPlayerTwo.html#a14f2fe35deb15d4d45208273a51ec7eb">m_ballpt</a>;          
-<a name="l00055"></a><a class="code" href="classPlayerTwo.html#ac2f70709bd48ad9f5c2435cbff1e65b3">00055</a>     queue&lt;int&gt; <a class="code" href="classPlayerTwo.html#ac2f70709bd48ad9f5c2435cbff1e65b3">m_q</a>;                 
-<a name="l00056"></a><a class="code" href="classPlayerTwo.html#af9880885ced53351b52dcc949f6df162">00056</a>     <span class="keywordtype">string</span> <a class="code" href="classPlayerTwo.html#af9880885ced53351b52dcc949f6df162">m_path</a>;                  
-<a name="l00057"></a><a class="code" href="classPlayerTwo.html#a35bab8a32976849cd72828a1a1fe8504">00057</a>     <a class="code" href="classPlayerTwo.html#a6dd2b1afb179fe02b677dd71ec5703d2">ActionPlayerTwo</a> <a class="code" href="classPlayerTwo.html#a35bab8a32976849cd72828a1a1fe8504">m_nextCmd</a>;      
-<a name="l00058"></a><a class="code" href="classPlayerTwo.html#ac0b6376133a18b87e4fa14036a32f0ff">00058</a>     <a class="code" href="structPlayerTwo_1_1KickParam.html">KickParam</a> <a class="code" href="classPlayerTwo.html#ac0b6376133a18b87e4fa14036a32f0ff">m_kickPenaltyParam</a>;   
-<a name="l00059"></a><a class="code" href="classPlayerTwo.html#af294f3bef80e0df881b4452c1272376a">00059</a>     Position <a class="code" href="classPlayerTwo.html#af294f3bef80e0df881b4452c1272376a">m_kickOffParam</a>;        
-<a name="l00060"></a><a class="code" href="classPlayerTwo.html#aa6b42d687884c55d1dd30034e7952605">00060</a>     Position <a class="code" href="classPlayerTwo.html#aa6b42d687884c55d1dd30034e7952605">m_defendpm</a>;            
-<a name="l00062"></a>00062     <span class="keywordtype">void</span> <a class="code" href="classPlayerTwo.html#a9e3341541658f54a2dfb0491a774b4d4" title="in different play strategy, the robots are supposed to move only in certain area...">AddObstacleForFormation</a>(<span class="keyword">const</span> <a class="code" href="structInterpreter_1_1GameData.html" title="Structure to gather data about the current game.">Interpreter::GameData</a>&amp; info);
-<a name="l00063"></a>00063 
-<a name="l00064"></a>00064 };
-<a name="l00065"></a>00065 <span class="preprocessor">#endif // PLAYERTWO_H</span>
+<a name="l00051"></a>00051 };
+<a name="l00052"></a>00052 <span class="preprocessor">#endif // PLAYERTWO_H</span>
 </pre></div></div>
 <!--- window showing the filter options -->
 <div id="MSearchSelectWindow"
@@ -106,7 +98,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 28 14:41:59 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

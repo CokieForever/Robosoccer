@@ -9,7 +9,7 @@
 #include "interpreter.h"
 
 /**
- * @brief This class used to convert a @ref Interpreter::Map "map" into a @ref SDL_Surface. The surface can then be displayed on the screen.
+ * @brief This class used to convert a @ref Interpreter::Map "map" into a SDL_Surface. The surface can then be displayed on the screen.
  *
  */
 class MapDisplay

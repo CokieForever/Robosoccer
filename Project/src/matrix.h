@@ -11,7 +11,7 @@ class Interpreter;
  *
  * This class can be used for drawing operations on matrices.
  * You can for example draw a polygon or a circle inside the matrix by just calling the appropriate functions.
- * The data type is @ref Uint8.
+ * The data type is Uint8.
  * Elements can be accessed by either the Matrix::Get() function or the overloaded [] operator ([row][column]).
  * The class is thread-safe except for the access methods.
  */
@@ -65,13 +65,13 @@ public:
     /*** End of overloading section ***/
 
     /**
-     * @brief
+     * @brief Structure used to describe a simple integer point.
      *
      */
     struct Point
     {
-        int x;  /**< TODO */
-        int y;  /**< TODO */
+        int x;  /**< x coordinate */
+        int y;  /**< y coordinate */
     };
 
     static Point CreatePoint(int x, int y);

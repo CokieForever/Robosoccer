@@ -17,7 +17,7 @@ Class used to coordinates actions and strategies for all robots from a high leve
 struct \hyperlink{structInterpreter_1_1GameData}{GameData}
 \begin{DoxyCompactList}\small\item\em Structure to gather data about the current game. \item\end{DoxyCompactList}\item 
 struct \hyperlink{structInterpreter_1_1Point}{Point}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Structure to describe a simple point with integer coordinates. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Types}
 \begin{DoxyCompactItemize}
 \item 
@@ -32,7 +32,7 @@ enum \hyperlink{classInterpreter_a0fb49436c8c14ca79e13f1cd78119088}{Strategy} \{
  \}
 \begin{DoxyCompactList}\small\item\em Enumeration of the possible playing strategies. \item\end{DoxyCompactList}\item 
 typedef \hyperlink{classMatrix}{Matrix} \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{Map}
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Class to describe an obstacles map. Only used with the A$\ast$ path planning algorithm. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
@@ -199,6 +199,10 @@ Class used to coordinates actions and strategies for all robots from a high leve
 \index{Map@{Map}!Interpreter@{Interpreter}}
 \subsubsection[{Map}]{\setlength{\rightskip}{0pt plus 5cm}typedef {\bf Matrix} {\bf Interpreter::Map}}}
 \label{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}
+
+
+Class to describe an obstacles map. Only used with the A$\ast$ path planning algorithm. 
+
 
 
 \subsection{Member Enumeration Documentation}

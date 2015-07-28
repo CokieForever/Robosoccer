@@ -1,7 +1,7 @@
 <map id="G" name="G">
-<area shape="rect" href="$classGoalkeeper.html" title="Child class of TeamRobot used for the goal keeper." alt="" coords="5,1748,195,1948"/>
-<area shape="rect" href="$classPlayerMain.html" title="Child class of TeamRobot which describes the main player." alt="" coords="219,1729,408,1967"/>
-<area shape="rect" href="$classPlayerTwo.html" title="Child class of TeamRobot which describes the second player." alt="" coords="432,1701,621,1995"/>
+<area shape="rect" href="$classGoalkeeper.html" title="Child class of TeamRobot used for the goal keeper." alt="" coords="5,1739,195,1939"/>
+<area shape="rect" href="$classPlayerMain.html" title="Child class of TeamRobot which describes the main player." alt="" coords="219,1720,408,1957"/>
+<area shape="rect" href="$classPlayerTwo.html" title="Child class of TeamRobot which describes the second player." alt="" coords="432,1701,621,1976"/>
 <area shape="rect" href="$classNewRoboControl.html" title="Wrapper for the &quot;RoboControl&quot; class. Implements additional driving functions..." alt="" coords="241,141,385,509"/>
 <area shape="rect" href="$classRoboControl.html" title="{RoboControl\n||}" alt="" coords="268,5,359,93"/>
 </map>

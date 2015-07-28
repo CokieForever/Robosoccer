@@ -484,7 +484,7 @@ std::vector<double> BallMonitor::ComputeVisibilityMap(Position pos, const Positi
  * @param maxAngle Maximal angle to be taken into account.
  * @return std::vector<double> Visibility map.
  */
-std::vector<double> BallMonitor::AnglesToMap(priority_queue<Angle,std::vector<Angle>,CompareFn> angles, double minAngle, double maxAngle)
+std::vector<double> BallMonitor::AnglesToMap(std::priority_queue<Angle,std::vector<Angle>,CompareFn> angles, double minAngle, double maxAngle)
 {
     std::vector<int> currentIds;
     std::vector<double> map;

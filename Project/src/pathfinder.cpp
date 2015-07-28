@@ -40,10 +40,10 @@ PathFinder::Path PathFinder::CreatePath(Point start, Point end)
 }
 
 /**
- * @brief Converts a @ref PathFinder::Path "path" to a list of @ref Position "positions".
+ * @brief Converts a @ref PathFinder::Path "path" to a list of Positions.
  *
- * This function takes a path, typically given by the PathFinder::ComputePath() function, and converts it
- * to a list of positions. Every position is unnormalized by the given @CoordinatesCalibrer "coordinates calibrer".
+ * This function takes a path, typically given by the @ref PathFinder::ComputePath() function, and converts it
+ * to a list of positions. Every position is unnormalized by the given @ref CoordinatesCalibrer "coordinates calibrer".
  *
  * @param path The path to convert.
  * @param calibrer The coordinates calibrer to use to unnormalize the positions.

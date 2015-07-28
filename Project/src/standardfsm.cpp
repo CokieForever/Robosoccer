@@ -24,12 +24,12 @@ static void* GoalKeeper(void* data);
 
 
 /**
- * @brief
+ * @brief Main loop of the FSM.
  *
- * @param robots[]
- * @param ball
- * @param ref
- * @param t
+ * @param robots[] The six robots.
+ * @param ball The ball.
+ * @param ref The referee.
+ * @param t Our team.
  */
 void StandardFSM(NewRoboControl *robots[], RawBall *ball, Referee *ref, eTeam t)
 {
@@ -58,11 +58,13 @@ void StandardFSM(NewRoboControl *robots[], RawBall *ball, Referee *ref, eTeam t)
 
 
 /**
- * @brief
+ * @brief State of the FSM: "Before kick-off".
  *
- * @param robots[]
- * @param ball
- * @param ref
+ * Moves the robots to the default kick-off positions.
+ *
+ * @param robots[] The six robots.
+ * @param ball The ball.
+ * @param ref The referee.
  */
 static void BeforeKickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
@@ -86,11 +88,13 @@ static void BeforeKickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 }
 
 /**
- * @brief
+ * @brief State of the FSM: "Kick-off".
  *
- * @param robots[]
- * @param ball
- * @param ref
+ * Pilots the first robot to do the kick-off if this is our turn, or does nothing if not.
+ *
+ * @param robots[] The six robots.
+ * @param ball The ball.
+ * @param ref The referee.
  */
 static void KickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
@@ -106,11 +110,13 @@ static void KickOff(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 }
 
 /**
- * @brief
+ * @brief State of the FSM: "Before penalty".
  *
- * @param robots[]
- * @param ball
- * @param ref
+ * Moves the robots to the default positions depending on the team which will do the penalty shooting.
+ *
+ * @param robots[] The six robots.
+ * @param ball The ball.
+ * @param ref The referee.
  */
 static void BeforePenalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
@@ -132,11 +138,13 @@ static void BeforePenalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 }
 
 /**
- * @brief
+ * @brief State of the FSM: "Penalty shooting".
  *
- * @param robots[]
- * @param ball
- * @param ref
+ * Pilots the first robot to do a penalty shooting if this is our turn, or pilots the goal keeper if this is not.
+ *
+ * @param robots[] The six robots.
+ * @param ball The ball.
+ * @param ref The referee.
  */
 static void Penalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
@@ -176,11 +184,13 @@ static void Penalty(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 }
 
 /**
- * @brief
+ * @brief State of the FSM: "Play on".
  *
- * @param robots[]
- * @param ball
- * @param ref
+ * Launches the goal keeper thread. The behavior of other players is not implemented.
+ *
+ * @param robots[] The six robots.
+ * @param ball The ball.
+ * @param ref The referee.
  */
 static void PlayOn(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
@@ -199,11 +209,13 @@ static void PlayOn(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 }
 
 /**
- * @brief
+ * @brief State of the FSM: "Pause".
  *
- * @param robots[]
- * @param ball
- * @param ref
+ * Stop all robots after executing the last orders.
+ *
+ * @param robots[] The six robots.
+ * @param ball The ball.
+ * @param ref The referee.
  */
 static void Pause(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
@@ -211,11 +223,13 @@ static void Pause(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 }
 
 /**
- * @brief
+ * @brief State of the FSM: "Time over".
  *
- * @param robots[]
- * @param ball
- * @param ref
+ * Stops all robots after executing the last orders.
+ *
+ * @param robots[] The six robots.
+ * @param ball The ball.
+ * @param ref The referee.
  */
 static void TimeOver(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 {
@@ -224,9 +238,10 @@ static void TimeOver(NewRoboControl *robots[], RawBall *ball, Referee *ref)
 
 
 /**
- * @brief
+ * @brief Main loop to pilot the goal keeper, designed to be launched in a separate thread.
  *
- * @param data
+ * @param data A pointer to a @ref RoboBall structure containing useful data.
+ * @return NULL
  */
 static void* GoalKeeper(void* data)
 {

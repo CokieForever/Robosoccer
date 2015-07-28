@@ -64,13 +64,13 @@ public:
     };
 
     /**
-     * @brief
+     * @brief Structure to describe a simple point with integer coordinates.
      *
      */
     struct Point
     {
-        int x;  /**< TODO */
-        int y;  /**< TODO */
+        int x;  /**< x coordinate */
+        int y;  /**< y coordinate */
     };
 
     static const double MID_THRESHOLD  = 0.30;  /**< TODO */
@@ -83,7 +83,7 @@ public:
     static const int DY[DIR];   /**< TODO */
 
     /**
-     * @brief
+     * @brief Class to describe an obstacles map. Only used with the A* path planning algorithm.
      *
      */
     typedef Matrix Map;

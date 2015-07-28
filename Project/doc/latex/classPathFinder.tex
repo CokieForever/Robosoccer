@@ -72,7 +72,7 @@ static \hyperlink{structPathFinder_1_1Point}{Point} \hyperlink{classPathFinder_a
 static \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{Path} \hyperlink{classPathFinder_a42e557e3fe4cd1b209a4722ecfbf876b}{CreatePath} (\hyperlink{structPathFinder_1_1Point}{Point} start, \hyperlink{structPathFinder_1_1Point}{Point} end)
 \begin{DoxyCompactList}\small\item\em Creates a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} with the two given \hyperlink{structPathFinder_1_1Point}{points}. \item\end{DoxyCompactList}\item 
 static std::vector$<$ Position $>$ $\ast$ \hyperlink{classPathFinder_aba7f833c9bb8de011c62a1f01fb26144}{ConvertPathToReal} (const \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{Path} path, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$calibrer=NULL)
-\begin{DoxyCompactList}\small\item\em Converts a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} to a list of positions. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Converts a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} to a list of Positions. \item\end{DoxyCompactList}\item 
 static void \hyperlink{classPathFinder_a3306e3d1bb0ae88e236eb7cabbfce835}{DestroyPolygonsList} (\hyperlink{classPathFinder_a16ed073fa542c82fd09e582cb4fbed24}{PolygonsList} list)
 \begin{DoxyCompactList}\small\item\em Frees every \hyperlink{structPathFinder_1_1ConvexPolygon}{polygon} in a given list. \item\end{DoxyCompactList}\item 
 static bool \hyperlink{classPathFinder_a87a4f6d236e4b386e8b727e465f802be}{DoSegmentsIntersect} (\hyperlink{structPathFinder_1_1Segment}{Segment} seg1, \hyperlink{structPathFinder_1_1Segment}{Segment} seg2)
@@ -332,9 +332,9 @@ The point should be registered in the path finder's world as well.
 \label{classPathFinder_aba7f833c9bb8de011c62a1f01fb26144}
 
 
-Converts a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} to a list of positions. 
+Converts a \hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{path} to a list of Positions. 
 
-This function takes a path, typically given by the \hyperlink{classPathFinder_a7d1904c4ee6abc79375356dc64cad995}{PathFinder::ComputePath()} function, and converts it to a list of positions. Every position is unnormalized by the given  \char`\"{}coordinates calibrer\char`\"{}.
+This function takes a path, typically given by the \hyperlink{classPathFinder_a7d1904c4ee6abc79375356dc64cad995}{PathFinder::ComputePath()} function, and converts it to a list of positions. Every position is unnormalized by the given \hyperlink{classCoordinatesCalibrer}{coordinates calibrer}.
 
 
 \begin{DoxyParams}{Parameters}

@@ -55,20 +55,33 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Public Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a8f7d4872a24b44b96a36a5bbf991f5d2">RefereeDisplay</a> (<a class="el" href="classBallMonitor.html">BallMonitor</a> *ballMonitor, const <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> *coordCalibrer, int screenW=800, int screenH=600, <a class="el" href="classNewRoboControl.html">NewRoboControl</a> **robots=NULL, const <a class="el" href="classInterpreter.html">Interpreter</a> *interpreter=NULL)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Standard constructor.  <a href="#a8f7d4872a24b44b96a36a5bbf991f5d2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a5a9191c0d7f937df62ea9544d9e38f3b">~RefereeDisplay</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Standard destructor.  <a href="#a5a9191c0d7f937df62ea9544d9e38f3b"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a6b789ef1ca73c72556cf5051a8a2b5a6">StartDisplay</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> **robots=NULL, const <a class="el" href="classInterpreter.html">Interpreter</a> *interpreter=NULL, const <a class="el" href="classMatrix.html">Interpreter::Map</a> *map=NULL)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates a window and launches a thread to keep it updated with the game data.  <a href="#a6b789ef1ca73c72556cf5051a8a2b5a6"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#aafa710132ce88c4e6cb4d430baf26173">StopDisplay</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Destroys the display's window created by <a class="el" href="classRefereeDisplay.html#a6b789ef1ca73c72556cf5051a8a2b5a6">RefereeDisplay::StartDisplay()</a>.  <a href="#aafa710132ce88c4e6cb4d430baf26173"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a216bbade42b7c7694f69d73c35620fc6">IsActive</a> () const </td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Tells if the window is created and active.  <a href="#a216bbade42b7c7694f69d73c35620fc6"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a0ef334a53e0fde02da30460ed2fcbe06">DisplayPathFinder</a> (<a class="el" href="classPathFinder.html">PathFinder</a> *pathFinder)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds the world of the provided <a class="el" href="classPathFinder.html">path finder</a> to the display.  <a href="#a0ef334a53e0fde02da30460ed2fcbe06"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#ad7f07077e92fd46956bf1aa25715e414">DisplayPath</a> (const <a class="el" href="classPathFinder.html#a269aba09b7b3208092f67f2bc02cf63e">PathFinder::Path</a> path)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Adds a <a class="el" href="classPathFinder.html#a269aba09b7b3208092f67f2bc02cf63e">path</a> to the display.  <a href="#ad7f07077e92fd46956bf1aa25715e414"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a9c18f26c62f9507f903ec9b29c1bfea8">CreateMapDisplay</a> (const <a class="el" href="classMatrix.html">Interpreter::Map</a> *map)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Creates an internal <a class="el" href="classMapDisplay.html">display</a> for the given <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a>.  <a href="#a9c18f26c62f9507f903ec9b29c1bfea8"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#ae40cc8040d1fe441a8f38fe2fc0b8974">DisplayWeb</a> (const <a class="el" href="structPathFinder_1_1ConvexPolygon.html">PathFinder::ConvexPolygon</a> &amp;polygon, SDL_Surface *screen)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Displays the vertices links which are connected to the given <a class="el" href="structPathFinder_1_1ConvexPolygon.html">polygon</a> in the world of the <a class="el" href="classPathFinder.html">path finder</a> of the display, if any.  <a href="#ae40cc8040d1fe441a8f38fe2fc0b8974"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">SDL_Rect&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a56d7e17a5fb16cbe64fb7ef3e4f28af0">PosToRect</a> (Position pos, int w=0, int h=0)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts a NORMALIZED position (see <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> for more info) to screen coordinates.  <a href="#a56d7e17a5fb16cbe64fb7ef3e4f28af0"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a4abb9b85d92cbdd30fe6fd29a17c3767">RectToPos</a> (SDL_Rect rect)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Converts screen coordinates to a normalized position (see <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> for more info).  <a href="#a4abb9b85d92cbdd30fe6fd29a17c3767"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">Position&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#afa7601bcd5b6361398f48f2fb1d6ead4">GetBallPos</a> ()</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Gets the unnormalized position of the ball, extracted from the internal <a class="el" href="classBallMonitor.html">ball monitoring system</a> (provided in the <a class="el" href="classRefereeDisplay.html#a8f7d4872a24b44b96a36a5bbf991f5d2">constructor</a>).  <a href="#afa7601bcd5b6361398f48f2fb1d6ead4"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Static Private Member Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a0aecfa7e27f573859a1bb037aca9693a">RefDisplayFn</a> (void *data)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Main display loop, designed to be launched in a separate thread.  <a href="#a0aecfa7e27f573859a1bb037aca9693a"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Private Attributes</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#af3bb14682e53eef2d7d9e664f84e6ba1">m_keepGoing</a></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">bool&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="classRefereeDisplay.html#a12bdb098bcf59351f55bc7beb922ac62">m_isDisplaying</a></td></tr>
@@ -136,14 +149,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Standard constructor. </p>
+<p>Once the instance is created, you must call the <a class="el" href="classRefereeDisplay.html#a6b789ef1ca73c72556cf5051a8a2b5a6">RefereeDisplay::StartDisplay()</a> function to create the display's window. Once the window is created, you must call the <a class="el" href="classRefereeDisplay.html#aafa710132ce88c4e6cb4d430baf26173">RefereeDisplay::StopDisplay()</a> function to destroy it before destroying the object.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>ballMonitor</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>coordCalibrer</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>screenW</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>screenH</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>robots</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ballMonitor</em>&nbsp;</td><td>A ball monitoring system. The display uses it to display the ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>coordCalibrer</em>&nbsp;</td><td>A coordinates calibrator. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>screenW</em>&nbsp;</td><td>The width of the window you want, in pixels. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>screenH</em>&nbsp;</td><td>The height of the window you want, in pixels. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots</em>&nbsp;</td><td>An array containing the six robots. Can be NULL but in this case you will have to provide them when calling the <a class="el" href="classRefereeDisplay.html#a6b789ef1ca73c72556cf5051a8a2b5a6">RefereeDisplay::StartDisplay()</a> function. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td>The interpreter ruling the game. Can be NULL but in this case you will have to provide it when calling the <a class="el" href="classRefereeDisplay.html#a6b789ef1ca73c72556cf5051a8a2b5a6">RefereeDisplay::StartDisplay()</a> function. </td></tr>
   </table>
   </dd>
 </dl>
@@ -165,6 +181,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div>
 <div class="memdoc">
 
+<p>Standard destructor. </p>
+<p>This desctructor does not close the window and does not free the memory associated with the window. Consequently, the <a class="el" href="classRefereeDisplay.html#aafa710132ce88c4e6cb4d430baf26173">RefereeDisplay::StopDisplay()</a> function must be called before the destructor, if a window was created. </p>
+
 </div>
 </div>
 <hr/><h2>Member Function Documentation</h2>
@@ -183,9 +202,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Creates an internal <a class="el" href="classMapDisplay.html">display</a> for the given <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a>. </p>
+<p>Only one map display can be used at a time. The old map display is deleted, if any.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>map</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>map</em>&nbsp;</td><td>The obstacles map. </td></tr>
   </table>
   </dd>
 </dl>
@@ -207,9 +229,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Adds a <a class="el" href="classPathFinder.html#a269aba09b7b3208092f67f2bc02cf63e">path</a> to the display. </p>
+<p>Only one path can be displayed at a time.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>path</em>&nbsp;</td><td>The path to display. </td></tr>
   </table>
   </dd>
 </dl>
@@ -231,9 +256,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Adds the world of the provided <a class="el" href="classPathFinder.html">path finder</a> to the display. </p>
+<p>Only one path finder can be displayed at a time. Note that displaying both an <a class="el" href="classInterpreter.html#a4c080f069f557cf92dfe803117a6ea53">obstacles map</a> and a path finder world can make the display completely unreadable.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pathFinder</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pathFinder</em>&nbsp;</td><td>The path finder to display. It is not copied, so updates you make will be reported on the display. </td></tr>
   </table>
   </dd>
 </dl>
@@ -264,10 +292,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Displays the vertices links which are connected to the given <a class="el" href="structPathFinder_1_1ConvexPolygon.html">polygon</a> in the world of the <a class="el" href="classPathFinder.html">path finder</a> of the display, if any. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>polygon</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>screen</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>polygon</em>&nbsp;</td><td>The polygon. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>screen</em>&nbsp;</td><td>The surface of the display's window. </td></tr>
   </table>
   </dd>
 </dl>
@@ -288,7 +318,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>Position </dd></dl>
+
+<p>Gets the unnormalized position of the ball, extracted from the internal <a class="el" href="classBallMonitor.html">ball monitoring system</a> (provided in the <a class="el" href="classRefereeDisplay.html#a8f7d4872a24b44b96a36a5bbf991f5d2">constructor</a>). </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Position The ball's position. </dd></dl>
 
 </div>
 </div>
@@ -306,7 +338,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+
+<p>Tells if the window is created and active. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the window is active, False if not. </dd></dl>
 
 </div>
 </div>
@@ -340,15 +374,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Converts a NORMALIZED position (see <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> for more info) to screen coordinates. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>w</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>h</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>pos</em>&nbsp;</td><td>The position to convert. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>w</em>&nbsp;</td><td>w/2 = horizontal offset (useful when displaying pictures of width w) </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>h</em>&nbsp;</td><td>h/2 = vertical offset (useful when displaying pictures of heigth h) </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>SDL_Rect </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>SDL_Rect The screen coordinates. </dd></dl>
 
 </div>
 </div>
@@ -367,13 +403,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Converts screen coordinates to a normalized position (see <a class="el" href="classCoordinatesCalibrer.html">CoordinatesCalibrer</a> for more info). </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>rect</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>rect</em>&nbsp;</td><td>The screen coordinates. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>Position </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>Position The normalized position. </dd></dl>
 
 </div>
 </div>
@@ -392,9 +430,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Main display loop, designed to be launched in a separate thread. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>A pointer to the <a class="el" href="classRefereeDisplay.html">RefereeDisplay</a> instance. </td></tr>
   </table>
   </dd>
 </dl>
@@ -431,15 +471,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Creates a window and launches a thread to keep it updated with the game data. </p>
+<p>After creating a window, the <a class="el" href="classRefereeDisplay.html#aafa710132ce88c4e6cb4d430baf26173">RefereeDisplay::StopDisplay()</a> function must be called before destroying the instance.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robots</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>map</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots</em>&nbsp;</td><td>The 6 robots to display. Can be NULL if there were provided in the <a class="el" href="classRefereeDisplay.html#a8f7d4872a24b44b96a36a5bbf991f5d2">constructor</a>. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>interpreter</em>&nbsp;</td><td>The interpreter ruling the game. Can be NULL if it was provided in the <a class="el" href="classRefereeDisplay.html#a8f7d4872a24b44b96a36a5bbf991f5d2">constructor</a>. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>map</em>&nbsp;</td><td>A map representing the obstacles in the field. Can be NULL. If provided, the map must not be deleted before the instance. </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the window was actually created, False if not (missing data / already launched). </dd></dl>
 
 </div>
 </div>
@@ -457,7 +500,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
-<dl class="return"><dt><b>Returns:</b></dt><dd>bool </dd></dl>
+
+<p>Destroys the display's window created by <a class="el" href="classRefereeDisplay.html#a6b789ef1ca73c72556cf5051a8a2b5a6">RefereeDisplay::StartDisplay()</a>. </p>
+<dl class="return"><dt><b>Returns:</b></dt><dd>bool True if the window was destroyed, False if not (not created yet). </dd></dl>
 
 </div>
 </div>
@@ -676,7 +721,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:11 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 28 14:41:59 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

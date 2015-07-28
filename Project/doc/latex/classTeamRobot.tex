@@ -24,45 +24,45 @@ Inheritance diagram for TeamRobot:\nopagebreak
 \begin{DoxyCompactItemize}
 \item 
 \hyperlink{classTeamRobot_a4b116f58f0a1568a886d03b0c71df20c}{TeamRobot} (RTDBConn \&DBC, const int deviceNr, const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$coordCalib, RawBall $\ast$ball, \hyperlink{classBallMonitor}{BallMonitor} $\ast$ballPm, \hyperlink{classRefereeDisplay}{RefereeDisplay} $\ast$display=NULL)
-\item 
+\begin{DoxyCompactList}\small\item\em Standard constructor. \item\end{DoxyCompactList}\item 
 virtual \hyperlink{classTeamRobot_a7be9d5161b7524cbbb6ae486ad4a1b42}{$\sim$TeamRobot} ()
-\item 
+\begin{DoxyCompactList}\small\item\em Standard destuctor. \item\end{DoxyCompactList}\item 
 Position \hyperlink{classTeamRobot_acd11ff6d9651a8deddafa5bd9a30865c}{getDefaultPosition} () const 
-\begin{DoxyCompactList}\small\item\em using this function the robot get the default position for the current situation \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Returns the currently set default position for the robot. \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_a527cefdb32f2bc0a4fa770207d4dc934}{setDefaultPositionX} (double x)
-\begin{DoxyCompactList}\small\item\em this function defines the x of the default position \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em this function defines the x coordinate of the default position \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_afeb86cb88b18030049d525d1d6790e6e}{setDefaultPositionY} (double y)
-\begin{DoxyCompactList}\small\item\em this function defines the x of the default position \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em this function defines the y coordinate of the default position \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_a322f046e260aedff6f2c8edc5730c9ac}{setDefaultPosition} (Position pos)
-\begin{DoxyCompactList}\small\item\em this function defines pos of the default position \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em this function defines the default position \item\end{DoxyCompactList}\item 
 const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ \hyperlink{classTeamRobot_a3ef7d4538226085ed4d92b8bd2fce67d}{getCoordinatesCalibrer} () const 
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the currently set \hyperlink{classCoordinatesCalibrer}{coordinates calibrator}. \item\end{DoxyCompactList}\item 
 RawBall $\ast$ \hyperlink{classTeamRobot_a86dbc3bbf6fdcebd4ae41a6f68d92a15}{getBall} () const 
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the currently set ball. \item\end{DoxyCompactList}\item 
 int \hyperlink{classTeamRobot_abc3a5d2d4cac44629a9d8851164b5eda}{getMapValue} (int i, int j) const 
-\begin{DoxyCompactList}\small\item\em this function calculate the actual position in the map based on the pathfinder. it unnormalizes from pathfinder to real map \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Gets the value at the given position of the internal \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map}. \item\end{DoxyCompactList}\item 
 const \hyperlink{classMatrix}{Interpreter::Map} \& \hyperlink{classTeamRobot_a8b5fa0d9f42166fc3339ec901fad5a91}{getMap} () const 
-\item 
+\begin{DoxyCompactList}\small\item\em Gets the internal \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map} of the robot. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classTeamRobot_a28ee2460e7d465989bb0582782db851e}{setMapValue} (int i, int j, int val)
-\item 
+\begin{DoxyCompactList}\small\item\em Sets the value of the internal \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map} of the robot at the given position. \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_ab8c92b6228aed8eef31d0b1b0fce8690}{setMap} (const \hyperlink{classMatrix}{Interpreter::Map} \&map)
-\item 
+\begin{DoxyCompactList}\small\item\em Sets a new internal \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map} for the robot. \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_a2caa2411b9972fa5caa595f568394ba0}{GiveDisplay} (\hyperlink{classRefereeDisplay}{RefereeDisplay} $\ast$display)
-\item 
+\begin{DoxyCompactList}\small\item\em Gives the \hyperlink{classRefereeDisplay}{display system} to the robot to display its path finder world. The display should be given at only one robot at a time. \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_a162c8b33d4315a61d8371dc9a923b37b}{KickOff} (const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$otherRobots\mbox{[}5\mbox{]}, eSide ourSide, bool likePenalty=false)
-\item 
+\begin{DoxyCompactList}\small\item\em High-\/level driving function to perform a Kick-\/Off. \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_ad5755055df84960c8d1a0a40efe33668}{KickPenalty} (const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$otherRobots\mbox{[}5\mbox{]})
-\item 
+\begin{DoxyCompactList}\small\item\em High-\/level driving function to perform a penalty shooting. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classTeamRobot_aa1bb9ac05c067a68118c8646c8d71830}{Rotation} (Position ballPos)
-\item 
+\begin{DoxyCompactList}\small\item\em High-\/level function to orientate the robot towards the ball. \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_a36d006bfeadfcdd37bd1eeb47223bdba}{KickBall} (Position ballPos, bool rotate=true, bool forward=true)
-\begin{DoxyCompactList}\small\item\em this function calculate whether the robot should move forwards or backwards to kick the ball. Furthermore, it adjusts the angle of the robot so that the robot can hit the ball precisely. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em High-\/level function to kick the ball. The ball is assumed to be static. \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_a98d044ad3907493236b2d399a26cb9ac}{KickMovingBall} (RawBall $\ast$ball)
-\item 
+\begin{DoxyCompactList}\small\item\em High-\/level function to kick the ball. The ball is assumed to be moving. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classTeamRobot_ac979572f4899940e88f067102ac1ae46}{ShouldKick} (Position ballPos, Position goalPos)
-\begin{DoxyCompactList}\small\item\em this function calculate if the robot should kick the ball and kick the ball in the direction of the goal. \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy goal. \item\end{DoxyCompactList}\item 
 bool \hyperlink{classTeamRobot_ae7f6fa303c865dad297b662731165883}{ShouldGoalKick} (Position ballPos, eSide ourSide)
-\begin{DoxyCompactList}\small\item\em this function let the robot kick the ball if the ball is on our side. in this way the potential dangerous is eliminated \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy side. \item\end{DoxyCompactList}\item 
 virtual void \hyperlink{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}{setNextCmd} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)=0
 \item 
 virtual void \hyperlink{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{setCmdParam} (const \hyperlink{classInterpreter}{Interpreter} \&interpreter)=0
@@ -73,22 +73,22 @@ virtual void \hyperlink{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{perfor
 \begin{DoxyCompactItemize}
 \item 
 void \hyperlink{classTeamRobot_acf4c435c98bc406744a12cd140d6631d}{AddBorderObstaclesToPathFinder} (bool small=false)
-\item 
+\begin{DoxyCompactList}\small\item\em Adds the obstacles which limit the playing field (borders and penalty areas). \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_a1216ffb71821002b6e6845390c990d5f}{UpdatePathFinder} (const \hyperlink{classNewRoboControl}{NewRoboControl} $\ast$obstacles\mbox{[}5\mbox{]}, const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\begin{DoxyCompactList}\small\item\em update the path based on current position of the robots \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em update the \hyperlink{classPathFinder}{path finder} world based on current position of the robots \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_a9ae431d9eeaa1d16fa28c636499ab553}{ComputePath} (const \hyperlink{classInterpreter}{Interpreter} \&interpreter)
-\item 
+\begin{DoxyCompactList}\small\item\em Computes the path to be followed by the robot, depending on the orders of the \hyperlink{classInterpreter}{Interpreter}. \item\end{DoxyCompactList}\item 
 void \hyperlink{classTeamRobot_a02df00aae0a514badc93a9b2593be85f}{FollowPath} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)
-\begin{DoxyCompactList}\small\item\em this function is carried out during the game and it allows the robot to attack and defense properly \item\end{DoxyCompactList}\item 
+\begin{DoxyCompactList}\small\item\em High-\/level driving function to make the robot follow the given path. \item\end{DoxyCompactList}\item 
 virtual void \hyperlink{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{AddObstacleForFormation} (const \hyperlink{structInterpreter_1_1GameData}{Interpreter::GameData} \&info)=0
 \end{DoxyCompactItemize}
 \subsection*{Static Protected Member Functions}
 \begin{DoxyCompactItemize}
 \item 
 static bool \hyperlink{classTeamRobot_afb5f9191ca185053af37c1ae1f8dcb17}{IsPathOK} (\hyperlink{classPathFinder_a269aba09b7b3208092f67f2bc02cf63e}{PathFinder::Path} path, \hyperlink{structPathFinder_1_1Point}{PathFinder::Point} \&tgt)
-\item 
+\begin{DoxyCompactList}\small\item\em Checks if a path is valid and leads to the given point. \item\end{DoxyCompactList}\item 
 static double \hyperlink{classTeamRobot_a45d5d631b1e1e28c9c0f4ecbd47fdbde}{AngleDiff} (double angle1, double angle2)
-\begin{DoxyCompactList}\small\item\em this function calculate the difference between 2 angles and return the difference value in the range of -\/PI to PI. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em this function calculate the difference between 2 angles in \mbox{[}-\/PI, PI\mbox{]} and return the difference value in the same interval. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Protected Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -138,7 +138,7 @@ int \hyperlink{classTeamRobot_ad0b6cee88278087238bf6fcecb419808}{m\_\-go\_\-y}
 \begin{DoxyCompactItemize}
 \item 
 static void $\ast$ \hyperlink{classTeamRobot_ac52f7f240fde40db09116e8639a53c21}{Checkspeed} (void $\ast$data)
-\begin{DoxyCompactList}\small\item\em moves the robot to a random position if it stucks somewhere. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Randomly moves the robot if it stucks somewhere. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Private Attributes}
 \begin{DoxyCompactItemize}
 \item 
@@ -162,13 +162,21 @@ Abstract child class of \hyperlink{classNewRoboControl}{NewRoboControl} describi
 \subsubsection[{TeamRobot}]{\setlength{\rightskip}{0pt plus 5cm}TeamRobot::TeamRobot (RTDBConn \& {\em DBC}, \/  const int {\em deviceNr}, \/  const {\bf CoordinatesCalibrer} $\ast$ {\em coordCalib}, \/  RawBall $\ast$ {\em ball}, \/  {\bf BallMonitor} $\ast$ {\em ballPm}, \/  {\bf RefereeDisplay} $\ast$ {\em display} = {\ttfamily NULL})}}
 \label{classTeamRobot_a4b116f58f0a1568a886d03b0c71df20c}
 
+
+Standard constructor. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em DBC}]\item[{\em deviceNr}]\item[{\em coordCalib}]\item[{\em ball}]\item[{\em ballPm}]\item[{\em display}]\end{DoxyParams}
+\item[{\em DBC}]The database connection. \item[{\em deviceNr}]The ID of the robot. \item[{\em coordCalib}]A coordinates calibrator. \item[{\em ball}]The ball used in game. \item[{\em ballPm}]A ball monitoring system. \item[{\em display}]A display system which will be updated with the robot's data (path finder world). Can be NULL. Only one robot at a time should get access to the display. \end{DoxyParams}
 \hypertarget{classTeamRobot_a7be9d5161b7524cbbb6ae486ad4a1b42}{
 \index{TeamRobot@{TeamRobot}!$\sim$TeamRobot@{$\sim$TeamRobot}}
 \index{$\sim$TeamRobot@{$\sim$TeamRobot}!TeamRobot@{TeamRobot}}
 \subsubsection[{$\sim$TeamRobot}]{\setlength{\rightskip}{0pt plus 5cm}TeamRobot::$\sim$TeamRobot ()\hspace{0.3cm}{\ttfamily  \mbox{[}virtual\mbox{]}}}}
 \label{classTeamRobot_a7be9d5161b7524cbbb6ae486ad4a1b42}
+
+
+Standard destuctor. 
+
 
 
 \subsection{Member Function Documentation}
@@ -178,8 +186,12 @@ Abstract child class of \hyperlink{classNewRoboControl}{NewRoboControl} describi
 \subsubsection[{AddBorderObstaclesToPathFinder}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::AddBorderObstaclesToPathFinder (bool {\em small} = {\ttfamily false})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
 \label{classTeamRobot_acf4c435c98bc406744a12cd140d6631d}
 
+
+Adds the obstacles which limit the playing field (borders and penalty areas). 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em small}]\end{DoxyParams}
+\item[{\em small}]False if you want to keep a safety margin, True if not. \end{DoxyParams}
 \hypertarget{classTeamRobot_a71ec65db46db1ac511fe17b668d4f192}{
 \index{TeamRobot@{TeamRobot}!AddObstacleForFormation@{AddObstacleForFormation}}
 \index{AddObstacleForFormation@{AddObstacleForFormation}!TeamRobot@{TeamRobot}}
@@ -196,11 +208,11 @@ Implemented in \hyperlink{classGoalkeeper_a5287a2e74795bbec8f0ead767655da5d}{Goa
 \label{classTeamRobot_a45d5d631b1e1e28c9c0f4ecbd47fdbde}
 
 
-this function calculate the difference between 2 angles and return the difference value in the range of -\/PI to PI. 
+this function calculate the difference between 2 angles in \mbox{[}-\/PI, PI\mbox{]} and return the difference value in the same interval. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em angle1}]\item[{\em angle2}]\end{DoxyParams}
+\item[{\em angle1}]The first angle \item[{\em angle2}]The second angle \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
 double the difference between angle1 and angle2 
 \end{DoxyReturn}
@@ -211,19 +223,25 @@ double the difference between angle1 and angle2
 \label{classTeamRobot_ac52f7f240fde40db09116e8639a53c21}
 
 
-moves the robot to a random position if it stucks somewhere. 
+Randomly moves the robot if it stucks somewhere. 
 
+\begin{Desc}
+\item[\hyperlink{deprecated__deprecated000004}{Deprecated}]This function is not tested and should not be used until further testing is done. \end{Desc}
 
 \begin{DoxyParams}{Parameters}
-\item[{\em data}]is the robot \end{DoxyParams}
+\item[{\em data}]Pointer to the \hyperlink{classTeamRobot}{TeamRobot}. \end{DoxyParams}
 \hypertarget{classTeamRobot_a9ae431d9eeaa1d16fa28c636499ab553}{
 \index{TeamRobot@{TeamRobot}!ComputePath@{ComputePath}}
 \index{ComputePath@{ComputePath}!TeamRobot@{TeamRobot}}
 \subsubsection[{ComputePath}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::ComputePath (const {\bf Interpreter} \& {\em interpreter})\hspace{0.3cm}{\ttfamily  \mbox{[}protected\mbox{]}}}}
 \label{classTeamRobot_a9ae431d9eeaa1d16fa28c636499ab553}
 
+
+Computes the path to be followed by the robot, depending on the orders of the \hyperlink{classInterpreter}{Interpreter}. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em interpreter}]\end{DoxyParams}
+\item[{\em interpreter}]The interpreter. \end{DoxyParams}
 \hypertarget{classTeamRobot_a02df00aae0a514badc93a9b2593be85f}{
 \index{TeamRobot@{TeamRobot}!FollowPath@{FollowPath}}
 \index{FollowPath@{FollowPath}!TeamRobot@{TeamRobot}}
@@ -231,26 +249,34 @@ moves the robot to a random position if it stucks somewhere.
 \label{classTeamRobot_a02df00aae0a514badc93a9b2593be85f}
 
 
-this function is carried out during the game and it allows the robot to attack and defense properly 
+High-\/level driving function to make the robot follow the given path. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em info}]is current playmode of referee \end{DoxyParams}
+\item[{\em info}]Information about the current play mode. \end{DoxyParams}
 \hypertarget{classTeamRobot_a86dbc3bbf6fdcebd4ae41a6f68d92a15}{
 \index{TeamRobot@{TeamRobot}!getBall@{getBall}}
 \index{getBall@{getBall}!TeamRobot@{TeamRobot}}
 \subsubsection[{getBall}]{\setlength{\rightskip}{0pt plus 5cm}RawBall $\ast$ TeamRobot::getBall () const}}
 \label{classTeamRobot_a86dbc3bbf6fdcebd4ae41a6f68d92a15}
+
+
+Gets the currently set ball. 
+
 \begin{DoxyReturn}{Returns}
-RawBall $\ast$ 
+RawBall $\ast$ The ball. 
 \end{DoxyReturn}
 \hypertarget{classTeamRobot_a3ef7d4538226085ed4d92b8bd2fce67d}{
 \index{TeamRobot@{TeamRobot}!getCoordinatesCalibrer@{getCoordinatesCalibrer}}
 \index{getCoordinatesCalibrer@{getCoordinatesCalibrer}!TeamRobot@{TeamRobot}}
 \subsubsection[{getCoordinatesCalibrer}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf CoordinatesCalibrer} $\ast$ TeamRobot::getCoordinatesCalibrer () const}}
 \label{classTeamRobot_a3ef7d4538226085ed4d92b8bd2fce67d}
+
+
+Gets the currently set \hyperlink{classCoordinatesCalibrer}{coordinates calibrator}. 
+
 \begin{DoxyReturn}{Returns}
-const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ 
+const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$ The coordinates calibrator. 
 \end{DoxyReturn}
 \hypertarget{classTeamRobot_acd11ff6d9651a8deddafa5bd9a30865c}{
 \index{TeamRobot@{TeamRobot}!getDefaultPosition@{getDefaultPosition}}
@@ -259,7 +285,7 @@ const \hyperlink{classCoordinatesCalibrer}{CoordinatesCalibrer} $\ast$
 \label{classTeamRobot_acd11ff6d9651a8deddafa5bd9a30865c}
 
 
-using this function the robot get the default position for the current situation 
+Returns the currently set default position for the robot. 
 
 \begin{DoxyReturn}{Returns}
 Position is the default position. 
@@ -269,8 +295,12 @@ Position is the default position.
 \index{getMap@{getMap}!TeamRobot@{TeamRobot}}
 \subsubsection[{getMap}]{\setlength{\rightskip}{0pt plus 5cm}const {\bf Interpreter::Map} \& TeamRobot::getMap () const}}
 \label{classTeamRobot_a8b5fa0d9f42166fc3339ec901fad5a91}
+
+
+Gets the internal \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map} of the robot. 
+
 \begin{DoxyReturn}{Returns}
-const \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{Interpreter::Map} \& 
+const \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{Interpreter::Map} \& The map. It should not be modified. Use the \hyperlink{classTeamRobot_a28ee2460e7d465989bb0582782db851e}{TeamRobot::setMapValue()} function instead. 
 \end{DoxyReturn}
 \hypertarget{classTeamRobot_abc3a5d2d4cac44629a9d8851164b5eda}{
 \index{TeamRobot@{TeamRobot}!getMapValue@{getMapValue}}
@@ -279,13 +309,13 @@ const \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{Interpreter
 \label{classTeamRobot_abc3a5d2d4cac44629a9d8851164b5eda}
 
 
-this function calculate the actual position in the map based on the pathfinder. it unnormalizes from pathfinder to real map 
+Gets the value at the given position of the internal \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map}. 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em i}]is value on x axis in pathfinder \item[{\em j}]is value on y axis in pathfinder \end{DoxyParams}
+\item[{\em i}]\item[{\em j}]\end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-int 
+int The value. 
 \end{DoxyReturn}
 \hypertarget{classTeamRobot_a2caa2411b9972fa5caa595f568394ba0}{
 \index{TeamRobot@{TeamRobot}!GiveDisplay@{GiveDisplay}}
@@ -293,18 +323,26 @@ int
 \subsubsection[{GiveDisplay}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::GiveDisplay ({\bf RefereeDisplay} $\ast$ {\em display})}}
 \label{classTeamRobot_a2caa2411b9972fa5caa595f568394ba0}
 
+
+Gives the \hyperlink{classRefereeDisplay}{display system} to the robot to display its path finder world. The display should be given at only one robot at a time. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em display}]\end{DoxyParams}
+\item[{\em display}]The display system. \end{DoxyParams}
 \hypertarget{classTeamRobot_afb5f9191ca185053af37c1ae1f8dcb17}{
 \index{TeamRobot@{TeamRobot}!IsPathOK@{IsPathOK}}
 \index{IsPathOK@{IsPathOK}!TeamRobot@{TeamRobot}}
 \subsubsection[{IsPathOK}]{\setlength{\rightskip}{0pt plus 5cm}bool TeamRobot::IsPathOK ({\bf PathFinder::Path} {\em path}, \/  {\bf PathFinder::Point} \& {\em tgt})\hspace{0.3cm}{\ttfamily  \mbox{[}static, protected\mbox{]}}}}
 \label{classTeamRobot_afb5f9191ca185053af37c1ae1f8dcb17}
 
+
+Checks if a path is valid and leads to the given point. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em path}]\item[{\em tgt}]\end{DoxyParams}
+\item[{\em path}]The path. \item[{\em tgt}]The target point. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool True if the path is valid, False if not. 
 \end{DoxyReturn}
 \hypertarget{classTeamRobot_a36d006bfeadfcdd37bd1eeb47223bdba}{
 \index{TeamRobot@{TeamRobot}!KickBall@{KickBall}}
@@ -313,7 +351,7 @@ bool
 \label{classTeamRobot_a36d006bfeadfcdd37bd1eeb47223bdba}
 
 
-this function calculate whether the robot should move forwards or backwards to kick the ball. Furthermore, it adjusts the angle of the robot so that the robot can hit the ball precisely. 
+High-\/level function to kick the ball. The ball is assumed to be static. 
 
 
 \begin{DoxyParams}{Parameters}
@@ -324,24 +362,36 @@ this function calculate whether the robot should move forwards or backwards to k
 \subsubsection[{KickMovingBall}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::KickMovingBall (RawBall $\ast$ {\em ball})}}
 \label{classTeamRobot_a98d044ad3907493236b2d399a26cb9ac}
 
+
+High-\/level function to kick the ball. The ball is assumed to be moving. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em ball}]\end{DoxyParams}
+\item[{\em ball}]The ball. \end{DoxyParams}
 \hypertarget{classTeamRobot_a162c8b33d4315a61d8371dc9a923b37b}{
 \index{TeamRobot@{TeamRobot}!KickOff@{KickOff}}
 \index{KickOff@{KickOff}!TeamRobot@{TeamRobot}}
 \subsubsection[{KickOff}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::KickOff (const {\bf NewRoboControl} $\ast$ {\em otherRobots}\mbox{[}5\mbox{]}, \/  eSide {\em ourSide}, \/  bool {\em likePenalty} = {\ttfamily false})}}
 \label{classTeamRobot_a162c8b33d4315a61d8371dc9a923b37b}
 
+
+High-\/level driving function to perform a Kick-\/Off. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em otherRobots\mbox{[}$\,$\mbox{]}}]\item[{\em ourSide}]\item[{\em likePenalty}]\end{DoxyParams}
+\item[{\em otherRobots\mbox{[}$\,$\mbox{]}}]The other robots. \item[{\em ourSide}]Our side. \item[{\em likePenalty}]True if the Kick-\/Off must be done similarly to the penalty shooting, that is by driving more carefully and with more precision. \end{DoxyParams}
 \hypertarget{classTeamRobot_ad5755055df84960c8d1a0a40efe33668}{
 \index{TeamRobot@{TeamRobot}!KickPenalty@{KickPenalty}}
 \index{KickPenalty@{KickPenalty}!TeamRobot@{TeamRobot}}
 \subsubsection[{KickPenalty}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::KickPenalty (const {\bf NewRoboControl} $\ast$ {\em otherRobots}\mbox{[}5\mbox{]})}}
 \label{classTeamRobot_ad5755055df84960c8d1a0a40efe33668}
 
+
+High-\/level driving function to perform a penalty shooting. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em otherRobots\mbox{[}$\,$\mbox{]}}]\end{DoxyParams}
+\item[{\em otherRobots\mbox{[}$\,$\mbox{]}}]The other robots. \end{DoxyParams}
 \hypertarget{classTeamRobot_a9b84df51ca16a7203fdb6498ea6741da}{
 \index{TeamRobot@{TeamRobot}!performCmd@{performCmd}}
 \index{performCmd@{performCmd}!TeamRobot@{TeamRobot}}
@@ -356,6 +406,16 @@ Implemented in \hyperlink{classGoalkeeper_ab850d0d2278730bebc5479f1a339a925}{Goa
 \index{Rotation@{Rotation}!TeamRobot@{TeamRobot}}
 \subsubsection[{Rotation}]{\setlength{\rightskip}{0pt plus 5cm}bool TeamRobot::Rotation (Position {\em ballPos})}}
 \label{classTeamRobot_aa1bb9ac05c067a68118c8646c8d71830}
+
+
+High-\/level function to orientate the robot towards the ball. 
+
+
+\begin{DoxyParams}{Parameters}
+\item[{\em ballPos}]The ball position. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool True if the ball is in front of the robot (forward kick), False if it is behind (backward kick). 
+\end{DoxyReturn}
 \hypertarget{classTeamRobot_a34c0fd6986c510d4025e5752b3c0e49a}{
 \index{TeamRobot@{TeamRobot}!setCmdParam@{setCmdParam}}
 \index{setCmdParam@{setCmdParam}!TeamRobot@{TeamRobot}}
@@ -372,11 +432,11 @@ Implemented in \hyperlink{classGoalkeeper_acfa6fbad0f6b1627fd59cc7cce6ff321}{Goa
 \label{classTeamRobot_a322f046e260aedff6f2c8edc5730c9ac}
 
 
-this function defines pos of the default position 
+this function defines the default position 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em pos}]is the value of current default position \end{DoxyParams}
+\item[{\em pos}]is the value of the new default position \end{DoxyParams}
 \hypertarget{classTeamRobot_a527cefdb32f2bc0a4fa770207d4dc934}{
 \index{TeamRobot@{TeamRobot}!setDefaultPositionX@{setDefaultPositionX}}
 \index{setDefaultPositionX@{setDefaultPositionX}!TeamRobot@{TeamRobot}}
@@ -384,11 +444,11 @@ this function defines pos of the default position
 \label{classTeamRobot_a527cefdb32f2bc0a4fa770207d4dc934}
 
 
-this function defines the x of the default position 
+this function defines the x coordinate of the default position 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em x}]is the X value of current default position \end{DoxyParams}
+\item[{\em x}]is the X value of the new default position \end{DoxyParams}
 \hypertarget{classTeamRobot_afeb86cb88b18030049d525d1d6790e6e}{
 \index{TeamRobot@{TeamRobot}!setDefaultPositionY@{setDefaultPositionY}}
 \index{setDefaultPositionY@{setDefaultPositionY}!TeamRobot@{TeamRobot}}
@@ -396,29 +456,37 @@ this function defines the x of the default position
 \label{classTeamRobot_afeb86cb88b18030049d525d1d6790e6e}
 
 
-this function defines the x of the default position 
+this function defines the y coordinate of the default position 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em y}]is the Y value of current default position \end{DoxyParams}
+\item[{\em y}]is the Y value of the new default position \end{DoxyParams}
 \hypertarget{classTeamRobot_ab8c92b6228aed8eef31d0b1b0fce8690}{
 \index{TeamRobot@{TeamRobot}!setMap@{setMap}}
 \index{setMap@{setMap}!TeamRobot@{TeamRobot}}
 \subsubsection[{setMap}]{\setlength{\rightskip}{0pt plus 5cm}void TeamRobot::setMap (const {\bf Interpreter::Map} \& {\em map})}}
 \label{classTeamRobot_ab8c92b6228aed8eef31d0b1b0fce8690}
 
+
+Sets a new internal \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map} for the robot. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em map}]\end{DoxyParams}
+\item[{\em map}]The new map. It is fully copied. \end{DoxyParams}
 \hypertarget{classTeamRobot_a28ee2460e7d465989bb0582782db851e}{
 \index{TeamRobot@{TeamRobot}!setMapValue@{setMapValue}}
 \index{setMapValue@{setMapValue}!TeamRobot@{TeamRobot}}
 \subsubsection[{setMapValue}]{\setlength{\rightskip}{0pt plus 5cm}bool TeamRobot::setMapValue (int {\em i}, \/  int {\em j}, \/  int {\em val})}}
 \label{classTeamRobot_a28ee2460e7d465989bb0582782db851e}
 
+
+Sets the value of the internal \hyperlink{classInterpreter_a4c080f069f557cf92dfe803117a6ea53}{obstacles map} of the robot at the given position. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em i}]\item[{\em j}]\item[{\em val}]\end{DoxyParams}
+\item[{\em i}]\item[{\em j}]\item[{\em val}]The value to set. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool 
+bool True on success, False on failure. 
 \end{DoxyReturn}
 \hypertarget{classTeamRobot_a65f9a2b7464dfac3f4a0336810cf574f}{
 \index{TeamRobot@{TeamRobot}!setNextCmd@{setNextCmd}}
@@ -436,13 +504,15 @@ Implemented in \hyperlink{classGoalkeeper_abc394351f7c0d552c6e96da422c772ec}{Goa
 \label{classTeamRobot_ae7f6fa303c865dad297b662731165883}
 
 
-this function let the robot kick the ball if the ball is on our side. in this way the potential dangerous is eliminated 
+Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy side. 
+
+Contrary to the \hyperlink{classTeamRobot_ac979572f4899940e88f067102ac1ae46}{TeamRobot::ShouldKick()} function, the goal is not to aim the enemy goal but rather to kick the ball out of our side: This is a defensive maneuver.
 
 
 \begin{DoxyParams}{Parameters}
 \item[{\em ballPos}]is the position of the ball \item[{\em ourSide}]the side we are right now. \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool return false if ball is still far away from the robot 
+bool True if the kick should be attempted, False if not. 
 \end{DoxyReturn}
 \hypertarget{classTeamRobot_ac979572f4899940e88f067102ac1ae46}{
 \index{TeamRobot@{TeamRobot}!ShouldKick@{ShouldKick}}
@@ -451,13 +521,15 @@ bool return false if ball is still far away from the robot
 \label{classTeamRobot_ac979572f4899940e88f067102ac1ae46}
 
 
-this function calculate if the robot should kick the ball and kick the ball in the direction of the goal. 
+Tells if the position and orientation of the robot are good enough to try to kick the ball to the enemy goal. 
+
+Contrary to the \hyperlink{classTeamRobot_ae7f6fa303c865dad297b662731165883}{TeamRobot::ShouldGoalKick()} function, the goal is to aim the enemy goal and to score a goal: This is an offensive maneuver.
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em ballPos}]is the position of the ball \item[{\em goalPos}]is the position of the goal \end{DoxyParams}
+\item[{\em ballPos}]is the position of the ball \item[{\em goalPos}]is the position of the enemy goal \end{DoxyParams}
 \begin{DoxyReturn}{Returns}
-bool is false if the ball is still far away from the robot 
+bool True if the kick should be attempted, False if not. 
 \end{DoxyReturn}
 \hypertarget{classTeamRobot_a1216ffb71821002b6e6845390c990d5f}{
 \index{TeamRobot@{TeamRobot}!UpdatePathFinder@{UpdatePathFinder}}
@@ -466,11 +538,11 @@ bool is false if the ball is still far away from the robot
 \label{classTeamRobot_a1216ffb71821002b6e6845390c990d5f}
 
 
-update the path based on current position of the robots 
+update the \hyperlink{classPathFinder}{path finder} world based on current position of the robots 
 
 
 \begin{DoxyParams}{Parameters}
-\item[{\em obstacles\mbox{[}$\,$\mbox{]}}]are all other robots \item[{\em info}]is current playmode of referee \end{DoxyParams}
+\item[{\em obstacles\mbox{[}$\,$\mbox{]}}]are all other robots \item[{\em info}]information about the current play mode \end{DoxyParams}
 
 
 \subsection{Member Data Documentation}

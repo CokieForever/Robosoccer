@@ -249,7 +249,7 @@ void Matrix::FloodFill(Point start, Uint8 number)
  * @param ffs
  * @param ranges
  */
-void Matrix::flood_AddNextLine(int newY, bool isNext, bool downwards, int minX, int maxX, int i, int number, FloodFillStruct ffs, queue<FloodFillStruct>& ranges)
+void Matrix::flood_AddNextLine(int newY, bool isNext, bool downwards, int minX, int maxX, int i, int number, FloodFillStruct ffs, std::queue<FloodFillStruct>& ranges)
 {
     int rMinX = minX;
     bool inRange = false;

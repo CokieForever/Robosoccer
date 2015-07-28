@@ -54,14 +54,23 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <table border="0" cellpadding="0" cellspacing="0">
 <tr><td colspan="2"><h2>Functions</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#aabc10e01b1f15954fb7a64cfadd0eb15">BeforeKickOff</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robots[], RawBall *ball, Referee *ref)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">State of the FSM: "Before kick-off".  <a href="#aabc10e01b1f15954fb7a64cfadd0eb15"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#a244f547c628ae50279426c0d5aa0b10e">KickOff</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robots[], RawBall *ball, Referee *ref)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">State of the FSM: "Kick-off".  <a href="#a244f547c628ae50279426c0d5aa0b10e"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#aa711dffa4be05177521f7054b0ce5af7">BeforePenalty</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robots[], RawBall *ball, Referee *ref)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">State of the FSM: "Before penalty".  <a href="#aa711dffa4be05177521f7054b0ce5af7"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#ab64b7f86c33b8adf1117747cff845034">Penalty</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robots[], RawBall *ball, Referee *ref)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">State of the FSM: "Penalty shooting".  <a href="#ab64b7f86c33b8adf1117747cff845034"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#ac8d4913c0406efc6379a7a9c017ac2e4">PlayOn</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robots[], RawBall *ball, Referee *ref)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">State of the FSM: "Play on".  <a href="#ac8d4913c0406efc6379a7a9c017ac2e4"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#a5cf153be23a7aa1db86fb921df183e7c">Pause</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robots[], RawBall *ball, Referee *ref)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">State of the FSM: "Pause".  <a href="#a5cf153be23a7aa1db86fb921df183e7c"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#a1ed03164f790cbd0b2136093a8613ff2">TimeOver</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robots[], RawBall *ball, Referee *ref)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">State of the FSM: "Time over".  <a href="#a1ed03164f790cbd0b2136093a8613ff2"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static void *&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#afe4daed86cb8e1928c8eef10a3c551d3">GoalKeeper</a> (void *data)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Main loop to pilot the goal keeper, designed to be launched in a separate thread.  <a href="#afe4daed86cb8e1928c8eef10a3c551d3"></a><br/></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">void&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#a90016546b9265fcea25287e47f10cad1">StandardFSM</a> (<a class="el" href="classNewRoboControl.html">NewRoboControl</a> *robots[], RawBall *ball, Referee *ref, eTeam t)</td></tr>
+<tr><td class="mdescLeft">&nbsp;</td><td class="mdescRight">Main loop of the FSM.  <a href="#a90016546b9265fcea25287e47f10cad1"></a><br/></td></tr>
 <tr><td colspan="2"><h2>Variables</h2></td></tr>
 <tr><td class="memItemLeft" align="right" valign="top">static eTeam&nbsp;</td><td class="memItemRight" valign="bottom"><a class="el" href="standardfsm_8cpp.html#a2934558116068729842abde1a3fc99ca">team</a> = BLUE_TEAM</td></tr>
 </table>
@@ -96,11 +105,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>State of the FSM: "Before kick-off". </p>
+<p>Moves the robots to the default kick-off positions.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td>The six robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td>The referee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -137,11 +149,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>State of the FSM: "Before penalty". </p>
+<p>Moves the robots to the default positions depending on the team which will do the penalty shooting.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td>The six robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td>The referee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -163,12 +178,15 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Main loop to pilot the goal keeper, designed to be launched in a separate thread. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>data</em>&nbsp;</td><td>A pointer to a <a class="el" href="structRoboBall.html">RoboBall</a> structure containing useful data. </td></tr>
   </table>
   </dd>
 </dl>
+<dl class="return"><dt><b>Returns:</b></dt><dd>NULL </dd></dl>
 
 </div>
 </div>
@@ -202,11 +220,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>State of the FSM: "Kick-off". </p>
+<p>Pilots the first robot to do the kick-off if this is our turn, or does nothing if not.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td>The six robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td>The referee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -243,11 +264,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>State of the FSM: "Pause". </p>
+<p>Stop all robots after executing the last orders.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td>The six robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td>The referee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -284,11 +308,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>State of the FSM: "Penalty shooting". </p>
+<p>Pilots the first robot to do a penalty shooting if this is our turn, or pilots the goal keeper if this is not.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td>The six robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td>The referee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -325,11 +352,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>State of the FSM: "Play on". </p>
+<p>Launches the goal keeper thread. The behavior of other players is not implemented.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td>The six robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td>The referee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -372,12 +402,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>Main loop of the FSM. </p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>t</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td>The six robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td>The referee. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>t</em>&nbsp;</td><td>Our team. </td></tr>
   </table>
   </dd>
 </dl>
@@ -414,11 +446,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
       </table>
 </div>
 <div class="memdoc">
+
+<p>State of the FSM: "Time over". </p>
+<p>Stops all robots after executing the last orders.</p>
 <dl><dt><b>Parameters:</b></dt><dd>
   <table border="0" cellspacing="2" cellpadding="0">
-    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td></td></tr>
-    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td></td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>robots[]</em>&nbsp;</td><td>The six robots. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ball</em>&nbsp;</td><td>The ball. </td></tr>
+    <tr><td valign="top"></td><td valign="top"><em>ref</em>&nbsp;</td><td>The referee. </td></tr>
   </table>
   </dd>
 </dl>
@@ -455,7 +490,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </iframe>
 </div>
 
-<hr class="footer"/><address style="text-align: right;"><small>Generated on Mon Jul 27 17:42:10 2015 for Robosoccer by&nbsp;
+<hr class="footer"/><address style="text-align: right;"><small>Generated on Tue Jul 28 14:41:59 2015 for Robosoccer by&nbsp;
 <a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.6.3 </small></address>
 </body>

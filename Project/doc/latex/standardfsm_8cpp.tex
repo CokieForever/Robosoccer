@@ -13,23 +13,23 @@
 \begin{DoxyCompactItemize}
 \item 
 static void \hyperlink{standardfsm_8cpp_aabc10e01b1f15954fb7a64cfadd0eb15}{BeforeKickOff} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
-\item 
+\begin{DoxyCompactList}\small\item\em State of the FSM: \char`\"{}Before kick-\/off\char`\"{}. \item\end{DoxyCompactList}\item 
 static void \hyperlink{standardfsm_8cpp_a244f547c628ae50279426c0d5aa0b10e}{KickOff} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
-\item 
+\begin{DoxyCompactList}\small\item\em State of the FSM: \char`\"{}Kick-\/off\char`\"{}. \item\end{DoxyCompactList}\item 
 static void \hyperlink{standardfsm_8cpp_aa711dffa4be05177521f7054b0ce5af7}{BeforePenalty} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
-\item 
+\begin{DoxyCompactList}\small\item\em State of the FSM: \char`\"{}Before penalty\char`\"{}. \item\end{DoxyCompactList}\item 
 static void \hyperlink{standardfsm_8cpp_ab64b7f86c33b8adf1117747cff845034}{Penalty} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
-\item 
+\begin{DoxyCompactList}\small\item\em State of the FSM: \char`\"{}Penalty shooting\char`\"{}. \item\end{DoxyCompactList}\item 
 static void \hyperlink{standardfsm_8cpp_ac8d4913c0406efc6379a7a9c017ac2e4}{PlayOn} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
-\item 
+\begin{DoxyCompactList}\small\item\em State of the FSM: \char`\"{}Play on\char`\"{}. \item\end{DoxyCompactList}\item 
 static void \hyperlink{standardfsm_8cpp_a5cf153be23a7aa1db86fb921df183e7c}{Pause} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
-\item 
+\begin{DoxyCompactList}\small\item\em State of the FSM: \char`\"{}Pause\char`\"{}. \item\end{DoxyCompactList}\item 
 static void \hyperlink{standardfsm_8cpp_a1ed03164f790cbd0b2136093a8613ff2}{TimeOver} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref)
-\item 
+\begin{DoxyCompactList}\small\item\em State of the FSM: \char`\"{}Time over\char`\"{}. \item\end{DoxyCompactList}\item 
 static void $\ast$ \hyperlink{standardfsm_8cpp_afe4daed86cb8e1928c8eef10a3c551d3}{GoalKeeper} (void $\ast$data)
-\item 
+\begin{DoxyCompactList}\small\item\em Main loop to pilot the goal keeper, designed to be launched in a separate thread. \item\end{DoxyCompactList}\item 
 void \hyperlink{standardfsm_8cpp_a90016546b9265fcea25287e47f10cad1}{StandardFSM} (\hyperlink{classNewRoboControl}{NewRoboControl} $\ast$robots\mbox{[}$\,$\mbox{]}, RawBall $\ast$ball, Referee $\ast$ref, eTeam t)
-\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Main loop of the FSM. \item\end{DoxyCompactList}\end{DoxyCompactItemize}
 \subsection*{Variables}
 \begin{DoxyCompactItemize}
 \item 
@@ -44,72 +44,125 @@ static eTeam \hyperlink{standardfsm_8cpp_a2934558116068729842abde1a3fc99ca}{team
 \subsubsection[{BeforeKickOff}]{\setlength{\rightskip}{0pt plus 5cm}static void BeforeKickOff ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{standardfsm_8cpp_aabc10e01b1f15954fb7a64cfadd0eb15}
 
+
+State of the FSM: \char`\"{}Before kick-\/off\char`\"{}. 
+
+Moves the robots to the default kick-\/off positions.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]The six robots. \item[{\em ball}]The ball. \item[{\em ref}]The referee. \end{DoxyParams}
 \hypertarget{standardfsm_8cpp_aa711dffa4be05177521f7054b0ce5af7}{
 \index{standardfsm.cpp@{standardfsm.cpp}!BeforePenalty@{BeforePenalty}}
 \index{BeforePenalty@{BeforePenalty}!standardfsm.cpp@{standardfsm.cpp}}
 \subsubsection[{BeforePenalty}]{\setlength{\rightskip}{0pt plus 5cm}static void BeforePenalty ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{standardfsm_8cpp_aa711dffa4be05177521f7054b0ce5af7}
 
+
+State of the FSM: \char`\"{}Before penalty\char`\"{}. 
+
+Moves the robots to the default positions depending on the team which will do the penalty shooting.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]The six robots. \item[{\em ball}]The ball. \item[{\em ref}]The referee. \end{DoxyParams}
 \hypertarget{standardfsm_8cpp_afe4daed86cb8e1928c8eef10a3c551d3}{
 \index{standardfsm.cpp@{standardfsm.cpp}!GoalKeeper@{GoalKeeper}}
 \index{GoalKeeper@{GoalKeeper}!standardfsm.cpp@{standardfsm.cpp}}
 \subsubsection[{GoalKeeper}]{\setlength{\rightskip}{0pt plus 5cm}static void $\ast$ GoalKeeper (void $\ast$ {\em data})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{standardfsm_8cpp_afe4daed86cb8e1928c8eef10a3c551d3}
 
+
+Main loop to pilot the goal keeper, designed to be launched in a separate thread. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em data}]\end{DoxyParams}
+\item[{\em data}]A pointer to a \hyperlink{structRoboBall}{RoboBall} structure containing useful data. \end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+NULL 
+\end{DoxyReturn}
 \hypertarget{standardfsm_8cpp_a244f547c628ae50279426c0d5aa0b10e}{
 \index{standardfsm.cpp@{standardfsm.cpp}!KickOff@{KickOff}}
 \index{KickOff@{KickOff}!standardfsm.cpp@{standardfsm.cpp}}
 \subsubsection[{KickOff}]{\setlength{\rightskip}{0pt plus 5cm}static void KickOff ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{standardfsm_8cpp_a244f547c628ae50279426c0d5aa0b10e}
 
+
+State of the FSM: \char`\"{}Kick-\/off\char`\"{}. 
+
+Pilots the first robot to do the kick-\/off if this is our turn, or does nothing if not.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]The six robots. \item[{\em ball}]The ball. \item[{\em ref}]The referee. \end{DoxyParams}
 \hypertarget{standardfsm_8cpp_a5cf153be23a7aa1db86fb921df183e7c}{
 \index{standardfsm.cpp@{standardfsm.cpp}!Pause@{Pause}}
 \index{Pause@{Pause}!standardfsm.cpp@{standardfsm.cpp}}
 \subsubsection[{Pause}]{\setlength{\rightskip}{0pt plus 5cm}static void Pause ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{standardfsm_8cpp_a5cf153be23a7aa1db86fb921df183e7c}
 
+
+State of the FSM: \char`\"{}Pause\char`\"{}. 
+
+Stop all robots after executing the last orders.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]The six robots. \item[{\em ball}]The ball. \item[{\em ref}]The referee. \end{DoxyParams}
 \hypertarget{standardfsm_8cpp_ab64b7f86c33b8adf1117747cff845034}{
 \index{standardfsm.cpp@{standardfsm.cpp}!Penalty@{Penalty}}
 \index{Penalty@{Penalty}!standardfsm.cpp@{standardfsm.cpp}}
 \subsubsection[{Penalty}]{\setlength{\rightskip}{0pt plus 5cm}static void Penalty ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{standardfsm_8cpp_ab64b7f86c33b8adf1117747cff845034}
 
+
+State of the FSM: \char`\"{}Penalty shooting\char`\"{}. 
+
+Pilots the first robot to do a penalty shooting if this is our turn, or pilots the goal keeper if this is not.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]The six robots. \item[{\em ball}]The ball. \item[{\em ref}]The referee. \end{DoxyParams}
 \hypertarget{standardfsm_8cpp_ac8d4913c0406efc6379a7a9c017ac2e4}{
 \index{standardfsm.cpp@{standardfsm.cpp}!PlayOn@{PlayOn}}
 \index{PlayOn@{PlayOn}!standardfsm.cpp@{standardfsm.cpp}}
 \subsubsection[{PlayOn}]{\setlength{\rightskip}{0pt plus 5cm}static void PlayOn ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{standardfsm_8cpp_ac8d4913c0406efc6379a7a9c017ac2e4}
 
+
+State of the FSM: \char`\"{}Play on\char`\"{}. 
+
+Launches the goal keeper thread. The behavior of other players is not implemented.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]The six robots. \item[{\em ball}]The ball. \item[{\em ref}]The referee. \end{DoxyParams}
 \hypertarget{standardfsm_8cpp_a90016546b9265fcea25287e47f10cad1}{
 \index{standardfsm.cpp@{standardfsm.cpp}!StandardFSM@{StandardFSM}}
 \index{StandardFSM@{StandardFSM}!standardfsm.cpp@{standardfsm.cpp}}
 \subsubsection[{StandardFSM}]{\setlength{\rightskip}{0pt plus 5cm}void StandardFSM ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref}, \/  eTeam {\em t})}}
 \label{standardfsm_8cpp_a90016546b9265fcea25287e47f10cad1}
 
+
+Main loop of the FSM. 
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\item[{\em t}]\end{DoxyParams}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]The six robots. \item[{\em ball}]The ball. \item[{\em ref}]The referee. \item[{\em t}]Our team. \end{DoxyParams}
 \hypertarget{standardfsm_8cpp_a1ed03164f790cbd0b2136093a8613ff2}{
 \index{standardfsm.cpp@{standardfsm.cpp}!TimeOver@{TimeOver}}
 \index{TimeOver@{TimeOver}!standardfsm.cpp@{standardfsm.cpp}}
 \subsubsection[{TimeOver}]{\setlength{\rightskip}{0pt plus 5cm}static void TimeOver ({\bf NewRoboControl} $\ast$ {\em robots}\mbox{[}$\,$\mbox{]}, \/  RawBall $\ast$ {\em ball}, \/  Referee $\ast$ {\em ref})\hspace{0.3cm}{\ttfamily  \mbox{[}static\mbox{]}}}}
 \label{standardfsm_8cpp_a1ed03164f790cbd0b2136093a8613ff2}
 
+
+State of the FSM: \char`\"{}Time over\char`\"{}. 
+
+Stops all robots after executing the last orders.
+
+
 \begin{DoxyParams}{Parameters}
-\item[{\em robots\mbox{[}$\,$\mbox{]}}]\item[{\em ball}]\item[{\em ref}]\end{DoxyParams}
+\item[{\em robots\mbox{[}$\,$\mbox{]}}]The six robots. \item[{\em ball}]The ball. \item[{\em ref}]The referee. \end{DoxyParams}
 
 
 \subsection{Variable Documentation}
